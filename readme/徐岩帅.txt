@@ -1,0 +1,8 @@
+更新20160726
+
+.java文件   BellAct:喇叭   EarMICAct耳机MIC  SpeakerAct话筒    act_cammer_front前置摄像头(只创建了文件)
+.xml 文件   act_bell       act_earmic        act_speaker       act_cammer_front                         
+
+和string、color文件
+
+以及androidManifest文件更新
