@@ -3,8 +3,8 @@ package com.spdata.factory;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -35,6 +35,7 @@ public class IndicatorLightAct extends FragActBase {
     Button btnPass;
     @ViewById
     Button btnNotPass;
+    private String model;
 
     @Click
     void btnNotPass() {
@@ -60,6 +61,9 @@ public class IndicatorLightAct extends FragActBase {
             @Override
             public void onClick(View v) {
                 try {
+                    if (model.equals("M08")){
+                        PowerOffRed2();
+                    }
                     PowerOffBlue();
                     PowerOffGreen();
                     PowerOffRed();
@@ -86,6 +90,7 @@ public class IndicatorLightAct extends FragActBase {
 
     @AfterViews
     protected void main() {
+        model = Build.MODEL;
         initTitlebar();
         setSwipeEnable(false);
         init();
@@ -105,6 +110,7 @@ public class IndicatorLightAct extends FragActBase {
     private final int LED_RED = 0;
     private final int LED_GREEN = 1;
     private final int LED_BLUE = 2;
+    private final int LED_RED2 = 3;
 
     private void showAlert(final int currentLed) {
         String message = "";
@@ -116,6 +122,9 @@ public class IndicatorLightAct extends FragActBase {
                 message = "已点亮绿灯，请确认";
                 break;
             case LED_RED:
+                message = "已点亮红灯，请确认";
+                break;
+            case LED_RED2:
                 message = "已点亮红灯，请确认";
                 break;
         }
@@ -159,11 +168,35 @@ public class IndicatorLightAct extends FragActBase {
                             case LED_BLUE:
                                 try {
                                     PowerOffBlue();
+                                    if (model.equals("M08")){
+                                        PowerOnRed2();
+                                        tvInfor.setText("红灯点亮");
+                                        showAlert(LED_RED2);
+                                    }else {
+                                        setXml(App.KEY_INDICATOR_LIGHT, App.KEY_FINISH);
+                                        finish();
+                                    }
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    if (model.equals("M08")){
+                                        tvInfor.setText("红灯点亮失败");
+                                        setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
+                                        finish();
+                                        showToast("红灯点亮失败");
+                                    }else {
+                                        showToast("蓝灯关闭失败");
+                                    }
+                                }
+                                break;
+                            case LED_RED2:
+                                try {
+                                    PowerOffRed2();
                                     setXml(App.KEY_INDICATOR_LIGHT, App.KEY_FINISH);
                                     finish();
                                 } catch (IOException e) {
                                     e.printStackTrace();
-                                    showToast("蓝灯关闭失败");
+                                    showToast("红灯关闭失败");
                                 }
                                 break;
                         }
@@ -181,6 +214,9 @@ public class IndicatorLightAct extends FragActBase {
     protected void onStop() {
         super.onStop();
         try {
+            if (model.equals("M08")){
+                PowerOffRed2();
+            }
             PowerOffBlue();
             PowerOffGreen();
             PowerOffRed();
@@ -207,7 +243,7 @@ public class IndicatorLightAct extends FragActBase {
     private BufferedWriter CtrlFile;
     private static final String DEVFILE_PATH = "/sys/class/misc/mtgpio/pin";
 
-    //红绿蓝：80 78 79
+    //红绿蓝：80 78 79 M08加一个红71
     public void PowerOnRed() throws IOException {
         CtrlFile.write("-wdout80 1");
         CtrlFile.flush();
@@ -218,12 +254,12 @@ public class IndicatorLightAct extends FragActBase {
         CtrlFile.flush();
     }
     public void PowerOnRed2() throws IOException {
-        CtrlFile.write("-wdout15 1");
+        CtrlFile.write("-wdout71 1");
         CtrlFile.flush();
     }
 
     public void PowerOffRed2() throws IOException {
-        CtrlFile.write("-wdout15 0");
+        CtrlFile.write("-wdout71 0");
         CtrlFile.flush();
     }
 
