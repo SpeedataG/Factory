@@ -43,7 +43,7 @@ public class SharedXmlUtil {
     public static SharedXmlUtil getInstance(Context context) {
         synchronized (lock) {
             if (mSharedXmlUtil == null) {
-                mSharedXmlUtil = new SharedXmlUtil(context);
+                        mSharedXmlUtil = new SharedXmlUtil(context);
             }
             return mSharedXmlUtil;
         }

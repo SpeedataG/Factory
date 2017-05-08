@@ -1,9 +1,8 @@
 package com.spdata.factory;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.SystemProperties;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -104,28 +103,34 @@ public class MenuActivity extends FragActBase {
             "手电筒", "前置相机", "喇叭", "扫描", "耳机MIC", "主机MIC", "wifi",
             "蓝牙", "GPS", "NFC", "USB", "OTG", "有线充电", "加速传感器", "光感",
             "打电话", "EEPROM", "外置GPS", "激光", "震动器", "电子罗盘", "听筒",
-            "虹膜摄像头", "PSAM", "指纹", "无线充电", "多点触摸", "气压计", "重力感应"
+            "虹膜摄像头", "PSAM", "指纹&ID2", "无线充电", "多点触摸", "气压计", "重力感应"
             , "U盘", "磁吸附充电", "串口孔", "高频RFID", "超高频UHF", "气体传感器",
             "矿灯摄像头", "触点检测"};
 
     private List<ListItem> listItemList = new ArrayList<>();
+    WifiManager mWifiManager;
 
     @AfterViews
     protected void main() {
-        //发送广播
-//        Intent intent = new Intent("com.speedata.getmodulelist");
-//        sendBroadcast(intent);
-        setXml(App.KEY_PSAM, "nohave");
-        setXml(App.KEY_IRIS_CAMERA, "nohave");
-        setXml(App.KEY_FINGER_PRINT, "nohave");
-        setXml(App.KEY_CHARGE_NOLINE, "nohave");
-//        setXml(App.KEY_COMPASS_SENSOR, "nohave");
-
         setSwipeEnable(false);
         //强制在线更新
 //        UpdateVersion updateVersion = new UpdateVersion(mContext);
 //        updateVersion.startUpdate();
         initList();
+        mWifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+
+
+    }
+
+    // 打开WIFI
+    public void openWifi(Context context) {
+        if (!mWifiManager.isWifiEnabled()) {
+            mWifiManager.setWifiEnabled(true);
+        } else if (mWifiManager.getWifiState() == 2) {
+//            Toast.makeText(context,"Wifi正在开启", Toast.LENGTH_SHORT).show();
+        } else {
+//            Toast.makeText(context,"Wifi已经开启", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initUI() {
@@ -148,15 +153,15 @@ public class MenuActivity extends FragActBase {
                     "15", "16", "17", "18", "20", "21", "22", "23", "24", "25", "26", "27",
                     "28", "30", "31", "37", "38", "39"};
         } else if (model.equals("KT50") || model.equals("KT50_B2")
-                || model.equals("R40") || model.equals("T50")) {
+                || model.equals("R40") || model.equals("T50") || model.equals("KT50_YQ")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
-                    "26", "30", "32", "37", "39", "43", "44"};
+                    "26", "30","31", "32", "37", "39", "43", "44"};
         } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                 model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27",
-                    "28", "29", "30", "32", "31", "37", "38", "42", "39"};
+                    "29", "30", "32", "31", "37", "38", "42", "39"};
         } else if (model.equals("H500A")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "16", "17", "18", "20", "21", "23", "24", "25", "26",
@@ -173,6 +178,13 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9",
                     "13", "16", "17", "18", "21", "24",
                     "23", "26", "30", "37", "45", "46"};
+        } else if (model.equals("mt6753")) {
+            strings = new String[]{"0", "1", "3", "4", "5", "7", "8", "9", "10",
+                    "11", "12", "15", "17", "18", "19", "21", "22",
+                    "23", "25", "26", "31", "34", "35", "37", "39"};
+        } else if (model.equals("M08")) {
+            strings = new String[]{"0", "2", "3", "4", "5",  "8", "9", "10",
+                   "11","13","16","30", "17", "18", "19", "23","26", };
         } else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -207,10 +219,6 @@ public class MenuActivity extends FragActBase {
                     helper.setImageResource(R.id.image, R.drawable.error);
                     helper.setBackground(R.id.relative, getResources()
                             .getDrawable(R.drawable.selector_item));
-                } else if (state.equals("nohave")) {
-                    helper.setBackground(R.id.relative, Color.parseColor("#847F7F"));
-                    helper.setImageResource(R.id.image, getResources().getColor(android.R.color
-                            .transparent));
                 } else {
                     helper.setImageResource(R.id.image, getResources().getColor(android.R.color
                             .transparent));
@@ -232,15 +240,16 @@ public class MenuActivity extends FragActBase {
     protected void onResume() {
         super.onResume();
         initUI();
-        if (model.equals("T450") || model.equals("KT55") || model.equals("KT80")
-                || model.equals("W6") || model.equals("N80") ||
-                model.equals("N55") || model.equals("X55") ||
-                model.equals("N55/X55") || model.equals("T550")) {
-            String result = SystemProperties.get("persist.sys.keyreport", "true");
-            if (result.equals("true")) {
-                SystemProperties.set("persist.sys.keyreport", "false");
-            }
-        }
+        openWifi(this);
+//        if (model.equals("T450") || model.equals("KT55") || model.equals("KT80")
+//                || model.equals("W6") || model.equals("N80") ||
+//                model.equals("N55") || model.equals("X55") ||
+//                model.equals("N55/X55") || model.equals("T550")) {
+//            String result = SystemProperties.get("persist.sys.keyreport", "true");
+//            if (result.equals("true")) {
+//                SystemProperties.set("persist.sys.keyreport", "false");
+//            }
+//        }
     }
 
     private String getState(int position) {
@@ -501,7 +510,7 @@ public class MenuActivity extends FragActBase {
 
             case ACTION_PSAM:
                 // TODO 跳转到PSAM测试界面
-//                openAct(PSAMAct.class,true);
+                openAct(PSAMAct.class, true);
                 break;
             case ACTION_BLUETOOTH:
                 // TODO 跳转到蓝牙测试界面
@@ -524,7 +533,7 @@ public class MenuActivity extends FragActBase {
                 } else if (model.equals("DB2_LVDS")) {
                     openAct(ButtonDb2Act.class, true);
                 } else if (model.equals("KT50") || model.equals("KT50_B2")
-                        || model.equals("R40") || model.equals("T50")) {
+                        || model.equals("R40") || model.equals("T50")|| model.equals("KT50_YQ")) {
                     openAct(ButtonKT50Act.class, true);
                 } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                         model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
@@ -535,10 +544,13 @@ public class MenuActivity extends FragActBase {
                     openAct(DCD3ButtonAct.class, true);
                 } else if (model.equals("N80")) {
                     openAct(ButtonN80Act.class, true);
+                } else if (model.equals("M08")) {
+                    openAct(ButtonM08Act.class,true);
                 }
                 break;
 
             case ACTION_FINGER_PRINT:
+                openAct(FingerPrint.class, true);
                 break;
             case ACTION_FLASH_LIGHT:
                 openAct(FlashLightAct.class, true);
@@ -578,7 +590,9 @@ public class MenuActivity extends FragActBase {
                 openAct(BarometerAct.class, true);
                 break;
             case ACTION_ZHONGLI:
-                if (model.equals("KT80") || model.equals("W6") || model.equals("DB2_LVDS") || model.equals("N80")) {
+                if (model.equals("KT80") || model.equals("W6") ||
+                        model.equals("DB2_LVDS") || model.equals("N80")
+                        || model.equals("mt6753")) {
                     openAct(Kt80Zhongli.class, true);
                 } else {
                     openAct(ZhongLiGanYing.class, true);

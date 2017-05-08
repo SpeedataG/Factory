@@ -101,30 +101,26 @@ public class ScanAct extends FragActBase {
 
     private void init() {
         scanUtil = new ScanUtil(mContext);
-        startScanService();
         result = SystemProperties.get("persist.sys.keyreport", "true");
         if (result.equals("false")) {
-//            scanUtil.repeatScan();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    if(SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
+                        startScanService();
+                        scanUtil.repeatScan();
                     }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-//                            scanUtil.startScan();
-                            scanUtil.repeatScan();
-                        }
-                    });
                 }
             }).start();
         } else {
-//            scanUtil.startScan();
-            scanUtil.repeatScan();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if(SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
+                        scanUtil.repeatScan();
+                    }
+                }
+            }).start();
         }
 
         scanUtil.setOnScanListener(new ScanUtil.OnScanListener() {
@@ -144,12 +140,15 @@ public class ScanAct extends FragActBase {
     }
 
     private void startScanService() {//启动扫描服务
+        SystemProperties.set("persist.sys.keyreport", "true");
         Intent Barcodeintent = new Intent();
         Barcodeintent.setPackage("com.geomobile.oemscanservice");
         mContext.startService(Barcodeintent);
     }
 
     private void stopScanService() {//停止扫描服务
+        SystemProperties.set("persist.sys.keyreport", "false");
+        SystemProperties.set("persist.sys.scanstopimme","true");
         Intent Barcodeintent = new Intent();
         Barcodeintent.setPackage("com.geomobile.oemscanservice");
         mContext.stopService(Barcodeintent);

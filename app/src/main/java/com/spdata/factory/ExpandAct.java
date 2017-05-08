@@ -18,6 +18,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.IDWORLD.LAPI;
+import com.digitalpersona.uareu.Reader;
+import com.digitalpersona.uareu.ReaderCollection;
+import com.digitalpersona.uareu.UareUException;
+import com.digitalpersona.uareu.dpfpddusbhost.DPFPDDUsbException;
+import com.digitalpersona.uareu.dpfpddusbhost.DPFPDDUsbHost;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
@@ -40,6 +45,7 @@ import java.util.TimerTask;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
+import common.utils.Globals;
 
 /**
  * Created by suntianwei on 2017/2/10.
@@ -69,6 +75,9 @@ public class ExpandAct extends FragActBase {
     private static String SERIAPORT1 = "/dev/ttyMT1";
     private static String SERIAPORT2 = "/dev/ttyMT2";
     private static final String TAG = "ExpandAct";   //记录标识
+    private ReaderCollection readers = null;
+    private Reader m_reader;
+    private boolean isstate = false;
 
     @Click
     void btnNotPass() {
@@ -76,40 +85,53 @@ public class ExpandAct extends FragActBase {
         finish();
     }
 
-    private readTherd readTherd = null;
     private PackageManager manager;
+    private String m_deviceName = "";
 
     @Click
     void btn_tcs1g() {
-//        try {
-//            Intent intent = new Intent();
-//            intent = manager.getLaunchIntentForPackage("com.example.lenovo.kt50fingerprintdemo");
-//            startActivity(intent);
-//        } catch (Exception e) {
-//            showToast("此应用不在！");
-//        }
         btn_ser1.performClick();
         btn_ser2.performClick();
         btn_usb.performClick();
-        btn_state.performClick();
+
     }
 
     @Click
     void btn_ser1() {
+        Log.i(TAG, "btn_ser1: "+111111111);
         initDevice("73", SERIAPORT1, 9600);
         byte[] pss = "This is SerialPort 1".getBytes();
         mSerialPort.WriteSerialByte(mSerialPort.getFd(), pss);
         SystemClock.sleep(200);
-        startReadeSer();
+        byte[] data = null;
+        try {
+            data = mSerialPort.ReadSerial(mSerialPort.getFd(), 1024);
+            if (data != null) {
+                handler.sendMessage(handler.obtainMessage(0, data));
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Click
     void btn_ser2() {
+        Log.i(TAG, "btn_ser2: "+111111);
         byte[] pss = "This is SerialPort 2".getBytes();
         initDevice("88", SERIAPORT2, 9600);
         mSerialPort.WriteSerialByte(mSerialPort.getFd(), pss);
         SystemClock.sleep(200);
-        startReadeSer();
+//        byte[] data = null;
+        try {
+            byte[] data = mSerialPort.ReadSerial(mSerialPort.getFd(), 1024);
+            if (data != null) {
+                handler.sendMessage(handler.obtainMessage(7, data));
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "btn_ser2: "+222222);
     }
 
     private LAPI m_cLAPI;
@@ -119,24 +141,6 @@ public class ExpandAct extends FragActBase {
 
     @Click
     void btn_usb() {
-        Runnable r = new Runnable() {
-            public void run() {
-                OPEN_DEVICE();
-            }
-        };
-        Thread s = new Thread(r);
-        s.start();
-//        initDevice("73", SERIAPORT1, 9600);
-//        mSerialPort.WriteSerialByte(mSerialPort.getFd(), pss);
-//        SystemClock.sleep(100);
-//        startReadeSer();
-////        SystemClock.sleep(1000);
-////        mSerialPort.CloseSerial();
-//        mdeviceControl.PowerOffDevice("73");
-//        initDevice("88", SERIAPORT2, 9600);
-//        mSerialPort.WriteSerialByte(mSerialPort.getFd(), pss2);
-//        startReadeSer();
-////        SystemClock.sleep(1000);
 //        Runnable r = new Runnable() {
 //            public void run() {
 //                OPEN_DEVICE();
@@ -144,13 +148,13 @@ public class ExpandAct extends FragActBase {
 //        };
 //        Thread s = new Thread(r);
 //        s.start();
-////        SystemClock.sleep(1000);
-//        start();
+        Intent i = new Intent(ExpandAct.this, GetReaderActivity.class);
+        i.putExtra("device_name", m_deviceName);
+        startActivityForResult(i, 1);
     }
 
     @Click
     void btn_state() {
-        start();
 
     }
 
@@ -178,27 +182,38 @@ public class ExpandAct extends FragActBase {
 
     byte[] pss = "This is SerialPort 1".getBytes();
     byte[] pss2 = "This is SerialPort 2".getBytes();
+    private static final String ACTION_USB_PERMISSION = "com.digitalpersona.uareu.dpfpddusbhost.USB_PERMISSION";
+
+    //背夹接入的广播
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("com.hall.success")) {
+                mdeviceControl.PowerOnDevice63();
+                mdeviceControl2.PowerOnw("6");
+                mdeviceControl2.PowerOnw("5");
+            }
+        }
+    };
 
     @AfterViews
     protected void main() {
         initTitlebar();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.hall.success");
+        registerReceiver(receiver, intentFilter);
         manager = getPackageManager();
         mSerialPort = new SerialPort();
         mdeviceControl = new DeviceControl("/sys/class/misc/mtgpio/pin");
         mdeviceControl2 = new DeviceControl(POWER_EXTERNAL);
         mdeviceControl.PowerOnDevice63();
-        mdeviceControl.PowerOnw("6");
+        mdeviceControl2.PowerOnw("6");
+        mdeviceControl2.PowerOnw("5");
         m_cLAPI = new LAPI(this);
+        start();
     }
 
     // 寻找接口和分配结点
-
-    public void startReadeSer() {
-        if (readTherd == null) {
-            readTherd = new readTherd();
-            readTherd.start();
-        }
-    }
 
     private SerialPort mSerialPort;
     private DeviceControl mdeviceControl;
@@ -219,34 +234,68 @@ public class ExpandAct extends FragActBase {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-//            tvVersionInfor.setText("接收内容：\n");
             switch (msg.what) {
                 case 0:
                     byte[] temp = (byte[]) msg.obj;
                     String string = DataConversionUtils.byteArrayToAscii(temp);
-                    tvVersionInfor.append(string + "\n");
+                    if (string.equals("This is SerialPort 1")) {
+                        isstate = true;
+                        tvVersionInfor.append( "串口1通过\n");
+                        btn_ser1.setBackgroundColor(Color.parseColor("#0AF229"));
+                    } else {
+                        isstate = false;
+                        tvVersionInfor.append( "串口1失败\n");
+                        btn_ser1.setBackgroundColor(Color.parseColor("#ed0c2e"));
+                    }
+                    break;
+                case 7:
+                    byte[] temps = (byte[]) msg.obj;
+                    String strings = DataConversionUtils.byteArrayToAscii(temps);
+                    if (strings.equals("This is SerialPort 2")) {
+                        isstate = true;
+                        tvVersionInfor.append( "串口2通过\n");
+                        btn_ser2.setBackgroundColor(Color.parseColor("#0AF229"));
+                    } else {
+                        isstate = false;
+                        tvVersionInfor.append( "串口2失败\n");
+                        btn_ser2.setBackgroundColor(Color.parseColor("#ed0c2e"));
+                    }
+
+
                     break;
                 case 1:
-//                    tvVersionInfor.setTextColor(Color.RED);
                     tvVersionInfor.append((String) msg.obj + "\n");
                     break;
                 case 2:
-//                    tvVersionInfor.setTextColor(Color.RED);
                     tvVersionInfor.append((String) msg.obj + "\n");
                     break;
                 case 3:
-//                    tvVersionInfor.setTextColor(Color.WHITE);
                     tvVersionInfor.append((String) msg.obj + "\n");
                     break;
                 case 4:
-                    if (isColor && msg.obj.equals("234")) {
-                        isColor = false;
+                    if (msg.obj.equals("234")) {
                         tv_infor.setTextColor(Color.RED);
+                        tv_infor.setText((String) msg.obj + "请链接背夹！");
+                        btn_tcs1g.setEnabled(false);
+                        btn_ser2.setBackgroundColor(Color.parseColor("#ed0c2e"));
+                        btn_ser1.setBackgroundColor(Color.parseColor("#ed0c2e"));
+                        btn_usb.setBackgroundColor(Color.parseColor("#ed0c2e"));
+                        btn_state.setBackgroundColor(Color.parseColor("#ed0c2e"));
                     } else {
-                        isColor = true;
-                        tv_infor.setTextColor(Color.WHITE);
+                        btn_tcs1g.setEnabled(true);
+                        tv_infor.setTextColor(Color.GREEN);
+                        tv_infor.setText((String) msg.obj + "背夹已连接！");
+                        btn_state.setBackgroundColor(Color.parseColor("#0AF229"));
                     }
-                    tv_infor.setText((String) msg.obj);
+
+                    break;
+                case 5:
+                    tvVersionInfor.append("USB失败\n");
+                    btn_usb.setBackgroundColor(Color.parseColor("#ed0c2e"));
+                    break;
+                case 6:
+                    tvVersionInfor.append("USB成功\n");
+                    btn_usb.setBackgroundColor(Color.parseColor("#0AF229"));
                     break;
             }
 
@@ -254,22 +303,6 @@ public class ExpandAct extends FragActBase {
     };
     boolean isColor = true;
 
-    class readTherd extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            while (!isInterrupted()) {
-                try {
-                    byte[] data = mSerialPort.ReadSerial(mSerialPort.getFd(), 1024);
-                    if (data != null) {
-                        handler.sendMessage(handler.obtainMessage(0, data));
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     protected void OPEN_DEVICE() {
         String msg = "";
@@ -322,16 +355,15 @@ public class ExpandAct extends FragActBase {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (readTherd != null) {
-            readTherd.interrupt();
-        }
         if (timer != null) {
             timer.cancel();
         }
+        unregisterReceiver(receiver);
         mdeviceControl.PowerOffDevice("73");
         mdeviceControl.PowerOffDevice("88");
         mdeviceControl.PowerOffDevice63();
         mdeviceControl2.PowerOnw("6");
+        mdeviceControl2.PowerOnw("5");
     }
 
     /**
@@ -371,4 +403,81 @@ public class ExpandAct extends FragActBase {
         }, 0, 1000);
 
     }
+
+    protected void CheckDevice() {
+        try {
+            m_reader.Open(Reader.Priority.EXCLUSIVE);
+            Reader.Capabilities cap = m_reader.GetCapabilities();
+            handler.sendMessage(handler.obtainMessage(6, "Reader ok"));
+            m_reader.Close();
+        } catch (UareUException e1) {
+            displayReaderNotFound();
+        }
+    }
+
+    private final int GENERAL_ACTIVITY_RESULT = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            displayReaderNotFound();
+            return;
+        }
+
+        Globals.ClearLastBitmap();
+        m_deviceName = (String) data.getExtras().get("device_name");
+
+        switch (requestCode) {
+            case GENERAL_ACTIVITY_RESULT:
+
+                if ((m_deviceName != null) && !m_deviceName.isEmpty()) {
+
+                    try {
+                        Context applContext = getApplicationContext();
+                        m_reader = Globals.getInstance().getReader(m_deviceName, applContext);
+
+                        {
+                            PendingIntent mPermissionIntent;
+                            mPermissionIntent = PendingIntent.getBroadcast(applContext, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                            IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
+                            applContext.registerReceiver(mUsbReceiver, filter);
+
+                            if (DPFPDDUsbHost.DPFPDDUsbCheckAndRequestPermissions(applContext, mPermissionIntent, m_deviceName)) {
+                                CheckDevice();
+                            }
+                        }
+                    } catch (UareUException e1) {
+                        displayReaderNotFound();
+                    } catch (DPFPDDUsbException e) {
+                        displayReaderNotFound();
+                    }
+
+                } else {
+                    displayReaderNotFound();
+                }
+
+                break;
+        }
+    }
+
+    private void displayReaderNotFound() {
+        handler.sendMessage(handler.obtainMessage(5, "No reader"));
+    }
+
+    private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (ACTION_USB_PERMISSION.equals(action)) {
+                synchronized (this) {
+                    UsbDevice device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+                    if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                        if (device != null) {
+                            //call method to set up device communication
+                            CheckDevice();
+                        }
+                    }
+                }
+            }
+        }
+    };
 }

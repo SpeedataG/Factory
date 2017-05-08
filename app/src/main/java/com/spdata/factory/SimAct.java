@@ -96,7 +96,8 @@ public class SimAct extends FragActBase {
         if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                 model.equals("S510") || model.equals("H500A")||
                 model.equals("X300Q_OLED")||model.equals("X300Q_OLED_GPS")
-                ||model.equals("spda6735")||model.equals("DCD3")) {
+                ||model.equals("spda6735")||model.equals("DCD3")||model.equals("mt6753")
+                ||model.equals("M08")) {
             tvInfor.setText("IMEI:" + imeiSIM1 + "\n");
             if (isCanUseSim()) {
                 tvInfor.append("SIM卡存在");
@@ -134,7 +135,7 @@ public class SimAct extends FragActBase {
                         if (model.equals("X300Q_X1") || model.equals("X300Q_P1") || model.equals("S510")
                                 || model.equals("H500A")|| model.equals("X300Q_OLED")
                                 ||model.equals("X300Q_OLED_GPS")||model.equals("spda6735")
-                                ||model.equals("DCD3")) {
+                                ||model.equals("DCD3")||model.equals("mt6753")||model.equals("M08")) {
                             if (isCanUseSim()) {
                                 setXml(App.KEY_SIM, App.KEY_FINISH);
                                 finish();
@@ -146,7 +147,7 @@ public class SimAct extends FragActBase {
                         } else if (model.equals("T450") || model.equals("KT80") || model.equals("KT55") ||
                                 model.equals("W6") || model.equals("S510") || model.equals("DB2_LVDS")
                                 || model.equals("KT50") || model.equals("KT50_B2") || model.equals("R40")
-                                || model.equals("T50")
+                                || model.equals("T50")|| model.equals("KT50_YQ")
                                 ||model.equals("N80")||model.equals("N55") || model.equals("X55")
                                 || model.equals("N55/X55")|| model.equals("T550")) {
                             if (isSIM1Ready && isSIM2Ready) {

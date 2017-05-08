@@ -105,8 +105,8 @@ public class SerialportH80Act extends FragActBase  {
         mSerialPort = new SerialPort();
         try {
             deviceControl=new DeviceControl("/sys/class/misc/mtgpio/pin");
-            deviceControl.PowerOnDevice121();
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
+            deviceControl.PowerOnDevice121();
             fd = mSerialPort.getFd();
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,9 +171,9 @@ public class SerialportH80Act extends FragActBase  {
 
     @Override
     protected void onDestroy() {
-        mSerialPort.CloseSerial(fd);
         finish();
         super.onDestroy();
+        mSerialPort.CloseSerial(fd);
         deviceControl.PowerOffDevice121();
     }
 }

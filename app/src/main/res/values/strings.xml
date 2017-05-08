@@ -126,4 +126,5 @@
     <string name="msg_mifare_error_auth">Authentication block failed</string>
     <string name="msg_mifare_ok_auth">Authentication block ok</string>
     <string name="msg_mifare_ok_findcard">Find a card, ID is </string>
+    <string name="title_activity_finger_print">FingerPrint</string>
 </resources>

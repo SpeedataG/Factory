@@ -106,7 +106,7 @@ public class GPSAct extends FragActBase {
     protected void main() {
         initTitlebar();
         setSwipeEnable(false);
-        x300qgpsDate();
+//        x300qgpsDate();
         initGPS();
 
     }
@@ -184,18 +184,18 @@ public class GPSAct extends FragActBase {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (!is) {
-            BufferedWriter writer = null;
-            try {
-                writer = new BufferedWriter(new FileWriter
-                        ("sys/devices/virtual/gpsdrv/gps/gpsctl"));
-                writer.write("0");
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            gpsnet_device.setExtGps(0);
-        }
+//        if (!is) {
+//            BufferedWriter writer = null;
+//            try {
+//                writer = new BufferedWriter(new FileWriter
+//                        ("sys/devices/virtual/gpsdrv/gps/gpsctl"));
+//                writer.write("0");
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            gpsnet_device.setExtGps(0);
+//        }
     }
 
     // gps

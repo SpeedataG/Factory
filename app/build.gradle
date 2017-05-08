@@ -16,20 +16,20 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "25.0.0"
     dexOptions {
         incremental true
         javaMaxHeapSize "5g"
     }
     defaultConfig {
-        ndk{
-            abiFilters  "armeabi","armeabi-v7a"
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a"
         }
         applicationId "com.spdata.factory"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "v1.4.8" + "-build-" + getDate() + "-" + versionCode
+        versionName "v1.4.9" + "-build-" + getDate() + "-" + versionCode
     }
     buildTypes {
         release {
@@ -88,19 +88,21 @@ dependencies {
     //    compile 'com.android.support:design:22.2.0'
     compile files('libs/orm.jar')
     //    compile files('libs/layoutlib.jar')
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'org.androidannotations:androidannotations-api:3.2'
-    apt 'org.androidannotations:androidannotations:3.2'
-    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
     //    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
-    testCompile 'junit:junit:4.12'
     compile files('libs/locSDK_4.2.jar')
     compile files('libs/framework.jar')
     compile files('libs/framework2.jar')
     compile files('libs/Module_Android_DemoPower_1.7.5.1.jar')
     compile files('libs/SmallScreenManager.jar')
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'org.androidannotations:androidannotations-api:3.2'
+    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
+    compile 'com.google.android.gms:play-services-appindexing:9.8.0'
+    compile 'com.android.support:design:23.4.0'
+    testCompile 'junit:junit:4.12'
+    apt 'org.androidannotations:androidannotations:3.2'
+    compile files('libs/dpuareu.jar')
 }
 
 //    compile 'com.github.wqandroid:wqgallery:3.1.0'

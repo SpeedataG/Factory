@@ -96,8 +96,9 @@ public class CallPhoneActi extends FragActBase {
         setSwipeEnable(false);
         String model = Build.MODEL;
         if (model.equals("X300Q_X1") || model.equals("X300Q_P1") || model.equals("S510")
-                || model.equals("H500A")||model.equals("X300Q_OLED")||model.equals("X300Q_OLED_GPS")
-                ||model.equals("spda6735")||model.equals("DCD3")) {
+                || model.equals("H500A") || model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
+                || model.equals("spda6735") || model.equals("DCD3") || model.equals("mt6753")
+                || model.equals("M08")) {
             btn_sim1.setVisibility(View.GONE);
             btn_sim2.setVisibility(View.GONE);
             btn_sim.setVisibility(View.VISIBLE);

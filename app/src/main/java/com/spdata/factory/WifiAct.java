@@ -16,16 +16,12 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.SystemProperties;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
@@ -161,11 +157,11 @@ public class WifiAct extends FragActBase {
         wifi_list = (ListView) findViewById(R.id.list_item);
         connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (mWifi.isConnected()) {
-            setXml(App.KEY_WIFI, App.KEY_FINISH);
-            showToast("wifi已连接！");
-            finish();
-        }
+//        if (mWifi.isConnected()) {
+//            setXml(App.KEY_WIFI, App.KEY_FINISH);
+//            showToast("wifi已连接！");
+//            finish();
+//        }
         if (wifiManager.isWifiEnabled()) {
             scanAndGetResult();
         } else {
