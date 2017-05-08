@@ -30,7 +30,6 @@ import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.SystemProperties;
 import android.provider.Settings;
 import android.text.ClipboardManager;
 import android.text.Editable;
@@ -39,7 +38,6 @@ import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -180,12 +178,23 @@ public class NFCAct extends FragActBase implements OnClickListener,
         if (tagFromIntent == null) {
             return;
         }
-        MifareClassic mfc = MifareClassic.get(tagFromIntent);
+        final MifareClassic mfc = MifareClassic.get(tagFromIntent);
         if (p != null) {
             System.out.println("p!=null");
         }
-        String data = (p != null) ? CardManager.load(p, res, mfc) : null;
-        showData(data);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final String data = (p != null) ? CardManager.load(p, res, mfc) : null;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showData(data);
+                    }
+                });
+            }
+        }).start();
+
     }
 
     @Override
