@@ -1,5 +1,6 @@
 package common.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.SystemClock;
 import android.serialport.SerialPort;
@@ -159,13 +160,26 @@ public class CardOperation {
 			e.printStackTrace();
 		}
 		try {
-			mDeviceControl = new DeviceControl("sys/class/misc/mtgpio/pin", "14");
-		} catch (IOException e) {
+			mDeviceControl = new DeviceControl("sys/class/misc/mtgpio/pin", "96");
+			mDeviceControl.PowerOnDevice();
+			mDeviceControl.PsamResetDevice(99);
+			final ProgressDialog progressDialog=new ProgressDialog(mContext);
+			progressDialog.setTitle("Reset PSAM");
+			progressDialog.setMessage("Reset……");
+			progressDialog.setCancelable(false);
+			progressDialog.show();
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					SystemClock.sleep(3000);
+					progressDialog.cancel();
+				}
+			}).start();
+		} catch (IOException e){
 			e.printStackTrace();
 			mDeviceControl = null;
 			return false;
 		}
-		mDeviceControl.PowerOnDevice();
 		return true;
 	}
 

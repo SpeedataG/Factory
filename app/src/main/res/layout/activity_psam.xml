@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -14,18 +13,53 @@
     <LinearLayout
         style="@style/main_button"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_infor"
-            android:layout_width="fill_parent"
-            style="@style/base_text"
-            android:layout_height="200dp"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_infor"
+                style="@style/base_text"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                 />
+        </ScrollView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_psam1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_blue"
+                android:text="psam1"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/commom_textsize" />
+
+            <Button
+                android:id="@+id/btn_psam2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_blue"
+                android:text="psam2"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/commom_textsize" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -41,11 +75,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:visibility="gone"
             android:background="@drawable/selector_item_blue"
             android:text="成功"
             android:textColor="@color/text_white"
-            android:textSize="@dimen/commom_textsize"/>
+            android:textSize="@dimen/commom_textsize" />
 
         <Button
             android:id="@+id/btn_not_pass"
@@ -58,7 +91,7 @@
             android:background="@drawable/selector_item_blue"
             android:text="失败"
             android:textColor="@color/text_white"
-            android:textSize="@dimen/commom_textsize"/>
+            android:textSize="@dimen/commom_textsize" />
     </LinearLayout>
 
 

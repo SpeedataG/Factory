@@ -41,9 +41,8 @@ public class DeviceControl {
         }
     }
 
-    public static int resetGPIO=44;
     //44 复位管脚
-    public void PsamResetDevice() throws IOException        //reset psam device
+    public void PsamResetDevice(int resetGPIO) throws IOException        //reset psam device
     {
         //变成输出
         CtrlFile.write("-wdir" + resetGPIO + " 1");

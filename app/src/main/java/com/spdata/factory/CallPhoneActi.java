@@ -2,9 +2,6 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
-import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
@@ -30,10 +27,6 @@ public class CallPhoneActi extends FragActBase {
     @ViewById
     Button btnNotPass;
     @ViewById
-    Button btn_sim1;
-    @ViewById
-    Button btn_sim2;
-    @ViewById
     Button btn_sim;
 
     @Click
@@ -49,28 +42,10 @@ public class CallPhoneActi extends FragActBase {
     }
 
     @Click
-    void btn_sim1() {
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.CALL");
-        intent.setData(Uri.parse("tel:" + 10086));
-        startActivity(intent);
-    }
-
-    @Click
     void btn_sim() {
         Intent intent = new Intent();
-        intent.setAction("android.intent.action.CALL");
-        intent.setData(Uri.parse("tel:" + 10086));
-        startActivity(intent);
-    }
-
-    @Click
-    void btn_sim2() {//        Intent intent =new Intent();
-//        intent.setAction("android.intent.action.CALL_BUTTON");
-//        startActivity(intent);
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.CALL");
-        intent.setData(Uri.parse("tel:" + 10086));
+        //调用系统的拨号键盘用: ACTION_DIAL
+        intent.setAction(intent.ACTION_DIAL);
         startActivity(intent);
     }
 
@@ -94,14 +69,5 @@ public class CallPhoneActi extends FragActBase {
     protected void main() {
         initTitlebar();
         setSwipeEnable(false);
-        String model = Build.MODEL;
-        if (model.equals("X300Q_X1") || model.equals("X300Q_P1") || model.equals("S510")
-                || model.equals("H500A") || model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
-                || model.equals("spda6735") || model.equals("DCD3") || model.equals("mt6753")
-                || model.equals("M08")) {
-            btn_sim1.setVisibility(View.GONE);
-            btn_sim2.setVisibility(View.GONE);
-            btn_sim.setVisibility(View.VISIBLE);
-        }
     }
 }
