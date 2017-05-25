@@ -94,7 +94,7 @@ public class ScanUtil {
 			if (timer == null) {
 				timer = new Timer();
 			}
-			timer.schedule(new MyTask(), 100, 3 * 1000);
+			timer.schedule(new MyTask(), 100, 4000);
 		}
 
 	}

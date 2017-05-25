@@ -85,7 +85,6 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.NFC" />
-
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
@@ -117,6 +116,7 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <!-- 这个权限是必须有的，否则操作不了硬件,google的文档没有说出来，据说是因为有过滤器后自动获得，但是我的项目没这句话不成功。 -->
     <uses-permission android:name="android.permission.HARDWARE_TEST" />
+
     <!-- 这句话也是必须的 -->
     <uses-feature
         android:name="android.hardware.usb.host"
@@ -152,6 +152,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".GPSTest"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".VersionAct_"
             android:launchMode="singleTop"

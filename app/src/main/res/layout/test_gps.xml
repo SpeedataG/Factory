@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+<LinearLayout android:orientation="vertical" android:id="@+id/test_gps"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/test_gps"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <com.spdata.factory.view.CustomTitlebar
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/main_button"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tv_st_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_below="@+id/tv_st_info"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_1"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_2"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_3"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_4"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_5"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_6"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_7"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_below="@+id/tv_st_8"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_9"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_10"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_below="@+id/tv_st_11"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_12"
+                android:textColor="@color/white"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_below="@+id/tv_st_13"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_below="@+id/tv_st_14"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_16"
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_st_15"
+                android:text="@string/g_null_text" />
+
+            <TextView
+                android:id="@+id/tv_st_17"
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:text="@string/g_null_text" />
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_st_18"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:text="@string/g_null_text" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_st_19"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:text="@string/g_null_text" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_st_20"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:text="@string/g_null_text" />-->
+
+            <TextView
+                android:id="@+id/tv_st_success"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/tv_st_success"
+                android:textColor="@color/white"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:id="@+id/tv_st_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/g_null_text"
+                android:textColor="@color/white"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:id="@+id/tv_pingjun"
+                style="@style/base_text"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <!--<include-->
+    <!--layout="@layout/pass_fail_buttons"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_weight="1" />-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_pass"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_item_blue"
+            android:text="成功"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/commom_textsize" />
+
+        <Button
+            android:id="@+id/btn_not_pass"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_item_blue"
+            android:text="失败"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/commom_textsize" />
+    </LinearLayout>
+
+</LinearLayout><!-- </LinearLayout> -->

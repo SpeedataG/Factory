@@ -1,7 +1,6 @@
 package com.spdata.factory;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.StatFs;
 import android.serialport.DeviceControl;
 import android.text.format.Formatter;
@@ -22,7 +21,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.IllegalFormatCodePointException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -87,10 +85,6 @@ public class OTGAct extends FragActBase {
     protected void onResume() {
         super.onResume();
         task = new remindTask();
-        if (Build.MODEL.endsWith("M08")) {
-            deviceControl = new DeviceControl(POWER_EXTERNAL);
-            deviceControl.PowerOffDevice72();
-        }
         remind(task);
     }
 

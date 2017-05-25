@@ -184,7 +184,7 @@ public class MenuActivity extends FragActBase {
                     "23", "25", "26", "31", "34", "35", "37", "39"};
         } else if (model.equals("M08")) {
             strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10",
-                   "11","13","16", "17", "18", "19", "20","21","22","23","26","30","34","37" };
+                   "11","13","16", "17", "18", "19", "20","21","40","23","26","30","34","37" };
         } else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -463,7 +463,7 @@ public class MenuActivity extends FragActBase {
                 openAct(NFCAct.class, true);
                 break;
             case ACTION_GPS:
-                openAct(GPSAct.class, true);
+                openAct(GPSTest.class, false);
                 break;
             case ACTION_SCAN:
                 if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||

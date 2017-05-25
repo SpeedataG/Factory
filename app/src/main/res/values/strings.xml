@@ -127,4 +127,26 @@
     <string name="msg_mifare_ok_auth">Authentication block ok</string>
     <string name="msg_mifare_ok_findcard">Find a card, ID is </string>
     <string name="title_activity_finger_print">FingerPrint</string>
+
+
+
+    <string name="tv_st_success">正在定位...</string>
+    <string name="tv_st_located">定位成功</string>
+    <string name="g_null_text" />
+    <string name="success">成功</string>
+    <string name="fail">失败</string>
+    <string name="tv_st_info">正在获取GPS数据：</string>
+    <string name="alert_dialog_ok">确定</string>
+    <string name="alert_dialog_cancel">取消</string>
+    <string name="gps_st_info_snr">信噪比：</string>
+    <string name="gps_st_info_prn">prn：</string>
+    <string name="gps_st_info_azimuth">方位角：</string>
+    <string name="gps_st_info_elevation">海拔：</string>
+    <string name="gps_info_lat">纬度：</string>
+    <string name="gps_info_lon">经度：</string>
+    <string name="gps_info_speed">速度：</string>
+    <string name="gps_info_elevation">高度：</string>
+    <string name="gps_info_accuracy">精度：</string>
+    <string name="gps_info_null">无法获取地理信息</string>
+    <string name="gps_info_averageSignalIntensity">平均信号强度：</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.serialport.DeviceControl;
@@ -72,9 +73,13 @@ public class UsbPlateAct extends FragActBase {
     protected void main() {
         initTitlebar();
         gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
-        gpio.PowerOffDevice63();
-        gpio.PowerOnDevice99();
-        gpio.PowerOnDevice98();
+        if (Build.MODEL.equals("M08")) {
+            gpio.PowerOffDevice72();
+        } else {
+            gpio.PowerOffDevice63();
+            gpio.PowerOnDevice99();
+            gpio.PowerOnDevice98();
+        }
         mhandler = new MyHandler();
         usbstates = new UsbStatesReceiver(this);
     }
@@ -82,9 +87,13 @@ public class UsbPlateAct extends FragActBase {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        gpio.PowerOffDevice98();
-        gpio.PowerOffDevice63();
-        gpio.PowerOffDevice99();
+        if (Build.MODEL.equals("M08")) {
+            gpio.PowerOnDevice72();
+        } else {
+            gpio.PowerOffDevice98();
+            gpio.PowerOffDevice63();
+            gpio.PowerOffDevice99();
+        }
     }
 
     @Override

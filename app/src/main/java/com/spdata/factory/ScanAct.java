@@ -81,7 +81,6 @@ public class ScanAct extends FragActBase {
         initTitlebar();
         setSwipeEnable(false);
         //judgePropert();
-
         init();
     }
 
@@ -109,6 +108,8 @@ public class ScanAct extends FragActBase {
                     if(SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
                         startScanService();
                         scanUtil.repeatScan();
+                    }else {
+                        scanUtil.repeatScan();
                     }
                 }
             }).start();
@@ -117,6 +118,8 @@ public class ScanAct extends FragActBase {
                 @Override
                 public void run() {
                     if(SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
+                        scanUtil.repeatScan();
+                    }else {
                         scanUtil.repeatScan();
                     }
                 }
@@ -140,14 +143,14 @@ public class ScanAct extends FragActBase {
     }
 
     private void startScanService() {//启动扫描服务
-        SystemProperties.set("persist.sys.keyreport", "true");
+//        SystemProperties.set("persist.sys.keyreport", "true");
         Intent Barcodeintent = new Intent();
         Barcodeintent.setPackage("com.geomobile.oemscanservice");
         mContext.startService(Barcodeintent);
     }
 
     private void stopScanService() {//停止扫描服务
-        SystemProperties.set("persist.sys.keyreport", "false");
+//        SystemProperties.set("persist.sys.keyreport", "false");
         SystemProperties.set("persist.sys.scanstopimme","true");
         Intent Barcodeintent = new Intent();
         Barcodeintent.setPackage("com.geomobile.oemscanservice");
