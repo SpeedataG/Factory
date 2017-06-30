@@ -4,118 +4,115 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.os.SystemProperties;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ScanUtil {
 
-	public interface OnScanListener {
-		public void getBarcode(String data);
-	}
+    public interface OnScanListener {
+        public void getBarcode(String data);
+    }
 
-	private OnScanListener listener;
+    private OnScanListener listener;
 
-	// 接受广播
-	private String RECE_DATA_ACTION = "com.se4500.onDecodeComplete";
-	// 调用扫描广播
-	private String START_SCAN_ACTION = "com.geomobile.se4500barcode";
+    //解码广播
+    private String RECE_DATA_ACTION = "com.se4500.onDecodeComplete";
+    //调用扫描广播
+    private String START_SCAN_ACTION = "com.geomobile.se4500barcode";
+    //停止扫描广播
+    private String STOP_SCAN = "com.geomobile.se4500barcodestop";
 
-	private String STOP_SCAN_ACTION = "com.geomobile.se4500barcode.poweroff";
+    private Context context;
+    private boolean isFlag = false;
 
-	/**
-	 * 是否为自动扫描
-	 */
-	private boolean isRepeat = false;
-	private Context context;
-	private Timer timer = new Timer();
+    public ScanUtil(Context context) {
+        this.context = context;
+        // 注册系统广播 接受扫描到的数据
+        IntentFilter iFilter = new IntentFilter();
+        iFilter.addAction(RECE_DATA_ACTION);
+        context.registerReceiver(receiver, iFilter);
+    }
 
-	public class MyTask extends TimerTask {
-		@Override
-		public void run() {
-			startScan();
-		}
-	}
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        public void onReceive(Context context,
+                              Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(RECE_DATA_ACTION)) {
+                String data = intent.getStringExtra("se4500");
+                if (listener != null) {
+                    data = data.replace("\n\r", "");
+                    data = data.replace("\n", "");
+                    data = data.replace("\r", "");
+                    data = data.replace("\u0000", "");
+                    listener.getBarcode(data);
+                    if (isFlag) {
+                        if (isFlag) {
+                            cancelRepeat();
+                            handler.postDelayed(startTask, 0);
+                        } else {
+                            cancelRepeat();
+                        }
+                    }
+                }
+            }
+        }
+    };
 
-	public ScanUtil(Context context) {
-		this.context = context;
-		// 注册系统广播 接受扫描到的数据
-		IntentFilter iFilter = new IntentFilter();
-		iFilter.addAction(RECE_DATA_ACTION);
-		context.registerReceiver(receiver, iFilter);
-	}
+    /**
+     * 获取条码监听
+     *
+     * @param listener
+     */
+    public void setOnScanListener(OnScanListener listener) {
+        this.listener = listener;
+    }
 
-	private BroadcastReceiver receiver = new BroadcastReceiver() {
-		public void onReceive(Context context,
-				Intent intent) {
-			String action = intent.getAction();
-			if (action.equals(RECE_DATA_ACTION)) {
-				String data = intent.getStringExtra("se4500");
-				if (listener != null) {
-					data = data.replace("\n\r", "");
-					data = data.replace("\n", "");
-					data = data.replace("\r", "");
-					data = data.replace("\u0000", "");
-					listener.getBarcode(data);
-				}
-//				if (isRepeat) {
-//					cancelRepeat();
-//					repeatScan();
-//				}
-			}
-		}
-	};
+    public void repeatScans() {
+        isFlag=true;
+        handler.removeCallbacks(startTask);
+        handler.postDelayed(startTask, 0);
+    }
+    public  void firstScan(){
+        isFlag=false;
+        startScan();
+    }
 
-	/**
-	 * 获取条码监听
-	 * @param listener
-	 */
-	public void setOnScanListener(OnScanListener listener) {
-		this.listener = listener;
-	}
+    Handler handler = new Handler();
+    private Runnable startTask = new Runnable() {
+        @Override
+        public void run() {
+            startScan();
+            handler.postDelayed(startTask, 3000);
+        }
+    };
 
-	/**
-	 * 发送广播 调用系统扫描
-	 */
-	public void startScan() {
-		SystemProperties.set("persist.sys.scanstopimme","false");
-		Intent intent = new Intent();
-		intent.setAction(START_SCAN_ACTION);
-		context.sendBroadcast(intent, null);
-	}
 
-	/**
-	 * 打开自动扫描
-	 */
-	public void repeatScan() {
-		if (!isRepeat) {
-			isRepeat = true;
-			if (timer == null) {
-				timer = new Timer();
-			}
-			timer.schedule(new MyTask(), 100, 4000);
-		}
+    /**
+     * 发送广播  调用系统扫描
+     */
+    private void startScan() {
+        Intent intent = new Intent();
+        intent.setAction(STOP_SCAN);
+        context.sendBroadcast(intent);
+        SystemProperties.set("persist.sys.scanstopimme", "true");
+        SystemClock.sleep(20);
+        SystemProperties.set("persist.sys.scanstopimme", "false");
+        intent.setAction(START_SCAN_ACTION);
+        context.sendBroadcast(intent, null);
+    }
 
-	}
+    public void cancelRepeat() {
+        handler.removeCallbacks(startTask);
+        Intent intent = new Intent();
+        intent.setAction("com.geomobile.se4500barcodestop");
+        context.sendBroadcast(intent);
+        SystemProperties.set("persist.sys.scanstopimme", "true");
+    }
 
-	/**
-	 * 关闭自动扫描
-	 */
-	public void cancelRepeat() {
-		if (isRepeat) {
-			isRepeat = false;
-			if (timer != null) {
-				timer.cancel();
-				timer = null;
-			}
-		}
-	}
+    public void unScan() {
+        cancelRepeat();
+        context.unregisterReceiver(receiver);
+    }
 
-	public void stopScan() {
-		Intent intent = new Intent();
-		intent.setAction(STOP_SCAN_ACTION);
-		context.sendBroadcast(intent);
-		context.unregisterReceiver(receiver);
-	}
 }

@@ -7,13 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Build;
-import android.os.SystemProperties;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
@@ -24,13 +25,15 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+
+import static android.R.attr.path;
 
 /**
  * Created by xu on 2016/7/26.
@@ -69,7 +72,7 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
                 e.printStackTrace();
             }
 //            onAutoFocus(isClicked, myCamera);
-            titlebar.setTitlebarNameText("拍照成功！照片存放/sdcard/qian.jpg");
+            titlebar.setTitlebarNameText("拍照成功！");
             btnPass.setText("成功");
             count++;
         } else if (count == 1) {
@@ -136,20 +139,39 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
     }
 
     //创建jpeg图片回调数据对象
-    private Camera.PictureCallback jpeg = new Camera.PictureCallback() {
+    Camera.PictureCallback jpeg = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            try {// 获得图片
-                Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-                File file = new File(filePath);
-                BufferedOutputStream bos =
-                        new BufferedOutputStream(new FileOutputStream(file));
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);//将图片压缩到流中
-                bos.flush();//输出
-                bos.close();//关闭
-            } catch (Exception e) {
+
+            Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+            // 首先保存图片
+            File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
+            if (!appDir.exists()) {
+                appDir.mkdir();
+            }
+            String fileName = System.currentTimeMillis() + ".jpg";
+            File file = new File(appDir, fileName);
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+            // 其次把文件插入到系统图库
+            try {
+                MediaStore.Images.Media.insertImage(CammerFrontAct.this.getContentResolver(),
+                        file.getAbsolutePath(), fileName, null);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            // 最后通知图库更新
+            CammerFrontAct.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+
         }
     };
 

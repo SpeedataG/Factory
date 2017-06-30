@@ -149,4 +149,12 @@
     <string name="gps_info_accuracy">精度：</string>
     <string name="gps_info_null">无法获取地理信息</string>
     <string name="gps_info_averageSignalIntensity">平均信号强度：</string>
+
+
+    <string name="touch_waring">请从四个脚处开始和结束画线</string>
+    <string name="tp_success">TP测试通过</string>
+    <string name="tp_fail">TP测试失败</string>
+    <string name="test_item_TP">TP测试</string>
+    <string name="lcdmenuquit">退出</string>
+    <string name="touchname">触屏测试</string>
 </resources>

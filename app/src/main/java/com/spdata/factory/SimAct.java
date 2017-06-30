@@ -149,7 +149,8 @@ public class SimAct extends FragActBase {
                                 || model.equals("KT50") || model.equals("KT50_B2") || model.equals("R40")
                                 || model.equals("T50")|| model.equals("KT50_YQ")
                                 ||model.equals("N80")||model.equals("N55") || model.equals("X55")
-                                || model.equals("N55/X55")|| model.equals("T550")) {
+                                || model.equals("N55/X55")|| model.equals("T550")|| model.equals("M55")
+                                || model.equals("KT55L")) {
                             if (isSIM1Ready && isSIM2Ready) {
                                 setXml(App.KEY_SIM, App.KEY_FINISH);
                                 finish();

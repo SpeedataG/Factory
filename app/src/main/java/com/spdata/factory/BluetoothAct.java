@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
-import android.os.SystemClock;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
@@ -19,9 +19,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
@@ -36,16 +33,14 @@ public class BluetoothAct extends FragActBase {
     @ViewById
     Button btn_not_pass;
     @ViewById
+    Button btn_pass;
+    @ViewById
     Button btn_scan;
     @ViewById
-    ListView listView1;
-    private Handler handler = new Handler();
+    TextView tv_infor;
     /* 取得默认的蓝牙适配器 */
-    private BluetoothAdapter myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    /* 用来存储搜索到的蓝牙设备 */
-    private List<BluetoothDevice> myBluetoothDevice = new ArrayList<BluetoothDevice>();
-    /* 是否完成搜索 */
-    private volatile boolean discoveryFinished;
+    private BluetoothAdapter myBluetoothAdapter = null;
+    private StringBuffer sb = new StringBuffer();
 
     @Click
     void btnPass() {
@@ -80,93 +75,83 @@ public class BluetoothAct extends FragActBase {
 
         initTitlebar();
         setSwipeEnable(false);
-//        /* 注册接收器 */
-//        IntentFilter discoveryFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-//        registerReceiver(discoveryReceiver, discoveryFilter);
 
+        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+// 设置广播信息过滤
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
+        intentFilter.addAction(BluetoothAdapter.ACTION_LOCAL_NAME_CHANGED);
+//		intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        registerReceiver(mReceiver, intentFilter);
+
+        if (!myBluetoothAdapter.isEnabled())
+            myBluetoothAdapter.enable();
+
+        if (myBluetoothAdapter.getState() != myBluetoothAdapter.STATE_ON)
+            myBluetoothAdapter.enable();
+        handler.removeCallbacks(runnable);
+        handler.postDelayed(runnable, 1000);
     }
+
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // 寻找蓝牙设备，android会将查找到的设备以广播形式发出去
+            if (!myBluetoothAdapter.isDiscovering()) {
+                myBluetoothAdapter.startDiscovery();
+            }
+        }
+    };
+    int num = 0;
+    // 搜索周围的蓝牙设备
+    BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            //找到设备
+            if (action.equals(BluetoothDevice.ACTION_FOUND) ||
+                    action.equals(BluetoothAdapter.ACTION_LOCAL_NAME_CHANGED)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                num++;
+                Log.i("Bluetoothtest000", "num=" + num);
+
+                //执行更新列表的代码
+                if (device != null)
+                    sb = sb.append("【" + device.getName() + "】 " + "\n").append(device.getAddress() + "\n");
+                tv_infor.setText("可用设备:" + "\n" + sb.toString());
+            }
+            //搜索完成
+            else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
+                if (num == 0) {
+                    Toast.makeText(context, "搜索完成,未搜索到任何设备", Toast.LENGTH_SHORT).show();
+                    setXml(App.KEY_BLUETOOTH, App.KEY_UNFINISH);
+                    finish();
+                } else {
+                    Toast.makeText(context, "搜索完成", Toast.LENGTH_SHORT).show();
+                    setXml(App.KEY_BLUETOOTH, App.KEY_FINISH);
+                    finish();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onResume() {
         super.onResume();
-        IntentFilter discoveryFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        registerReceiver(discoveryReceiver, discoveryFilter);
-        IntentFilter foundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(foundReceiver, foundFilter);
-
-        if (myBluetoothAdapter.isEnabled()) {
-            /* 开始搜索 */
-            myBluetoothAdapter.startDiscovery();
-        } else {
-            myBluetoothAdapter.enable();
-            SystemClock.sleep(500);
-            myBluetoothAdapter.startDiscovery();
-        }
-
-        if (!myBluetoothAdapter.isEnabled()) {
-            finish();
-            return;
-        }
-
     }
 
-    /**
-     * 接收器
-     * 当搜索蓝牙设备完成时调用
-     */
-    private BroadcastReceiver foundReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            /* 从intent中取得搜索结果数据 */
-            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-            /* 将结果添加到列表中 */
-            myBluetoothDevice.add(device);
-            /* 显示列表 */
-            showDevices();
-        }
-    };
-    private BroadcastReceiver discoveryReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            /* 卸载注册的接收器 */
-            unregisterReceiver(foundReceiver);
-            unregisterReceiver(this);
-            discoveryFinished = true;
-        }
-    };
+    @Override
+    protected void onStop() {
+        super.onStop();
+        myBluetoothAdapter.disable();
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        myBluetoothAdapter.disable();
+        unregisterReceiver(mReceiver);
+        myBluetoothAdapter.disable();
     }
 
-    /* 显示列表 */
-    protected void showDevices() {
-        List<String> list = new ArrayList<String>();
-        for (int i = 0, size = myBluetoothDevice.size(); i < size; ++i) {
-            StringBuilder b = new StringBuilder();
-            BluetoothDevice d = myBluetoothDevice.get(i);
-            b.append(d.getAddress());
-            b.append('\n');
-            b.append(d.getName());
-            String s = b.toString();
-            list.add(s);
-
-        }
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
-//        handler.post(new Runnable() {
-//                    public void run() {
-        listView1.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        if (listView1.getCount() > 0) {
-            setXml(App.KEY_BLUETOOTH, App.KEY_FINISH);
-            finish();
-        } else {
-            setXml(App.KEY_BLUETOOTH, App.KEY_UNFINISH);
-            finish();
-        }
-//                    }
-//                });
-    }
 }

@@ -3,13 +3,11 @@ package com.spdata.factory;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
-import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.spdata.factory.application.App;
@@ -62,7 +60,6 @@ public class FlashLightAct extends FragActBase {
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-                // TODO 自动生成的方法存根
                 if (arg1) {
                     tv_flashlight.setText("请关闭手电筒");
                     openLight();
@@ -79,29 +76,33 @@ public class FlashLightAct extends FragActBase {
             }
         });
 
-        if (judgeSe4500()) {
-            Intent intent = new Intent();
-            intent.setAction("com.se4500.opencamera");
-            this.sendBroadcast(intent);
-            SystemClock.sleep(300);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SystemProperties.get("persist.sys.iscamera").equals("close")) {
+            SystemProperties.set("persist.sys.scanstopimme", "true");
+            Intent opencam = new Intent();
+            opencam.setAction("com.se4500.opencamera");
+            this.sendBroadcast(opencam, null);
         }
-       if (camera==null){
-           try {
-               camera = Camera.open();
-               parameter = camera.getParameters();
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-           System.out.println("ceshi----");
-           openLight();
-       }else {
-           return;
-       }
+        if (camera==null){
+            try {
+                camera = Camera.open();
+                parameter = camera.getParameters();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("ceshi----");
+            openLight();
+        }else {
+            return;
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         try {
             camera = Camera.open();
@@ -109,7 +110,6 @@ public class FlashLightAct extends FragActBase {
             System.out.println("ceshi----");
             openLight();
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
     }
@@ -149,17 +149,40 @@ public class FlashLightAct extends FragActBase {
 
     @Override
     protected void onDestroy() {
-        if (judgeSe4500()) {
-            Intent intent = new Intent();
-            intent.setAction("com.se4500.closecamera");
-            this.sendBroadcast(intent);
-        }
+//        if (judgeSe4500()) {
+//            Intent intent = new Intent();
+//            intent.setAction("com.se4500.closecamera");
+//            this.sendBroadcast(intent);
+//        }
         if (camera != null) {
             camera.stopPreview();
             camera.release();
             camera = null;
         }
+        if (SystemProperties.get("persist.sys.iscamera").equals("open")) {
+            SystemProperties.set("persist.sys.scanstopimme", "false");
+            Intent opencam = new Intent();
+            opencam.setAction("com.se4500.closecamera");
+            this.sendBroadcast(opencam, null);
+        }
         super.onDestroy();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (camera != null) {
+            camera.stopPreview();
+            camera.release();
+            camera = null;
+        }
+        if (SystemProperties.get("persist.sys.iscamera").equals("open")) {
+            SystemProperties.set("persist.sys.scanstopimme", "false");
+            Intent opencam = new Intent();
+            opencam.setAction("com.se4500.closecamera");
+            this.sendBroadcast(opencam, null);
+        }
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.os.StatFs;
-import android.serialport.DeviceControl;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +36,6 @@ public class OTGAct extends FragActBase {
     Button btnPass;
     @ViewById
     Button btnNotPass;
-    private DeviceControl deviceControl;
 
     @Click
     void btnNotPass() {
@@ -180,7 +178,6 @@ public class OTGAct extends FragActBase {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        deviceControl.PowerOnDevice72();
         finishTimer();
     }
 

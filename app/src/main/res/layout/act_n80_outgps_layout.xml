@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -12,48 +10,79 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
     <LinearLayout
         style="@style/main_button"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="fill_parent"
+        android:layout_height="260dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
-        <!--<ListView-->
-        <!--android:id="@+id/listView1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:scrollbars="vertical">-->
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="GPS数据:"
+            style="@style/base_text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <!--</ListView>-->
+        <EditText
+            android:id="@+id/edv_infors"
+            android:layout_width="fill_parent"
+            android:layout_height="140dp"
+            android:cursorVisible="false"
+            android:editable="false"
+            android:textColorHint="#ff1111"
+            android:textSize="12dp"
+            android:visibility="gone"></EditText>
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="130dp">
 
             <TextView
-                android:id="@id/tv_infor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white" />
+                android:id="@+id/tv_gps"
+                style="@style/base_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+
         </ScrollView>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_blue"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:text="开始测试" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/btn_pass"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
+            android:visibility="gone"
             android:background="@drawable/selector_item_blue"
             android:text="成功"
             android:textColor="@color/text_white"
@@ -63,15 +92,14 @@
             android:id="@+id/btn_not_pass"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="失败"
+            android:visibility="gone"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>
 </LinearLayout>
-

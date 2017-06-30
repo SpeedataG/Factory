@@ -126,17 +126,13 @@ public class MenuActivity extends FragActBase {
     public void openWifi(Context context) {
         if (!mWifiManager.isWifiEnabled()) {
             mWifiManager.setWifiEnabled(true);
-        } else if (mWifiManager.getWifiState() == 2) {
-//            Toast.makeText(context,"Wifi正在开启", Toast.LENGTH_SHORT).show();
-        } else {
-//            Toast.makeText(context,"Wifi已经开启", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void initUI() {
         listItemList.clear();
         model = Build.MODEL;
-        if (model.equals("T450") || model.equals("KT55") || model.equals("T550")) {
+        if (model.equals("T450") || model.equals("KT55") || model.equals("T550") || model.equals("M55")|| model.equals("KT55L")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "47"};
@@ -156,7 +152,7 @@ public class MenuActivity extends FragActBase {
                 || model.equals("R40") || model.equals("T50") || model.equals("KT50_YQ")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
-                    "26", "30","31", "32","37", "39", "43", "44"};
+                    "26", "30", "31", "32", "37", "39", "43", "44"};
         } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                 model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
@@ -168,8 +164,8 @@ public class MenuActivity extends FragActBase {
                     "28", "30", "32", "31", "37", "39"};
         } else if (model.equals("N80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
-                    "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23",
-                    "24", "25", "26", "30", "31", "37", "39", "40", "42"};
+                    "12", "13",  "15", "16", "17", "18", "20", "21", "22", "23",
+                    "24", "25", "26", "28","30", "31", "37", "39","38" };
         } else if (model.equals("N55") || model.equals("X55") || model.equals("N55/X55")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "20", "21", "22",
@@ -184,7 +180,7 @@ public class MenuActivity extends FragActBase {
                     "23", "25", "26", "31", "34", "35", "37", "39"};
         } else if (model.equals("M08")) {
             strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10",
-                   "11","13","16", "17", "18", "19", "20","21","40","23","26","30","34","37" };
+                    "11", "13", "16", "17", "18", "19", "20", "21", "40", "23", "26", "30", "34", "37"};
         } else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -241,15 +237,14 @@ public class MenuActivity extends FragActBase {
         super.onResume();
         initUI();
         openWifi(this);
-//        if (model.equals("T450") || model.equals("KT55") || model.equals("KT80")
-//                || model.equals("W6") || model.equals("N80") ||
-//                model.equals("N55") || model.equals("X55") ||
-//                model.equals("N55/X55") || model.equals("T550")) {
-//            String result = SystemProperties.get("persist.sys.keyreport", "true");
-//            if (result.equals("true")) {
-//                SystemProperties.set("persist.sys.keyreport", "false");
-//            }
-//        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mWifiManager.isWifiEnabled()) {
+            mWifiManager.setWifiEnabled(false);
+        }
     }
 
     private String getState(int position) {
@@ -442,7 +437,7 @@ public class MenuActivity extends FragActBase {
                 openAct(WifiAct.class, true);
                 break;
             case ACTION_TOUCH_SCREEN:
-                openAct(TsHandWriting.class, false);
+                openAct(TouchTest.class, false);
                 break;
             case ACTION_LIGHT:
                 openAct(LightAct.class, true);
@@ -524,7 +519,8 @@ public class MenuActivity extends FragActBase {
             case ACTION_BUTTON:
                 if (model.equals("T450") || model.equals("KT55")
                         || model.equals("N55") || model.equals("X55")
-                        || model.equals("N55/X55") || model.equals("T550")) {
+                        || model.equals("N55/X55") || model.equals("T550") || model.equals("M55")
+                        || model.equals("KT55L")) {
                     openAct(ButtonAct.class, true);
                 } else if (model.equals("KT80") || model.equals("W6")) {
                     openAct(ButtonKT80Act.class, true);
@@ -533,7 +529,7 @@ public class MenuActivity extends FragActBase {
                 } else if (model.equals("DB2_LVDS")) {
                     openAct(ButtonDb2Act.class, true);
                 } else if (model.equals("KT50") || model.equals("KT50_B2")
-                        || model.equals("R40") || model.equals("T50")|| model.equals("KT50_YQ")) {
+                        || model.equals("R40") || model.equals("T50") || model.equals("KT50_YQ")) {
                     openAct(ButtonKT50Act.class, true);
                 } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                         model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
@@ -545,7 +541,7 @@ public class MenuActivity extends FragActBase {
                 } else if (model.equals("N80")) {
                     openAct(ButtonN80Act.class, true);
                 } else if (model.equals("M08")) {
-                    openAct(ButtonM08Act.class,true);
+                    openAct(ButtonM08Act.class, true);
                 }
                 break;
 
@@ -581,7 +577,10 @@ public class MenuActivity extends FragActBase {
                     openAct(OutGpsH500Act.class, true);
                 } else if (model.equals("N55") || model.equals("X55") || model.equals("N55/X55")) {
                     openAct(OutGpsN55Act.class, true);
+                } else if (model.equals("N80")) {
+                    openAct(OutGpsN80Act.class, true);
                 }
+
                 break;
             case ACTION_VIBRATE:
                 openAct(VibrateAct.class, true);
@@ -591,7 +590,7 @@ public class MenuActivity extends FragActBase {
                 break;
             case ACTION_ZHONGLI:
                 if (model.equals("KT80") || model.equals("W6") ||
-                        model.equals("DB2_LVDS") || model.equals("N80")
+                        model.equals("DB2_LVDS")
                         || model.equals("mt6753")) {
                     openAct(Kt80Zhongli.class, true);
                 } else {

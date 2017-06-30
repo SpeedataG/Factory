@@ -37,8 +37,6 @@ public class UsbPlateAct extends FragActBase {
     Button btnNotPass;
     private DeviceControl gpio;
 
-    private int count = 0;
-
     @Click
     void btnNotPass() {
         setXml(App.KEY_USBPLATE, App.KEY_UNFINISH);
@@ -66,123 +64,85 @@ public class UsbPlateAct extends FragActBase {
     public void onEventMainThread(ViewMessage viewMessage) {
     }
 
-    MyHandler mhandler;
-    UsbStatesReceiver usbstates;
 
     @AfterViews
     protected void main() {
         initTitlebar();
+
+
+    }
+   Handler handler = new Handler(){
+       @Override
+       public void handleMessage(Message msg) {
+           super.handleMessage(msg);
+           String ss= (String) msg.obj;
+           switch (msg.what){
+               case 0:
+                   tvVersionInfor.setText(ss);
+                   break;
+               case 1:
+                   tvVersionInfor.setText(ss);
+                   break;
+               case 2:
+                   tvVersionInfor.setText(ss);
+                   setXml(App.KEY_USBPLATE, App.KEY_FINISH);
+                   finish();
+                   break;
+           }
+       }
+   };
+   private  BroadcastReceiver broadcastReceiver=new BroadcastReceiver(){
+       @Override
+       public void onReceive(Context context, Intent intent) {
+           String action=intent.getAction();
+           if (action.equals(Intent.ACTION_MEDIA_SCANNER_STARTED)){
+               handler.sendMessage(handler.obtainMessage(0,"U盘以挂载,请拔出"));
+           } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
+              handler.sendMessage(handler.obtainMessage(1,"扫描U盘"));
+           } else if (action.equals(Intent.ACTION_MEDIA_REMOVED)||action.equals(Intent.ACTION_MEDIA_EJECT)) {
+               handler.sendMessage(handler.obtainMessage(2,"U盘以移除"));
+           }
+       }
+   };
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
         if (Build.MODEL.equals("M08")) {
-            gpio.PowerOffDevice72();
+            gpio.PowerOnDevice72();
         } else {
             gpio.PowerOffDevice63();
             gpio.PowerOnDevice99();
             gpio.PowerOnDevice98();
         }
-        mhandler = new MyHandler();
-        usbstates = new UsbStatesReceiver(this);
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (Build.MODEL.equals("M08")) {
-            gpio.PowerOnDevice72();
-        } else {
-            gpio.PowerOffDevice98();
-            gpio.PowerOffDevice63();
-            gpio.PowerOffDevice99();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        usbstates.registerReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_MEDIA_CHECKING);//检查正在检查
+        filter.addAction(Intent.ACTION_MEDIA_MOUNTED);//以挂载
+        filter.addAction(Intent.ACTION_MEDIA_EJECT);
+        filter.addAction(Intent.ACTION_MEDIA_SCANNER_STARTED);
+        filter.addAction(Intent.ACTION_MEDIA_REMOVED);//:表明SDCard 被卸载前己被移除
+        filter.addDataScheme("file");
+        registerReceiver(broadcastReceiver,filter);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        usbstates.unregisterReceiver();
+
     }
-
-    class MyHandler extends Handler {
-        public MyHandler() {
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            super.handleMessage(msg);
-            if (msg.arg1 == 0x00021) {
-                tvVersionInfor.setText("U盘已接入,请拔出");
-            } else if (msg.arg1 == 0x00022) {
-                tvVersionInfor.setText("U盘已拔出");
-                count = 1;
-            }
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (count == 1) {
-                                setXml(App.KEY_USBPLATE, App.KEY_FINISH);
-                                finish();
-                            }
-                        }
-                    });
-                }
-            }).start();
-        }
-    }
-
-    public class UsbStatesReceiver extends BroadcastReceiver {
-        UsbPlateAct plateAct;
-        public static final int USB_STATE_MSG = 0x00020;
-        public static final int USB_STATE_ON = 0x00021;
-        public static final int USB_STATE_OFF = 0x00022;
-        public IntentFilter filter = new IntentFilter();
-
-        public UsbStatesReceiver(Context context) {
-            plateAct = (UsbPlateAct) context;
-            filter.addAction(Intent.ACTION_MEDIA_CHECKING);
-            filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
-            filter.addAction(Intent.ACTION_MEDIA_EJECT);
-            filter.addAction(Intent.ACTION_MEDIA_REMOVED);
-            filter.addDataScheme("file");
-        }
-
-        public Intent registerReceiver() {
-            return plateAct.registerReceiver(this, filter);
-        }
-
-        public void unregisterReceiver() {
-            plateAct.unregisterReceiver(this);
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // TODO Auto-generated method stub
-            if (plateAct.mhandler == null) {
-                return;
-            }
-            Message msg = new Message();
-            msg.what = USB_STATE_MSG;
-            if (intent.getAction().equals(Intent.ACTION_MEDIA_MOUNTED) ||
-                    intent.getAction().equals(Intent.ACTION_MEDIA_CHECKING)) {
-                msg.arg1 = USB_STATE_ON;
-            } else {
-                msg.arg1 = USB_STATE_OFF;
-            }
-            plateAct.mhandler.sendMessage(msg);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+        if (Build.MODEL.equals("M08")) {
+            gpio.PowerOffDevice72();
+        } else {
+            gpio.PowerOffDevice98();
+            gpio.PowerOffDevice63();
+            gpio.PowerOffDevice99();
         }
     }
 }

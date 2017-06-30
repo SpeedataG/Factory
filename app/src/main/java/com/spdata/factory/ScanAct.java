@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.provider.Settings;
 import android.view.View;
@@ -40,8 +39,6 @@ public class ScanAct extends FragActBase {
 
     @Click
     void btnNotPass() {
-        scanUtil.cancelRepeat();
-        scanUtil.stopScan();
         setXml(App.KEY_SCAN, App.KEY_UNFINISH);
         finish();
     }
@@ -84,47 +81,35 @@ public class ScanAct extends FragActBase {
         init();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        scanUtil.cancelRepeat();
-        try {
-            stopScanService();
-            SystemClock.sleep(3000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     ScanUtil scanUtil;
 
     private void init() {
         scanUtil = new ScanUtil(mContext);
-        result = SystemProperties.get("persist.sys.keyreport", "true");
-        if (result.equals("false")) {
+//        result = SystemProperties.get("persist.sys.keyreport", "true");
+//        if (result.equals("false")) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     if(SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
                         startScanService();
-                        scanUtil.repeatScan();
+                        scanUtil.repeatScans();
                     }else {
-                        scanUtil.repeatScan();
+                        scanUtil.repeatScans();
                     }
                 }
             }).start();
-        } else {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if(SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
-                        scanUtil.repeatScan();
-                    }else {
-                        scanUtil.repeatScan();
-                    }
-                }
-            }).start();
-        }
+//        } else {
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if(SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
+//                        scanUtil.repeatScan();
+//                    }else {
+//                        scanUtil.repeatScan();
+//                    }
+//                }
+//            }).start();
+//        }
 
         scanUtil.setOnScanListener(new ScanUtil.OnScanListener() {
             @Override
@@ -133,13 +118,24 @@ public class ScanAct extends FragActBase {
                         .setPositiveButton("成功", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                scanUtil.stopScan();
                                 setXml(App.KEY_SCAN, App.KEY_FINISH);
                                 finish();
                             }
                         }).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        scanUtil.unScan();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                stopScanService();
+            }
+        }).start();
     }
 
     private void startScanService() {//启动扫描服务

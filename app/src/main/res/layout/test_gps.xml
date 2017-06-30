@@ -20,15 +20,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.3"
+        android:layout_marginLeft="20dp"        style="@style/main_button"
+        android:layout_marginRight="20dp"
+
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <LinearLayout
-            style="@style/main_button"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
 
@@ -36,157 +37,157 @@
                 android:id="@+id/tv_st_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:layout_below="@+id/tv_st_info"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_1"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_2"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_3"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_4"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_5"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_6"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_7"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:layout_below="@+id/tv_st_8"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_9"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_10"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:layout_below="@+id/tv_st_11"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_12"
-                android:textColor="@color/white"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:layout_below="@+id/tv_st_13"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:layout_below="@+id/tv_st_14"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_16"
                 android:layout_width="wrap_content"
-                android:textColor="@color/white"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_st_15"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_st_17"
                 android:layout_width="wrap_content"
-                android:textColor="@color/white"
                 android:layout_height="wrap_content"
-                android:text="@string/g_null_text" />
+                android:text="@string/g_null_text"
+                android:textColor="@color/white" />
 
             <!--<TextView-->
-                <!--android:id="@+id/tv_st_18"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:text="@string/g_null_text" />-->
+            <!--android:id="@+id/tv_st_18"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:text="@string/g_null_text" />-->
 
             <!--<TextView-->
-                <!--android:id="@+id/tv_st_19"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:text="@string/g_null_text" />-->
+            <!--android:id="@+id/tv_st_19"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:text="@string/g_null_text" />-->
 
             <!--<TextView-->
-                <!--android:id="@+id/tv_st_20"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:text="@string/g_null_text" />-->
+            <!--android:id="@+id/tv_st_20"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:text="@string/g_null_text" />-->
 
             <TextView
                 android:id="@+id/tv_st_success"
@@ -234,7 +235,6 @@
             android:layout_height="45dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="成功"
@@ -247,7 +247,6 @@
             android:layout_height="45dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="失败"
@@ -255,4 +254,4 @@
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>
 
-</LinearLayout><!-- </LinearLayout> -->
+</LinearLayout>

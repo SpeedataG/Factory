@@ -48,8 +48,6 @@ public class ScanX300qAct extends FragActBase {
 
     @Click
     void btnNotPass() {
-        scanUtil.cancelRepeat();
-        scanUtil.stopScan();
         setXml(App.KEY_SCAN, App.KEY_UNFINISH);
         finish();
     }
