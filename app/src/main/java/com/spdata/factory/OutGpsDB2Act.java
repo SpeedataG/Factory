@@ -2,8 +2,7 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.os.Message;
-import android.serialport.DeviceControl;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortBackup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import java.io.IOException;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
+import common.utils.DeviceControl;
 
 /**
  * Created by lenovo_pc on 2016/9/28.
@@ -38,7 +38,7 @@ public class OutGpsDB2Act extends FragActBase {
     @ViewById
     TextView tv_gps;
     private DeviceControl gpio;
-    private SerialPort mSerialPort;
+    private SerialPortBackup mSerialPort;
     private ReadTask readTask;
 
     @Click
@@ -79,7 +79,7 @@ public class OutGpsDB2Act extends FragActBase {
     protected void main() {
         initTitlebar();
         try {
-            mSerialPort = new SerialPort();
+            mSerialPort = new SerialPortBackup();
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
             gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
         } catch (IOException e) {

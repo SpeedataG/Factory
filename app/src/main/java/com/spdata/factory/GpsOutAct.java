@@ -5,7 +5,6 @@ import android.hardware.SerialManager;
 import android.hardware.SerialPort;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.DeviceControl;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
@@ -30,6 +28,7 @@ import java.util.TimerTask;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
+import common.utils.DeviceControl;
 
 /**
  * Created by lenovo_pc on 2016/8/12.

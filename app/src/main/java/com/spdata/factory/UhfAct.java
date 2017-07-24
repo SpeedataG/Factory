@@ -1,30 +1,32 @@
 package com.spdata.factory;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.os.Handler;
-import android.os.Message;
+import android.content.DialogInterface;
+import android.os.PowerManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.abc.TVS.TVSHwAPI;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
+import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.UHFManager;
+import com.speedata.libuhf.utils.SharedXmlUtil;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+import common.utils.MsgEvent;
+import common.utils.SearchTagDialog;
 
 /**
  * Created by suntianwei on 2016/12/6.
@@ -34,13 +36,18 @@ public class UhfAct extends FragActBase {
     @ViewById
     CustomTitlebar titlebar;
     @ViewById
-    TextView tvInfor;
+    TextView tvGreen;
+    @ViewById
+    TextView tvRed;
     @ViewById
     Button btnPass;
     @ViewById
     Button btnNotPass;
     @ViewById
-    Button btn_read_card;
+    Button pandian;
+    @ViewById
+    Button read;
+
 
     @Click
     void btnPass() {
@@ -53,14 +60,34 @@ public class UhfAct extends FragActBase {
         setXml(App.KEY_UHF, App.KEY_UNFINISH);
         finish();
     }
-
     @Click
-    void btn_read_card() {
-        if (TVSHwAPI.OpenDev() && TVSHwAPI.getTID(30, 10000)) {
-            tvInfor.append(TVSHwAPI.TID + "");
-            Log.e("abc", TVSHwAPI.TID);
+    void pandian() {
+        SearchTagDialog searchTag = new SearchTagDialog(this, iuhfService, "");
+        searchTag.show();
+    }
+    @Click
+    void read() {
+        String read_area = iuhfService.read_area(3, "0", "6", "0");
+        if (read_area == null) {
+            EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
+        } else {
+            int length = read_area.length();
+            if (length != 24) {
+                EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
+            } else {
+                EventBus.getDefault().post(new MsgEvent("success", "读成功"));
+            }
+        }
+
+        int writeArea = iuhfService.write_area(3, "0", "0", "6", "000011112222333344445555");
+        if (writeArea != 0) {
+            EventBus.getDefault().post(new MsgEvent("failed", "写失败"));
+        } else {
+            EventBus.getDefault().post(new MsgEvent("success", "写成功"));
         }
     }
+
+    private IUHFService iuhfService;
 
     @Override
     protected Context regieterBaiduBaseCount() {
@@ -78,78 +105,101 @@ public class UhfAct extends FragActBase {
 
     }
 
-    private Timer timer;
-    private static final int TIME_TO_READDATA = 500;
-    ReadTimerTask readTimerTask;
 
     @AfterViews
     protected void main() {
         initTitlebar();
-        initSoundPool();//初始化声音池
-        timer = new Timer();
-        readTimerTask = new ReadTimerTask();
-        timer.schedule(readTimerTask, 10, TIME_TO_READDATA);
+        SharedXmlUtil.getInstance(UhfAct.this).write("modle", "");
+        try {
+            iuhfService = UHFManager.getUHFService(UhfAct.this);
+            newWakeLock();
+            org.greenrobot.eventbus.EventBus.getDefault().register(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            tvRed.setVisibility(View.VISIBLE);
+            tvRed.setText("*模块不识别*");
+        }
 
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            String tids = (String) msg.obj;
-            if (!tids.equals("")) {
-                play(2, 0);
-                tvInfor.append("Card ID:" + tids + "\n");
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void mEventBus(MsgEvent msgEvent) {
+        String type = msgEvent.getType();
+        String msg = (String) msgEvent.getMsg();
+        if ("failed".equals(type)) {
+            tvRed.setVisibility(View.VISIBLE);
+            tvRed.setText(msg + " ");
+        } else if ("success".equals(type)) {
+            tvGreen.setVisibility(View.VISIBLE);
+            tvGreen.setText(msg + " ");
+        }
+    }
+
+
+    private PowerManager pM = null;
+    private PowerManager.WakeLock wK = null;
+    private int init_progress = 0;
+
+    private void newWakeLock() {
+        init_progress++;
+        pM = (PowerManager) getSystemService(POWER_SERVICE);
+        if (pM != null) {
+            wK = pM.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK
+                    | PowerManager.ON_AFTER_RELEASE, "lock3992");
+            if (wK != null) {
+                wK.acquire();
+                init_progress++;
             }
         }
-    };
 
-    private class ReadTimerTask extends TimerTask {
-        @Override
-        public void run() {
-            if (TVSHwAPI.OpenDev() && TVSHwAPI.getTID(30, 10000)) {
-                Log.e("abc", TVSHwAPI.TID);
-                String tid = TVSHwAPI.TID;
-                if (!tid.equals("")) {
-                    Message msg = new Message();
-                    msg.obj = tid;
-                    handler.sendMessage(msg);
+        if (init_progress == 1) {
+            Log.w("3992_6C", "wake lock init failed");
+        }
+    }
+
+    private boolean openDev() {
+        if (iuhfService.OpenDev() != 0) {
+            new AlertDialog.Builder(this).setTitle("警告！").setMessage("上电失败").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
                 }
-            }
+            }).show();
+            return true;
         }
-    }
-
-    private SoundPool sp; //声音池
-    private Map<Integer, Integer> mapSRC;
-
-    //初始化声音池
-    private void initSoundPool() {
-        sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-        mapSRC = new HashMap<Integer, Integer>();
-        mapSRC.put(1, sp.load(this, R.raw.error, 0));
-        mapSRC.put(2, sp.load(this, R.raw.welcome, 0));
-
-    }
-
-    /**
-     * 播放声音池的声音
-     */
-    private void play(int sound, int number) {
-        sp.play(mapSRC.get(sound),//播放的声音资源
-                1.0f,//左声道，范围为0--1.0
-                1.0f,//右声道，范围为0--1.0
-                0, //优先级，0为最低优先级
-                number,//循环次数,0为不循环
-                0);//播放速率，0为正常速率
+        return false;
     }
 
     @Override
     public void onDestroy() {
-        timer.cancel();
-        if (sp != null) {
-            sp.release();
-        }
-        readTimerTask.cancel();
         super.onDestroy();
+        UHFManager.closeUHFService();
+        wK.release();
+        EventBus.getDefault().unregister(this);
+        iuhfService = null;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            if (openDev()) return;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            iuhfService.CloseDev();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

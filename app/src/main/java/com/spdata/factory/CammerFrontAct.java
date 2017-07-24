@@ -130,7 +130,9 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
         //设置类型
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         String model = Build.MODEL;
-        if (model.equals("KT80") || model.equals("W6")) {
+        if (model.equals("KT80") || model.equals("W6")|| model.equals("RT801")
+                || model.equals("T80") || model.equals("T800")|| model.equals("FC-K80")
+                || model.equals("Biowolf LE")) {
             titlebar.setAttrs("请先打开前置补关灯");
         } else {
             titlebar.setAttrs("请点击拍照按钮进行拍照！");

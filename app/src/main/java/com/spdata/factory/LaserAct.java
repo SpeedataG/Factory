@@ -1,7 +1,6 @@
 package com.spdata.factory;
 
 import android.content.Context;
-import android.serialport.DeviceControl;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,6 +19,7 @@ import java.io.IOException;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+import common.utils.DeviceControl;
 
 /**
  * Created by lenovo_pc on 2016/8/12.

@@ -23,10 +23,10 @@ android {
     }
     defaultConfig {
         ndk {
-            abiFilters "armeabi", "armeabi-v7a"
+            abiFilters "armeabi"
         }
         applicationId "com.spdata.factory"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "v1.5.1" + "-build-" + getDate() + "-" + versionCode
@@ -103,6 +103,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'org.androidannotations:androidannotations:3.2'
     compile files('libs/dpuareu.jar')
+
+    compile 'com.speedata:deivice:+'
+    compile 'com.speedata:libuhf:6.7'
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    compile 'com.speedata:psam:1.4.3'
 }
 
 //    compile 'com.github.wqandroid:wqgallery:3.1.0'

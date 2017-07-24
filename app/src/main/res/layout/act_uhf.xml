@@ -19,17 +19,44 @@
         android:layout_marginTop="20dp"
         android:orientation="vertical">
 
-        <ScrollView
+        <LinearLayout
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_infor"
-                style="@style/base_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
+                android:visibility="gone"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="#148c02"
+                android:id="@+id/tvGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:visibility="gone"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="#f20303"
+                android:id="@+id/tvRed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/pandian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="盘点测试" />
+
+        <Button
+            android:id="@+id/read"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="读写测试" />
 
 
     </LinearLayout>

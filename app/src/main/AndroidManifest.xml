@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.spdata.factory"> <!-- SDK必须是12以上的，因为从 Android3.1开始，才正式支持USB Host -->
+    package="com.spdata.factory"
+   > <!-- SDK必须是12以上的，因为从 Android3.1开始，才正式支持USB Host -->
     <uses-sdk
         android:minSdkVersion="12"
         android:targetSdkVersion="17" />
@@ -379,6 +380,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".M08CameraBacckAct_"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".X300Serport_"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
@@ -438,6 +443,14 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".TouchTest"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".OutGps_x300Act_"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ButtonKT45qAct_"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>
     </application>

@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.DeviceControl;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,6 +20,7 @@ import org.androidannotations.annotations.ViewById;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+import common.utils.DeviceControl;
 
 /**
  * Created by lenovo_pc on 2016/9/3.

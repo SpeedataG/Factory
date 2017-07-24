@@ -1,14 +1,18 @@
 package com.spdata.factory;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -28,13 +32,15 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+
+import static android.R.attr.path;
 
 @EActivity(R.layout.act_cammar_background)
 public class DCD3CammerBackgroundAct extends FragActBase implements SurfaceHolder.Callback,
@@ -94,13 +100,13 @@ public class DCD3CammerBackgroundAct extends FragActBase implements SurfaceHolde
         setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_UNFINISH);
         finish();
     }
-
     @Override
+
     protected Context regieterBaiduBaseCount() {
         return null;
     }
-
     @Override
+
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
         titlebar.setAttrs("摄像头");
@@ -118,20 +124,52 @@ public class DCD3CammerBackgroundAct extends FragActBase implements SurfaceHolde
     Camera.PictureCallback jpeg = new Camera.PictureCallback() {
 
         @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-// TODO Auto-generated method stub
-            try {// 获得图片
-                Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-                File file = new File(filePath);
-                BufferedOutputStream bos =
-                        new BufferedOutputStream(new FileOutputStream(file));
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);//将图片压缩到流中
-                bos.flush();//输出
-                bos.close();//关闭
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        public void onPictureTaken(final byte[] data, Camera camera) {
+//            try {// 获得图片
+//                Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                File file = new File(filePath);
+//                BufferedOutputStream bos =
+//                        new BufferedOutputStream(new FileOutputStream(file));
+//                bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);//将图片压缩到流中
+//                bos.flush();//输出
+//                bos.close();//关闭
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
 
+                    // 首先保存图片
+                    File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
+                    if (!appDir.exists()) {
+                        appDir.mkdir();
+                    }
+                    String fileName = System.currentTimeMillis() + ".jpg";
+                    File file = new File(appDir, fileName);
+                    try {
+                        FileOutputStream fos = new FileOutputStream(file);
+                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                        fos.flush();
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // 其次把文件插入到系统图库
+                    try {
+                        MediaStore.Images.Media.insertImage(DCD3CammerBackgroundAct.this.getContentResolver(),
+                                file.getAbsolutePath(), fileName, null);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    // 最后通知图库更新
+                    DCD3CammerBackgroundAct.this.sendBroadcast(new Intent(Intent.
+                            ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+                }
+            }).start();
         }
     };
 

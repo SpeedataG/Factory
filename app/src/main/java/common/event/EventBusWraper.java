@@ -10,7 +10,7 @@
 package common.event;
 
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 调用HTTP或本地数据库API接口后，返回数据事件消息对象封装

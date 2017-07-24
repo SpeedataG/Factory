@@ -1,21 +1,31 @@
 package com.spdata.factory;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
+import com.speedata.libutils.ConfigUtils;
+import com.speedata.libutils.ReadBean;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.IOException;
+import java.util.List;
+
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
-import common.utils.CardOperation;
+import speedatacom.a3310libs.PsamManager;
+import speedatacom.a3310libs.inf.IPsam;
+
+import static jxl.Workbook.getVersion;
 
 @EActivity(R.layout.activity_psam)
 public class PSAMAct extends FragActBase {
@@ -24,6 +34,8 @@ public class PSAMAct extends FragActBase {
     @ViewById
     TextView tvInfor;
     @ViewById
+    TextView tv;
+    @ViewById
     TextView btn_psam1;
     @ViewById
     TextView btn_psam2;
@@ -31,9 +43,6 @@ public class PSAMAct extends FragActBase {
     Button btnPass;
     @ViewById
     Button btnNotPass;
-    private CardOperation cardOperation;
-    private byte[] psam2;
-    private byte[] psam1;
 
     @Click
     void btnNotPass() {
@@ -49,21 +58,44 @@ public class PSAMAct extends FragActBase {
 
     @Click
     void btn_psam1() {
-        psam1 = cardOperation.activeIC();
-        if (psam1 == null) {
-            tvInfor.append("No Psam1\n");
-        }else {
-            tvInfor.append("Psam1 Succeed \n");
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final byte[] data = psamIntance.PsamPower(IPsam.PowerType.Psam1);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (data == null) {
+                            tvInfor.append("No Psam1\n");
+                        } else {
+                            tvInfor.append("Psam1 Succeed \n");
+                        }
+                    }
+                });
+            }
+        }).start();
+
+
     }
+
     @Click
     void btn_psam2() {
-        psam2 = cardOperation.activePSAM();
-        if (psam2 == null) {
-            tvInfor.append("No Psam2\n");
-        }else {
-            tvInfor.append("Psam2 Succeed \n");
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final byte[] data = psamIntance.PsamPower(IPsam.PowerType.Psam2);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (data == null) {
+                            tvInfor.append("No Psam2\n");
+                        } else {
+                            tvInfor.append("Psam2 Succeed \n");
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -86,34 +118,62 @@ public class PSAMAct extends FragActBase {
     public void onEventMainThread(ViewMessage viewMessage) {
     }
 
+    //获取psam实例
+    IPsam psamIntance = PsamManager.getPsamIntance();
 
     @AfterViews
     protected void main() {
         initTitlebar();
         setSwipeEnable(false);
-        cardOperation = new CardOperation(this);
+        showConfig();
+        try {
+            psamIntance.initDev(this);//初始化设备
+            psamIntance.resetDev();//复位
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        final ProgressDialog progressDialog = new ProgressDialog(mContext);
+        progressDialog.setTitle("Reset PSAM");
+        progressDialog.setMessage("Reset……");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SystemClock.sleep(3000);
+                progressDialog.cancel();
+            }
+        }).start();
+    }
 
-//        if (psam1==null&&psam2==null){
-//            showToast("No Psam1 and Psam2");
-//            setXml(App.KEY_PSAM, App.KEY_UNFINISH);
-//            finish();
-//        }else if (psam1==null){
-//            showToast("No Psam1 ");
-//            setXml(App.KEY_PSAM, App.KEY_UNFINISH);
-//            finish();
-//        }else if (psam2==null){
-//            showToast("No Psam2 ");
-//            setXml(App.KEY_PSAM, App.KEY_UNFINISH);
-//            finish();
-//        }else {
-//            showToast("Psam1 Succeed and Psam2 Succeed ");
-//            setXml(App.KEY_PSAM, App.KEY_UNFINISH);
-//            finish();
-//        }
+    private void showConfig() {
+
+        String verson = getVersion();
+        tv.setText("V" + verson);
+
+        boolean isExit = ConfigUtils.isConfigFileExists();
+        if (isExit)
+            tv.setText("定制配置：\n");
+        else
+            tv.setText("标准配置：\n");
+        ReadBean.PasmBean pasm = ConfigUtils.readConfig(this).getPasm();
+        String gpio = "";
+        List<Integer> gpio1 = pasm.getGpio();
+        for (Integer s : gpio1) {
+            gpio += s + ",";
+        }
+        tv.append("串口:" + pasm.getSerialPort() + "  波特率：" + pasm.getBraut() + " 上电类型:" +
+                pasm.getPowerType() + " GPIO:" + gpio + " resetGpio:" + pasm.getResetGpio());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            psamIntance.releaseDev();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

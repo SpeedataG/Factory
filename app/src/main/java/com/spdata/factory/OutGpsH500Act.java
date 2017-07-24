@@ -1,10 +1,8 @@
 package com.spdata.factory;
 
 import android.content.Context;
-import android.hardware.SerialManager;
 import android.os.Message;
-import android.serialport.DeviceControl;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortBackup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +22,7 @@ import java.util.TimerTask;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
+import common.utils.DeviceControl;
 
 /**
  * Created by lenovo_pc on 2016/10/11.
@@ -58,7 +57,7 @@ public class OutGpsH500Act extends FragActBase {
     private Timer timer;
     private static final int TIME_TO_READDATA = 500;
     ReadTimerTask readTimerTask;
-    private SerialPort mSerialPort;
+    private SerialPortBackup mSerialPort;
 
     @Click
     void btn_start() {
@@ -90,7 +89,7 @@ public class OutGpsH500Act extends FragActBase {
         try {
             gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
             gpio.PowerOnDevice131();
-            mSerialPort = new SerialPort();
+            mSerialPort = new SerialPortBackup();
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
             fd = mSerialPort.getFd();
         } catch (IOException e) {

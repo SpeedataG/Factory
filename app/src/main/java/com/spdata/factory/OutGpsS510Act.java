@@ -3,11 +3,7 @@ package com.spdata.factory;
 import android.content.Context;
 import android.hardware.SerialManager;
 import android.os.Message;
-import android.serialport.DeviceControl;
-import android.serialport.SerialPort;
-import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
+import android.serialport.SerialPortBackup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,6 +23,7 @@ import java.util.TimerTask;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
+import common.utils.DeviceControl;
 
 /**
  * Created by lenovo_pc on 2016/9/12.
@@ -94,7 +91,7 @@ public class OutGpsS510Act extends FragActBase {
 
     private SerialManager mSerialManager = null;
     private static final String SERIAL_SERVICE = "serial";
-    private SerialPort mSerialPort;
+    private SerialPortBackup mSerialPort;
     private byte[] tmpbuf = new byte[1024];
     private static final int count = 0;
 
@@ -106,7 +103,7 @@ public class OutGpsS510Act extends FragActBase {
         gpio.PowerOnDevice72();
         gpio.PowerOnDevice73();
         gpio.PowerOnDevice87();
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortBackup();
 //        timer = new Timer();
 //        readTimerTask = new ReadTimerTask();
     }

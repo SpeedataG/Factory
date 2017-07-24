@@ -2,8 +2,7 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.os.Message;
-import android.serialport.DeviceControl;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortBackup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,6 +21,8 @@ import java.util.TimerTask;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
+import common.utils.DeviceControl;
+
 /**
  * Created by suntianwei on 2016/11/24.
  */
@@ -88,7 +89,7 @@ public class SerialportH80Act extends FragActBase  {
     @Override
     public void onEventMainThread(ViewMessage viewMessage) {
     }
-    private SerialPort mSerialPort;
+    private SerialPortBackup mSerialPort;
     DeviceControl deviceControl;
     private int sendcount = 1;
     private int fd;
@@ -102,7 +103,7 @@ public class SerialportH80Act extends FragActBase  {
         initTitlebar();
         tvVersionInfor.setText("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
                 "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功");
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortBackup();
         try {
             deviceControl=new DeviceControl("/sys/class/misc/mtgpio/pin");
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);

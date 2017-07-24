@@ -11,8 +11,7 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Message;
 import android.os.SystemClock;
-import android.serialport.DeviceControl;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortBackup;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,6 +44,7 @@ import java.util.TimerTask;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
+import common.utils.DeviceControl;
 import common.utils.Globals;
 
 /**
@@ -203,7 +203,7 @@ public class ExpandAct extends FragActBase {
         intentFilter.addAction("com.hall.success");
         registerReceiver(receiver, intentFilter);
         manager = getPackageManager();
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortBackup();
         mdeviceControl = new DeviceControl("/sys/class/misc/mtgpio/pin");
         mdeviceControl2 = new DeviceControl(POWER_EXTERNAL);
         mdeviceControl.PowerOnDevice63();
@@ -215,7 +215,7 @@ public class ExpandAct extends FragActBase {
 
     // 寻找接口和分配结点
 
-    private SerialPort mSerialPort;
+    private SerialPortBackup mSerialPort;
     private DeviceControl mdeviceControl;
 
 

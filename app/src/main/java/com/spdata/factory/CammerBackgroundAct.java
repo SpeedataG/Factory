@@ -200,7 +200,8 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                         e.printStackTrace();
                     }
                     // 最后通知图库更新
-                    CammerBackgroundAct.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+                    CammerBackgroundAct.this.sendBroadcast(new Intent(Intent.
+                            ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
                 }
             }).start();
 

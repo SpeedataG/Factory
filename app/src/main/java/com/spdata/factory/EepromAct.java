@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.south.SDKMethod;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -131,6 +129,10 @@ public class EepromAct extends FragActBase {
             try {
                 Wrdata = removeAllSpace("00 00 00 00 00 00 00 00");
                 wrbuffer = HexString2Bytes(Wrdata);
+                for (int j = 0; j < 81; ) {
+                    nv_device.writeE2(j, wrbuffer, 8);
+                    j = j + 8;
+                }
                 offsetbuffer = 80;
                 Wrdata = removeAllSpace("DE AD BE AF DE AD BE AF");
                 wrbuffer = HexString2Bytes(Wrdata);

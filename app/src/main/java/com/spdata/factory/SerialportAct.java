@@ -2,13 +2,9 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.os.Message;
-import android.serialport.SerialPort;
-import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
+import android.serialport.SerialPortBackup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
@@ -91,7 +87,7 @@ public class SerialportAct extends FragActBase {
     @Override
     public void onEventMainThread(ViewMessage viewMessage) {
     }
-    private SerialPort mSerialPort;
+    private SerialPortBackup mSerialPort;
     private int sendcount = 1;
     private int fd;
     private Timer timer;
@@ -104,7 +100,7 @@ public class SerialportAct extends FragActBase {
         initTitlebar();
         tvVersionInfor.setText("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
                 "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功");
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortBackup();
         try {
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
             fd = mSerialPort.getFd();

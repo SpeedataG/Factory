@@ -13,11 +13,17 @@
     <LinearLayout
         style="@style/main_button"
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="350dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/tv"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -28,8 +34,7 @@
                 android:id="@+id/tv_infor"
                 style="@style/base_text"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                 />
+                android:layout_height="match_parent" />
         </ScrollView>
 
 
