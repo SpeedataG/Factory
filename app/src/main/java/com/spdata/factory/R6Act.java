@@ -7,13 +7,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.abc.TVS.TVSHwAPI;
-import com.android.hflibs.Mifare_native;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
+import com.speedata.r6lib.IMifareManager;
+import com.speedata.r6lib.R6Manager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -27,6 +26,9 @@ import java.util.TimerTask;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+
+
+import static com.speedata.r6lib.R6Manager.CardType.MIFARE;
 
 /**
  * Created by suntianwei on 2016/12/6.
@@ -76,7 +78,9 @@ public class R6Act extends FragActBase {
 
     }
 
-    private Mifare_native dev = new Mifare_native();
+    private IMifareManager dev1;
+    private static byte[] RawID;
+    private static String HID = null;
     private Timer timer;
     private static final int TIME_TO_READDATA = 500;
     ReadTimerTask readTimerTask;
@@ -84,72 +88,12 @@ public class R6Act extends FragActBase {
     protected void main() {
         initTitlebar();
         initSoundPool();
+        dev1 = R6Manager.getMifareInstance(MIFARE);
         timer = new Timer();
         readTimerTask = new ReadTimerTask();
         timer.schedule(readTimerTask, 10, TIME_TO_READDATA);
     }
 
-    public void ReadRfid() {
-        //初始化读卡设备
-        if (dev.InitDev() != 0)////0 代表初始化设备成功，-1 代表失败
-        {
-            tvInfor.setText(R.string.msg_error_dev);//打开设备错误
-            return;
-        }
-
-        int block = 5;
-        //搜卡，处理冲突并选卡。返回选中卡片的 SN,搜卡失败，
-        // 返回 null；成功返回 byte array 引用。其内容为卡片的 SN
-        //search a valid card
-        byte[] ID = dev.SearchCard();
-        if (ID == null) {
-            tvInfor.setText(R.string.msg_mifare_error_nocard);
-            return;
-        }
-        String IDString = new String(" 0x");
-        for (byte a : ID) {
-            IDString += String.format("%02X", a);
-        }
-        tvInfor.setText(R.string.msg_mifare_ok_findcard);
-        tvInfor.append(IDString);
-        tvInfor.append("\n\n");
-
-        //auth the block to read/write
-        byte[] key = new byte[6];
-        for (int i = 0; i < 6; i++) {
-            key[i] = (byte) 0xff;
-        }
-        if (dev.AuthenticationCardByKey(Mifare_native.AUTH_TYPEA, ID, block, key) != 0) {
-            tvInfor.append(getString(R.string.msg_mifare_error_auth));//身份验证块失败
-            return;
-        }
-        tvInfor.append(getString(R.string.msg_mifare_ok_auth));//身份验证块好了
-        tvInfor.append("\n\n");
-
-        byte[] getdata = dev.ReadBlock(block);
-        if (getdata == null) {
-            tvInfor.append(getString(R.string.msg_mifare_error_readblock));
-            return;
-        }
-        String getdataString = new String();
-        for (byte i : getdata) {
-            getdataString += String.format(" 0x%02x", i);
-        }
-        tvInfor.append(getString(R.string.msg_mifare_ok_readblock));
-        tvInfor.append(getdataString);
-        tvInfor.append("\n\n");
-
-
-        //halt current card
-        if (dev.HaltCard() != 0) {
-            tvInfor.append(getString(R.string.msg_mifare_error_haltcard));
-            return;
-        }
-        tvInfor.append(getString(R.string.msg_mifare_ok_haltcard));
-        tvInfor.append("\n\n");
-
-        tvInfor.append(getString(R.string.msg_mifare_ok_allok));
-    }
 
     Handler handler = new Handler() {
         @Override
@@ -165,9 +109,9 @@ public class R6Act extends FragActBase {
     private class ReadTimerTask extends TimerTask {
         @Override
         public void run() {
-            if (TVSHwAPI.getHID()) {
-                Log.e("abc", TVSHwAPI.HID);
-                String hid = TVSHwAPI.HID;
+            if (getHID1()) {
+                Log.e("abc", HID);
+                String hid = HID;
                 if (!hid.equals("")) {
                     Message msg = new Message();
                     msg.obj = hid;
@@ -201,7 +145,7 @@ public class R6Act extends FragActBase {
     }
     @Override
     public void onDestroy() {
-//        dev.ReleaseDev();
+        dev1.ReleaseDev();
         timer.cancel();
         if (sp != null) {
             sp.release();
@@ -209,4 +153,35 @@ public class R6Act extends FragActBase {
         readTimerTask.cancel();
         super.onDestroy();
     }
+
+    private boolean getHID1() {
+        if (dev1.InitDev() != 0) {
+            return false;
+        } else {
+            try {
+                Thread.sleep(50L);
+            } catch (InterruptedException var6) {
+            }
+            byte[] cd = dev1.SearchCard();
+            if (cd == null) {
+                dev1.ReleaseDev();
+                return false;
+            } else {
+                RawID = cd;
+                String IDString = new String("");
+                byte[] var5 = cd;
+                int var4 = cd.length;
+
+                for(int var3 = 0; var3 < var4; ++var3) {
+                    byte a = var5[var3];
+                    IDString = IDString + String.format("%02X", new Object[]{Byte.valueOf(a)});
+                }
+                HID = IDString;
+                dev1.ReleaseDev();
+                return true;
+            }
+        }
+    }
+
+
 }
