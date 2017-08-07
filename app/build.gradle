@@ -105,7 +105,7 @@ dependencies {
     compile files('libs/dpuareu.jar')
 
     compile 'com.speedata:deivice:+'
-    compile 'com.speedata:libuhf:6.7'
+    compile 'com.speedata:libuhf:5.9'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.speedata:r6lib:1.5'
     compile 'com.speedata:psam:1.4.3'

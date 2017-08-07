@@ -7,7 +7,6 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,7 +18,7 @@ import android.widget.TextView;
 
 import com.spdata.factory.R;
 import com.speedata.libuhf.IUHFService;
-import com.speedata.libuhf.bean.Tag_Data;
+import com.speedata.libuhf.Tag_Data;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -49,12 +48,12 @@ public class SearchTagDialog extends Dialog implements
     private IUHFService iuhfService;
     private String model;
 
-    public SearchTagDialog(Context context, IUHFService iuhfService, String model) {
+    public SearchTagDialog(Context context,IUHFService iuhfService,String model) {
         super(context);
         // TODO Auto-generated constructor stub
         cont = context;
-        this.iuhfService = iuhfService;
-        this.model = model;
+        this.iuhfService=iuhfService;
+        this.model=model;
     }
 
     @Override
@@ -80,7 +79,6 @@ public class SearchTagDialog extends Dialog implements
         soundId = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
         Log.w("as3992_6C", "id is " + soundId);
 
-        //inventory_start(handler) 方法参考代码
 
         handler = new Handler() {
             @Override
@@ -94,18 +92,26 @@ public class SearchTagDialog extends Dialog implements
                         }
                     }
                     ArrayList<Tag_Data> ks = (ArrayList<Tag_Data>) msg.obj;
+                    String tmp[] = new String[ks.size()];
+                    for (int i = 0; i < ks.size(); i++) {
+                        byte[] nq = ks.get(i).epc;
+                        if (nq != null) {
+                            tmp[i] = new String();
+                            for (int j = 0; j < nq.length; j++) {
+                                tmp[i] += String.format("%02x ", nq[j]);
+                            }
+                        }
+                    }
                     int i, j;
-                    for (i = 0; i < ks.size(); i++) {
+                    for (i = 0; i < tmp.length; i++) {
                         for (j = 0; j < firm.size(); j++) {
-                            if (ks.get(i).epc.equals(firm.get(j).epc)) {
+                            if (tmp[i].equals(firm.get(j).epc)) {
                                 firm.get(j).valid++;
-                                firm.get(j).setRssi(ks.get(i).rssi);
                                 break;
                             }
                         }
                         if (j == firm.size()) {
-                            firm.add(new EpcDataBase(ks.get(i).epc, 1,
-                                    ks.get(i).rssi, ks.get(i).tid));
+                            firm.add(new EpcDataBase(tmp[i], 1));
                             if (cbb.isChecked()) {
                                 soundPool.play(soundId, 1, 1, 0, 0, 1);
                             }
@@ -116,7 +122,6 @@ public class SearchTagDialog extends Dialog implements
                         cont, android.R.layout.simple_list_item_1, firm);
                 EpcList.setAdapter(adapter);
                 Status.setText("Total: " + firm.size());
-
             }
         };
 
@@ -128,6 +133,7 @@ public class SearchTagDialog extends Dialog implements
 
     @Override
     protected void onStop() {
+        // TODO Auto-generated method stub
         Log.w("stop", "im stopping");
         if (inSearch) {
             iuhfService.inventory_stop();
@@ -149,41 +155,22 @@ public class SearchTagDialog extends Dialog implements
             dismiss();
         }
 
-        int inventoryStop = iuhfService.inventory_stop();
+        iuhfService.inventory_stop();
     }
 
     class EpcDataBase {
         String epc;
         int valid;
-        String rssi;
-        String tid_user;
 
-        public EpcDataBase(String e, int v, String rssi, String tid_user) {
+        public EpcDataBase(String e, int v) {
             // TODO Auto-generated constructor stub
             epc = e;
             valid = v;
-            this.rssi = rssi;
-            this.tid_user = tid_user;
-        }
-
-        public String getRssi() {
-            return rssi;
-        }
-
-        public void setRssi(String rssi) {
-            this.rssi = rssi;
         }
 
         @Override
         public String toString() {
-            if (TextUtils.isEmpty(tid_user)) {
-                return "EPC:" + epc + "\n"
-                        + "(" + "COUNT:" + valid + ")" + " RSSI:" + rssi+"\n";
-            } else {
-                return "EPC:" + epc + "\n"
-                        + "T/U:" + tid_user + "\n"
-                        + "(" + "COUNT:" + valid + ")" + " RSSI:" + rssi+"\n";
-            }
+            return epc + "  ( " + valid + " )";
         }
     }
 
@@ -191,4 +178,43 @@ public class SearchTagDialog extends Dialog implements
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                             long arg3) {
     }
+
+
+//    int select_UHF(String epc) {
+//
+//        Log.i("r2000", "selec epc " + epc);
+//        byte[] eepc;
+//        if (model.equals("FEILIXIN")) {
+//            eepc = getBytes(epc);
+//        } else {
+//            StringTokenizer sepc = new StringTokenizer(epc);
+//            eepc = new byte[sepc.countTokens()];
+//            int index = 0;
+//            while (sepc.hasMoreTokens()) {
+//                try {
+//                    eepc[index++] = (byte) Integer.parseInt(sepc.nextToken(), 16);
+//                } catch (NumberFormatException p) {
+//                    return -1;
+//                }
+//            }
+//        }
+//
+//        if (iuhfService.select_card(eepc) != 0) {
+//            return -1;
+//        }
+//        return 0;
+//    }
+
+    /**
+     * 将一个可能带空格的字符串，以Byte.parseByte的方法转化为byte数组
+     */
+//    private byte[] getBytes(String data) {
+//        String newData = data.trim().replace(" ", "");
+//        byte[] datas = new byte[newData.length()];
+//        int i;
+//        for (i = 0; i < datas.length; ++i) {
+//            datas[i] = Byte.parseByte(newData.substring(i, i + 1), 16);
+//        }
+//        return datas;
+//    }
 }

@@ -72,14 +72,14 @@ public class UhfAct extends FragActBase {
             EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
         } else {
             int length = read_area.length();
-            if (length != 24) {
+            if (length < 24) {
                 EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
             } else {
                 EventBus.getDefault().post(new MsgEvent("success", "读成功"));
             }
         }
 
-        int writeArea = iuhfService.write_area(3, "0", "0", "6", "000011112222333344445555");
+        int writeArea = iuhfService.write_area(3, "0", "0", "6", read_area);
         if (writeArea != 0) {
             EventBus.getDefault().post(new MsgEvent("failed", "写失败"));
         } else {
@@ -112,6 +112,11 @@ public class UhfAct extends FragActBase {
         SharedXmlUtil.getInstance(UhfAct.this).write("modle", "");
         try {
             iuhfService = UHFManager.getUHFService(UhfAct.this);
+            String s=SharedXmlUtil.getInstance(UhfAct.this).read("modle","");
+            if (s.equals("3992")){
+                tvRed.setVisibility(View.VISIBLE);
+                tvRed.setText("*无uhf模块*");
+            }
             newWakeLock();
             org.greenrobot.eventbus.EventBus.getDefault().register(this);
         } catch (Exception e) {
@@ -174,10 +179,14 @@ public class UhfAct extends FragActBase {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        UHFManager.closeUHFService();
-        wK.release();
-        EventBus.getDefault().unregister(this);
-        iuhfService = null;
+//        UHFManager.closeUHFService();
+        try {
+            wK.release();
+            EventBus.getDefault().unregister(this);
+            iuhfService = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -187,6 +196,8 @@ public class UhfAct extends FragActBase {
             if (openDev()) return;
         } catch (Exception e) {
             e.printStackTrace();
+            tvRed.setVisibility(View.VISIBLE);
+            tvRed.setText("*模块不识别*");
         }
     }
 

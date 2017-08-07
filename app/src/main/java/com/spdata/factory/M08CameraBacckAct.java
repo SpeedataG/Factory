@@ -8,20 +8,16 @@ import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CameraPreview;
@@ -47,7 +43,7 @@ import static android.R.attr.path;
  */
 @EActivity(R.layout.act_cammar_background)
 public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Callback,
-        View.OnClickListener, Camera.AutoFocusCallback, View.OnTouchListener  {
+        Camera.AutoFocusCallback  {
     @ViewById
     CustomTitlebar titlebar;
     @ViewById
@@ -76,14 +72,9 @@ public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Cal
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                Camera.Parameters parameters = myCamera.getParameters();//打开闪光灯
-                                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-                                myCamera.setParameters(parameters);
-                                myCamera.takePicture(shutterCallback, null, jpeg);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            myCamera.startPreview();   //开启预览
+                            myCamera.takePicture(shutterCallback, null, jpeg);
+
                         }
                     }).start();
                 } catch (Exception e) {
@@ -92,11 +83,58 @@ public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Cal
                 isClicked = false;
             }
             if (!isClicked) {
-                btnPass.setText("成功");
-                titlebar.setAttrs("拍照成功");
+                btnPass.setText("闪光拍照");
+                titlebar.setTitlebarNameText("拍照成功!");
+                btnPass.setEnabled(false);
                 count++;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            myCamera.startPreview();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                btnPass.setEnabled(true);
+//                                titlebar.setAttrs("请点击屏幕对焦！");
+                                isClicked = true;
+                            }
+                        });
+                    }
+                }).start();
             }
-        } else if (count == 1) {
+        } else if (count == 1) {//闪光拍照
+            if (isClicked) {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Camera.Parameters parameters = myCamera.getParameters();//打开闪光灯
+                            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                            myCamera.setParameters(parameters);
+                            myCamera.takePicture(shutterCallback, null, jpeg);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                isClicked = false;
+            }
+            if (!isClicked) {
+                titlebar.setTitlebarNameText("闪光灯拍照成功！");
+                count++;
+                btnPass.setText("成功");
+            }
+        } else if (count == 2) {
             setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_FINISH);
             finish();
         }
@@ -209,7 +247,6 @@ public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Cal
 
 
         initTitlebar();
-        btnPass.setEnabled(false);
         //获得控件
         mySurfaceView = (SurfaceView) findViewById(R.id.camera_surface);
         //获得句柄
@@ -219,20 +256,20 @@ public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Cal
         //设置类型
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         //设置监听
-        mySurfaceView.setOnClickListener(this);
-        titlebar.setTitlebarNameText("请点击屏幕进行对焦!");
-        myAutoFocusCallback = new Camera.AutoFocusCallback() {
-
-            public void onAutoFocus(boolean success, Camera camera) {
-                // TODO Auto-generated method stub
-                if (success)//success表示对焦成功
-                {
-                    myCamera.autoFocus(null); //自动对焦
-                } else {
-                    //未对焦成功
-                }
-            }
-        };
+//        mySurfaceView.setOnClickListener(this);
+//        titlebar.setTitlebarNameText("请点击屏幕进行对焦!");
+//        myAutoFocusCallback = new Camera.AutoFocusCallback() {
+//
+//            public void onAutoFocus(boolean success, Camera camera) {
+//                // TODO Auto-generated method stub
+//                if (success)//success表示对焦成功
+//                {
+//                    myCamera.autoFocus(null); //自动对焦
+//                } else {
+//                    //未对焦成功
+//                }
+//            }
+//        };
         InitData();
     }
 
@@ -242,39 +279,39 @@ public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Cal
                 ViewGroup.LayoutParams.MATCH_PARENT));
         ((FrameLayout) findViewById(R.id.layout)).addView(preview);
         preview.setKeepScreenOn(true);
-        mySurfaceView.setOnTouchListener(this);
+//        mySurfaceView.setOnTouchListener(this);
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                preview.pointFocus(event);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(
-                focus_index.getLayoutParams());
-        layout.setMargins((int) event.getX() - 60, (int) event.getY() - 60, 0, 0);
-
-        focus_index.setLayoutParams(layout);
-        focus_index.setVisibility(View.VISIBLE);
-
-        ScaleAnimation sa = new ScaleAnimation(3f, 1f, 3f, 1f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
-        sa.setDuration(800);
-        focus_index.startAnimation(sa);
-        handler.postAtTime(new Runnable() {
-            @Override
-            public void run() {
-                focus_index.setVisibility(View.INVISIBLE);
-            }
-        }, 800);
-        return false;
-    }
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        try {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+//                preview.pointFocus(event);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(
+//                focus_index.getLayoutParams());
+//        layout.setMargins((int) event.getX() - 60, (int) event.getY() - 60, 0, 0);
+//
+//        focus_index.setLayoutParams(layout);
+//        focus_index.setVisibility(View.VISIBLE);
+//
+//        ScaleAnimation sa = new ScaleAnimation(3f, 1f, 3f, 1f,
+//                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+//                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
+//        sa.setDuration(800);
+//        focus_index.startAnimation(sa);
+//        handler.postAtTime(new Runnable() {
+//            @Override
+//            public void run() {
+//                focus_index.setVisibility(View.INVISIBLE);
+//            }
+//        }, 800);
+//        return false;
+//    }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -320,26 +357,26 @@ public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Cal
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        try {
-            myCamera.autoFocus(new Camera.AutoFocusCallback() {
-                @Override
-                public void onAutoFocus(boolean success, Camera camera) {
-                    if (success) {
-                        initCamera();//实现相机的参数初始化
-                        camera.cancelAutoFocus();//只有加上了这一句，才会自动对焦。
-                        titlebar.setAttrs("对焦成功！");
-                        btnPass.setEnabled(true);
-                    } else {
-                        titlebar.setAttrs("对焦失败！");
-                    }
-                }
-            }); //自动对焦
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        try {
+//            myCamera.autoFocus(new Camera.AutoFocusCallback() {
+//                @Override
+//                public void onAutoFocus(boolean success, Camera camera) {
+//                    if (success) {
+//                        initCamera();//实现相机的参数初始化
+//                        camera.cancelAutoFocus();//只有加上了这一句，才会自动对焦。
+//                        titlebar.setAttrs("对焦成功！");
+//                        btnPass.setEnabled(true);
+//                    } else {
+//                        titlebar.setAttrs("对焦失败！");
+//                    }
+//                }
+//            }); //自动对焦
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     //相机参数的初始化设置
     private void initCamera() {

@@ -53,6 +53,7 @@
             android:text="盘点测试" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/read"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
