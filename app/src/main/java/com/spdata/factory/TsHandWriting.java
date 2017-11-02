@@ -53,12 +53,9 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
-
 
 import com.spdata.factory.application.App;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -109,7 +106,7 @@ public class TsHandWriting extends Activity {
                                             finish();
                                         }
                                     })
-                            .setNeutralButton("在测试一会", new DialogInterface.OnClickListener() {
+                            .setNeutralButton("再测试一会", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     remindTask task = new remindTask();

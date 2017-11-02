@@ -2,7 +2,7 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.os.Message;
-import android.serialport.SerialPortBackup;
+import android.serialport.SerialPort;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -74,12 +74,12 @@ public class OutGpsN55Act extends FragActBase {
 
     }
 
-    private SerialPortBackup mSerialPort;
+    private SerialPort mSerialPort;
 
     @AfterViews
     protected void main() {
         initTitlebar();
-        mSerialPort = new SerialPortBackup();
+        mSerialPort = new SerialPort();
         try {
             gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
             gpio.PowerOnDevice("120");

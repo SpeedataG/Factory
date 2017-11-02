@@ -135,7 +135,7 @@ public class MenuActivity extends FragActBase {
         if (model.equals("T450") || model.equals("KT55") || model.equals("T550") || model.equals("M55") || model.equals("KT55L")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "47"};
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "47", "35"};
         } else if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                 || model.equals("T80") || model.equals("T800") || model.equals("FC-K80") || model.equals("Biowolf LE")
                 || model.equals("N800") || model.equals("FC-PK80")) {
@@ -183,7 +183,7 @@ public class MenuActivity extends FragActBase {
         } else if (model.equals("M08")) {
             strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "13", "16", "17", "18", "19", "20", "21", "40", "23", "26", "30", "34", "37"};
-        } else if (model.equals("KT45Q") || model.equals("UHF45")|| model.equals("3000U")
+        } else if (model.equals("KT45Q") || model.equals("UHF45") || model.equals("3000U")
                 || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
                 || model.equals("PT145") || model.equals("TT43")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
@@ -191,6 +191,10 @@ public class MenuActivity extends FragActBase {
                     "23", "24", "26", "30", "31", "32", "34", "37",
                     "39", "43", "44"};
 
+        } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")|| Build.MODEL.equals("H5")|| Build.MODEL.equals("S1")|| Build.MODEL.equals("H5_35")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
+                    "13", "16", "17", "18", "19", "20", "21", "22", "23",
+                    "24", "25", "26", "30", "31", "37", "39",};
         } else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -439,7 +443,7 @@ public class MenuActivity extends FragActBase {
             case ACTION_SD_SCARD:
                 if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                         || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
-                        || model.equals("Biowolf LE")|| model.equals("N800") || model.equals("FC-PK80")) {
+                        || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")) {
                     openAct(SDCardkt80Act.class, true);
                 } else {
                     openAct(SDCardAct.class, true);
@@ -449,7 +453,7 @@ public class MenuActivity extends FragActBase {
                 openAct(WifiAct.class, true);
                 break;
             case ACTION_TOUCH_SCREEN:
-                if (model.equals("N80") || model.equals("M08")) {
+                if (model.equals("N80") || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("S1")) {
                     openAct(TsHandWriting.class, false);
                 } else {
                     openAct(TouchTest.class, false);
@@ -564,10 +568,12 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonN80Act.class, true);
                 } else if (model.equals("M08")) {
                     openAct(ButtonM08Act.class, true);
-                } else if (model.equals("KT45Q") || model.equals("UHF45")|| model.equals("3000U")
+                } else if (model.equals("KT45Q") || model.equals("UHF45") || model.equals("3000U")
                         || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
                         || model.equals("PT145") || model.equals("TT43")) {
                     openAct(ButtonKT45qAct.class, true);
+                } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("S1")) {
+                    openAct(ButtonS1Act.class, true);
                 }
                 break;
 
@@ -652,7 +658,6 @@ public class MenuActivity extends FragActBase {
                 break;
             case ACTION_EXPAND:
                 openAct(ExpandAct.class, true);
-                break;
         }
     }
 }

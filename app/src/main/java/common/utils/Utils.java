@@ -1,10 +1,10 @@
 package common.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.content.Context;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Utils {
 	public static void ShowMessage(Context context, String message,

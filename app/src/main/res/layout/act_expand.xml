@@ -80,7 +80,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="USB" />
+                android:text="USB指纹" />
 
         </LinearLayout>
 

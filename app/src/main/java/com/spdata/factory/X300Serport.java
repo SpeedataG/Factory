@@ -2,7 +2,7 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.os.Message;
-import android.serialport.SerialPortBackup;
+import android.serialport.SerialPort;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -103,14 +103,14 @@ public class X300Serport extends FragActBase {
 
     }
 
-    private SerialPortBackup mSerialPort;
+    private SerialPort mSerialPort;
     DeviceControl deviceControl;
     int fd;
 
     @AfterViews
     protected void main() {
         initTitlebar();
-        mSerialPort = new SerialPortBackup();
+        mSerialPort = new SerialPort();
         deviceControl = new DeviceControl("/sys/class/misc/mtgpio/pin");
     }
 

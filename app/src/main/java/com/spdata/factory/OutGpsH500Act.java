@@ -2,7 +2,7 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.os.Message;
-import android.serialport.SerialPortBackup;
+import android.serialport.SerialPort;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -57,7 +57,7 @@ public class OutGpsH500Act extends FragActBase {
     private Timer timer;
     private static final int TIME_TO_READDATA = 500;
     ReadTimerTask readTimerTask;
-    private SerialPortBackup mSerialPort;
+    private SerialPort mSerialPort;
 
     @Click
     void btn_start() {
@@ -89,7 +89,7 @@ public class OutGpsH500Act extends FragActBase {
         try {
             gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
             gpio.PowerOnDevice131();
-            mSerialPort = new SerialPortBackup();
+            mSerialPort = new SerialPort();
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
             fd = mSerialPort.getFd();
         } catch (IOException e) {

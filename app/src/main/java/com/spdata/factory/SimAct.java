@@ -76,7 +76,7 @@ public class SimAct extends FragActBase {
     @AfterViews
     protected void main() {
         initTitlebar();
-        String ss=getimei.getImsiAll(mContext);
+        String ss = getimei.getImsiAll(mContext);
 //        initQualcommDoubleSim();
 //
 //        titlebar.setAttrs(imei_1);
@@ -94,10 +94,10 @@ public class SimAct extends FragActBase {
         model = Build.MODEL;
 //        models = model.substring(0, 4);
         if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
-                model.equals("S510") || model.equals("H500A")||
-                model.equals("X300Q_OLED")||model.equals("X300Q_OLED_GPS")
-                ||model.equals("spda6735")||model.equals("DCD3")||model.equals("mt6753")
-                ||model.equals("M08")) {
+                model.equals("S510") || model.equals("H500A") ||
+                model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
+                || model.equals("spda6735") || model.equals("DCD3") || model.equals("mt6753")
+                || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("S1")) {
             tvInfor.setText("IMEI:" + imeiSIM1 + "\n");
             if (isCanUseSim()) {
                 tvInfor.append("SIM卡存在");
@@ -133,9 +133,9 @@ public class SimAct extends FragActBase {
                     @Override
                     public void run() {
                         if (model.equals("X300Q_X1") || model.equals("X300Q_P1") || model.equals("S510")
-                                || model.equals("H500A")|| model.equals("X300Q_OLED")
-                                ||model.equals("X300Q_OLED_GPS")||model.equals("spda6735")
-                                ||model.equals("DCD3")||model.equals("mt6753")||model.equals("M08")) {
+                                || model.equals("H500A") || model.equals("X300Q_OLED")
+                                || model.equals("X300Q_OLED_GPS") || model.equals("spda6735")
+                                || model.equals("DCD3") || model.equals("mt6753") || model.equals("M08")) {
                             if (isCanUseSim()) {
                                 setXml(App.KEY_SIM, App.KEY_FINISH);
                                 finish();
@@ -147,15 +147,16 @@ public class SimAct extends FragActBase {
                         } else if (model.equals("T450") || model.equals("KT80") || model.equals("KT55") ||
                                 model.equals("W6") || model.equals("S510") || model.equals("DB2_LVDS")
                                 || model.equals("KT50") || model.equals("KT50_B2") || model.equals("R40")
-                                || model.equals("T50")|| model.equals("KT50_YQ")
-                                ||model.equals("N80")||model.equals("N55") || model.equals("X55")
-                                || model.equals("N55/X55")|| model.equals("T550")|| model.equals("M55")
-                                || model.equals("KT55L")|| model.equals("RT801")
-                                || model.equals("T80") || model.equals("T800")|| model.equals("FC-K80")||
+                                || model.equals("T50") || model.equals("KT50_YQ")
+                                || model.equals("N80") || model.equals("N55") || model.equals("X55")
+                                || model.equals("N55/X55") || model.equals("T550") || model.equals("M55")
+                                || model.equals("KT55L") || model.equals("RT801")
+                                || model.equals("T80") || model.equals("T800") || model.equals("FC-K80") ||
                                 model.equals("Biowolf LE") || model.equals("KT45") || model.equals("UHF45")
-                                || model.equals("3000U")|| model.equals("N800") || model.equals("FC-PK80")
+                                || model.equals("3000U") || model.equals("N800") || model.equals("FC-PK80")
                                 || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
-                                || model.equals("PT145") || model.equals("TT43")) {
+                                || model.equals("PT145") || model.equals("TT43") || Build.MODEL.equals("S1_35")
+                                || Build.MODEL.equals("S1")) {
                             if (isSIM1Ready && isSIM2Ready) {
                                 setXml(App.KEY_SIM, App.KEY_FINISH);
                                 finish();

@@ -3,7 +3,7 @@ package com.spdata.factory;
 import android.content.Context;
 import android.hardware.SerialManager;
 import android.os.Message;
-import android.serialport.SerialPortBackup;
+import android.serialport.SerialPort;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -91,7 +91,7 @@ public class OutGpsS510Act extends FragActBase {
 
     private SerialManager mSerialManager = null;
     private static final String SERIAL_SERVICE = "serial";
-    private SerialPortBackup mSerialPort;
+    private SerialPort mSerialPort;
     private byte[] tmpbuf = new byte[1024];
     private static final int count = 0;
 
@@ -103,7 +103,7 @@ public class OutGpsS510Act extends FragActBase {
         gpio.PowerOnDevice72();
         gpio.PowerOnDevice73();
         gpio.PowerOnDevice87();
-        mSerialPort = new SerialPortBackup();
+        mSerialPort = new SerialPort();
 //        timer = new Timer();
 //        readTimerTask = new ReadTimerTask();
     }

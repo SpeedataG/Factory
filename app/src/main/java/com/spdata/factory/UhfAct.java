@@ -60,11 +60,13 @@ public class UhfAct extends FragActBase {
         setXml(App.KEY_UHF, App.KEY_UNFINISH);
         finish();
     }
+
     @Click
     void pandian() {
         SearchTagDialog searchTag = new SearchTagDialog(this, iuhfService, "");
         searchTag.show();
     }
+
     @Click
     void read() {
         String read_area = iuhfService.read_area(3, "0", "6", "0");
@@ -109,11 +111,12 @@ public class UhfAct extends FragActBase {
     @AfterViews
     protected void main() {
         initTitlebar();
+
         SharedXmlUtil.getInstance(UhfAct.this).write("modle", "");
         try {
             iuhfService = UHFManager.getUHFService(UhfAct.this);
-            String s=SharedXmlUtil.getInstance(UhfAct.this).read("modle","");
-            if (s.equals("3992")){
+            String s = SharedXmlUtil.getInstance(UhfAct.this).read("modle", "");
+            if (s.equals("3992")) {
                 tvRed.setVisibility(View.VISIBLE);
                 tvRed.setText("*无uhf模块*");
             }
@@ -211,6 +214,4 @@ public class UhfAct extends FragActBase {
             e.printStackTrace();
         }
     }
-
-
 }
