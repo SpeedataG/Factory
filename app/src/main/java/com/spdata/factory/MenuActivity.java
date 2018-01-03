@@ -3,12 +3,18 @@ package com.spdata.factory;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.bean.ListItem;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -21,10 +27,10 @@ import common.adapter.CommonAdapter;
 import common.adapter.ViewHolder;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+import common.utils.permissUtils;
 
 @EActivity(R.layout.activity_menu)
 public class MenuActivity extends FragActBase {
-
     @ViewById
     ListView listMenu;
     private String[] strings;
@@ -98,14 +104,30 @@ public class MenuActivity extends FragActBase {
     private final static int ACTION_GAS_SENSOR = 45;//气体传感器
     private final static int ACTION_CAMERA_USB = 46;//DCD3矿灯摄像头
     private final static int ACTION_EXPAND = 47;//KT55触点检测
-    private String[] meneList = {"版本信息", "休眠唤醒", "按键", "屏幕显示",
-            "触屏", "亮度调节", "小屏幕", "指示灯", "SD卡", "SIM卡", "后置相机/闪光",
-            "手电筒", "前置相机", "喇叭", "扫描", "耳机MIC", "主机MIC", "wifi",
-            "蓝牙", "GPS", "NFC", "USB", "OTG", "有线充电", "加速传感器", "光感",
-            "打电话", "EEPROM", "外置GPS", "激光", "震动器", "电子罗盘", "听筒",
-            "虹膜摄像头", "PSAM", "指纹&ID2", "无线充电", "多点触摸", "气压计", "重力感应"
-            , "U盘", "磁吸附充电", "串口孔", "高频RFID", "超高频UHF", "气体传感器",
-            "矿灯摄像头", "触点检测"};
+    private String[] meneList = {"版本信息", "休眠唤醒", "按键", "屏幕显示", "触屏",
+            "亮度调节", "小屏幕", "指示灯", "SD卡", "SIM卡",
+            "后置相机/闪光", "手电筒", "前置相机", "喇叭", "扫描",
+            "耳机MIC", "主机MIC", "wifi", "蓝牙", "GPS",
+            "NFC", "USB", "OTG", "有线充电", "加速传感器",
+            "光感", "打电话", "EEPROM", "外置GPS", "激光",
+            "震动器", "电子罗盘", "听筒", "虹膜摄像头", "PSAM",
+            "指纹&ID2", "无线充电", "多点触摸", "气压计", "重力感应"
+            , "U盘", "磁吸附充电", "串口孔", "高频RFID", "超高频UHF",
+            "气体传感器", "矿灯摄像头", "触点检测"};
+    private String nulls[] = new String[0];
+    private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
+    private String wifi[] = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_WIFI_STATE"};
+    private String[][] permissBytes = {nulls, nulls, nulls, nulls, nulls,
+            nulls, nulls, nulls, Permission.STORAGE, Permission.PHONE,
+            Permission.CAMERA, Permission.CAMERA, Permission.CAMERA, nulls, nulls,
+            Permission.MICROPHONE, Permission.MICROPHONE, wifi, Permission.LOCATION, Permission.LOCATION,
+            nulls, nulls, nulls, nulls, nulls,
+            nulls, nulls, nulls, nulls, nulls,
+            nulls, nulls, nulls, nulls, nulls,
+            nulls, nulls, nulls, nulls, nulls,
+            nulls, nulls, nulls, nulls, nulls,
+            nulls, nulls};
+    List<permissUtils> permissUtilses = new ArrayList<>();
 
     private List<ListItem> listItemList = new ArrayList<>();
     WifiManager mWifiManager;
@@ -118,8 +140,32 @@ public class MenuActivity extends FragActBase {
 //        updateVersion.startUpdate();
         initList();
         mWifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-
-
+        permissUtilses.clear();
+        for (int i = 0; i < 48; i++) {
+            permissUtils permissUtils = null;
+            if (i == 8) {
+                permissUtils = new permissUtils(Permission.STORAGE);
+                permissUtilses.add(permissUtils);
+            } else if (i == 9) {
+                permissUtils = new permissUtils(Permission.PHONE);
+                permissUtilses.add(permissUtils);
+            } else if (i == 10 || i == 11 || i == 12) {
+                permissUtils = new permissUtils(Permission.CAMERA);
+                permissUtilses.add(permissUtils);
+            } else if (i == 15 || i == 16) {
+                permissUtils = new permissUtils(Permission.MICROPHONE);
+                permissUtilses.add(permissUtils);
+            } else if (i == 17) {
+                permissUtils = new permissUtils(wifi);
+                permissUtilses.add(permissUtils);
+            } else if (i == 18 || i == 19) {
+                permissUtils = new permissUtils(Permission.LOCATION);
+                permissUtilses.add(permissUtils);
+            } else {
+                permissUtils = new permissUtils(nulls);
+                permissUtilses.add(permissUtils);
+            }
+        }
     }
 
     // 打开WIFI
@@ -150,7 +196,8 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "8", "9", "10", "11", "13",
                     "15", "16", "17", "18", "20", "21", "22", "23", "24", "25", "26", "27",
                     "28", "30", "31", "37", "38", "39"};
-        } else if (model.equals("KT50") || model.equals("KT50_B2")
+//
+        } else if (model.equals("KT50")|| model.equals("KT50_B2")
                 || model.equals("R40") || model.equals("T50") || model.equals("KT50_YQ")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
@@ -191,15 +238,16 @@ public class MenuActivity extends FragActBase {
                     "23", "24", "26", "30", "31", "32", "34", "37",
                     "39", "43", "44"};
 
-        } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")|| Build.MODEL.equals("H5")|| Build.MODEL.equals("S1")|| Build.MODEL.equals("H5_35")) {
+        } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53") || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "16", "17", "18", "19", "20", "21", "22", "23",
                     "24", "25", "26", "30", "31", "37", "39",};
         } else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "37",
-                    "39", "43", "42", "44"};
+                    "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
+                    "35", "36", "37", "38",
+                    "39", "40", "41", "42", "43", "44", "45", "46", "47"};
         }
 
         for (int i = 0; i < strings.length; i++) {
@@ -241,7 +289,11 @@ public class MenuActivity extends FragActBase {
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                gotoNextPage(Integer.parseInt(strings[position]));
+//                gotoNextPage(Integer.parseInt(strings[position]));
+//                Log.i("factory", "permiss" + strings[position] + "$$$$$$$$$$" + permissBytes[Integer.parseInt(strings[position])][permissBytes[Integer.parseInt(strings[position])].length - 1] +
+//                        "&&&&" + permissBytes[Integer.parseInt(strings[position])].length);
+//                permiss(Integer.parseInt(strings[position]), permissBytes[Integer.parseInt(strings[position])][permissBytes[Integer.parseInt(strings[position])].length]);
+                permiss(Integer.parseInt(strings[position]), permissUtilses.get(Integer.parseInt(strings[position])).getPermiss());
             }
         });
     }
@@ -415,15 +467,12 @@ public class MenuActivity extends FragActBase {
     }
 
 
-    private int selectPosition = 0;
-
     /**
      * 跳转到对应的测试界面
      *
      * @param position
      */
     private void gotoNextPage(int position) {
-        selectPosition = position;
         switch (position) {
             case ACTION_VERSION:
                 openAct(VersionAct.class, true);
@@ -453,11 +502,11 @@ public class MenuActivity extends FragActBase {
                 openAct(WifiAct.class, true);
                 break;
             case ACTION_TOUCH_SCREEN:
-                if (model.equals("N80") || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("S1")) {
-                    openAct(TsHandWriting.class, false);
-                } else {
-                    openAct(TouchTest.class, false);
-                }
+//                if (model.equals("N80") || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("S1")) {
+                openAct(TsHandWriting.class, false);
+//                } else {
+//                    openAct(TouchTest.class, false);
+//                }
 
                 break;
             case ACTION_LIGHT:
@@ -494,12 +543,9 @@ public class MenuActivity extends FragActBase {
                     openAct(DCD3CammerBackgroundAct.class, true);
                 } else if (model.equals("M08")) {
                     openAct(M08CameraBacckAct.class, true);
-
                 } else {
                     openAct(CammerBackgroundAct.class, true);
-
                 }
-
                 break;
             case ACTION_SIM:
                 openAct(SimAct.class, true);
@@ -572,7 +618,7 @@ public class MenuActivity extends FragActBase {
                         || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
                         || model.equals("PT145") || model.equals("TT43")) {
                     openAct(ButtonKT45qAct.class, true);
-                } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("S1")) {
+                } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53") || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")) {
                     openAct(ButtonS1Act.class, true);
                 }
                 break;
@@ -660,4 +706,36 @@ public class MenuActivity extends FragActBase {
                 openAct(ExpandAct.class, true);
         }
     }
+
+
+    public void permiss(int i, String[] s) {
+        if (s.length < 0) {
+            gotoNextPage(i);
+        } else {
+            AndPermission.with(MenuActivity.this).requestCode(i).permission(s)
+                    .callback(permissionListener).rationale(new RationaleListener() {
+                @Override
+                public void showRequestPermissionRationale(int i, Rationale rationale) {
+                    AndPermission.rationaleDialog(MenuActivity.this, rationale).show();
+                }
+            }).start();
+        }
+    }
+
+    PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onSucceed(int i, @NonNull List<String> list) {
+            gotoNextPage(i);
+//            Toast.makeText(MenuActivity.this, "成功", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onFailed(int i, @NonNull List<String> list) {
+            // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+            if (AndPermission.hasAlwaysDeniedPermission(MenuActivity.this, list)) {
+                AndPermission.defaultSettingDialog(MenuActivity.this, 300).show();
+            }
+        }
+    };
+
 }

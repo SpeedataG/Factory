@@ -32,6 +32,7 @@ public class SDCardAct extends FragActBase {
     @ViewById
     Button btnNotPass;
 
+
     @Click
     void btnNotPass() {
         setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
@@ -80,20 +81,34 @@ public class SDCardAct extends FragActBase {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("\n内置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[0])
                 + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[0]));
-       String s= sdUtils.getSDAvailableSize(volumePaths[1]);
-        stringBuffer.append("\n外置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[1])
-                + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[1]));
-        tvInfor.setText(stringBuffer);
-        tvInfor.setText("SD卡检测成功");
-        for (int i = 0; i < 2; i++) {
+        tvInfor.append(stringBuffer);
+        if (volumePaths.length > 1) {
+            stringBuffer.append("\n外置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[1])
+                    + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[1]));
+            tvInfor.append(stringBuffer);
+            for (int i = 0; i < 2; i++) {
+                try {
+                    sdUtils.copyBigDataToSD(volumePaths[i]);
+                    tvInfor.append("\nSDCopy文件成功");
+                    yes = 1;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    yes = 2;
+                    tvInfor.append("\nSD卡Copy文件失败");
+                }
+            }
+
+        } else {
             try {
-                sdUtils.copyBigDataToSD(volumePaths[i]);
+                sdUtils.copyBigDataToSD(volumePaths[0]);
+                tvInfor.append("\n内置SDCopy文件成功");
                 yes = 1;
             } catch (IOException e) {
                 e.printStackTrace();
                 yes = 2;
-                tvInfor.setText("SD卡检测失败");
+                tvInfor.append("\n内置SD卡Copy文件失败");
             }
+
         }
         task = new remindTask();
         remind(task);
@@ -123,8 +138,11 @@ public class SDCardAct extends FragActBase {
     }
 
     public void finishTimer() {
-        timer.cancel();
-        task.cancel();
+        if (timer != null && task != null) {
+            task.cancel();
+            timer.cancel();
+        }
+
     }
 
     @Override

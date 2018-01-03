@@ -40,7 +40,6 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
     private static final String TAG = "AudioFxActivity";
     private static final float VISUALIZER_HEIGHT_DIP = 160f;
     private MediaPlayer mMediaPlayer;
-
     @Click
     void btnPass() {
         setXml(App.KEY_BELL, App.KEY_FINISH);

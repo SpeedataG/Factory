@@ -16,8 +16,6 @@ import org.androidannotations.annotations.ViewById;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 
-import static com.spdata.factory.R.id.btn_del;
-
 /**
  * Created by lenovo-pc on 2017/9/13.
  */
@@ -343,7 +341,7 @@ public class ButtonS1Act extends FragActBase {
                 return true;
             }
         }
-        else if (keyCode == KeyEvent.KEYCODE_STAR) {//*
+        else if (keyCode == KeyEvent.KEYCODE_STAR||keyCode==KeyEvent.KEYCODE_MINUS) {//*
             if (btn_mi.isPressed()) {
                 btn_mi.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_mi.setPressed(false);
@@ -354,7 +352,7 @@ public class ButtonS1Act extends FragActBase {
                 isall();
                 return true;
             }
-        } else if (keyCode == KeyEvent.KEYCODE_POUND) {//#
+        } else if (keyCode == KeyEvent.KEYCODE_POUND||keyCode==KeyEvent.KEYCODE_PERIOD) {//#
             if (btn_jing.isPressed()) {
                 btn_jing.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_jing.setPressed(false);

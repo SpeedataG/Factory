@@ -89,28 +89,37 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                 titlebar.setTitlebarNameText("拍照成功!");
                 btnPass.setEnabled(false);
                 count++;
-                new Thread(new Runnable() {
+                handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            myCamera.startPreview();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                titlebar.setAttrs("请点击屏幕对焦！");
-                                isClicked = true;
-                            }
-                        });
+//                myCamera.stopPreview();
+                myCamera.startPreview();
+                titlebar.setAttrs("请点击屏幕对焦！");
+                isClicked = true;
                     }
-                }).start();
+                },3000);
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            Thread.sleep(3000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                        try {
+//                            myCamera.startPreview();
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                titlebar.setAttrs("请点击屏幕对焦！");
+//                                isClicked = true;
+//                            }
+//                        });
+//                    }
+//                }).start();
             }
         } else if (count == 1) {//闪光拍照
             if (isClicked) {
@@ -204,7 +213,6 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                             ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
                 }
             }).start();
-
 //            mcamera2.cancelAutoFocus(); //这一句很关键
 //            mcamera.cancelAutoFocus(); //这一句很关键
 
@@ -342,6 +350,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                 myCamera.setPreviewDisplay(holder);
             } catch (IOException e) {
                 e.printStackTrace();
+                showToast("打开相机失败！");
             }
         }
     }

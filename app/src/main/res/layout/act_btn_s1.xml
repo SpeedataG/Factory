@@ -120,9 +120,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_weight="1"
-                android:visibility="invisible"
                 android:background="#cec7c7"
-                android:text="fn" />
+                android:text="fn"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btn_xia"
@@ -155,7 +155,7 @@
                 android:layout_height="25dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="1" />
+                android:text="1,.?" />
 
             <Button
                 android:id="@+id/btn_2"
@@ -164,7 +164,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="2" />
+                android:text="2ABC" />
 
             <Button
                 android:id="@+id/btn_3"
@@ -173,16 +173,16 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="3" />
+                android:text="3DEF" />
 
             <Button
-                android:id="@+id/btn_4"
+                android:id="@+id/btn_backspace"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="4" />
+                android:text="←" />
         </LinearLayout>
 
         <LinearLayout
@@ -192,12 +192,21 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btn_4"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:background="#cec7c7"
+                android:text="4GHI" />
+
+            <Button
                 android:id="@+id/btn_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="5" />
+                android:text="5JKL" />
 
             <Button
                 android:id="@+id/btn_6"
@@ -206,16 +215,33 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="6" />
+                android:text="6MNO" />
 
             <Button
-                android:id="@+id/btn_7"
+                android:id="@+id/btn_space"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="7" />
+                android:text="space" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/btn_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#cec7c7"
+                android:text="7PQRS" />
 
             <Button
                 android:id="@+id/btn_8"
@@ -224,22 +250,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="8" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_space"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#cec7c7"
-                android:text="space" />
+                android:text="8TUV" />
 
             <Button
                 android:id="@+id/btn_9"
@@ -248,7 +259,33 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="9" />
+                android:text="9WXYZ" />
+
+
+            <Button
+                android:id="@+id/btn_shift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="#cec7c7"
+                android:text="shift"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/btn_mi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#cec7c7"
+                android:text="-*" />
 
             <Button
                 android:id="@+id/btn_0"
@@ -257,41 +294,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="0" />
-
-            <Button
-                android:id="@+id/btn_shift"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:visibility="invisible"
-                android:background="#cec7c7"
-                android:text="shift" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_backspace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#cec7c7"
-                android:text="backspace" />
-
-            <Button
-                android:id="@+id/btn_mi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:background="#cec7c7"
-                android:text="*" />
+                android:text="0_" />
 
             <Button
                 android:id="@+id/btn_jing"
@@ -300,7 +303,15 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="#" />
+                android:text=".#" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="shift"
+                android:visibility="invisible" />
 
         </LinearLayout>
 

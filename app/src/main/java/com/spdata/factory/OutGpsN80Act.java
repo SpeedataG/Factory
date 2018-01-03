@@ -107,8 +107,10 @@ public class OutGpsN80Act extends FragActBase {
             deviceControl = new DeviceControl("/sys/class/misc/mtgpio/pin");
             deviceControl.PowerOnDevice("63");
             deviceControl.PowerOnDevice("99");
-            SystemClock.sleep(500);
+            SystemClock.sleep(200);
             mSerialPort.OpenSerial(SERIAL_TTYMT1, 9600);
+            SystemClock.sleep(50);
+
             threads = new Threads();
             threads.start();
         } catch (IOException e) {
@@ -121,16 +123,17 @@ public class OutGpsN80Act extends FragActBase {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String datas = DataConversionUtils.byteArrayToString((byte[]) msg.obj);
-            if (datas.indexOf("b562050102000617254e") >= 0) {
-                showToast("成功");
-                setXml(App.KEY_GPS_OUT, App.KEY_FINISH);
-                finish();
-            } else {
-                showToast("失败");
-                setXml(App.KEY_GPS_OUT, App.KEY_UNFINISH);
-                finish();
-            }
             tv_gps.setText(datas);
+//            if (datas.indexOf("b562050102000617254e") >= 0) {
+            showToast("成功");
+            setXml(App.KEY_GPS_OUT, App.KEY_FINISH);
+            finish();
+//            } else {
+//                showToast("失败");
+//                setXml(App.KEY_GPS_OUT, App.KEY_UNFINISH);
+//                finish();
+//            }
+
 
         }
     };
@@ -141,7 +144,7 @@ public class OutGpsN80Act extends FragActBase {
             super.run();
             while (!isInterrupted()) {
                 mSerialPort.WriteSerialByte(mSerialPort.getFd(), senCmd);
-                SystemClock.sleep(200);
+//                SystemClock.sleep(400);
                 byte data[] = new byte[0];
                 try {
                     data = mSerialPort.ReadSerial(mSerialPort.getFd(), 1024);
@@ -151,6 +154,7 @@ public class OutGpsN80Act extends FragActBase {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
+                SystemClock.sleep(40);
             }
         }
     }
