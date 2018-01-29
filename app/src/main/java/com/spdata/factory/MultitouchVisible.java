@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.MTView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -94,6 +94,18 @@ public class MultitouchVisible extends Activity {
     public void finishTimer() {
         timer.cancel();
         task.cancel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

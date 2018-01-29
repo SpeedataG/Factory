@@ -102,6 +102,9 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             </intent-filter>
         </activity>
+        <!--友盟添加-->
+        <meta-data android:value="5a5330cea40fa354840001d2" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="factory" android:name="UMENG_CHANNEL"/>
         <activity
             android:name=".GPSTest"
             android:launchMode="singleTop"

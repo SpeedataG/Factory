@@ -1,6 +1,5 @@
 package com.spdata.factory;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.KeyEvent;
@@ -72,6 +71,8 @@ public class ButtonKT50Act extends FragActBase {
     Button btn_vol_down;
     @ViewById
     Button btn_camera;
+    @ViewById
+    Button btn_scan2;
 
     boolean isOneClick = true;
 
@@ -146,17 +147,22 @@ public class ButtonKT50Act extends FragActBase {
             }
 
         } else if (keyCode == KeyEvent.KEYCODE_F5) {
-            if (btn_scan.isPressed()) {
+            if (btn_scan.isPressed()&&btn_scan2.isPressed()) {
                 btn_scan.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_scan.setPressed(false);
+                btn_scan2.setBackgroundColor(Color.parseColor("#CEC7C7"));
+                btn_scan2.setPressed(false);
                 return true;
             } else {
                 btn_scan.setBackgroundColor(Color.parseColor("#0AF229"));
                 btn_scan.setPressed(true);
+                btn_scan2.setBackgroundColor(Color.parseColor("#0AF229"));
+                btn_scan2.setPressed(true);
                 return true;
             }
 
-        } else if (keyCode == KeyEvent.KEYCODE_DEL) {
+
+        }  else if (keyCode == KeyEvent.KEYCODE_DEL) {
             if (btn_del.isPressed()) {
                 btn_del.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_del.setPressed(false);
@@ -336,7 +342,7 @@ public class ButtonKT50Act extends FragActBase {
                 btn_space.setPressed(true);
                 return true;
             }
-        } else if (keyCode == KeyEvent.KEYCODE_F4) {
+        } else if (keyCode == KeyEvent.KEYCODE_F1) {
             if (btn_display.isPressed()) {
                 btn_display.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_display.setPressed(false);

@@ -14,6 +14,7 @@ import android.view.WindowManager;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.LcdDrawView;
+import com.umeng.analytics.MobclickAgent;
 
 import common.utils.SharedXmlUtil;
 
@@ -81,6 +82,7 @@ public class DisplayTest extends Activity {
         LcdDrawView.flag = 0;
         finished = false;
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -99,6 +101,7 @@ public class DisplayTest extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         //去掉虚拟按键全屏显示
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         //点击屏幕不再显示

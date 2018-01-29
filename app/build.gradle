@@ -30,6 +30,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "v1.5.3" + "-build-" + getDate() + "-" + versionCode
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -103,13 +104,17 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'org.androidannotations:androidannotations:3.2'
     compile files('libs/dpuareu.jar')
-
     compile 'com.speedata:deivice:+'
     compile 'com.speedata:libuhf:6.9.4'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.speedata:r6lib:1.5'
     compile 'com.speedata:psam:1.4.3'
     compile 'com.yanzhenjie:permission:1.1.2'
+    //友盟sdk添加
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile files('libs/poi-3.6-20091214.jar')
+
+    compile 'com.android.support:multidex:1.0.0'
 }
 
 //    compile 'com.github.wqandroid:wqgallery:3.1.0'

@@ -1,6 +1,7 @@
 package com.spdata.factory;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -86,9 +87,9 @@ public class SDCardAct extends FragActBase {
             stringBuffer.append("\n外置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[1])
                     + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[1]));
             tvInfor.append(stringBuffer);
-            for (int i = 0; i < 2; i++) {
+            if (Build.VERSION.RELEASE.equals("6.0")) {
                 try {
-                    sdUtils.copyBigDataToSD(volumePaths[i]);
+                    sdUtils.copyBigDataToSD(volumePaths[0]);
                     tvInfor.append("\nSDCopy文件成功");
                     yes = 1;
                 } catch (IOException e) {
@@ -96,7 +97,20 @@ public class SDCardAct extends FragActBase {
                     yes = 2;
                     tvInfor.append("\nSD卡Copy文件失败");
                 }
+            }else {
+                for (int i = 0; i < 2; i++) {
+                    try {
+                        sdUtils.copyBigDataToSD(volumePaths[i]);
+                        tvInfor.append("\nSDCopy文件成功");
+                        yes = 1;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        yes = 2;
+                        tvInfor.append("\nSD卡Copy文件失败");
+                    }
+                }
             }
+
 
         } else {
             try {

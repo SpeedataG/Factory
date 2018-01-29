@@ -16,7 +16,9 @@
 
 package com.spdata.factory.application;
 
+import android.content.Context;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 
 import common.base.BaseApplication;
 import common.base.dialog.ToastUtils;
@@ -64,23 +66,28 @@ public class App extends BaseApplication implements AppConst {
     public static final String KEY_EEPROM = "eeprom";
     public static final String KEY_GPS_OUT = "gps_out";//外置gps
     public static final String KEY_LASER = "laser";//激光
-    public static final String KEY_VIBRATE ="vibrate";//震动器
-    public static final String KEY_BAROMETER ="barometer";//气压计
-    public static final String KEY_ZHONGLI ="zhongli";//重力感应
-    public static final String KEY_USBPLATE ="usbplate";//u盘
-    public static final String KEY_MAGLEV ="maglev";//磁悬附充电
-    public static final String KEY_SERIALPORT  ="serrialport";//串口孔
-    public static final String KEY_R6  ="r6";//高频
-    public static final String KEY_UHF ="uhf";//超高频sensor
-    public static final String KEY_GAS_SENSOR ="gassensor";//气体传感器
-    public static final String KEY_CAMERA_USB ="camerausb";//dcd3相机
-    public static final String KEY_EXPAND ="camerausb";//KT55触点测试
+    public static final String KEY_VIBRATE = "vibrate";//震动器
+    public static final String KEY_BAROMETER = "barometer";//气压计
+    public static final String KEY_ZHONGLI = "zhongli";//重力感应
+    public static final String KEY_USBPLATE = "usbplate";//u盘
+    public static final String KEY_MAGLEV = "maglev";//磁悬附充电
+    public static final String KEY_SERIALPORT = "serrialport";//串口孔
+    public static final String KEY_R6 = "r6";//高频
+    public static final String KEY_UHF = "uhf";//超高频sensor
+    public static final String KEY_GAS_SENSOR = "gassensor";//气体传感器
+    public static final String KEY_CAMERA_USB = "camerausb";//dcd3相机
+    public static final String KEY_EXPAND = "camerausb";//KT55触点测试
+    public static final String KEY_EXPORT = "export";//导出测试结果
 
     public static App getInstance() {
         return instance;
     }
 
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
     @Override
     public void onCreate() {
         super.onCreate();

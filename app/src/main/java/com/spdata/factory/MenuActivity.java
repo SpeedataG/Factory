@@ -4,12 +4,14 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.bean.ListItem;
+import com.spdata.factory.bean.ResultState;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -21,12 +23,15 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import common.adapter.CommonAdapter;
 import common.adapter.ViewHolder;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+import common.utils.ExcelUtil;
 import common.utils.permissUtils;
 
 @EActivity(R.layout.activity_menu)
@@ -104,6 +109,7 @@ public class MenuActivity extends FragActBase {
     private final static int ACTION_GAS_SENSOR = 45;//气体传感器
     private final static int ACTION_CAMERA_USB = 46;//DCD3矿灯摄像头
     private final static int ACTION_EXPAND = 47;//KT55触点检测
+    private final static int ACTION_EXPORT = 48;//KT55触点检测
     private String[] meneList = {"版本信息", "休眠唤醒", "按键", "屏幕显示", "触屏",
             "亮度调节", "小屏幕", "指示灯", "SD卡", "SIM卡",
             "后置相机/闪光", "手电筒", "前置相机", "喇叭", "扫描",
@@ -113,7 +119,7 @@ public class MenuActivity extends FragActBase {
             "震动器", "电子罗盘", "听筒", "虹膜摄像头", "PSAM",
             "指纹&ID2", "无线充电", "多点触摸", "气压计", "重力感应"
             , "U盘", "磁吸附充电", "串口孔", "高频RFID", "超高频UHF",
-            "气体传感器", "矿灯摄像头", "触点检测"};
+            "气体传感器", "矿灯摄像头", "触点检测", "导出测试结果"};
     private String nulls[] = new String[0];
     private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
     private String wifi[] = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_WIFI_STATE"};
@@ -130,7 +136,36 @@ public class MenuActivity extends FragActBase {
     List<permissUtils> permissUtilses = new ArrayList<>();
 
     private List<ListItem> listItemList = new ArrayList<>();
-    WifiManager mWifiManager;
+    private WifiManager mWifiManager;
+
+    /**
+     * 导出测试结果到sd卡
+     */
+    private void exportFile() {
+        List<ResultState> list = new ArrayList<>();
+        for (int i = 0; i < strings.length - 1; i++) {
+            ResultState bean = new ResultState();
+            int index = Integer.parseInt(strings[i]);
+            String title = meneList[index];
+            bean.setName(title);
+            bean.setNum(1 + i);
+            if (listItemList.get(i).getState().equals(App.KEY_FINISH)) {
+                bean.setContent("Pass");
+            } else if (listItemList.get(i).getState().equals(App.KEY_UNFINISH)) {
+                bean.setContent("Fail");
+            } else {
+                bean.setContent("null");
+            }
+            list.add(bean);
+        }
+        //导出Excel表格
+        Map<String, String> titleMap = new LinkedHashMap<String, String>();
+        titleMap.put("num", "序号");
+        titleMap.put("name", "测试项");
+        titleMap.put("content", "状态");
+        TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        ExcelUtil.excelExport(MenuActivity.this, list, titleMap, "Factory-" + mgr.getDeviceId());
+    }
 
     @AfterViews
     protected void main() {
@@ -141,7 +176,7 @@ public class MenuActivity extends FragActBase {
         initList();
         mWifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         permissUtilses.clear();
-        for (int i = 0; i < 48; i++) {
+        for (int i = 0; i < 49; i++) {
             permissUtils permissUtils = null;
             if (i == 8) {
                 permissUtils = new permissUtils(Permission.STORAGE);
@@ -181,73 +216,73 @@ public class MenuActivity extends FragActBase {
         if (model.equals("T450") || model.equals("KT55") || model.equals("T550") || model.equals("M55") || model.equals("KT55L")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "47", "35"};
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "47", "35", "48"};
         } else if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                 || model.equals("T80") || model.equals("T800") || model.equals("FC-K80") || model.equals("Biowolf LE")
                 || model.equals("N800") || model.equals("FC-PK80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23",
-                    "24", "25", "26", "30", "31", "37", "39", "40", "41", "42"};
+                    "24", "25", "26", "30", "31", "37", "39", "40", "41", "42", "48"};
         } else if (model.equals("S510")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "15", "16", "17", "18", "21", "22", "23", "24", "25", "26",
-                    "28", "30", "31", "32", "38", "37", "39"};
+                    "28", "30", "31", "32", "38", "37", "39", "48"};
         } else if (model.equals("DB2_LVDS")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "8", "9", "10", "11", "13",
                     "15", "16", "17", "18", "20", "21", "22", "23", "24", "25", "26", "27",
-                    "28", "30", "31", "37", "38", "39"};
+                    "28", "30", "31", "37", "38", "39", "48"};
 //
-        } else if (model.equals("KT50")|| model.equals("KT50_B2")
+        } else if (model.equals("KT50") || model.equals("KT50_B2")
                 || model.equals("R40") || model.equals("T50") || model.equals("KT50_YQ")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
-                    "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
-                    "26", "30", "31", "32", "37", "39", "43", "44"};
+                    "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
+                    "26", "30", "31", "32", "34", "37", "39", "43", "44", "48"};
         } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                 model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27",
-                    "28", "29", "30", "32", "31", "37", "38", "39"};
+                    "28", "29", "30", "32", "31", "37", "38", "39", "48"};
         } else if (model.equals("H500A")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "16", "17", "18", "20", "21", "23", "24", "25", "26",
-                    "28", "30", "32", "31", "37", "39"};
+                    "28", "30", "32", "31", "37", "39", "48"};
         } else if (model.equals("N80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "15", "16", "17", "18", "20", "21", "22", "23",
-                    "24", "25", "26", "28", "30", "31", "37", "39", "38"};
+                    "24", "25", "26", "28", "30", "31", "37", "39", "38", "48"};
         } else if (model.equals("N55") || model.equals("X55") || model.equals("N55/X55")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "20", "21", "22",
-                    "23", "24", "25", "26", "28", "30", "31", "32", "37", "39"};
+                    "23", "24", "25", "26", "28", "30", "31", "32", "37", "39", "48"};
         } else if (model.equals("spda6735") || model.equals("DCD3")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9",
                     "13", "16", "17", "18", "21", "24",
-                    "23", "26", "30", "37", "45", "46"};
+                    "23", "26", "30", "37", "45", "46", "48"};
         } else if (model.equals("mt6753")) {
             strings = new String[]{"0", "1", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "15", "17", "18", "19", "21", "22",
-                    "23", "25", "26", "31", "34", "35", "37", "39"};
+                    "23", "25", "26", "31", "34", "35", "37", "39", "48"};
         } else if (model.equals("M08")) {
             strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10",
-                    "11", "13", "16", "17", "18", "19", "20", "21", "40", "23", "26", "30", "34", "37"};
+                    "11", "13", "16", "17", "18", "19", "20", "21", "40", "23", "26", "30", "34", "37", "48"};
         } else if (model.equals("KT45Q") || model.equals("UHF45") || model.equals("3000U")
                 || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
                 || model.equals("PT145") || model.equals("TT43")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "26", "30", "31", "32", "34", "37",
-                    "39", "43", "44"};
+                    "39", "43", "44", "48"};
 
         } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53") || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "16", "17", "18", "19", "20", "21", "22", "23",
-                    "24", "25", "26", "30", "31", "37", "39",};
+                    "24", "25", "26", "30", "31", "37", "39", "48"};
         } else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
                     "35", "36", "37", "38",
-                    "39", "40", "41", "42", "43", "44", "45", "46", "47"};
+                    "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"};
         }
 
         for (int i = 0; i < strings.length; i++) {
@@ -290,9 +325,6 @@ public class MenuActivity extends FragActBase {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                gotoNextPage(Integer.parseInt(strings[position]));
-//                Log.i("factory", "permiss" + strings[position] + "$$$$$$$$$$" + permissBytes[Integer.parseInt(strings[position])][permissBytes[Integer.parseInt(strings[position])].length - 1] +
-//                        "&&&&" + permissBytes[Integer.parseInt(strings[position])].length);
-//                permiss(Integer.parseInt(strings[position]), permissBytes[Integer.parseInt(strings[position])][permissBytes[Integer.parseInt(strings[position])].length]);
                 permiss(Integer.parseInt(strings[position]), permissUtilses.get(Integer.parseInt(strings[position])).getPermiss());
             }
         });
@@ -704,10 +736,14 @@ public class MenuActivity extends FragActBase {
                 break;
             case ACTION_EXPAND:
                 openAct(ExpandAct.class, true);
+                break;
+            case ACTION_EXPORT:
+                exportFile();
+                break;
         }
     }
 
-
+    //安卓6.0获取权限
     public void permiss(int i, String[] s) {
         if (s.length < 0) {
             gotoNextPage(i);

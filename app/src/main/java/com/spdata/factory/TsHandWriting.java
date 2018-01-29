@@ -55,6 +55,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.spdata.factory.application.App;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -138,6 +139,7 @@ public class TsHandWriting extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         final SharedPreferences preferences = this.getSharedPreferences(
                 "touch_screen_settings", Context.MODE_PRIVATE);
         String file = preferences.getString("filename", "N");
@@ -173,6 +175,7 @@ public class TsHandWriting extends Activity {
                     "echo [LEAVE_HAND_WRITING] >> " + file}; // file
         }
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

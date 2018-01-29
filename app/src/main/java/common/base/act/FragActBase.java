@@ -18,21 +18,15 @@
 
 package common.base.act;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -48,13 +42,12 @@ import android.widget.Toast;
 
 import com.spdata.factory.R;
 import com.spdata.factory.application.App;
+import com.umeng.analytics.MobclickAgent;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Receiver;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import common.base.dialog.FlippingLoadingDialog;
 import common.base.dialog.ToastUtils;
@@ -71,9 +64,6 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 //@WindowFeature(value = Window.FEATURE_NO_TITLE)
 @EActivity
 public abstract class FragActBase extends SwipeBackActivity {
-    String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WAKE_LOCK, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    List<String> mPermissionList = new ArrayList<>();
-
     protected static final int RIGHT = 0;
     protected static final int LEFT = 1;
     protected static Fragment mContent;
@@ -538,7 +528,7 @@ public abstract class FragActBase extends SwipeBackActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        MobclickAgent.onResume(this);
         onBackPressedCount = 0;
         //去掉Activity上面的状态栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -558,6 +548,7 @@ public abstract class FragActBase extends SwipeBackActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     // @Override
@@ -600,59 +591,7 @@ public abstract class FragActBase extends SwipeBackActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
-
-    /**
-     * 判断哪些权限未授予
-     */
-    public boolean trueorfalse(String... permissions) {
-
-        //判断当前系统是否高于或等于6.0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mPermissionList.clear();
-            //当前系统大于等于6.0
-            for (int i = 0; i < permissions.length; i++) {
-                if (ContextCompat.checkSelfPermission(FragActBase.this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
-                    mPermissionList.add(permissions[i]);
-                }
-            }
-            //请求权限方法
-            if (!mPermissionList.isEmpty()) {
-                String[] permission = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
-                ActivityCompat.requestPermissions(this, permission, 1);
-                mShowRequestPermission = false;
-            }
-            return false ;
-        } else {
-            return true;
-        }
-
-    }
-
-    boolean mShowRequestPermission = false;//用户是否禁止权限
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                for (int i = 0; i < grantResults.length; i++) {
-                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                        //判断是否勾选禁止后不再询问
-                        boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
-                        if (showRequestPermission) {//再次获取
-                            mShowRequestPermission = true;
-
-                        } else {
-                            mShowRequestPermission = false;//已经禁止
-//                            this.finish();
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
+    //判断当前系统是否高于或等于6.0
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
 }

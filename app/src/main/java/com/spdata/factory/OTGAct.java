@@ -1,6 +1,7 @@
 package com.spdata.factory;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.StatFs;
 import android.text.format.Formatter;
 import android.view.View;
@@ -78,7 +79,9 @@ public class OTGAct extends FragActBase {
 //        init();
 
     }
+
     public static final String POWER_EXTERNAL = "/sys/class/misc/aw9523/gpio";
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -101,24 +104,13 @@ public class OTGAct extends FragActBase {
                         len = inputStreamReader.read();
                         inputStreamReader.close();
                         if (len == 49) {
-                            File path = new File("/storage/usbotg");
-                            StatFs stat = new StatFs(path.getPath());
-                            long blockSize = stat.getBlockSize();
-                            long totalBlocks = stat.getBlockCount();
-                            long availableBlocks = stat.getAvailableBlocks();
-                            final String usedSize = Formatter.formatFileSize(mContext, (totalBlocks - availableBlocks) * blockSize);
-                            final String availableSize = Formatter.formatFileSize(mContext, availableBlocks * blockSize);
-//                            tvInfor.setText("OTG模式\n"+getUSBStorage(mContext));
-                            if (usedSize.equals("0.00B") && availableSize.equals("0.00B")) {
-                                tvInfor.setText("读取中……");
-                            } else {
-                                tvInfor.setText("OTG模式\n" + "已用空间：" + usedSize + "\n可用空间：" + availableSize);
-
+                            if (Build.VERSION.RELEASE.equals("6.0")) {
+                                tvInfor.setText("OTG模式\n");
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         try {
-                                            Thread.sleep(4000);
+                                            Thread.sleep(2000);
                                         } catch (InterruptedException e) {
                                             e.printStackTrace();
                                         }
@@ -131,6 +123,40 @@ public class OTGAct extends FragActBase {
                                         });
                                     }
                                 }).start();
+                            } else {
+
+                                File path = new File("/storage/usbotg");
+                                StatFs stat = new StatFs(path.getPath());
+                                long blockSize = stat.getBlockSize();
+                                long totalBlocks = stat.getBlockCount();
+                                long availableBlocks = stat.getAvailableBlocks();
+                                final String usedSize = Formatter.formatFileSize(mContext, (totalBlocks - availableBlocks) * blockSize);
+                                final String availableSize = Formatter.formatFileSize(mContext, availableBlocks * blockSize);
+//                            tvInfor.setText("OTG模式\n"+getUSBStorage(mContext));
+                                if (usedSize.equals("0.00B") && availableSize.equals("0.00B")) {
+                                    tvInfor.setText("读取中……");
+                                } else {
+                                    tvInfor.setText("OTG模式\n" + "已用空间：" + usedSize + "\n可用空间：" + availableSize);
+
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Thread.sleep(4000);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    setXml(App.KEY_OTG, App.KEY_FINISH);
+                                                    finish();
+                                                }
+                                            });
+                                        }
+                                    }).start();
+                                }
+
                             }
                         } else if (len == 48) {
                             tvInfor.setText("非OTG模式\n" + "请插入USB OTG并连接U盘");
