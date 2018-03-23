@@ -155,7 +155,7 @@ public class ButtonS1Act extends FragActBase {
             }
 
         }
-        else if (keyCode == KeyEvent.KEYCODE_F3) {
+        else if (keyCode == KeyEvent.KEYCODE_F2) {
             if (btn_fn.isPressed()) {
                 btn_fn.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_fn.setPressed(false);
@@ -364,7 +364,7 @@ public class ButtonS1Act extends FragActBase {
                 return true;
             }
         }
-         else if (keyCode == KeyEvent.KEYCODE_F2) {//#
+         else if (keyCode == KeyEvent.KEYCODE_F3) {//#
             if (btn_weizhi.isPressed()) {
                 btn_weizhi.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_weizhi.setPressed(false);
@@ -386,7 +386,7 @@ public class ButtonS1Act extends FragActBase {
                 isall();
                 return true;
             }
-        } else if (keyCode == KeyEvent.KEYCODE_F4) {//#
+        } else if (keyCode == KeyEvent.KEYCODE_SHIFT_LEFT) {//#
             if (btn_shift.isPressed()) {
                 btn_shift.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_shift.setPressed(false);

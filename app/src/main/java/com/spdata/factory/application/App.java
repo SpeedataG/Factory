@@ -78,6 +78,7 @@ public class App extends BaseApplication implements AppConst {
     public static final String KEY_CAMERA_USB = "camerausb";//dcd3相机
     public static final String KEY_EXPAND = "camerausb";//KT55触点测试
     public static final String KEY_EXPORT = "export";//导出测试结果
+    public static final String KEY_ID2 = "export";//二代证测试
 
     public static App getInstance() {
         return instance;
@@ -88,6 +89,7 @@ public class App extends BaseApplication implements AppConst {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
+
     @Override
     public void onCreate() {
         super.onCreate();

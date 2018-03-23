@@ -99,12 +99,17 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <!--友盟添加-->
-        <meta-data android:value="5a5330cea40fa354840001d2" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="factory" android:name="UMENG_CHANNEL"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a5330cea40fa354840001d2" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="factory" />
+
         <activity
             android:name=".GPSTest"
             android:launchMode="singleTop"
@@ -441,6 +446,22 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ButtonKT45qAct_"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Id2TestAct_"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ButtonDmP80Act_"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".ButtonCtAct_"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".ButtonAll_"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>
     </application>

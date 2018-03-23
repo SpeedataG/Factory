@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="@color/black"
+    android:fadeScrollbars="false"
+    android:scrollbarThumbVertical="@color/red"
     android:scrollbars="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <com.spdata.factory.view.CustomTitlebar
-        android:id="@+id/titlebar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
+        <com.spdata.factory.view.CustomTitlebar
+            android:id="@+id/titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             style="@style/main_button"
@@ -22,11 +25,12 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent">
+
                 <ListView
                     android:id="@+id/list_item"
                     android:layout_width="fill_parent"
@@ -35,38 +39,37 @@
 
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_pass"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:visibility="gone"
-            android:background="@drawable/selector_item_blue"
-            android:text="成功"
-            android:textColor="@color/text_white"
-            android:textSize="@dimen/commom_textsize"/>
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_not_pass"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/selector_item_blue"
-            android:text="失败"
-            android:textColor="@color/text_white"
-            android:textSize="@dimen/commom_textsize"/>
-    </LinearLayout>
+            <Button
+                android:id="@+id/btn_pass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_blue"
+                android:text="成功"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/commom_textsize"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_not_pass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_blue"
+                android:text="失败"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/commom_textsize" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

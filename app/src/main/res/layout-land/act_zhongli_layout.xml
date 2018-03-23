@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:fadeScrollbars="false"
     android:orientation="vertical"
+    android:fadeScrollbars="false"
     android:scrollbarThumbVertical="@color/red">
 
     <LinearLayout
@@ -19,25 +19,16 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
+            android:id="@+id/zhongli"
             style="@style/main_button"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_infor"
-                style="@style/base_text"
-                android:layout_width="fill_parent"
-                android:layout_height="10dp" />
 
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/compass" />
         </LinearLayout>
 
         <LinearLayout

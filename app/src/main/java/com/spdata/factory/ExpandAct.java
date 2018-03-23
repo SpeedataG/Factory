@@ -188,6 +188,10 @@ public class ExpandAct extends FragActBase {
     @AfterViews
     protected void main() {
         initTitlebar();
+    }
+
+    @Override
+    protected void onResume() {
         //监听背夹介入成功广播
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.hall.success");
@@ -203,6 +207,8 @@ public class ExpandAct extends FragActBase {
             e.printStackTrace();
         }
         start();
+
+        super.onResume();
     }
 
     /**
@@ -295,15 +301,17 @@ public class ExpandAct extends FragActBase {
                 case 5:
                     btn_usb.setBackgroundColor(Color.parseColor("#ed0c2e"));
                     break;
+                case 8:
+                    showToast("未检测到触点！");
+                    finish();
+                    break;
             }
 
         }
     };
 
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
         if (timer != null) {
             timer.cancel();
         }
@@ -317,7 +325,9 @@ public class ExpandAct extends FragActBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        super.onStop();
     }
+
 
     /**
      * 检测被接入的背夹具体型号
@@ -335,7 +345,9 @@ public class ExpandAct extends FragActBase {
             bufferedReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            handler.sendMessage(handler.obtainMessage(8));
         } catch (IOException e) {
+            handler.sendMessage(handler.obtainMessage(8));
             e.printStackTrace();
         }
         Log.d(TAG, "readEm55state: " + state);
@@ -352,8 +364,11 @@ public class ExpandAct extends FragActBase {
             @Override
             public void run() {
                 String date = readEm55();//检测背夹
-                handler.sendMessage(handler.obtainMessage(4, date));
-
+                if (date == null) {
+                    handler.sendMessage(handler.obtainMessage(8, date));
+                } else {
+                    handler.sendMessage(handler.obtainMessage(4, date));
+                }
             }
         }, 0, 1000);
 

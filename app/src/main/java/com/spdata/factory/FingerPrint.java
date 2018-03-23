@@ -34,18 +34,30 @@ public class FingerPrint extends FragActBase {
 
     @Click
     void btn_id() {
-        packageManager = getPackageManager();
+        try {
+            packageManager = getPackageManager();
 //        intent = new Intent();
-        intent = packageManager.getLaunchIntentForPackage("com.routon.iDR410SDKDemo");
-        startActivity(intent);
+            intent = packageManager.getLaunchIntentForPackage("com.routon.iDR410SDKDemo");
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showToast("未找到指定应用");
+            finish();
+        }
     }
 
     @Click
     void btn_zh() {
-        packageManager = getPackageManager();
+        try {
+            packageManager = getPackageManager();
 //        intent = new Intent();
-        intent = packageManager.getLaunchIntentForPackage("com.hongda.S580");
-        startActivity(intent);
+            intent = packageManager.getLaunchIntentForPackage("com.hongda.S580");
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showToast("未找到指定应用");
+            finish();
+        }
     }
 
     @Click

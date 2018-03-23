@@ -103,8 +103,14 @@ public class SerialportH80Act extends FragActBase  {
         initTitlebar();
         tvVersionInfor.setText("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
                 "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功");
-        mSerialPort = new SerialPort();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         try {
+            mSerialPort = new SerialPort();
             deviceControl=new DeviceControl("/sys/class/misc/mtgpio/pin");
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
             deviceControl.PowerOnDevice121();
@@ -171,10 +177,17 @@ public class SerialportH80Act extends FragActBase  {
     }
 
     @Override
-    protected void onDestroy() {
-        finish();
-        super.onDestroy();
+    protected void onPause() {
         mSerialPort.CloseSerial(fd);
         deviceControl.PowerOffDevice121();
+        timer.cancel();
+        readTimerTask.cancel();
+        super.onPause();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -98,7 +98,8 @@ public class SimAct extends FragActBase {
                 model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
                 || model.equals("spda6735") || model.equals("DCD3") || model.equals("mt6753")
                 || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")
-                || Build.MODEL.equals("H5")|| Build.MODEL.equals("S1")|| Build.MODEL.equals("H5_35")) {
+                || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")
+                || Build.MODEL.equals("CT")) {
             tvInfor.setText("IMEI:" + imeiSIM1 + "\n");
             if (isCanUseSim()) {
                 tvInfor.append("SIM卡存在");
@@ -134,10 +135,10 @@ public class SimAct extends FragActBase {
                     @Override
                     public void run() {
                         if (model.equals("X300Q_X1") || model.equals("X300Q_P1") || model.equals("S510")
-                                || model.equals("H500A") || model.equals("X300Q_OLED")
+                                || model.equals("H500A") || model.equals("X300Q_OLED")|| model.equals("CT")
                                 || model.equals("X300Q_OLED_GPS") || model.equals("spda6735")
-                                || model.equals("DCD3") || model.equals("mt6753") || model.equals("M08")|| Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")
-                                || Build.MODEL.equals("H5")|| Build.MODEL.equals("S1")|| Build.MODEL.equals("H5_35")) {
+                                || model.equals("DCD3") || model.equals("mt6753") || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")
+                                || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")) {
                             if (isCanUseSim()) {
                                 setXml(App.KEY_SIM, App.KEY_FINISH);
                                 finish();
@@ -150,6 +151,7 @@ public class SimAct extends FragActBase {
                                 model.equals("W6") || model.equals("S510") || model.equals("DB2_LVDS")
                                 || model.equals("KT50") || model.equals("KT50_B2") || model.equals("R40")
                                 || model.equals("T50") || model.equals("KT50_YQ")
+                                || model.equals("T55") || model.equals("DM-P80")
                                 || model.equals("N80") || model.equals("N55") || model.equals("X55")
                                 || model.equals("N55/X55") || model.equals("T550") || model.equals("M55")
                                 || model.equals("KT55L") || model.equals("RT801")
@@ -157,7 +159,7 @@ public class SimAct extends FragActBase {
                                 model.equals("Biowolf LE") || model.equals("KT45") || model.equals("UHF45")
                                 || model.equals("3000U") || model.equals("N800") || model.equals("FC-PK80")
                                 || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
-                                || model.equals("PT145") || model.equals("TT43") ) {
+                                || model.equals("PT145") || model.equals("TT43")) {
                             if (isSIM1Ready && isSIM2Ready) {
                                 setXml(App.KEY_SIM, App.KEY_FINISH);
                                 finish();

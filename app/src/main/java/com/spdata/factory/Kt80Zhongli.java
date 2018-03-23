@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,7 +32,7 @@ import common.event.ViewMessage;
 /**
  * Created by lenovo_pc on 2016/8/24.
  */
-@EActivity(R.layout.act_zhongliganying)
+@EActivity(R.layout.act_zhongli_layout)
 public class Kt80Zhongli extends FragActBase {
     @ViewById
     CustomTitlebar titlebar;

@@ -15,8 +15,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
@@ -45,7 +43,9 @@ public class SerialportAct extends FragActBase {
 
     int send(String passwd) {
         byte[] pss = passwd.getBytes();
-        mSerialPort.WriteSerialByte(fd, pss);
+        if (mSerialPort != null) {
+            mSerialPort.WriteSerialByte(fd, pss);
+        }
         return 0;
     }
 
@@ -55,15 +55,8 @@ public class SerialportAct extends FragActBase {
             if (sendstring != "") {
                 send(sendstring);
             }
-//            readThread.start();
-            timer = new Timer();
-            readTimerTask = new ReadTimerTask();
-            timer.schedule(readTimerTask, 10, TIME_TO_READDATA);
-//            sendcount++;
-//            btnPass.setText("成功");
             if (tvVersionInfor.getText().equals("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
-                    "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功")){
-//                btnPass.setEnabled(false);
+                    "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功")) {
                 tvVersionInfor.setText("请插入耳机串口自环线");
             }
         } else if (sendcount == 2) {
@@ -87,23 +80,29 @@ public class SerialportAct extends FragActBase {
     @Override
     public void onEventMainThread(ViewMessage viewMessage) {
     }
+
     private SerialPort mSerialPort;
     private int sendcount = 1;
     private int fd;
-    private Timer timer;
-    private ReadTimerTask readTimerTask;
-    private static final int TIME_TO_READDATA = 400;
     public String sendstring = "This is Seriaport!";
     private String string;
+
     @AfterViews
     protected void main() {
         initTitlebar();
         tvVersionInfor.setText("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
                 "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功");
-        mSerialPort = new SerialPort();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         try {
+            mSerialPort = new SerialPort();
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
             fd = mSerialPort.getFd();
+            readThread = new ReadThread();
+            readThread.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,60 +114,62 @@ public class SerialportAct extends FragActBase {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             byte[] temp = (byte[]) msg.obj;
-            if (temp == null) {
-            } else {
-                string = DataConversionUtils.byteArrayToAscii(temp);
-                tvVersionInfor.setText("接收内容：\n\n"+ string);
-                if (sendstring.equals(string)){
-//                    readThread.stop();
-                    sendcount++;
-                    btnPass.setText("成功");
-                timer.cancel();
-                readTimerTask.cancel();
+            string = DataConversionUtils.byteArrayToAscii(temp);
+            tvVersionInfor.setText("接收内容：\n\n" + string);
+            if (sendstring.equals(string)) {
+                if (readThread != null) {
+                    readThread.interrupt();
+                    readThread = null;
                 }
-
-
+                sendcount++;
+                btnPass.setText("成功");
             }
         }
     };
+
     private class ReadThread extends Thread {
         @Override
         public void run() {
             super.run();
-            try {
-                byte[] temp1 = mSerialPort.ReadSerial(fd, 1024);
-                if (temp1 != null) {
-                    Message msg = new Message();
-                    msg.obj = temp1;
-                    handler.sendMessage(msg);
+            while (!isInterrupted()) {
+                try {
+                    byte[] temp1 = mSerialPort.ReadSerial(fd, 1024);
+                    if (temp1 != null) {
+                        Message msg = new Message();
+                        msg.obj = temp1;
+                        handler.sendMessage(msg);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            }
+        }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
-    private class ReadTimerTask extends TimerTask {
-        @Override
-        public void run() {
-            try {
-                fd = mSerialPort.getFd();
-                byte[] temp1 = mSerialPort.ReadSerial(fd, 1024);
-                if (temp1 != null) {
-                    Message msg = new Message();
-                    msg.obj = temp1;
-                    handler.sendMessage(msg);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+    @Override
+    protected void onPause() {
+        if (readThread != null) {
+            readThread.interrupt();
+            readThread = null;
         }
+        if (mSerialPort != null) {
+            mSerialPort.CloseSerial(fd);
+            mSerialPort = null;
+        }
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        mSerialPort.CloseSerial(fd);
-        finish();
+        if (readThread != null) {
+            readThread.interrupt();
+            readThread = null;
+        }
+        if (mSerialPort != null) {
+            mSerialPort.CloseSerial(fd);
+            mSerialPort = null;
+        }
         super.onDestroy();
     }
 }

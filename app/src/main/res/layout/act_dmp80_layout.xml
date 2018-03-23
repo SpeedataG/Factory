@@ -33,7 +33,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:background="#cec7c7"
-                android:text="BACK" />
+                android:text="light_up" />
 
             <Button
                 android:id="@+id/btn_menu"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#cec7c7"
-                android:text="MENU" />
+                android:text="light_dow" />
 
             <Button
                 android:id="@+id/btn_ok"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#cec7c7"
-                android:text="OK" />
+                android:text="F5" />
 
             <Button
                 android:id="@+id/btn_up"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#cec7c7"
-                android:text="DPAD_UP" />
+                android:text="F1" />
 
             <Button
                 android:id="@+id/btn_down"
@@ -65,9 +65,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#cec7c7"
-                android:text="DPAD_DOWN" />
+                android:text="F2" />
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxEms="1"
+            android:text="左上两按键观察屏幕亮度是否有变化"
+            android:textColor="@color/white" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxEms="1"
+            android:text="F5长按检测"
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -81,7 +94,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:background="#cec7c7"
-                android:text="F1" />
+                android:text="Vol_up" />
 
             <Button
                 android:id="@+id/btn_f2"
@@ -89,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#cec7c7"
-                android:text="F2" />
+                android:text="Vol_down" />
 
             <Button
                 android:id="@+id/btn_ok2"
@@ -97,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#cec7c7"
-                android:text="OK" />
+                android:text="F5" />
 
             <Button
                 android:id="@+id/btn_f3"
@@ -122,15 +135,15 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_pass"
             android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="成功"
@@ -140,10 +153,9 @@
         <Button
             android:id="@+id/btn_not_pass"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="失败"

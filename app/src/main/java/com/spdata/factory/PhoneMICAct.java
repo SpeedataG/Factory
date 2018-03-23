@@ -132,7 +132,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
         initTitlebar();
         setSwipeEnable(false);
         context = this;
-        tvInfor.setText("开始录音");
+        tvInfor.setText("请点击开始录音按钮进行录音");
         btnSoundRecording.setText(getResources().getString(R.string.sound_start_record));
         btnSoundRecording.setOnClickListener(this);
 

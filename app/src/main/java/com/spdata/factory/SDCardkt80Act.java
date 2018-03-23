@@ -82,7 +82,7 @@ public class SDCardkt80Act extends FragActBase {
         readSD2();
         String[] volumePaths = sdUtils.getVolumePaths();
         StringBuffer stringBuffer = new StringBuffer();
-        String size=sdUtils.getSDTotalSize(volumePaths[1]);
+        String size = sdUtils.getSDTotalSize(volumePaths[1]);
         stringBuffer.append("\n内置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[0])
                 + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[0]));
 
@@ -92,7 +92,7 @@ public class SDCardkt80Act extends FragActBase {
         if (size.equals("0.00 B")) {
             tvInfor.append("\nSD卡1不存在");
         } else {
-            stringBuffer.append("\n外置SD1卡总大小" +size
+            stringBuffer.append("\n外置SD1卡总大小" + size
                     + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[1]));
             tvInfor.setText(stringBuffer);
             tvInfor.append("\nSD卡1存在");
@@ -106,6 +106,8 @@ public class SDCardkt80Act extends FragActBase {
                 break;
             case "2":
                 tvInfor.append("\n无SD2卡");
+            case "":
+                tvInfor.append("\n不支持SD2卡");
                 break;
         }
 
@@ -127,10 +129,13 @@ public class SDCardkt80Act extends FragActBase {
     private void readSD2() {
         File file = new File("/sys/class/misc/hwoper/sd2_status");
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            stada = bufferedReader.readLine();
-            bufferedReader.close();
+            if (file != null) {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                stada = bufferedReader.readLine();
+                bufferedReader.close();
+            }
         } catch (IOException e) {
+            stada="";
             e.printStackTrace();
         }
     }

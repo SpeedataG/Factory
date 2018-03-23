@@ -33,13 +33,20 @@ public class CameraUSBAct extends FragActBase {
     Button btnNotPass;
     @ViewById
     Button btn_test;
+
     @Click
     void btn_test() {
-        PackageManager packageManager = getPackageManager();
-        Intent intent = new Intent();
-        intent = packageManager.getLaunchIntentForPackage("com.camera.app");
-        startActivity(intent);
+        try {
+            PackageManager packageManager = getPackageManager();
+            Intent intent = packageManager.getLaunchIntentForPackage("com.camera.app");
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showToast("无法连接到相机！");
+            finish();
+        }
     }
+
     @Click
     void btnNotPass() {
         setXml(App.KEY_GAS_SENSOR, App.KEY_UNFINISH);
@@ -71,6 +78,7 @@ public class CameraUSBAct extends FragActBase {
     @Override
     public void onEventMainThread(ViewMessage viewMessage) {
     }
+
     @AfterViews
     protected void main() {
         initTitlebar();

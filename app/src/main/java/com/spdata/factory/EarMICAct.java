@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -115,7 +114,6 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         initTitlebar();
         setSwipeEnable(false);
         context = this;
-        tvInfor.setText("请插入耳机");
         btnSoundRecording.setText(getResources().getString(R.string.sound_start_record));
         btnSoundRecording.setOnClickListener(this);
         btnSoundRecording.setEnabled(false);
@@ -123,30 +121,26 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         btnPlay.setOnClickListener(this);
         btnPlay.setEnabled(false);
         registerHeadsetPlugReceiver();
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED))// 手机有SD卡的情况
-        {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {// 手机有SD卡的情况
             // 在这里我们创建一个文件，用于保存录制内容
             fpath = new File(Environment.getExternalStorageDirectory()
                     .getAbsolutePath() + "/data/files/");
             fpath.mkdirs();// 创建文件夹
-        } else// 手机无SD卡的情况
-        {
+        } else {// 手机无SD卡的情况
             fpath = this.getCacheDir();
         }
         try {
             // 创建临时文件,注意这里的格式为.pcm
             audioFile = File.createTempFile("recording", ".pcm", fpath);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     private void registerHeadsetPlugReceiver() {
-        headsetReceiver = new HeadsetReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.intent.action.HEADSET_PLUG");
+        headsetReceiver = new HeadsetReceiver();
         registerReceiver(headsetReceiver, intentFilter);
     }
 
@@ -187,21 +181,25 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
     public void onClick(View v) {
         if (v == btnSoundRecording) {
             if (!isStart) {
+                isRecording = true;
+                r = 0;
                 recorder = new RecordTask();
                 recorder.execute();
                 isStart = true;
                 btnSoundRecording.setText(getResources().getString(
                         R.string.sound_stop_record));
             } else {
+                isStart = false;
                 this.isRecording = false;
+
                 btnSoundRecording.setText(getResources().getString(
                         R.string.sound_start_record));
-                isStart = false;
             }
 
         } else if (v == btnPlay) {
             btnPass.setVisibility(View.VISIBLE);
             if (!isPlay) {
+                isPlaying = true;
                 player = new PlayTask();
                 btnPlay.setText(getResources().getString(
                         R.string.sound_play_stop));
@@ -209,42 +207,38 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
                 isPlay = true;
             } else {
                 isPlay = false;
+                isPlaying = false;
                 btnPlay.setText(getResources().getString(R.string.sound_play));
                 this.isPlaying = false;
             }
         }
     }
 
+    private int r = 0; // 存储录制进度
+
     class RecordTask extends AsyncTask<Void, Integer, Void> {
         @Override
         protected Void doInBackground(Void... arg0) {
-            isRecording = true;
+//            isRecording = true;
             if (isCancelled()) {
                 return null;
             }
             try {
                 // 开通输出流到指定的文件
-                DataOutputStream dos = new DataOutputStream(
-                        new BufferedOutputStream(
-                                new FileOutputStream(audioFile)));
+                DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(audioFile)));
                 // 根据定义好的几个配置，来获取合适的缓冲大小
-                int bufferSize = AudioRecord.getMinBufferSize(frequence,
-                        channelConfig, audioEncoding);
+                int bufferSize = AudioRecord.getMinBufferSize(frequence, channelConfig, audioEncoding);
                 // 实例化AudioRecord
-                AudioRecord record = new AudioRecord(
-                        MediaRecorder.AudioSource.MIC, frequence,
-                        channelConfig, audioEncoding, bufferSize);
+                AudioRecord record = new AudioRecord(MediaRecorder.AudioSource.MIC, frequence, channelConfig, audioEncoding, bufferSize);
                 // 定义缓冲
                 short[] buffer = new short[bufferSize];
                 // 开始录制
                 record.startRecording();
-                int r = 0; // 存储录制进度
+//                r = 0;
                 // 定义循环，根据isRecording的值来判断是否继续录制
                 while (isRecording) {
                     // 从bufferSize中读取字节，返回读取的short个数
-                    // 这里老是出现buffer overflow，不知道是什么原因，试了好几个值，都没用，TODO：待解决
-                    int bufferReadResult = record
-                            .read(buffer, 0, buffer.length);
+                    int bufferReadResult = record.read(buffer, 0, buffer.length);
                     // 循环将buffer中的音频数据写入到OutputStream中
                     for (int i = 0; i < bufferReadResult; i++) {
                         dos.writeShort(buffer[i]);
@@ -282,18 +276,14 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
             if (isCancelled()) {
                 return null;
             }
-            isPlaying = true;
-            int bufferSize = AudioTrack.getMinBufferSize(frequence,
-                    channelConfig, audioEncoding);
+//            isPlaying = true;
+            int bufferSize = AudioTrack.getMinBufferSize(frequence, channelConfig, audioEncoding);
             short[] buffer = new short[bufferSize / 4];
             try {
                 // 定义输入流，将音频写入到AudioTrack类中，实现播放
-                DataInputStream dis = new DataInputStream(
-                        new BufferedInputStream(new FileInputStream(audioFile)));
+                DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(audioFile)));
                 // 实例AudioTrack
-                AudioTrack track = new AudioTrack(AudioManager.STREAM_MUSIC,
-                        frequence, channelConfig, audioEncoding, bufferSize,
-                        AudioTrack.MODE_STREAM);
+                AudioTrack track = new AudioTrack(AudioManager.STREAM_MUSIC, frequence, channelConfig, audioEncoding, bufferSize, AudioTrack.MODE_STREAM);
                 // 开始播放
                 track.play();
                 // 由于AudioTrack播放的是流，所以，我们需要一边播放一边读取
@@ -301,6 +291,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
                     int i = 0;
                     while (dis.available() > 0 && i < buffer.length) {
                         buffer[i] = dis.readShort();
+                        publishProgress(new Integer(i)); // 向UI线程报告当前进度
                         i++;
                     }
                     // 然后将数据写入到AudioTrack中
@@ -333,6 +324,15 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra("state")) {
                 if (intent.getIntExtra("state", 0) == 0) { //耳机拔出
+                    r = 0;
+                    isPlaying = false;
+                    isRecording = false;
+                    if (recorder != null) {
+                        recorder.cancel(true);
+                    }
+                    if (player != null) {
+                        player.cancel(true);
+                    }
                     Toast.makeText(context, "未连接耳机", Toast.LENGTH_LONG).show();
                     btnSoundRecording.setEnabled(false);
                     btnPlay.setEnabled(false);
@@ -345,7 +345,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
                     } else if (intent.getIntExtra("microphone", 0) == 1) {
                         Toast.makeText(context, "耳机已插入,有麦克风",
                                 Toast.LENGTH_LONG).show();
-                        tvInfor.append("\n" + "开始录音");
+                        tvInfor.setText("耳机已插入,有麦克风\n请点击开始录音按钮进行录音");
                         btnSoundRecording.setEnabled(true);
                     }
                 }

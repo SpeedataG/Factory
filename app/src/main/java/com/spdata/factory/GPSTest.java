@@ -632,13 +632,11 @@ public class GPSTest extends Activity {
 	}
 
 	class MTimerTask extends TimerTask {
-
 		public void run() {
 			// TODO Auto-generated method stub
 			mSecond++;
 			hGpsHand.sendEmptyMessage(0);
 		}
-
 	}
 
 }

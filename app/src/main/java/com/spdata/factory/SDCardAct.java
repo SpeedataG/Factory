@@ -80,7 +80,7 @@ public class SDCardAct extends FragActBase {
         sdUtils = new SDUtils(mContext);
         String[] volumePaths = sdUtils.getVolumePaths();
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("\n内置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[0])
+        stringBuffer.append("内置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[0])
                 + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[0]));
         tvInfor.append(stringBuffer);
         if (volumePaths.length > 1) {

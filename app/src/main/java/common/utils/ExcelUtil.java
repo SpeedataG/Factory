@@ -1,5 +1,6 @@
 package common.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
 import android.widget.Toast;
@@ -24,7 +25,6 @@ import java.util.UUID;
  * @author user
  */
 public final class ExcelUtil {
-
     /***
      * 构造方法
      */
@@ -140,6 +140,7 @@ public final class ExcelUtil {
      *
      * @param titleMap 对象属性名称->表头显示名称
      */
+    @SuppressLint("SimpleDateFormat")
     private static void createDateHeadRow(Map<String, String> titleMap) {
         CellRangeAddress dateRange = new CellRangeAddress(1, 1, 0, titleMap.size() - 1);
         sheet.addMergedRegion(dateRange);

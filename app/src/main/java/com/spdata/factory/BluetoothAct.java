@@ -145,13 +145,7 @@ public class BluetoothAct extends FragActBase {
     protected void onStop() {
         super.onStop();
         myBluetoothAdapter.disable();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         unregisterReceiver(mReceiver);
-        myBluetoothAdapter.disable();
     }
 
 }

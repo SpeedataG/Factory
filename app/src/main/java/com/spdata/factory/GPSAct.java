@@ -2,7 +2,6 @@ package com.spdata.factory;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,15 +13,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.south.SDKMethod;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -49,8 +45,6 @@ import java.util.List;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
-
-import static android.R.attr.x;
 
 @EActivity(R.layout.act_gps)
 public class GPSAct extends FragActBase {
@@ -288,6 +282,16 @@ public class GPSAct extends FragActBase {
                     break;
                 }
                 case GpsStatus.GPS_EVENT_SATELLITE_STATUS: {
+                    if (ActivityCompat.checkSelfPermission(GPSAct.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
                     GpsStatus currentgpsStatus = locationManager.getGpsStatus(null);
                     List<GpsSatellite> satelliteList = new ArrayList<GpsSatellite>();
                     int maxSatellites = currentgpsStatus.getMaxSatellites();// //获取卫星颗数的默认最大值

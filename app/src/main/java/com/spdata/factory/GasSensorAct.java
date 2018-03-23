@@ -22,7 +22,7 @@ import common.event.ViewMessage;
  * Created by suntianwei on 2017/1/13.
  */
 @EActivity(R.layout.act_gassensor)
-public class GasSensorAct extends FragActBase{
+public class GasSensorAct extends FragActBase {
     @ViewById
     CustomTitlebar titlebar;
     @ViewById
@@ -33,13 +33,21 @@ public class GasSensorAct extends FragActBase{
     Button btnNotPass;
     @ViewById
     Button btn_test;
+
     @Click
     void btn_test() {
-        PackageManager packageManager = getPackageManager();
-        Intent intent = new Intent();
-        intent = packageManager.getLaunchIntentForPackage("cn.ccrise.mobile.cd3");
-        startActivity(intent);
+        try {
+            PackageManager packageManager = getPackageManager();
+            Intent intent = new Intent();
+            intent = packageManager.getLaunchIntentForPackage("cn.ccrise.mobile.cd3");
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showToast("未指定指定应用！");
+            finish();
+        }
     }
+
     @Click
     void btnNotPass() {
         setXml(App.KEY_GAS_SENSOR, App.KEY_UNFINISH);
@@ -71,6 +79,7 @@ public class GasSensorAct extends FragActBase{
     @Override
     public void onEventMainThread(ViewMessage viewMessage) {
     }
+
     @AfterViews
     protected void main() {
         initTitlebar();

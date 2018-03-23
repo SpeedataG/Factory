@@ -1,7 +1,6 @@
 package com.spdata.factory;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +43,7 @@ public class ChangeAct extends FragActBase {
     @ViewById
     Button btn_second;
     private String streamToString;
-    private String battVoltFile="";
+    private String battVoltFile = "";
     private String battTempFile;
 
     @Click
@@ -96,8 +95,11 @@ public class ChangeAct extends FragActBase {
     protected void main() {
         initTitlebar();
         setSwipeEnable(false);
-        task = new remindTask();
-        remind(task);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         init();
     }
 
@@ -105,6 +107,12 @@ public class ChangeAct extends FragActBase {
     protected void onDestroy() {
         super.onDestroy();
         finishTimer();
+    }
+
+    @Override
+    protected void onPause() {
+        finishTimer();
+        super.onPause();
     }
 
     private int count = 0;
@@ -139,6 +147,7 @@ public class ChangeAct extends FragActBase {
         task = new remindTask();
         remind(task);
     }
+
     private static final String CHARGER_CURRENT_NOW =
             "/sys/class/power_supply/battery/BatteryAverageCurrent";
 
@@ -160,10 +169,10 @@ public class ChangeAct extends FragActBase {
                             break;
                         case 2:
                             first();
-                            tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile)/1000.0+"V");
-                            tvInfor.append("\n电池温度：" + Integer.parseInt(battTempFile)/10.0+"℃");
+                            tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000.0 + "V");
+                            tvInfor.append("\n电池温度：" + Integer.parseInt(battTempFile) / 10.0 + "℃");
                             try {
-                                tvInfor.append("\n充电电流：" +readCurrentFile(new File(CHARGER_CURRENT_NOW))+" mA");
+                                tvInfor.append("\n充电电流：" + readCurrentFile(new File(CHARGER_CURRENT_NOW)) + " mA");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -243,6 +252,7 @@ public class ChangeAct extends FragActBase {
         }
         return sb.toString();
     }
+
     public String readCurrentFile(File file) throws IOException {
         InputStream input = new FileInputStream(file);
         try {

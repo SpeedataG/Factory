@@ -148,28 +148,6 @@ public class FlashLightAct extends FragActBase {
     }
 
     @Override
-    protected void onDestroy() {
-//        if (judgeSe4500()) {
-//            Intent intent = new Intent();
-//            intent.setAction("com.se4500.closecamera");
-//            this.sendBroadcast(intent);
-//        }
-        if (camera != null) {
-            camera.stopPreview();
-            camera.release();
-            camera = null;
-        }
-        if (SystemProperties.get("persist.sys.iscamera").equals("open")) {
-            SystemProperties.set("persist.sys.scanstopimme", "false");
-            Intent opencam = new Intent();
-            opencam.setAction("com.se4500.closecamera");
-            this.sendBroadcast(opencam, null);
-        }
-        super.onDestroy();
-
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         if (camera != null) {

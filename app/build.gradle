@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
 //获取时间戳
-def getDate() {
+static def getDate() {
     def date = new Date()
     def formattedDate = date.format('yyyy-MM-dd')
     return formattedDate
@@ -16,9 +16,9 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.3"
     dexOptions {
-        incremental true
+//        incremental true
         javaMaxHeapSize "5g"
     }
     defaultConfig {
@@ -29,7 +29,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
-        versionName "v1.5.3" + "-build-" + getDate() + "-" + versionCode
+        versionName "v1.5.6" + "-build-" + getDate() + "-" + versionCode
         multiDexEnabled true
     }
     buildTypes {
@@ -56,10 +56,10 @@ android {
         release.setRoot('build-types/release')
     }
     // 为了适配6.0 不支持httpclient 耗电
-//    useLibrary 'org.apache.http.legacy'
+    // useLibrary 'org.apache.http.legacy'
     //给打出来的包重新命名
-//    project.archivesBaseName =  defaultConfig.versionName + "_" +getDate()+"_"+defaultConfig.versionCode;
-//修改生成的apk名字
+    // project.archivesBaseName =  defaultConfig.versionName + "_" +getDate()+"_"+defaultConfig.versionCode;
+    //修改生成的apk名字
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def oldFile = output.outputFile
@@ -95,16 +95,17 @@ dependencies {
     compile files('libs/framework2.jar')
     compile files('libs/Module_Android_DemoPower_1.7.5.1.jar')
     compile files('libs/SmallScreenManager.jar')
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
+    //noinspection GradleCompatible
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
     compile 'org.androidannotations:androidannotations-api:3.2'
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
     apt 'org.androidannotations:androidannotations:3.2'
     compile files('libs/dpuareu.jar')
-    compile 'com.speedata:deivice:+'
+    compile 'com.speedata:deivice:1.4.9'
     compile 'com.speedata:libuhf:6.9.4'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.speedata:r6lib:1.5'
@@ -113,8 +114,8 @@ dependencies {
     //友盟sdk添加
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile files('libs/poi-3.6-20091214.jar')
-
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.speedata:libid2:2.5.1'
 }
 
 //    compile 'com.github.wqandroid:wqgallery:3.1.0'

@@ -24,13 +24,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_menu"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
@@ -40,7 +40,7 @@
             <Button
                 android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
@@ -51,22 +51,23 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_app"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:background="#cec7c7"
                 android:text="app"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btn_sahng"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
@@ -85,7 +86,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
@@ -93,7 +94,7 @@
             <Button
                 android:id="@+id/btn_zuo"
                 android:layout_width="30dp"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
@@ -102,7 +103,7 @@
             <Button
                 android:id="@+id/btn_you"
                 android:layout_width="30dp"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
@@ -111,31 +112,31 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_fn"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="fn"
-                android:visibility="invisible" />
+                android:text="fn" />
 
             <Button
                 android:id="@+id/btn_xia"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="25dp"
                 android:background="#cec7c7"
                 android:text="down" />
 
             <Button
                 android:id="@+id/btn_enter"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
@@ -145,14 +146,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_1"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
                 android:text="1,.?" />
@@ -160,7 +161,7 @@
             <Button
                 android:id="@+id/btn_2"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
@@ -169,7 +170,7 @@
             <Button
                 android:id="@+id/btn_3"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
@@ -178,7 +179,7 @@
             <Button
                 android:id="@+id/btn_backspace"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
@@ -187,7 +188,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
@@ -230,7 +231,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
@@ -269,13 +270,12 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="shift"
-                android:visibility="invisible" />
+                android:text="shift" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:orientation="horizontal">
 
 
@@ -285,7 +285,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="-*" />
+                android:text="-*\t" />
 
             <Button
                 android:id="@+id/btn_0"
@@ -321,16 +321,15 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
-
 
         <Button
             android:id="@+id/btn_pass"
             android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="成功"
@@ -340,10 +339,9 @@
         <Button
             android:id="@+id/btn_not_pass"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="失败"

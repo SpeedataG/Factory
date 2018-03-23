@@ -61,7 +61,7 @@ public class IndicatorLightAct extends FragActBase {
             @Override
             public void onClick(View v) {
                 try {
-                    if (model.equals("M08")){
+                    if (model.equals("M08")) {
                         PowerOffRed2();
                     }
                     PowerOffBlue();
@@ -138,17 +138,28 @@ public class IndicatorLightAct extends FragActBase {
                         switch (currentLed) {
                             case LED_RED:
                                 //点亮绿灯
-                                try {
-                                    PowerOffRed();
-                                    PowerOnGreen();
-                                    tvInfor.setText("绿灯点亮");
-                                    showAlert(LED_GREEN);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    tvInfor.setText("绿灯点亮失败");
-                                    setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
-                                    finish();
-                                    showToast("绿灯点亮失败");
+                                if (Build.MODEL.equals("CT")) {
+                                    try {
+                                        PowerOffRed();
+                                        PowerOnBlue();
+                                        tvInfor.setText("蓝灯点亮");
+                                        showAlert(LED_BLUE);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    try {
+                                        PowerOffRed();
+                                        PowerOnGreen();
+                                        tvInfor.setText("绿灯点亮");
+                                        showAlert(LED_GREEN);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        tvInfor.setText("绿灯点亮失败");
+                                        setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
+                                        finish();
+                                        showToast("绿灯点亮失败");
+                                    }
                                 }
                                 break;
                             case LED_GREEN:
@@ -168,23 +179,23 @@ public class IndicatorLightAct extends FragActBase {
                             case LED_BLUE:
                                 try {
                                     PowerOffBlue();
-                                    if (model.equals("M08")){
+                                    if (model.equals("M08")) {
                                         PowerOnRed2();
                                         tvInfor.setText("红灯点亮");
                                         showAlert(LED_RED2);
-                                    }else {
+                                    } else {
                                         setXml(App.KEY_INDICATOR_LIGHT, App.KEY_FINISH);
                                         finish();
                                     }
 
                                 } catch (IOException e) {
                                     e.printStackTrace();
-                                    if (model.equals("M08")){
+                                    if (model.equals("M08")) {
                                         tvInfor.setText("红灯点亮失败");
                                         setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
                                         finish();
                                         showToast("红灯点亮失败");
-                                    }else {
+                                    } else {
                                         showToast("蓝灯关闭失败");
                                     }
                                 }
@@ -214,7 +225,7 @@ public class IndicatorLightAct extends FragActBase {
     protected void onStop() {
         super.onStop();
         try {
-            if (model.equals("M08")){
+            if (model.equals("M08")) {
                 PowerOffRed2();
             }
             PowerOffBlue();
@@ -253,6 +264,7 @@ public class IndicatorLightAct extends FragActBase {
         CtrlFile.write("-wdout80 0");
         CtrlFile.flush();
     }
+
     public void PowerOnRed2() throws IOException {
         CtrlFile.write("-wdout71 1");
         CtrlFile.flush();
@@ -272,6 +284,7 @@ public class IndicatorLightAct extends FragActBase {
         CtrlFile.write("-wdout79 0");
         CtrlFile.flush();
     }
+
     public void PowerOnGreen2() throws IOException {
         CtrlFile.write("-wdout16 1");
         CtrlFile.flush();
@@ -291,6 +304,7 @@ public class IndicatorLightAct extends FragActBase {
         CtrlFile.write("-wdout78 0");
         CtrlFile.flush();
     }
+
     public void PowerOnBlue2() throws IOException {
         CtrlFile.write("-wdout18 1");
         CtrlFile.flush();
@@ -300,6 +314,7 @@ public class IndicatorLightAct extends FragActBase {
         CtrlFile.write("-wdout18 0");
         CtrlFile.flush();
     }
+
     public void DeviceClose() throws IOException {
         CtrlFile.close();
     }

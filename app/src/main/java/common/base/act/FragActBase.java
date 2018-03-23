@@ -21,8 +21,10 @@ package common.base.act;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -78,6 +80,7 @@ public abstract class FragActBase extends SwipeBackActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
+
 //        trueorfalse();
     }
 
@@ -527,6 +530,10 @@ public abstract class FragActBase extends SwipeBackActivity {
 
     @Override
     protected void onResume() {
+        if (Build.MODEL.equals("CT")) {
+            //设置横屏
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
         super.onResume();
         MobclickAgent.onResume(this);
         onBackPressedCount = 0;

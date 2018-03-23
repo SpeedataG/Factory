@@ -1,6 +1,5 @@
 package com.spdata.factory;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,13 +10,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
+import android.os.Build;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -90,6 +87,7 @@ public class ZhongLiGanYing extends FragActBase {
     protected void main() {
         initTitlebar();
         btnPass.setVisibility(View.GONE);
+
         setSwipeEnable(false);
         sbacc = new StringBuffer();
         sbori = new StringBuffer();
@@ -334,13 +332,21 @@ public class ZhongLiGanYing extends FragActBase {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (i) {
-                mGX = event.values[SensorManager.DATA_X];
-                mGY = event.values[SensorManager.DATA_Y];
-                mGZ = event.values[SensorManager.DATA_Z];
+                if (Build.MODEL.equals("CT")){
+                    mGX = event.values[SensorManager.DATA_Y];
+                    mGY = event.values[SensorManager.DATA_X];
+                    mGZ = event.values[SensorManager.DATA_Z];
 
-                mPosX -= mGX * 2;
-                mPosY += mGY * 2;
+                    mPosX += mGX * 2;
+                    mPosY += mGY * 2;
+                }else {
+                    mGX = event.values[SensorManager.DATA_X];
+                    mGY = event.values[SensorManager.DATA_Y];
+                    mGZ = event.values[SensorManager.DATA_Z];
 
+                    mPosX -= mGX * 2;
+                    mPosY += mGY * 2;
+                }
                 if (mPosX < 0) {
                     mPosX = 0;
                 } else if (mPosX > mScreenBallWidth) {
