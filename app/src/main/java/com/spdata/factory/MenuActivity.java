@@ -214,8 +214,9 @@ public class MenuActivity extends FragActBase {
     private void initUI() {
         listItemList.clear();
         model = Build.MODEL;
+        //|| model.equals("KT55L")
         if (model.equals("T450") || model.equals("KT55") || model.equals("T550")
-                || model.equals("M55") || model.equals("KT55L") || model.equals("T55")) {
+                || model.equals("M55") || model.equals("T55")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "47", "35", "49", "48"};
@@ -237,8 +238,8 @@ public class MenuActivity extends FragActBase {
         } else if (model.equals("KT50") || model.equals("KT50_B2")
                 || model.equals("R40") || model.equals("T50") || model.equals("KT50_YQ")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
-                    "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
-                    "26", "30", "31", "32", "34", "37", "39", "43", "44", "48"};
+                    "12", "13", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
+                    "26", "30", "31", "32", "34", "37", "39", "48"};
         } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                 model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
@@ -285,7 +286,18 @@ public class MenuActivity extends FragActBase {
         } else if (model.equals("DM-P80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "9", "10", "11",
                     "12", "13", "15", "16", "19", "30", "37", "49"};
-        } else {
+        } else if (model.equals("SD80")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
+                    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "41", "48"};
+
+        } else if (model.equals("KT40")||model.equals("KT40Q")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "10", "11",
+                    "13", "14", "15", "16", "17", "19", "20", "18", "21", "22", "23",
+                    "24", "26", "30", "32", "37", "39", "41","48"};
+        }
+
+        else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
@@ -669,6 +681,12 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonS1Act.class, true);
                 } else if (Build.MODEL.equals("CT")) {
                     openAct(ButtonCtAct.class, true);
+                } else if (Build.MODEL.equals("SD80")) {
+                    openAct(ButtonSd80Act.class, true);
+                } else if (model.equals("KT40Q")) {
+                    openAct(ButtonKt40qAct.class, true);
+                } else if (model.equals("KT40")) {
+                    openAct(ButtonKt40Act.class, true);
                 } else {
                     openAct(ButtonAll.class, true);
                 }
@@ -678,7 +696,11 @@ public class MenuActivity extends FragActBase {
                 openAct(FingerPrint.class, true);
                 break;
             case ACTION_FLASH_LIGHT:
-                openAct(FlashLightAct.class, true);
+                if (Build.VERSION.RELEASE.equals("5.1") || Build.VERSION.RELEASE.equals("5.1")) {
+                    openAct(FlashLightAct.class, true);
+                } else {
+                    openAct(FlashActivity.class, false);
+                }
                 break;
             case ACTION_CHARGE_NOLINE:      //无线充电
                 break;

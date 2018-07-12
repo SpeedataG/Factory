@@ -146,7 +146,7 @@ public class ButtonKT50Act extends FragActBase {
                 return true;
             }
 
-        } else if (keyCode == KeyEvent.KEYCODE_F5) {
+        } else if (keyCode == KeyEvent.KEYCODE_F5||keyCode == KeyEvent.KEYCODE_F4) {
             if (btn_scan.isPressed()&&btn_scan2.isPressed()) {
                 btn_scan.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_scan.setPressed(false);

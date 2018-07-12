@@ -253,6 +253,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:background="#cec7c7"
                     android:text="DISPLAY" />
 

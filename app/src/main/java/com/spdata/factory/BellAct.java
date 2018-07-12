@@ -19,6 +19,8 @@ import org.androidannotations.annotations.ViewById;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 
+
+
 /**
  * Created by xu on 2016/7/26.
  */
@@ -77,7 +79,7 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
         initTitlebar();
         setSwipeEnable(false);
         btnPass.setVisibility(View.GONE);
-        mMediaPlayer = MediaPlayer.create(this, R.raw.here);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.yiyuel);
         mMediaPlayer
                 .setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     public void onCompletion(MediaPlayer mediaPlayer) {
@@ -98,6 +100,22 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
         searchBar.setMax(max);
         searchBar.setOnSeekBarChangeListener(this);
         curSound = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(6000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnPass.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -141,22 +159,7 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
             }
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        btnPass.setVisibility(View.VISIBLE);
-                    }
-                });
-            }
-        }).start();
+
     }
 
     @Override

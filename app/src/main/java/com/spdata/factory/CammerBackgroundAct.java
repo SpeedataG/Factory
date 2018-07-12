@@ -170,6 +170,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
     protected void onResume() {
         super.onResume();
     }
+
     @AfterViews
     protected void main() {
 //        if(SystemProperties.get("persist.sys.iscamera").equals("close")){
@@ -297,7 +298,12 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                     e.printStackTrace();
                     showToast("相机打开失败");
                 }
-                myCamera.setDisplayOrientation(90);//设置预览方向,
+                if (!Build.MODEL.equals("SD80")) {
+                    myCamera.setDisplayOrientation(90);//设置预览方向,
+                }else {
+                    myCamera.setDisplayOrientation(270);//设置预览方向,
+
+                }
                 myCamera.setPreviewDisplay(holder);
             } catch (IOException e) {
                 e.printStackTrace();

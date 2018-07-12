@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
@@ -16,6 +17,7 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -99,6 +101,28 @@ public class WifiAct extends FragActBase {
     }
 
     /**
+     * 强制帮用户打开GPS
+     */
+    public void openGPS() {
+        //获取GPS现在的状态（打开或是关闭状态）
+        boolean gpsEnabled = Settings.Secure.isLocationProviderEnabled(getContentResolver(), LocationManager.GPS_PROVIDER);
+
+        if (gpsEnabled) {
+            //关闭GPS
+            Settings.Secure.setLocationProviderEnabled(getContentResolver(), LocationManager.GPS_PROVIDER, false);
+        } else {
+            //打开GPS  www.2cto.com
+            Settings.Secure.setLocationProviderEnabled(getContentResolver(), LocationManager.GPS_PROVIDER, true);
+
+        }
+    }
+
+    private void closeGPS() {
+        android.provider.Settings.Secure.setLocationProviderEnabled(
+                getContentResolver(), "gps", false);
+    }
+
+    /**
      * 打开WIFI
      */
     private void openWifi() {
@@ -149,6 +173,7 @@ public class WifiAct extends FragActBase {
     NetworkInfo mWifi;
 
     private void init() {
+
         context = this;
         linkWifi = new LinkWifi(context);
         wifiManager = (WifiManager) context
@@ -166,7 +191,7 @@ public class WifiAct extends FragActBase {
             scanAndGetResult();
         } else {
             openWifi();
-            if (wifi_list==null ){
+            if (wifi_list == null) {
                 scanAndGetResult();
             }
         }
@@ -244,7 +269,14 @@ public class WifiAct extends FragActBase {
     @Override
     protected void onResume() {
         super.onResume();
+        openGPS();
         showWifiList();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        closeGPS();
     }
 
     private void configWifiRelay(final ScanResult wifiinfo) {

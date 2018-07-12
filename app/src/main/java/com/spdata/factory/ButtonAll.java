@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
@@ -39,6 +40,8 @@ public class ButtonAll extends FragActBase {
     Button btn_right_F4;
     @ViewById
     Button btn_home;
+    @ViewById
+    TextView tv_infor;
     boolean isOneClick = true;
 
     @AfterViews
@@ -52,6 +55,9 @@ public class ButtonAll extends FragActBase {
         btn_right_F4.setVisibility(View.GONE);
         btn_up.setVisibility(View.GONE);
         btn_down.setVisibility(View.GONE);
+        tv_infor.setVisibility(View.VISIBLE);
+        tv_infor.setText("请根据Toast显示键值判断按键是否正常！");
+
 
     }
 
@@ -83,11 +89,13 @@ public class ButtonAll extends FragActBase {
 
     }
 
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showToast(keyCode + "");
-        if (keyCode==event.KEYCODE_BACK||keyCode==event.KEYCODE_MENU) {
-            return  true;
+        if (keyCode == event.KEYCODE_BACK || keyCode == event.KEYCODE_MENU) {
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

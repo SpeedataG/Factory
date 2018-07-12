@@ -304,15 +304,15 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_pass"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="成功"
@@ -322,9 +322,10 @@
         <Button
             android:id="@+id/btn_not_pass"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="失败"

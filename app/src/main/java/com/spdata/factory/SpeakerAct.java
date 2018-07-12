@@ -2,22 +2,11 @@ package com.spdata.factory;
 
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
-import android.media.AudioFormat;
 import android.media.AudioManager;
-import android.media.AudioRecord;
-import android.media.AudioTrack;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
@@ -27,21 +16,10 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Method;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
-
-import static android.R.attr.path;
 
 /**
  * Created by xu on 2016/7/26.
@@ -106,7 +84,7 @@ public class SpeakerAct extends FragActBase  implements SeekBar.OnSeekBarChangeL
 //        audioManager.setRingerMode(AudioManager.MODE_IN_COMMUNICATION);
 //        //这里的资源文件要求要小点的文件，要注意
         try {
-            mMediaPlayer = MediaPlayer.create(SpeakerAct.this, R.raw.here);
+            mMediaPlayer = MediaPlayer.create(SpeakerAct.this, R.raw.yiyuel);
             mMediaPlayer.setLooping(true);
             mMediaPlayer.start();
         } catch (IllegalArgumentException e1) {

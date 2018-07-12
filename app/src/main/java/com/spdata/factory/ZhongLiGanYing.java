@@ -86,9 +86,9 @@ public class ZhongLiGanYing extends FragActBase {
     @AfterViews
     protected void main() {
         initTitlebar();
+        setSwipeEnable(false);
         btnPass.setVisibility(View.GONE);
 
-        setSwipeEnable(false);
         sbacc = new StringBuffer();
         sbori = new StringBuffer();
         initSensor();

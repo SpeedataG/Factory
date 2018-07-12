@@ -99,8 +99,8 @@ public class GPSTest extends Activity {
 
 	public GPSTest() {
 		Log.v(TAG, "GPSTest() ");
-		mGpsInfo = new GpsInfo[20];
-		mGpsinfo_sort = new GpsInfo[20];
+		mGpsInfo = new GpsInfo[30];
+		mGpsinfo_sort = new GpsInfo[30];
 		m_isGpsOpen = false;
 		hGpsHand = new GHandler();
 		statusListener = new GpsStatusListner();
@@ -123,7 +123,7 @@ public class GPSTest extends Activity {
 	}
 
 	private void initAllControl() {
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i <mGpsInfo.length; i++)
 			mGpsInfo[i] = new GpsInfo();
 
 		tvSatelite = new TextView[MAX_SATELITE_COUNT + 2];
@@ -544,7 +544,6 @@ public class GPSTest extends Activity {
 							.append("mGpsInfo[iCount].iID");
 					int j1 = mGpsInfo[k].iID;
 					s5 = stringbuilder4.append(j1).toString();
-
 					k++;
 				}
 

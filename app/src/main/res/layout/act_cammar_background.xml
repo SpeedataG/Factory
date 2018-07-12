@@ -39,8 +39,8 @@
                 <!--android:text="@string/camera_front_text" />-->
                 <SurfaceView
                     android:id="@+id/camera_surface"
-                    android:layout_width="280dip"
-                    android:layout_height="300dip" />
+                    android:layout_width="360px"
+                    android:layout_height="480px" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

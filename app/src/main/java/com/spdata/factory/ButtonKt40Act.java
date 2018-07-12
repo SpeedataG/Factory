@@ -3,6 +3,7 @@ package com.spdata.factory;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
@@ -88,7 +89,8 @@ public class ButtonKt40Act extends FragActBase {
     protected void main() {
         initTitlebar();
         setSwipeEnable(false);
-        btnPass.setEnabled(false);
+//        btnPass.setEnabled(false);
+        btnPass.setVisibility(View.GONE);
     }
 
     @Click
@@ -429,7 +431,8 @@ public class ButtonKt40Act extends FragActBase {
                 && btn_ok.isPressed() && btn_back.isPressed() && btn_menu.isPressed() && btn_scan.isPressed()
                 && btn_up.isPressed() && btn_f6.isPressed() && btn_f10.isPressed()&& btn_down.isPressed() && btn_camera.isPressed()
                 && btn_f5.isPressed() ) {
-           btnPass.setEnabled(true);
+//           btnPass.setEnabled(true);
+            btnPass.setVisibility(View.VISIBLE);
         }
     }
 
