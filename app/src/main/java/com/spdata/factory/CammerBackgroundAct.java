@@ -92,6 +92,8 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
             myCamera.startPreview();
             count++;
         } else if (count == 2) {
+//            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+//            myCamera.setParameters(parameters);
             setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_FINISH);
             finish();
         }
@@ -99,6 +101,8 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
 
     @Click
     void btnNotPass() {
+//        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+//        myCamera.setParameters(parameters);
         setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_UNFINISH);
         finish();
     }
@@ -169,6 +173,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
     @AfterViews
@@ -269,17 +274,17 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
         //设置参数并开始预览
         //实现自动对焦
         SystemClock.sleep(500);
-        Camera.Parameters params = myCamera.getParameters();
-        params.setPictureFormat(PixelFormat.JPEG);
-        params.setPreviewSize(640, 480);
-        // 设置预览照片时每秒显示多少帧的最小值和最大值
-        params.setPreviewFpsRange(4, 10);
-        // 设置图片格式
-        params.setPictureFormat(ImageFormat.JPEG);
-        // 设置JPG照片的质量
-        params.set("jpeg-quality", 85);
-        myCamera.setParameters(params);
-        myCamera.startPreview();
+//        Camera.Parameters params = myCamera.getParameters();
+//        params.setPictureFormat(PixelFormat.JPEG);
+//        params.setPreviewSize(640, 480);
+//        // 设置预览照片时每秒显示多少帧的最小值和最大值
+//        params.setPreviewFpsRange(4, 10);
+//        // 设置图片格式
+//        params.setPictureFormat(ImageFormat.JPEG);
+//        // 设置JPG照片的质量
+//        params.set("jpeg-quality", 85);
+//        myCamera.setParameters(params);
+//        myCamera.startPreview();
     }
 
     @Override
@@ -293,18 +298,20 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
         if (myCamera == null) {
             try {
                 try {
+
                     myCamera = Camera.open();
                 } catch (Exception e) {
                     e.printStackTrace();
                     showToast("相机打开失败");
                 }
-                if (!Build.MODEL.equals("SD80")) {
-                    myCamera.setDisplayOrientation(90);//设置预览方向,
-                }else {
+                if (Build.MODEL.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208")) {
                     myCamera.setDisplayOrientation(270);//设置预览方向,
+                } else {
+                    myCamera.setDisplayOrientation(90);//设置预览方向,
 
                 }
                 myCamera.setPreviewDisplay(holder);
+                myCamera.startPreview();
             } catch (IOException e) {
                 e.printStackTrace();
             }

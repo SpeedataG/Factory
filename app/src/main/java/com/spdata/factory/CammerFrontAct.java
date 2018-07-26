@@ -200,18 +200,18 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
             finish();
             return;
         }
-        //设置参数并开始预览
-        Camera.Parameters params = myCamera.getParameters();
-        params.setPictureFormat(PixelFormat.JPEG);
-        params.setPreviewSize(640, 480);
-        // 设置预览照片时每秒显示多少帧的最小值和最大值
-        params.setPreviewFpsRange(4, 10);
-        // 设置图片格式
-        params.setPictureFormat(ImageFormat.JPEG);
-        // 设置JPG照片的质量
-        params.set("jpeg-quality", 85);
-        myCamera.setParameters(params);
-        myCamera.startPreview();
+//        //设置参数并开始预览
+//        Camera.Parameters params = myCamera.getParameters();
+//        params.setPictureFormat(PixelFormat.JPEG);
+//        params.setPreviewSize(640, 480);
+//        // 设置预览照片时每秒显示多少帧的最小值和最大值
+//        params.setPreviewFpsRange(4, 10);
+//        // 设置图片格式
+//        params.setPictureFormat(ImageFormat.JPEG);
+//        // 设置JPG照片的质量
+//        params.set("jpeg-quality", 85);
+//        myCamera.setParameters(params);
+//        myCamera.startPreview();
 
     }
 
@@ -251,6 +251,7 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
                     setCameraDisplayOrientation(this, 1, myCamera);//设置预览方向,
                     //设置显示
                     myCamera.setPreviewDisplay(holder);
+                    myCamera.startPreview();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -40,7 +40,6 @@ public class MenuActivity extends FragActBase {
     ListView listMenu;
     private String[] strings;
     private String model;
-    private String models;
 //    private String models2;
 //    private String author;
 
@@ -291,13 +290,15 @@ public class MenuActivity extends FragActBase {
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "41", "48"};
 
-        } else if (model.equals("KT40")||model.equals("KT40Q")) {
+        } else if (model.equals("KT40") || model.equals("KT40Q")||model.equals("KT40Q_O")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "10", "11",
                     "13", "14", "15", "16", "17", "19", "20", "18", "21", "22", "23",
-                    "24", "26", "30", "32", "37", "39", "41","48"};
-        }
-
-        else {
+                    "24", "26", "30", "32", "37", "39", "41", "48"};
+        } else if (model.equals("k63v2_64_bsp")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
+                    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "41", "48"};
+        } else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
@@ -569,7 +570,11 @@ public class MenuActivity extends FragActBase {
                 openAct(LightAct.class, true);
                 break;
             case ACTION_INDICATOR_LIGHT:
-                openAct(IndicatorLightAct.class, true);
+                if (model.equals("k63v2_64_bsp")) {
+                    openAct(IndicatorLightAct_sd55.class, true);
+                }else {
+                    openAct(IndicatorLightAct.class, true);
+                }
                 break;
             case ACTION_LIGHT_SENSOR:
                 openAct(LightSeneorAct.class, true);
@@ -681,9 +686,9 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonS1Act.class, true);
                 } else if (Build.MODEL.equals("CT")) {
                     openAct(ButtonCtAct.class, true);
-                } else if (Build.MODEL.equals("SD80")) {
+                } else if (Build.MODEL.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208")) {
                     openAct(ButtonSd80Act.class, true);
-                } else if (model.equals("KT40Q")) {
+                } else if (model.equals("KT40Q")||model.equals("KT40Q_O")) {
                     openAct(ButtonKt40qAct.class, true);
                 } else if (model.equals("KT40")) {
                     openAct(ButtonKt40Act.class, true);

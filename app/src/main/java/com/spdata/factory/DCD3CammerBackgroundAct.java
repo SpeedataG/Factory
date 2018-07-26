@@ -307,6 +307,7 @@ public class DCD3CammerBackgroundAct extends FragActBase implements SurfaceHolde
                 }
                 myCamera.setDisplayOrientation(180);//设置预览方向,
                 myCamera.setPreviewDisplay(holder);
+                myCamera.startPreview();
             } catch (IOException e) {
                 e.printStackTrace();
             }

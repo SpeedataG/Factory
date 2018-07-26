@@ -159,8 +159,8 @@ public class SimAct extends FragActBase {
                                 || model.equals("Biowolf LE") || model.equals("KT45") || model.equals("UHF45")
                                 || model.equals("3000U") || model.equals("N800") || model.equals("FC-PK80")
                                 || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
-                                || model.equals("PT145") || model.equals("TT43") || model.equals("SD80")
-                                || model.equals("KT40") || model.equals("KT40Q")) {
+                                || model.equals("PT145") || model.equals("TT43") || model.equals("SD80")||Build.MODEL.equals("AQUARIUS Cmp NS208")
+                                || model.equals("KT40") || model.equals("KT40Q")||model.equals("KT40Q_O")||model.equals("k63v2_64_bsp")) {
                             if (isSIM1Ready && isSIM2Ready) {
                                 setXml(App.KEY_SIM, App.KEY_FINISH);
                                 finish();
