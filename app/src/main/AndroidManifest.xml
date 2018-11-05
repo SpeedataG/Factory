@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.spdata.factory">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.spdata.factory"
+    android:sharedUserId="android.uid.system">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" /> //权限
     <!-- 打电话权限 -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -69,15 +71,18 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
+    <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED" />
 
     <application
         android:name=".application.App"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@drawable/test_app"
         android:label="@string/app_name"
-        android:sharedUserId="android.uid.system"
+
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!-- *#*#1010#*#*打开方式启动 -->
         <receiver android:name=".TestReceiver">
@@ -91,7 +96,7 @@
 
         <activity
             android:name=".MenuActivity_"
-            android:screenOrientation="portrait"
+           
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -110,63 +115,63 @@
         <activity
             android:name=".GPSTest"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".VersionAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".USBAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".SDCardAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".SDCardkt80Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".WifiAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".SleepWakeAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".DisplayTest"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".LightAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".IndicatorLightAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".OTGAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".LightSeneorAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".CompassSeneorAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".GSeneorAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".NFCAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
+           >
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
             </intent-filter>
@@ -175,127 +180,127 @@
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
             <!-- nfc 扫描有nfc 打开该actvity -->
-            <intent-filter>
-                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.nfc.action.TAG_DISCOVERED" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".GPSAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ScanAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".BluetoothAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ChangeAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
 
         <!-- xuyanshuai -->
         <activity
             android:name=".FlashLightAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".CammerBackgroundAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".BellAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".SimAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".SpeakerAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".CammerFrontAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".SmallScreenAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".EarMICAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".PSAMAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".PhoneMICAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".CallPhoneActi_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".EepromAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".GpsOutAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".LaserAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".VibrateAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity android:name=".MultitouchVisible" />
         <activity
             android:name=".ButtonTwoAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".TsHandWriting"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ZhongLiGanYing_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".OutGpsAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".BarometerAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".MaglevAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".SerialportAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".UsbPlateAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonKT80Act_"
             android:launchMode="singleTop"
@@ -303,11 +308,11 @@
         <activity
             android:name=".ButtonS150Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".OutGpsS510Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".Kt80Zhongli_"
             android:launchMode="singleTop"
@@ -315,96 +320,96 @@
         <activity
             android:name=".ButtonDb2Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".OutGpsDB2Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonKT50Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonH500Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <!-- <activity -->
         <!-- android:name=".OutGpsS510Act_" -->
         <!-- android:launchMode="singleTop" -->
-        <!-- android:screenOrientation="portrait"></activity> -->
+        <!--></activity> -->
         <activity
             android:name=".ButtonKt40qAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonKt40Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".LndicatorLightKT4OAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".SimKt40Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
 
         <activity
             android:name=".SerialportH80Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".OutGpsN55Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".OutGpsH500Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".OutGpsN80Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".R6Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".BluetoothAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ScanX300qAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".UhfAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".M08CameraBacckAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".X300Serport_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".DCD3CammerBackgroundAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".GasSensorAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonM08Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonS1Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -416,39 +421,39 @@
         <activity
             android:name=".DCD3ButtonAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonN80Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".CameraUSBAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ExpandAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".FingerPrint_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".TouchTest"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".OutGps_x300Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonKT45qAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".Id2TestAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonDmP80Act_"
             android:launchMode="singleTop"
@@ -460,19 +465,27 @@
         <activity
             android:name=".ButtonAll_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ButtonSd80Act_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".FlashActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".IndicatorLightAct_sd55_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
+        <activity
+            android:name=".ResetAct_"
+            android:launchMode="singleTop"
+            />
+        <activity
+            android:name=".ButtonSd55_"
+            android:launchMode="singleTop"
+            />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

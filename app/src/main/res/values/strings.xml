@@ -108,7 +108,7 @@
 
     <string name="action_exit_sure">确定</string>
     <string name="action_exit_cancel">取消</string>
-    <string name="action_dialog_setting_config">请勾选辅助功能中"使能上报扫描键值"和"使能扫描提示音"</string>
+    <string name="action_dialog_setting_config">请勾选"使能上报扫描键值"和"使能扫描提示音"</string>
     <string name="action_dialog_setting_config_sure_go">去设置</string>
     <string name="key_test_back_title">提示</string>
 
@@ -127,7 +127,6 @@
     <string name="msg_mifare_ok_auth">Authentication block ok</string>
     <string name="msg_mifare_ok_findcard">Find a card, ID is </string>
     <string name="title_activity_finger_print">FingerPrint</string>
-
 
 
     <string name="tv_st_success">正在定位...</string>

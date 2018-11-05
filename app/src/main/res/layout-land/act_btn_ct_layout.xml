@@ -27,13 +27,13 @@
             android:layout_marginTop="10dp">
 
             <Button
-                android:id="@+id/btn_back"
+                android:id="@+id/btn_f2"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="back" />
+                android:text="F2" />
 
             <Button
                 android:id="@+id/btn_key1"
@@ -94,6 +94,16 @@
                 android:layout_weight="1"
                 android:background="#cec7c7"
                 android:text="6" />
+
+            <Button
+                android:id="@+id/btn_menu"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="#cec7c7"
+                android:text="MENU" />
         </LinearLayout>
 
         <LinearLayout
@@ -103,11 +113,13 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp">
 
+
             <Button
                 android:id="@+id/btn_key7"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+
                 android:layout_weight="1"
                 android:background="#cec7c7"
                 android:text="7" />
@@ -171,6 +183,16 @@
                 android:layout_weight="1"
                 android:background="#cec7c7"
                 android:text="del" />
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="#cec7c7"
+                android:text="BACK" />
         </LinearLayout>
     </LinearLayout>
 

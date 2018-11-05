@@ -2,15 +2,12 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
-import com.speedata.postest.PosC;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -20,14 +17,12 @@ import org.androidannotations.annotations.ViewById;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 
-import static com.spdata.factory.R.id.btn_left_F4;
-import static com.spdata.factory.R.id.btn_right_F4;
-
 /**
- * Created by 42040 on 2018/6/20.
+ * Created by 42040 on 2018/11/5.
  */
-@EActivity(R.layout.act_btn_sd80)
-public class ButtonSd80Act extends FragActBase {
+
+@EActivity(R.layout.act_btnsd55_layout)
+public class ButtonSd55 extends FragActBase {
     @ViewById
     CustomTitlebar titlebar;
     @ViewById
@@ -39,20 +34,21 @@ public class ButtonSd80Act extends FragActBase {
     @ViewById
     Button btn_down;
     @ViewById
-    Button btn_back;
+    Button btn_left_F4;
     @ViewById
-    Button btn_x;
+    Button btn_close;
     @ViewById
-    Button btn_y;
-
+    Button btn_right_F4;
+    @ViewById
+    Button btn_home;
+    boolean isOneClick = true;
 
     @AfterViews
     protected void main() {
         initTitlebar();
         setSwipeEnable(false);
-        PosC.home(true, this);
+        btnPass.setVisibility(View.GONE);
     }
-
 
     @Click
     void btnNotPass() {
@@ -82,20 +78,30 @@ public class ButtonSd80Act extends FragActBase {
 
     }
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         showToast(keyCode + "");
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (btn_back.isPressed()) {
-                btn_back.setBackgroundColor(Color.parseColor("#CEC7C7"));
-                btn_back.setPressed(false);
-                return true;
+        if (keyCode == 135) {
+            if (btn_left_F4.isPressed()) {
+                btn_left_F4.setBackgroundColor(Color.parseColor("#CEC7C7"));
+                btn_left_F4.setPressed(false);
             } else {
-                btn_back.setBackgroundColor(Color.parseColor("#0AF229"));
-                btn_back.setPressed(true);
-                return true;
+                btn_left_F4.setBackgroundColor(Color.parseColor("#0AF229"));
+                btn_left_F4.setPressed(true);
+                ispress();
+            }
+
+        } else if (keyCode == 134) {
+            if (btn_right_F4.isPressed()) {
+                btn_right_F4.setBackgroundColor(Color.parseColor("#CEC7C7"));
+                btn_right_F4.setPressed(false);
+
+            } else {
+                btn_left_F4.setBackgroundColor(Color.parseColor("#0AF229"));
+                btn_right_F4.setBackgroundColor(Color.parseColor("#0AF229"));
+                btn_left_F4.setPressed(true);
+                ispress();
+                btn_right_F4.setPressed(true);
             }
 
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
@@ -106,6 +112,7 @@ public class ButtonSd80Act extends FragActBase {
             } else {
                 btn_up.setBackgroundColor(Color.parseColor("#0AF229"));
                 btn_up.setPressed(true);
+                ispress();
                 return true;
             }
 
@@ -117,33 +124,38 @@ public class ButtonSd80Act extends FragActBase {
             } else {
                 btn_down.setBackgroundColor(Color.parseColor("#0AF229"));
                 btn_down.setPressed(true);
+                ispress();
                 return true;
             }
-        } else if (keyCode == KeyEvent.KEYCODE_F1) {
-            if (btn_x.isPressed()) {
-                btn_x.setBackgroundColor(Color.parseColor("#CEC7C7"));
-                btn_x.setPressed(false);
-                return true;
-            } else {
-                btn_x.setBackgroundColor(Color.parseColor("#0AF229"));
-                btn_x.setPressed(true);
-                return true;
-            }
-        } else if (keyCode == KeyEvent.KEYCODE_F2) {
-            if (btn_y.isPressed()) {
-                btn_y.setBackgroundColor(Color.parseColor("#CEC7C7"));
-                btn_y.setPressed(false);
-                return true;
-            } else {
-                btn_y.setBackgroundColor(Color.parseColor("#0AF229"));
-                btn_y.setPressed(true);
-                return true;
-            }
-        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            showToast("caidanjian");
-            return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void ispress() {
+        if (btn_left_F4.isPressed() && btn_down.isPressed() && btn_up.isPressed()) {
+            btnPass.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /*产生numSize位16进制的数*/
+    public static String getRandomValue(int numSize) {
+        String str = "";
+        for (int i = 0; i < numSize; i++) {
+            char temp = 0;
+            int key = (int) (Math.random() * 2);
+            switch (key) {
+                case 0:
+                    temp = (char) (Math.random() * 10 + 48);//产生随机数字
+                    break;
+                case 1:
+                    temp = (char) (Math.random() * 6 + 'a');//产生a-f
+                    break;
+                default:
+                    break;
+            }
+            str = str + temp;
+        }
+        return str;
     }
 
 

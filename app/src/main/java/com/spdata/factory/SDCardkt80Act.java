@@ -1,6 +1,7 @@
 package com.spdata.factory;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -78,49 +79,56 @@ public class SDCardkt80Act extends FragActBase {
     protected void main() {
         initTitlebar();
         setSwipeEnable(false);
+        double v = Double.parseDouble(Build.VERSION.RELEASE);
         sdUtils = new SDUtils(mContext);
-        readSD2();
+//        readSD2();
         String[] volumePaths = sdUtils.getVolumePaths();
-        StringBuffer stringBuffer = new StringBuffer();
-        String size = sdUtils.getSDTotalSize(volumePaths[1]);
-        stringBuffer.append("\n内置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[0])
-                + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[0]));
+        if (volumePaths.length > 1 && v > 5.1) {
+
+
+            StringBuffer stringBuffer = new StringBuffer();
+            String size = sdUtils.getSDTotalSize(volumePaths[1]);
+            stringBuffer.append("\n内置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[0])
+                    + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[0]));
 
 //        stringBuffer.append("\n外置SD2卡总大小" + sdUtils.getSDTotalSize(volumePaths[2])
 //                + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[2]));
-        tvInfor.setText(stringBuffer);
-        if (size.equals("0.00 B")) {
-            tvInfor.append("\nSD卡1不存在");
-        } else {
-            stringBuffer.append("\n外置SD1卡总大小" + size
-                    + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[1]));
             tvInfor.setText(stringBuffer);
-            tvInfor.append("\nSD卡1存在");
-        }
-        switch (stada) {
-            case "0":
-                tvInfor.append("\nSD2正常挂载可使用");
-                break;
-            case "1":
-                tvInfor.append("\nSD2损坏或者没正常格式化");
-                break;
-            case "2":
-                tvInfor.append("\n无SD2卡");
-            case "":
-                tvInfor.append("\n不支持SD2卡");
-                break;
-        }
-
-        for (int i = 0; i < 2; i++) {
-            try {
-                sdUtils.copyBigDataToSD(volumePaths[i]);
-                yes = 1;
-            } catch (IOException e) {
-                e.printStackTrace();
-                yes = 2;
-//                tvInfor.setText("SD卡检测失败");
+            if (size.equals("0.00 B")) {
+                tvInfor.append("\nSD卡1不存在");
+            } else {
+                stringBuffer.append("\n外置SD1卡总大小" + size
+                        + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[1]));
+                tvInfor.setText(stringBuffer);
+                tvInfor.append("\nSD卡1存在");
             }
+            for (int i = 0; i <1; i++) {
+                try {
+                    sdUtils.copyBigDataToSD(volumePaths[i]);
+                    yes = 1;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    yes = 2;
+//                tvInfor.setText("SD卡检测失败");
+                }
+            }
+        } else {
+            yes = 2;
         }
+//        switch (stada) {
+//            case "0":
+//                tvInfor.append("\nSD2正常挂载可使用");
+//                break;
+//            case "1":
+//                tvInfor.append("\nSD2损坏或者没正常格式化");
+//                break;
+//            case "2":
+//                tvInfor.append("\n无SD2卡");
+//            case "":
+//                tvInfor.append("\n不支持SD2卡");
+//                break;
+//        }
+
 
         task = new remindTask();
         remind(task);
@@ -135,7 +143,7 @@ public class SDCardkt80Act extends FragActBase {
                 bufferedReader.close();
             }
         } catch (IOException e) {
-            stada="";
+            stada = "";
             e.printStackTrace();
         }
     }
@@ -148,14 +156,17 @@ public class SDCardkt80Act extends FragActBase {
                 @Override
                 public void run() {
 
-                    if (yes == 1 && stada.equals("0")) {
+//                    if (yes == 1 && stada.equals("0")) {
+                    if (yes == 1) {
                         setXml(App.KEY_SDCARD, App.KEY_FINISH);
                         finish();
-                    } else if (yes == 2 || stada.equals("1") || stada.equals("2")) {
+                    }
+                    else if (yes == 2 || stada.equals("1") || stada.equals("2")) {
                         setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
                         showToast("失败");
                         finish();
-                    } else {
+                    }
+                    else {
                         setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
                         showToast("失败");
                         finish();

@@ -133,7 +133,7 @@ public class TsHandWriting extends Activity {
 
     private void remind(TimerTask task) {
         timer = new Timer();
-        timer.schedule(task, 1000 * 10);
+        timer.schedule(task, 3000 * 10);
     }
 
     public void finishTimer() {
@@ -152,8 +152,6 @@ public class TsHandWriting extends Activity {
             String[] cmd = {"/system/bin/sh", "-c",
                     "echo [ENTER_HAND_WRITING] >> " + file}; // file
         }
-        task = new remindTask();
-        remind(task);
         //去掉Activity上面的状态栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //去掉虚拟按键全屏显示
@@ -167,6 +165,8 @@ public class TsHandWriting extends Activity {
                         // bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        task = new remindTask();
+        remind(task);
     }
 
     @Override

@@ -71,7 +71,7 @@ public class VersionAct extends FragActBase {
         TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String Versionum=Build.DISPLAY;
         if (Build.MODEL.equals("N80")||Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")|| Build.MODEL.equals("H5")
-                || Build.MODEL.equals("S1")|| Build.MODEL.equals("H5_35")) {
+                || Build.MODEL.equals("S1")|| Build.MODEL.equals("H5_35")  || Build.MODEL.equals("S550")) {
             tvVersionInfor.setText("型号：" + android.os.Build.MODEL
                     + "\n"
                     + "版本号:" + Versionum

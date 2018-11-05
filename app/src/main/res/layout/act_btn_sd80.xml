@@ -23,23 +23,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_up"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10sp"
-                android:layout_weight="1"
-                android:background="#cec7c7"
-                android:text="VOLUME_UP" />
-
             <Button
                 android:id="@+id/btn_down"
                 android:layout_width="130dp"
+                android:layout_marginRight="10sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#cec7c7"
                 android:text="VOLUME_DOWN" />
+            <Button
+                android:id="@+id/btn_up"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#cec7c7"
+                android:text="VOLUME_UP" />
+
+
         </LinearLayout>
 
 
@@ -58,22 +58,23 @@
                 android:text="BACK" />
 
             <Button
-                android:id="@+id/btn_x"
+                android:id="@+id/btn_y"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="X" />
+                android:text="F2" />
 
             <Button
-                android:id="@+id/btn_y"
+                android:id="@+id/btn_x"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="Y" />
+                android:text="F1" />
+
         </LinearLayout>
     </LinearLayout>
 

@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.scandecode.ScanDecode;
+import com.scandecode.inf.ScanInterface;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
@@ -18,11 +20,16 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.IOException;
 import java.util.Timer;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+import common.utils.DeviceControl;
 import common.utils.ScanUtil;
+
+import static android.R.attr.data;
+import static com.umeng.analytics.pro.x.S;
 
 @EActivity(R.layout.act_scan)
 public class ScanAct extends FragActBase {
@@ -36,6 +43,7 @@ public class ScanAct extends FragActBase {
     @ViewById
     Button btnNotPass;
     private String result;
+    private ScanDecode scanDecode;
 
     @Click
     void btnNotPass() {
@@ -75,10 +83,43 @@ public class ScanAct extends FragActBase {
 
     @AfterViews
     protected void main() {
+
+
         initTitlebar();
         setSwipeEnable(false);
-        //judgePropert();
+//        judgePropert();
         init();
+//        scanDecode = new ScanDecode(this);
+//        scanDecode.initService("true");
+//        scanDecode.getBarCode(new ScanInterface.OnScanListener() {
+//            @Override
+//            public void getBarcode(String s) {
+//                if (s == null) {
+//                    scanDecode.stopScan();
+//                } else {
+//                    new AlertDialog.Builder(mContext).setMessage("扫描到的数据:" + s).setTitle("成功")
+//                            .setPositiveButton("成功", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    setXml(App.KEY_SCAN, App.KEY_FINISH);
+//                                    finish();
+//                                }
+//                            }).show();
+//                }
+//            }
+//        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        scanDecode.starScan();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+//        scanDecode.stopScan();
     }
 
     ScanUtil scanUtil;
@@ -87,17 +128,17 @@ public class ScanAct extends FragActBase {
         scanUtil = new ScanUtil(mContext);
 //        result = SystemProperties.get("persist.sys.keyreport", "true");
 //        if (result.equals("false")) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if(SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
-                        startScanService();
-                        scanUtil.repeatScans();
-                    }else {
-                        scanUtil.repeatScans();
-                    }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
+                    startScanService();
+                    scanUtil.repeatScans();
+                } else {
+                    scanUtil.repeatScans();
                 }
-            }).start();
+            }
+        }).start();
 //        } else {
 //            new Thread(new Runnable() {
 //                @Override
@@ -129,6 +170,8 @@ public class ScanAct extends FragActBase {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        scanDecode.stopScan();
+//        scanDecode.onDestroy();
         scanUtil.unScan();
         new Thread(new Runnable() {
             @Override
@@ -147,7 +190,7 @@ public class ScanAct extends FragActBase {
 
     private void stopScanService() {//停止扫描服务
 //        SystemProperties.set("persist.sys.keyreport", "false");
-        SystemProperties.set("persist.sys.scanstopimme","true");
+        SystemProperties.set("persist.sys.scanstopimme", "true");
         Intent Barcodeintent = new Intent();
         Barcodeintent.setPackage("com.geomobile.oemscanservice");
         mContext.stopService(Barcodeintent);
@@ -157,7 +200,7 @@ public class ScanAct extends FragActBase {
      * 判断快捷扫描是否勾选 不勾选跳转到系统设置中进行设置
      */
     private void judgePropert() {
-        result = SystemProperties.get("persist.sys.keyreport", "true");
+        result = SystemProperties.get("persisy.sys.scankeydisable", "true");
 //        SystemProperties.set("persist.sys.keyreport", "true");
         if (result.equals("false")) {
             new AlertDialog.Builder(this)
@@ -170,8 +213,7 @@ public class ScanAct extends FragActBase {
                                 @Override
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
-                                    Intent intent = new Intent(
-                                            Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                                    Intent intent = new Intent(Settings.ACTION_SETTINGS);
                                     startActivityForResult(intent, 1);
                                 }
                             })

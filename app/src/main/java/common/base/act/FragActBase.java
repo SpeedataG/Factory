@@ -22,11 +22,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -76,10 +78,20 @@ public abstract class FragActBase extends SwipeBackActivity {
     private FlippingLoadingDialog mProgressDialog;
 
     public PlaySoundPool pl;
+    private PowerManager.WakeLock mWakeLock;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
+        Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
+        int ori = mConfiguration.orientation; //获取屏幕方向
+        if (ori == mConfiguration.ORIENTATION_LANDSCAPE) {
+            //横屏
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//强制为竖屏
+        } else if (ori == mConfiguration.ORIENTATION_PORTRAIT) {
+            //竖屏
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
+        }
 
 //        trueorfalse();
     }
@@ -222,6 +234,10 @@ public abstract class FragActBase extends SwipeBackActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        if (powerManager != null) {
+            mWakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "WakeLock");
+        }
         mContext = regieterBaiduBaseCount();
         App application = (App) this.getApplication();
         if (mContext != null && mContext instanceof Activity) {
@@ -530,6 +546,10 @@ public abstract class FragActBase extends SwipeBackActivity {
 
     @Override
     protected void onResume() {
+        if (mWakeLock != null) {
+            mWakeLock.acquire();
+        }
+
         if (Build.MODEL.equals("CT")) {
             //设置横屏
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -554,6 +574,10 @@ public abstract class FragActBase extends SwipeBackActivity {
 
     @Override
     protected void onPause() {
+        if (mWakeLock != null) {
+            mWakeLock.release();
+        }
+
         super.onPause();
         MobclickAgent.onPause(this);
     }

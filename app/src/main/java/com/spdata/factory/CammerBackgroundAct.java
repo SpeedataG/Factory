@@ -12,8 +12,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.provider.MediaStore;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -41,6 +43,7 @@ import common.base.act.FragActBase;
 import common.event.ViewMessage;
 
 import static android.R.attr.path;
+import static com.spdata.factory.view.CameraPreview.setCameraDisplayOrientation;
 
 @EActivity(R.layout.act_cammar_background)
 public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Callback,
@@ -197,7 +200,25 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
 //                }
 //            }
 //        }
-
+        if (SystemProperties.get("persist.sys.iscamera").equals("close")) {
+            SystemProperties.set("persist.sys.scanstopimme", "true");
+            Intent opencam = new Intent();
+            opencam.setAction("com.se4500.opencamera");
+            this.sendBroadcast(opencam, null);
+        }
+        if (SystemProperties.get("persist.sys.keyreport").equals("true")) {
+            if (SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
+                for (int waitCount = 0; waitCount < 20; waitCount++) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                    }
+                    if (SystemProperties.get("persist.sys.iscamera").equals("open")) {
+                        break;
+                    }
+                }
+            }
+        }
 
         initTitlebar();
         btnPass.setEnabled(false);
@@ -268,23 +289,17 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        SystemProperties.set("persist.sys.iscamera", "open");
+        SystemProperties.set("persist.sys.scanstopimme", "false");
+        Intent opencam = new Intent();
+        opencam.setAction("com.se4500.closecamera");
+    }
+
+    @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                int height) {
-        // TODO Auto-generated method stub
-        //设置参数并开始预览
-        //实现自动对焦
-        SystemClock.sleep(500);
-//        Camera.Parameters params = myCamera.getParameters();
-//        params.setPictureFormat(PixelFormat.JPEG);
-//        params.setPreviewSize(640, 480);
-//        // 设置预览照片时每秒显示多少帧的最小值和最大值
-//        params.setPreviewFpsRange(4, 10);
-//        // 设置图片格式
-//        params.setPictureFormat(ImageFormat.JPEG);
-//        // 设置JPG照片的质量
-//        params.set("jpeg-quality", 85);
-//        myCamera.setParameters(params);
-//        myCamera.startPreview();
     }
 
     @Override
@@ -298,18 +313,19 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
         if (myCamera == null) {
             try {
                 try {
-
-                    myCamera = Camera.open();
+                    myCamera = Camera.open(0);
+                    setCameraDisplayOrientation(CammerBackgroundAct.this, 0, myCamera);//设置预览方向,
                 } catch (Exception e) {
                     e.printStackTrace();
                     showToast("相机打开失败");
                 }
-                if (Build.MODEL.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208")) {
-                    myCamera.setDisplayOrientation(270);//设置预览方向,
-                } else {
-                    myCamera.setDisplayOrientation(90);//设置预览方向,
-
-                }
+//                if (Build.MODEL.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208") || Build.MODEL.equals("N80")
+//                        || Build.MODEL.equals("S550")) {
+//                    myCamera.setDisplayOrientation(270);//设置预览方向,
+//                } else {
+//                    myCamera.setDisplayOrientation(90);//设置预览方向,
+//
+//                }
                 myCamera.setPreviewDisplay(holder);
                 myCamera.startPreview();
             } catch (IOException e) {
@@ -372,9 +388,5 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
 
-    }
 }

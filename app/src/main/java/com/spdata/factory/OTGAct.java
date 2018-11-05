@@ -104,7 +104,8 @@ public class OTGAct extends FragActBase {
                         len = inputStreamReader.read();
                         inputStreamReader.close();
                         if (len == 49) {
-                            if (Build.VERSION.RELEASE.equals("6.0")) {
+                            double v = Double.parseDouble(Build.VERSION.RELEASE);
+                            if (v > 5.1) {
                                 tvInfor.setText("OTG模式\n");
                                 new Thread(new Runnable() {
                                     @Override
@@ -124,7 +125,6 @@ public class OTGAct extends FragActBase {
                                     }
                                 }).start();
                             } else {
-
                                 File path = new File("/storage/usbotg");
                                 StatFs stat = new StatFs(path.getPath());
                                 long blockSize = stat.getBlockSize();
@@ -156,7 +156,6 @@ public class OTGAct extends FragActBase {
                                         }
                                     }).start();
                                 }
-
                             }
                         } else if (len == 48) {
                             tvInfor.setText("非OTG模式\n" + "请插入USB OTG并连接U盘");

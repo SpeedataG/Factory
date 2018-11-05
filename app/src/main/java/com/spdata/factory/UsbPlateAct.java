@@ -96,11 +96,11 @@ public class UsbPlateAct extends FragActBase {
        public void onReceive(Context context, Intent intent) {
            String action=intent.getAction();
            if (action.equals(Intent.ACTION_MEDIA_SCANNER_STARTED)){
-               handler.sendMessage(handler.obtainMessage(0,"U盘以挂载,请拔出"));
+               handler.sendMessage(handler.obtainMessage(0,"U盘已挂载,请拔出"));
            } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
               handler.sendMessage(handler.obtainMessage(1,"扫描U盘"));
            } else if (action.equals(Intent.ACTION_MEDIA_REMOVED)||action.equals(Intent.ACTION_MEDIA_EJECT)) {
-               handler.sendMessage(handler.obtainMessage(2,"U盘以移除"));
+               handler.sendMessage(handler.obtainMessage(2,"U盘已移除"));
            }
        }
    };

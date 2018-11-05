@@ -35,6 +35,8 @@ public class LightSeneorAct extends FragActBase {
     Button btnPass;
     @ViewById
     Button btnNotPass;
+    private MySensorListener mySensorListener;
+    private ProSensorListener proSensorListener;
 
     @Click
     void btnNotPass() {
@@ -70,14 +72,32 @@ public class LightSeneorAct extends FragActBase {
 
     private String model;
     private StringBuffer sbpro;
+    private SensorManager sm;
+    private StringBuffer sb;
 
     @AfterViews
     protected void main() {
         initTitlebar();
         setSwipeEnable(false);
         sbpro = new StringBuffer();
-        initSensor();
         model = Build.MODEL;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 获取SensorManager对象
+        sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mySensorListener = new MySensorListener();
+        proSensorListener = new ProSensorListener();
+        // 获取Sensor对象 光感传感器
+        Sensor ligthSensor = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
+        sm.registerListener(mySensorListener, ligthSensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        //通过调用getDefaultSensor  获取距离传感器
+        Sensor spro = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        sm.registerListener(proSensorListener, spro, SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
@@ -85,21 +105,6 @@ public class LightSeneorAct extends FragActBase {
         super.onDestroy();
     }
 
-    private void initSensor() {
-        // 获取SensorManager对象
-        sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-        // 获取Sensor对象
-        ligthSensor = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
-        sm.registerListener(new MySensorListener(), ligthSensor,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        //通过调用getDefaultSensor方法获取某一个类型的默认传感器
-        Sensor spro = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        sm.registerListener(new ProSensorListener(), spro, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    private SensorManager sm;
-    private Sensor ligthSensor;
-    private StringBuffer sb;
 
     public class MySensorListener implements SensorEventListener {
 
@@ -112,7 +117,7 @@ public class LightSeneorAct extends FragActBase {
             float acc = event.accuracy;
             // 获取光线强度
             float lux = event.values[0];
-            tvInfor.setText("请用收遮挡光感区，光感值变化为正常 " + "\n" + "光感值：" + lux + "\n");
+            tvInfor.setText("请用手遮挡光感区，光感值变化为正常 " + "\n\n" + "光线强度：" + lux + "\n");
         }
     }
 
@@ -127,13 +132,20 @@ public class LightSeneorAct extends FragActBase {
             float pro = event.values[0];
             sbpro.setLength(0);
             if (pro == 0.0) {
-                sbpro.append("接近：" + pro);
+                sbpro.append("距离传感器数值：接近" + pro);
             } else {
-                sbpro.append("离开： " + pro);
+                sbpro.append("距离传感器数值：离开" + pro);
             }
             sbpro.append("\n");
             tv_infors.setText(sbpro.toString());
 
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sm.unregisterListener(mySensorListener);
+        sm.unregisterListener(proSensorListener);
     }
 }

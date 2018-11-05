@@ -1,6 +1,7 @@
 package com.spdata.factory;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,6 +28,7 @@ import java.util.TimerTask;
 
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
+import common.utils.SDUtils;
 
 @EActivity(R.layout.activity_change)
 public class ChangeAct extends FragActBase {
@@ -171,11 +174,12 @@ public class ChangeAct extends FragActBase {
                             first();
                             tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000.0 + "V");
                             tvInfor.append("\n电池温度：" + Integer.parseInt(battTempFile) / 10.0 + "℃");
-                            try {
-                                tvInfor.append("\n充电电流：" + readCurrentFile(new File(CHARGER_CURRENT_NOW)) + " mA");
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                tvInfor.append("\n充电电流：" + readCurrentFile(new File(CHARGER_CURRENT_NOW)) + " mA");
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+                            tvInfor.append("\n充电电流：" + bufferRead() + " mA");
                             titlebar.setAttrs("正在充电");
                             break;
                         case 3:
@@ -194,7 +198,7 @@ public class ChangeAct extends FragActBase {
 
     private void remind(TimerTask task) {
         timer = new Timer();
-        timer.schedule(task, 600);
+        timer.schedule(task, 100);
     }
 
     public void finishTimer() {
@@ -239,6 +243,7 @@ public class ChangeAct extends FragActBase {
         try {
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
+
             }
 
         } catch (IOException e) {
@@ -267,5 +272,32 @@ public class ChangeAct extends FragActBase {
         } finally {
             input.close();
         }
+    }
+
+    //读取文件：这里需要做判断，如果没有这个文件会报错。
+    public String bufferRead() {
+        try {
+            BufferedReader bfr;
+            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60") || Build.MODEL.equals("SD55L")) {
+                bfr = new BufferedReader(new FileReader("/sys/class/power_supply/battery/current_now"));
+            } else {
+                bfr = new BufferedReader(new FileReader(CHARGER_CURRENT_NOW));
+            }
+            String line = bfr.readLine();
+            StringBuilder sb = new StringBuilder();
+            sb.append(line);
+//            while (line != null) {
+//                sb.append(line);
+//                Log.d("buffer", "bufferRead: " + sb.toString());
+////                sb.append("\n");
+//                line = bfr.readLine();
+//            }
+            bfr.close();
+            return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }

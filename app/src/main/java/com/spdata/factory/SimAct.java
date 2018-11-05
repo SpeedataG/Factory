@@ -151,7 +151,7 @@ public class SimAct extends FragActBase {
                                 || model.equals("W6") || model.equals("S510") || model.equals("DB2_LVDS")
                                 || model.equals("KT50") || model.equals("KT50_B2") || model.equals("R40")
                                 || model.equals("T50") || model.equals("KT50_YQ")
-                                || model.equals("T55") || model.equals("DM-P80")
+                                || model.equals("T55") || model.equals("DM-P80") || Build.MODEL.equals("S550")
                                 || model.equals("N80") || model.equals("N55") || model.equals("X55")
                                 || model.equals("N55/X55") || model.equals("T550") || model.equals("M55")
                                 || model.equals("KT55L") || model.equals("RT801")

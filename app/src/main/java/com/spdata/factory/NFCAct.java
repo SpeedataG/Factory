@@ -18,6 +18,7 @@ package com.spdata.factory;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -178,6 +179,7 @@ public class NFCAct extends FragActBase implements OnClickListener,
         if (tagFromIntent == null) {
             return;
         }
+        final String CardId = ByteArrayToHexString(tagFromIntent.getId());
         final MifareClassic mfc = MifareClassic.get(tagFromIntent);
         if (p != null) {
             System.out.println("p!=null");
@@ -185,7 +187,8 @@ public class NFCAct extends FragActBase implements OnClickListener,
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final String data = (p != null) ? CardManager.load(p, res, mfc) : null;
+                final String data = (p != null) ? CardManager.load(p, res, mfc) + "卡片ID：" + CardId : null;
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -195,6 +198,21 @@ public class NFCAct extends FragActBase implements OnClickListener,
             }
         }).start();
 
+    }
+
+    private String ByteArrayToHexString(byte[] inarray) {
+        int i, j, in;
+        String[] hex = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A",
+                "B", "C", "D", "E", "F"};
+        String out = "";
+        for (j = 0; j < inarray.length; ++j) {
+            in = (int) inarray[j] & 0xff;
+            i = (in >> 4) & 0x0f;
+            out += hex[i];
+            i = in & 0x0f;
+            out += hex[i];
+        }
+        return out;
     }
 
     @Override

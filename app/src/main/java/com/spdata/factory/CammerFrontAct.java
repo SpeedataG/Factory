@@ -10,6 +10,7 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.SystemProperties;
 import android.provider.MediaStore;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -40,7 +41,7 @@ import static android.R.attr.path;
  */
 
 @EActivity(R.layout.act_cammer_front)
-public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callback, Camera.AutoFocusCallback {
+public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callback {
 
     @ViewById
     CustomTitlebar titlebar;
@@ -51,8 +52,6 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
     @ViewById
     Button btn_light;
 
-    private int CAMERA_RESULT = -1;
-    int cameraCount = 0;
     private int count = 0;
     private int light = 0;
     private SurfaceView mySurfaceView;//surfaceView声明
@@ -117,8 +116,53 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
         titlebar.setAttrs("前置摄像头测试");
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SystemProperties.set("persist.sys.iscamera", "open");
+        SystemProperties.set("persist.sys.scanstopimme", "false");
+        Intent opencam = new Intent();
+        opencam.setAction("com.se4500.closecamera");
+        this.sendBroadcast(opencam, null);
+//        if (SystemProperties.get("persist.sys.keyreport").equals("true")) {
+//            if (SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
+//                for (int waitCount = 0; waitCount < 20; waitCount++) {
+//                    try {
+//                        Thread.sleep(200);
+//                    } catch (Exception e) {
+//                    }
+//                    if (SystemProperties.get("persist.sys.iscamera").equals("open")) {
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        Intent closecam = new Intent();
+//        closecam.setAction("com.se4500.closecamera");
+//        this.sendBroadcast(closecam, null);
+    }
+
     @AfterViews
     protected void main() {
+        if (SystemProperties.get("persist.sys.iscamera").equals("close")) {
+            SystemProperties.set("persist.sys.scanstopimme", "true");
+            Intent opencam = new Intent();
+            opencam.setAction("com.se4500.opencamera");
+            this.sendBroadcast(opencam, null);
+        }
+        if (SystemProperties.get("persist.sys.keyreport").equals("true")) {
+            if (SystemProperties.get("persist.sys.scanheadtype").equals("6603")) {
+                for (int waitCount = 0; waitCount < 20; waitCount++) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                    }
+                    if (SystemProperties.get("persist.sys.iscamera").equals("open")) {
+                        break;
+                    }
+                }
+            }
+        }
         initTitlebar();
         setSwipeEnable(false);
         //获得控件
@@ -130,9 +174,9 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
         //设置类型
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         String model = Build.MODEL;
-        if (model.equals("KT80") || model.equals("W6")|| model.equals("RT801")
-                || model.equals("T80") || model.equals("T800")|| model.equals("FC-K80")
-                || model.equals("Biowolf LE")|| model.equals("N800") || model.equals("FC-PK80")
+        if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
+                || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
+                || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
                 || model.equals("DM-P80")) {
             titlebar.setAttrs("请先打开前置补关灯");
         } else {
@@ -195,23 +239,6 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                int height) {
-        if (cammeraIndex == -1) {
-            showToast("无前置摄像头");
-            finish();
-            return;
-        }
-//        //设置参数并开始预览
-//        Camera.Parameters params = myCamera.getParameters();
-//        params.setPictureFormat(PixelFormat.JPEG);
-//        params.setPreviewSize(640, 480);
-//        // 设置预览照片时每秒显示多少帧的最小值和最大值
-//        params.setPreviewFpsRange(4, 10);
-//        // 设置图片格式
-//        params.setPictureFormat(ImageFormat.JPEG);
-//        // 设置JPG照片的质量
-//        params.set("jpeg-quality", 85);
-//        myCamera.setParameters(params);
-//        myCamera.startPreview();
 
     }
 
@@ -237,24 +264,21 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
             myCamera.stopPreview();
             myCamera.release();
             myCamera = null;
+        }
+        cammeraIndex = FindFrontCamera();
+        if (cammeraIndex == -1) {
+            showToast("无前置摄像头");
+            finish();
+            return;
         } else {
-            cammeraIndex = FindFrontCamera();
-            if (cammeraIndex == -1) {
-                showToast("无前置摄像头");
-                finish();
-                return;
-            } else {
-                try {
-                    myCamera = Camera.open(cammeraIndex);
-                    myCamera.stopPreview();
-//                myCamera = Camera.open(CAMERA_RESULT);
-                    setCameraDisplayOrientation(this, 1, myCamera);//设置预览方向,
-                    //设置显示
-                    myCamera.setPreviewDisplay(holder);
-                    myCamera.startPreview();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            try {
+
+                myCamera = Camera.open(1);
+                setCameraDisplayOrientation(this, 1, myCamera);//设置预览方向,
+                myCamera.setPreviewDisplay(holder);
+                myCamera.startPreview();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -263,25 +287,11 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
     public void surfaceDestroyed(SurfaceHolder holder) {
         // TODO Auto-generated method stub
         //关闭预览并释放资源
-        if (cammeraIndex != -1) {
+        if (myCamera != null) {
             myCamera.stopPreview();
             myCamera.release();
             myCamera = null;
         }
-    }
-
-    @Override
-    public void onAutoFocus(boolean success, Camera camera) {
-        // TODO Auto-generated method stub
-        if (success) {
-            //设置参数,并拍照
-            Camera.Parameters params = myCamera.getParameters();
-            params.setPictureFormat(PixelFormat.JPEG);
-            params.setPreviewSize(640, 480);
-            myCamera.setParameters(params);
-            myCamera.takePicture(null, null, jpeg);
-        }
-
     }
 
     /*

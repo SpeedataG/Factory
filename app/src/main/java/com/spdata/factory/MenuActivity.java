@@ -110,16 +110,17 @@ public class MenuActivity extends FragActBase {
     private final static int ACTION_EXPAND = 47;//KT55触点检测
     private final static int ACTION_EXPORT = 48;//导出结果
     private final static int ACTION_ID2 = 49;//二代证测试
+    private final static int ACTION_RESET = 50;//恢复出厂设置
     private String[] meneList = {"版本信息", "休眠唤醒", "按键", "屏幕显示", "触屏",
             "亮度调节", "小屏幕", "指示灯", "SD卡", "SIM卡",
             "后置相机/闪光灯", "手电筒", "前置相机", "喇叭", "扫描",
             "耳机MIC", "主机MIC", "wifi", "蓝牙", "GPS",
             "NFC", "USB", "OTG", "有线充电", "加速传感器",
             "光感", "打电话", "EEPROM", "外置GPS", "激光",
-            "震动器", "电子罗盘", "听筒", "虹膜摄像头", "PSAM",
-            "指纹&ID2", "无线充电", "多点触摸", "气压计", "重力感应"
+            "振动器", "电子罗盘", "听筒", "虹膜摄像头", "PSAM",
+            "指纹", "无线充电", "多点触摸", "气压计", "重力感应"
             , "U盘", "磁吸附充电", "串口孔", "高频RFID", "超高频UHF",
-            "气体传感器", "矿灯摄像头", "触点检测", "导出测试结果", "ID2"};
+            "气体传感器", "矿灯摄像头", "触点检测", "导出测试结果", "ID2", "恢复出厂"};
     private String nulls[] = new String[0];
     private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
     private String wifi[] = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_WIFI_STATE"};
@@ -213,9 +214,8 @@ public class MenuActivity extends FragActBase {
     private void initUI() {
         listItemList.clear();
         model = Build.MODEL;
-        //|| model.equals("KT55L")
         if (model.equals("T450") || model.equals("KT55") || model.equals("T550")
-                || model.equals("M55") || model.equals("T55")) {
+                || model.equals("M55") || model.equals("T55") || model.equals("KT55L")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "47", "35", "49", "48"};
@@ -248,7 +248,7 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "16", "17", "18", "20", "21", "23", "24", "25", "26",
                     "28", "30", "32", "31", "37", "39", "48"};
-        } else if (model.equals("N80")) {
+        } else if (model.equals("N80") || model.equals("S550")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "15", "16", "17", "18", "20", "21", "22", "23",
                     "24", "25", "26", "28", "30", "31", "37", "39", "38", "48"};
@@ -281,14 +281,14 @@ public class MenuActivity extends FragActBase {
                     "24", "25", "26", "30", "31", "37", "39", "48"};
         } else if (Build.MODEL.equals("CT")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9",
-                    "13", "16", "17", "18", "21", "22", "24", "26", "31", "39", "48"};
+                    "13", "16", "17", "18", "19", "21", "22", "24", "26", "39", "48"};
         } else if (model.equals("DM-P80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "9", "10", "11",
-                    "12", "13", "15", "16", "19", "30", "37", "49"};
-        } else if (model.equals("SD80")) {
+                    "12", "13", "15", "16", "19", "30", "37", "48", "49"};
+        } else if (model.equals("SD80") || model.equals("AQUARIUS Cmp NS208")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "41", "48"};
+                    "23", "24", "25", "26", "30", "31", "32", "35", "37", "39", "41", "48"};
 
         } else if (model.equals("KT40") || model.equals("KT40Q") || model.equals("KT40Q_O")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "10", "11",
@@ -297,7 +297,7 @@ public class MenuActivity extends FragActBase {
         } else if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "41", "48"};
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "50", "48"};
         } else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -518,6 +518,9 @@ public class MenuActivity extends FragActBase {
             case ACTION_ID2:
                 result = getXml(App.KEY_ID2, "");
                 break;
+            case ACTION_RESET:
+                result = getXml(App.KEY_RESET, "");
+                break;
         }
         return result;
     }
@@ -674,7 +677,7 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonH500Act.class, true);
                 } else if (model.equals("spda6735") || model.equals("DCD3")) {
                     openAct(DCD3ButtonAct.class, true);
-                } else if (model.equals("N80")) {
+                } else if (model.equals("N80") || Build.MODEL.equals("S550")) {
                     openAct(ButtonN80Act.class, true);
                 } else if (model.equals("M08")) {
                     openAct(ButtonM08Act.class, true);
@@ -692,6 +695,8 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonKt40qAct.class, true);
                 } else if (model.equals("KT40")) {
                     openAct(ButtonKt40Act.class, true);
+                } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
+                    openAct(ButtonSd55.class, true);
                 } else {
                     openAct(ButtonAll.class, true);
                 }
@@ -701,10 +706,11 @@ public class MenuActivity extends FragActBase {
                 openAct(FingerPrint.class, true);
                 break;
             case ACTION_FLASH_LIGHT:
-                if (Build.VERSION.RELEASE.equals("5.1") || Build.VERSION.RELEASE.equals("5.1")) {
-                    openAct(FlashLightAct.class, true);
-                } else {
+                double v = Double.parseDouble(Build.VERSION.RELEASE);
+                if (v > 5.1) {
                     openAct(FlashActivity.class, false);
+                } else {
+                    openAct(FlashLightAct.class, true);
                 }
                 break;
             case ACTION_CHARGE_NOLINE:      //无线充电
@@ -789,6 +795,12 @@ public class MenuActivity extends FragActBase {
                 break;
             case ACTION_ID2:
                 openAct(Id2TestAct.class, true);
+                break;
+            case ACTION_RESET:
+                openAct(ResetAct.class, true);
+
+                break;
+            default:
                 break;
         }
     }

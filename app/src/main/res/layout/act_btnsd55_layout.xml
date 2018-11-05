@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <com.spdata.factory.view.CustomTitlebar
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        style="@style/main_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/btn_up"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:background="#cec7c7"
+            android:text="VOLUME_UP" />
+
+        <Button
+            android:id="@+id/btn_down"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_up"
+            android:layout_marginTop="10dp"
+            android:background="#cec7c7"
+            android:text="VOLUME_DOWN" />
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#cec7c7"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_home"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_left_F4"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="30dp"
+            android:text="HOME"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_left_F4"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/btn_down"
+            android:layout_marginTop="23dp"
+            android:background="#cec7c7"
+            android:text="SCAN" />
+
+        <Button
+            android:id="@+id/btn_right_F4"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btn_left_F4"
+            android:layout_alignBottom="@+id/btn_left_F4"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:background="#cec7c7"
+            android:text="SCAN" />
+
+        <TextView
+            android:id="@+id/tv_infor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="dsafasdf"
+            android:visibility="gone"
+            android:textColor="@color/text_white"
+            android:layout_above="@+id/btn_left_F4"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_pass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_item_blue"
+            android:text="成功"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/commom_textsize" />
+
+        <Button
+            android:id="@+id/btn_not_pass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_item_blue"
+            android:text="失败"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/commom_textsize" />
+    </LinearLayout>
+
+
+</LinearLayout>
