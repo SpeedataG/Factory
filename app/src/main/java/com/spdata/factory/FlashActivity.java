@@ -14,15 +14,13 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.spdata.factory.R;
 import com.spdata.factory.application.App;
 
 import common.utils.SharedXmlUtil;
@@ -179,9 +177,9 @@ public class FlashActivity extends AppCompatActivity {
     //按钮的背景图切换
     private void changeFlashUi(boolean isFlashOn) {
         if (isFlashOn) {
-            btFlash.setBackgroundResource(R.drawable.mainbutton_on);
+            btFlash.setBackgroundResource(R.mipmap.mainbutton_on);
         } else {
-            btFlash.setBackgroundResource(R.drawable.mainbutton_off);
+            btFlash.setBackgroundResource(R.mipmap.mainbutton_off);
         }
     }
 
@@ -190,7 +188,7 @@ public class FlashActivity extends AppCompatActivity {
         Resources res = c.getResources();
         int width = (int) res.getDimension(android.R.dimen.notification_large_icon_width);
         int height = (int) res.getDimension(android.R.dimen.notification_large_icon_height);
-        Bitmap result = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.test_app), width, height, false);
+        Bitmap result = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.mipmap.test_app), width, height, false);
         return result;
     }
 
@@ -201,7 +199,7 @@ public class FlashActivity extends AppCompatActivity {
         builder.setLargeIcon(createNotificationLargeIcon(this))
                 .setContentTitle("手电筒已开启")
                 .setContentText("点击可关闭手电筒")
-                .setSmallIcon(R.drawable.test_app, 3)
+                .setSmallIcon(R.mipmap.test_app, 3)
                 .setContentIntent(createCloseFlashPendingIntent());
         mFlashOnNotification = builder.build();
     }

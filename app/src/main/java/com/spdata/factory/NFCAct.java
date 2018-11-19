@@ -350,7 +350,7 @@ public class NFCAct extends FragActBase implements OnClickListener,
             ret = spliter;
 
         } else if (source.startsWith("icon_main")) {
-            ret = res.getDrawable(R.drawable.icon_nfc);
+            ret = res.getDrawable(R.mipmap.icon_nfc);
 
             final String[] params = source.split(",");
             final float f = res.getDisplayMetrics().densityDpi / 72f;

@@ -31,7 +31,7 @@
                 android:layout_gravity="center_vertical"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/btn_back"
+                android:src="@mipmap/btn_back"
                 android:visibility="gone" />
 
             <TextView

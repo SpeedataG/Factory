@@ -435,6 +435,7 @@ public class GpsOutAct extends FragActBase {
     }
 
 
+    @Override
     public void onDestroy() {
 
 //        try {

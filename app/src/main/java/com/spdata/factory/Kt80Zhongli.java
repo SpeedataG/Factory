@@ -207,10 +207,10 @@ public class Kt80Zhongli extends FragActBase {
             mPaint.setTextSize(23);
             /** 加载小球资源 **/
             mbitmapBall = BitmapFactory.decodeResource(this.getResources(),
-                    R.drawable.bal);
+                    R.mipmap.bal);
             /** 加载游戏背景 **/
             mbitmapBg = BitmapFactory.decodeResource(this.getResources(),
-                    R.drawable.bg2);
+                    R.mipmap.bg2);
             mbitmapBg.getPixel(mScreenWidth, mScreenHeight);
 
             /** 得到SensorManager对象 **/

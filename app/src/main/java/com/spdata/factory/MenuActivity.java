@@ -332,11 +332,11 @@ public class MenuActivity extends FragActBase {
                 helper.setText(R.id.tv_title, item.getTitle());
                 if (state.equals(App.KEY_FINISH)) {
                     helper.setImageResource(R.id.image, R
-                            .drawable.right);
+                            .mipmap.right);
                     helper.setBackground(R.id.relative, getResources()
                             .getDrawable(R.drawable.selector_item));
                 } else if (state.equals(App.KEY_UNFINISH)) {
-                    helper.setImageResource(R.id.image, R.drawable.error);
+                    helper.setImageResource(R.id.image, R.mipmap.error);
                     helper.setBackground(R.id.relative, getResources()
                             .getDrawable(R.drawable.selector_item));
                 } else {

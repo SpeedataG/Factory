@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
+//apply plugin: 'android-apt'
 
 //获取时间戳
 static def getDate() {
@@ -15,10 +15,9 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-    compileSdkVersion 28
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     dexOptions {
-//        incremental true
         javaMaxHeapSize "5g"
     }
     defaultConfig {
@@ -27,9 +26,9 @@ android {
         }
         applicationId "com.spdata.factory"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 27
         versionCode 1
-        versionName "v1.6.0" + "-build-" + getDate() + "-" + versionCode
+        versionName "v1.6.1" + "-build-" + getDate() + "-" + versionCode
         multiDexEnabled true
     }
     buildTypes {
@@ -38,91 +37,32 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main {
-            jniLibs.srcDir 'libs'
-        }
-
-        // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
-
-        // Move the build types to build-types/<type>
-        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
-        // This moves them out of them default location under src/<type>/... which would
-        // conflict with src/ being used by the main source set.
-        // Adding new build types or product flavors should be accompanied
-        // by a similar customization.
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
-    }
-    // 为了适配6.0 不支持httpclient 耗电
-    // useLibrary 'org.apache.http.legacy'
-    //给打出来的包重新命名
-    // project.archivesBaseName =  defaultConfig.versionName + "_" +getDate()+"_"+defaultConfig.versionCode;
-    //修改生成的apk名字
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def oldFile = output.outputFile
-            def newName = '';
-            if (variant.buildType.name.equals('release')) {
-//                println(variant.productFlavors[0].name)
-                newName = oldFile.name.replace(".apk", defaultConfig.versionName + "-build" + getDate() + "-" + defaultConfig.versionCode + ".apk")
-                output.outputFile = new File(oldFile.parent, newName)
-            }
-            if (variant.buildType.name.equals('beta')) {
-                newName = oldFile.name.replace(".apk", defaultConfig.versionName + "-build" + getDate() + ".apk")
-                output.outputFile = new File(oldFile.parent, newName)
-            }
-            if (variant.buildType.name.equals('debug')) {
-                newName = oldFile.name.replace("-debug.apk", ".apk")
-//                newName = defaultConfig.versionName + ".apk"
-                output.outputFile = new File(oldFile.parent, newName)
-            }
-        }
-    }
 }
 
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    //    compile 'com.android.support:design:22.2.0'
-    compile files('libs/orm.jar')
-    //    compile files('libs/layoutlib.jar')
-    //    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
-    compile files('libs/locSDK_4.2.jar')
-    compile files('libs/framework.jar')
-    compile files('libs/framework2.jar')
-    compile files('libs/Module_Android_DemoPower_1.7.5.1.jar')
-    compile files('libs/SmallScreenManager.jar')
-    //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'org.androidannotations:androidannotations-api:3.2'
-    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
-    compile 'com.google.android.gms:play-services-appindexing:9.8.0'
-    compile 'com.android.support:design:25.3.1'
-    testCompile 'junit:junit:4.12'
-    apt 'org.androidannotations:androidannotations:3.2'
-    compile files('libs/dpuareu.jar')
-    compile 'com.speedata:deivice:+'
-    compile 'com.speedata:libuhf:6.9.4'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.speedata:r6lib:1.5'
-    compile 'com.speedata:psam:1.4.3'
-    compile 'com.yanzhenjie:permission:1.1.2'//6.0获取权限
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.google.firebase:firebase-appindexing:16.0.2'
+    implementation 'com.android.support:design:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.speedata:deivice:+'
+    implementation 'com.speedata:libuhf:6.9.4'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.speedata:r6lib:1.5'
+    implementation 'com.speedata:psam:1.4.3'
+    implementation 'com.speedata:libid2:2.5.1'
+    implementation 'me.imid.swipebacklayout.lib:library:1.0.0'
+    implementation 'com.yanzhenjie:permission:1.1.2'//6.0获取权限
     //友盟sdk添加
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile files('libs/poi-3.6-20091214.jar')
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.speedata:libid2:2.5.1'
+    implementation 'com.umeng.analytics:analytics:6.1.4'
+    implementation 'com.android.support:multidex:1.0.3'
+    // @Ectivity注解
+    implementation 'org.androidannotations:androidannotations-api:4.1.0'
+    annotationProcessor 'org.androidannotations:androidannotations:4.1.0'
 }
 
-//    compile 'com.github.wqandroid:wqgallery:3.1.0'
-apt {
-    arguments {
-        androidManifestFile variant.outputs[0].processResources.manifestFile
-        resourcePackageName android.defaultConfig.applicationId
-    }
-}
+
 

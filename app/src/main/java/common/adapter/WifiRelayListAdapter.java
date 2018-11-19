@@ -114,6 +114,7 @@ public class WifiRelayListAdapter extends BaseAdapter {
 
         // 点击的话，中继该无线
         convertView.setOnClickListener(new OnClickListener() {
+            @Override
             public void onClick(View arg0) {
                 if (setWifiHandler != null) {
                     Message msg = new Message();
@@ -139,29 +140,29 @@ public class WifiRelayListAdapter extends BaseAdapter {
 
         if (childData.level < -90) {
             if (lock_type)
-                wifi_state.setBackgroundResource(R.drawable.wifilevel0_lock);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel0_lock);
             else
-                wifi_state.setBackgroundResource(R.drawable.wifilevel0);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel0);
         } else if (childData.level < -85) {
             if (lock_type)
-                wifi_state.setBackgroundResource(R.drawable.wifilevel1_lock);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel1_lock);
             else
-                wifi_state.setBackgroundResource(R.drawable.wifilevel1);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel1);
         } else if (childData.level < -70) {
             if (lock_type)
-                wifi_state.setBackgroundResource(R.drawable.wifilevel2_lock);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel2_lock);
             else
-                wifi_state.setBackgroundResource(R.drawable.wifilevel2);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel2);
         } else if (childData.level < -60) {
             if (lock_type)
-                wifi_state.setBackgroundResource(R.drawable.wifilevel3_lock);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel3_lock);
             else
-                wifi_state.setBackgroundResource(R.drawable.wifilevel3);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel3);
         } else if (childData.level < -50) {
             if (lock_type)
-                wifi_state.setBackgroundResource(R.drawable.wifilevel4_lock);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel4_lock);
             else
-                wifi_state.setBackgroundResource(R.drawable.wifilevel4);
+                wifi_state.setBackgroundResource(R.mipmap.wifilevel4);
         }
 
         convertView.setTag("wifi_" + childData.BSSID);

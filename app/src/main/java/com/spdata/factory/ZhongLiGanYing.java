@@ -146,10 +146,11 @@ public class ZhongLiGanYing extends FragActBase {
             accelerometerValues = event.values;
         }
     }
+
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
-        i=false;
+        i = false;
         Log.d("-----", "pwpwpwpwp");
         super.onDestroy();
     }
@@ -240,10 +241,10 @@ public class ZhongLiGanYing extends FragActBase {
             mPaint.setTextSize(23);
             /** 加载小球资源 **/
             mbitmapBall = BitmapFactory.decodeResource(this.getResources(),
-                    R.drawable.bal);
+                    R.mipmap.bal);
             /** 加载游戏背景 **/
             mbitmapBg = BitmapFactory.decodeResource(this.getResources(),
-                    R.drawable.bg2);
+                    R.mipmap.bg2);
             mbitmapBg.getPixel(mScreenWidth, mScreenHeight);
 
             /** 得到SensorManager对象 **/
@@ -332,14 +333,14 @@ public class ZhongLiGanYing extends FragActBase {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (i) {
-                if (Build.MODEL.equals("CT")){
+                if (Build.MODEL.equals("CT")) {
                     mGX = event.values[SensorManager.DATA_X];
                     mGY = event.values[SensorManager.DATA_Y];
                     mGZ = event.values[SensorManager.DATA_Z];
 
                     mPosX += mGX * 2;
                     mPosY += mGY * 2;
-                }else {
+                } else {
                     mGX = event.values[SensorManager.DATA_X];
                     mGY = event.values[SensorManager.DATA_Y];
                     mGZ = event.values[SensorManager.DATA_Z];
