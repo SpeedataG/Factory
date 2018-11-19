@@ -105,7 +105,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'org.androidannotations:androidannotations:3.2'
     compile files('libs/dpuareu.jar')
-    compile 'com.speedata:deivice:1.5.6'
+    compile 'com.speedata:deivice:+'
     compile 'com.speedata:libuhf:6.9.4'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.speedata:r6lib:1.5'

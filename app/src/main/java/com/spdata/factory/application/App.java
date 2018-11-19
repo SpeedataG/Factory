@@ -80,6 +80,7 @@ public class App extends BaseApplication implements AppConst {
     public static final String KEY_EXPORT = "export";//导出测试结果
     public static final String KEY_ID2 = "export";//二代证测试
     public static final String KEY_RESET = "reset";//恢复出厂设置
+    public static final String KEY_PORT232 = "port232";//232串口
 
     public static App getInstance() {
         return instance;

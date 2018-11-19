@@ -147,7 +147,7 @@ public class SimAct extends FragActBase {
                                 finish();
                             }
 
-                        } else if (model.equals("T450") || model.equals("KT80") || model.equals("KT55")
+                        } else if (model.equals("T450") || model.equals("KT80")|| model.equals("SD-55") || model.equals("KT55")
                                 || model.equals("W6") || model.equals("S510") || model.equals("DB2_LVDS")
                                 || model.equals("KT50") || model.equals("KT50_B2") || model.equals("R40")
                                 || model.equals("T50") || model.equals("KT50_YQ")
@@ -159,9 +159,11 @@ public class SimAct extends FragActBase {
                                 || model.equals("Biowolf LE") || model.equals("KT45") || model.equals("UHF45")
                                 || model.equals("3000U") || model.equals("N800") || model.equals("FC-PK80")
                                 || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
-                                || model.equals("PT145") || model.equals("TT43") || model.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208")
+                                || model.equals("PT145") || model.equals("TT43") || model.equals("SD80")
+                                || Build.MODEL.equals("AQUARIUS Cmp NS208")
                                 || model.equals("KT40") || model.equals("KT40Q") || model.equals("KT40Q_O")
-                                || model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
+                                || model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD55L")
+                                || model.equals("SD60")||model.equals("SK80H") || model.equals("SK80")) {
                             if (isSIM1Ready && isSIM2Ready) {
                                 setXml(App.KEY_SIM, App.KEY_FINISH);
                                 finish();

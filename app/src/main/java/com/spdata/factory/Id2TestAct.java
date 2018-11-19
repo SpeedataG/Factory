@@ -155,7 +155,6 @@ public class Id2TestAct extends FragActBase {
                             }
                         }, SerialPort.SERIAL_TTYMT2, 115200, DeviceControl.PowerType.MAIN, 94);
                     } else {
-
                         result = iid2Service.initDev(Id2TestAct.this, new
                                 IDReadCallBack() {
                                     @Override

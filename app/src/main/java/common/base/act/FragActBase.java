@@ -120,6 +120,10 @@ public abstract class FragActBase extends SwipeBackActivity {
         SharedXmlUtil.getInstance(mContext).write(key, value);
     }
 
+    public int getApiVersion() {
+        return android.os.Build.VERSION.SDK_INT;
+    }
+
     protected String getXml(String key, String devalue) {
         String read = SharedXmlUtil.getInstance(mContext).read(key, devalue);
         return read;

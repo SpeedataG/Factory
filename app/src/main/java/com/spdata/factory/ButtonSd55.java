@@ -95,13 +95,13 @@ public class ButtonSd55 extends FragActBase {
             if (btn_right_F4.isPressed()) {
                 btn_right_F4.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_right_F4.setPressed(false);
-
+                return true;
             } else {
-                btn_left_F4.setBackgroundColor(Color.parseColor("#0AF229"));
                 btn_right_F4.setBackgroundColor(Color.parseColor("#0AF229"));
-                btn_left_F4.setPressed(true);
-                ispress();
+                btn_right_F4.setBackgroundColor(Color.parseColor("#0AF229"));
                 btn_right_F4.setPressed(true);
+                ispress();
+                return true;
             }
 
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
@@ -132,7 +132,7 @@ public class ButtonSd55 extends FragActBase {
     }
 
     public void ispress() {
-        if (btn_left_F4.isPressed() && btn_down.isPressed() && btn_up.isPressed()) {
+        if (btn_left_F4.isPressed() && btn_down.isPressed() && btn_up.isPressed() && btn_right_F4.isPressed()) {
             btnPass.setVisibility(View.VISIBLE);
         }
     }

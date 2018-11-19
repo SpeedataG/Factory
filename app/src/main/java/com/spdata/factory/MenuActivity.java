@@ -111,6 +111,7 @@ public class MenuActivity extends FragActBase {
     private final static int ACTION_EXPORT = 48;//导出结果
     private final static int ACTION_ID2 = 49;//二代证测试
     private final static int ACTION_RESET = 50;//恢复出厂设置
+    private final static int ACTION_PORT232 = 51;//Rs232串口
     private String[] meneList = {"版本信息", "休眠唤醒", "按键", "屏幕显示", "触屏",
             "亮度调节", "小屏幕", "指示灯", "SD卡", "SIM卡",
             "后置相机/闪光灯", "手电筒", "前置相机", "喇叭", "扫描",
@@ -120,7 +121,7 @@ public class MenuActivity extends FragActBase {
             "振动器", "电子罗盘", "听筒", "虹膜摄像头", "PSAM",
             "指纹", "无线充电", "多点触摸", "气压计", "重力感应"
             , "U盘", "磁吸附充电", "串口孔", "高频RFID", "超高频UHF",
-            "气体传感器", "矿灯摄像头", "触点检测", "导出测试结果", "ID2", "恢复出厂"};
+            "气体传感器", "矿灯摄像头", "触点检测", "导出测试结果", "ID2", "恢复出厂","RS232串口"};
     private String nulls[] = new String[0];
     private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
     private String wifi[] = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_WIFI_STATE"};
@@ -221,7 +222,7 @@ public class MenuActivity extends FragActBase {
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "47", "35", "49", "48"};
         } else if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                 || model.equals("T80") || model.equals("T800") || model.equals("FC-K80") || model.equals("Biowolf LE")
-                || model.equals("N800") || model.equals("FC-PK80")) {
+                || model.equals("N800") || model.equals("FC-PK80") || model.equals("SD-55")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23",
                     "24", "25", "26", "30", "31", "37", "39", "40", "41", "42", "49", "48"};
@@ -298,6 +299,11 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "50", "48"};
+        } else if (model.equals("SK80H") || model.equals("SK80")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
+                    "13", "14", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "31", "39", "51","48"};
+
         } else {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -359,11 +365,11 @@ public class MenuActivity extends FragActBase {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
         if (mWifiManager.isWifiEnabled()) {
             mWifiManager.setWifiEnabled(false);
         }
+        super.onDestroy();
     }
 
     private String getState(int position) {
@@ -521,6 +527,9 @@ public class MenuActivity extends FragActBase {
             case ACTION_RESET:
                 result = getXml(App.KEY_RESET, "");
                 break;
+            case ACTION_PORT232:
+                result = getXml(App.KEY_PORT232, "");
+                break;
         }
         return result;
     }
@@ -552,7 +561,7 @@ public class MenuActivity extends FragActBase {
                 if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                         || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                         || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
-                        || model.equals("DM-P80")) {
+                        || model.equals("DM-P80") || model.equals("SD-55")) {
                     openAct(SDCardkt80Act.class, true);
                 } else {
                     openAct(SDCardAct.class, true);
@@ -575,6 +584,8 @@ public class MenuActivity extends FragActBase {
             case ACTION_INDICATOR_LIGHT:
                 if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
                     openAct(IndicatorLightAct_sd55.class, true);
+                } else if (model.equals("SK80H") || model.equals("SK80")) {
+                    openAct(IndicatorSk80LightAct.class, true);
                 } else {
                     openAct(IndicatorLightAct.class, true);
                 }
@@ -659,7 +670,7 @@ public class MenuActivity extends FragActBase {
                 } else if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                         || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                         || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
-                        ) {
+                        || model.equals("SD-55")) {
                     openAct(ButtonKT80Act.class, true);
                 } else if (model.equals("DM-P80")) {
                     openAct(ButtonDmP80Act.class, true);
@@ -706,8 +717,7 @@ public class MenuActivity extends FragActBase {
                 openAct(FingerPrint.class, true);
                 break;
             case ACTION_FLASH_LIGHT:
-                double v = Double.parseDouble(Build.VERSION.RELEASE);
-                if (v > 5.1) {
+                if (getApiVersion() > 23) {
                     openAct(FlashActivity.class, false);
                 } else {
                     openAct(FlashLightAct.class, true);
@@ -751,12 +761,11 @@ public class MenuActivity extends FragActBase {
                 openAct(BarometerAct.class, true);
                 break;
             case ACTION_ZHONGLI:
-                if (model.equals("KT80") || model.equals("W6") ||
-                        model.equals("DB2_LVDS")
+                if (model.equals("KT80") || model.equals("W6") || model.equals("DB2_LVDS")
                         || model.equals("mt6753") || model.equals("RT801")
                         || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                         || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
-                        || model.equals("DM-P80")) {
+                        || model.equals("DM-P80") || model.equals("SD-55")) {
                     openAct(Kt80Zhongli.class, true);
                 } else {
                     openAct(ZhongLiGanYing.class, true);
@@ -798,6 +807,10 @@ public class MenuActivity extends FragActBase {
                 break;
             case ACTION_RESET:
                 openAct(ResetAct.class, true);
+
+                break;
+            case ACTION_PORT232:
+                openAct(Rs232Serport.class, true);
 
                 break;
             default:

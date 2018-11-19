@@ -177,7 +177,7 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
         if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                 || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                 || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
-                || model.equals("DM-P80")) {
+                || model.equals("DM-P80")|| model.equals("SD-55")) {
             titlebar.setAttrs("请先打开前置补关灯");
         } else {
             titlebar.setAttrs("请点击拍照按钮进行拍照！");

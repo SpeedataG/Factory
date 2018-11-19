@@ -104,8 +104,7 @@ public class OTGAct extends FragActBase {
                         len = inputStreamReader.read();
                         inputStreamReader.close();
                         if (len == 49) {
-                            double v = Double.parseDouble(Build.VERSION.RELEASE);
-                            if (v > 5.1) {
+                            if (getApiVersion() > 23) {
                                 tvInfor.setText("OTG模式\n");
                                 new Thread(new Runnable() {
                                     @Override
