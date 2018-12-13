@@ -251,7 +251,7 @@ public class IndicatorSk80LightAct extends FragActBase {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("按键测试");
+        titlebar.setAttrs("指示灯测试");
     }
 
     @Override

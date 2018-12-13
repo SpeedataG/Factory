@@ -27,6 +27,7 @@ import java.util.Timer;
 import common.base.act.FragActBase;
 import common.event.ViewMessage;
 import common.utils.ScanUtil;
+import common.utils.SharedXmlUtil;
 
 /**
  * Created by 42040 on 2018/11/2.
@@ -47,38 +48,23 @@ public class ResetAct extends FragActBase {
 
     @Click
     void btnNotPass() {
-        setXml(App.KEY_RESET, App.KEY_UNFINISH);
+//        setXml(App.KEY_RESET, App.KEY_UNFINISH);
         finish();
     }
 
     @Click
     void btnPass() {
-        setXml(App.KEY_RESET, App.KEY_FINISH);
+//        setXml(App.KEY_RESET, App.KEY_FINISH);
         finish();
     }
 
     @Click
     void tvInfor() {
-//        Intent intent = new Intent(Intent.ACTION_FACTORY_RESET);
-//
-//        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-//        intent.putExtra(Intent.EXTRA_REASON, "MasterClearConfirm");
-//        intent.putExtra(Intent.EXTRA_WIPE_EXTERNAL_STORAGE, true);//清除数据
-//        sendBroadcast(intent);
-        startActivity(new Intent(Settings.ACTION_SETTINGS));
-//        //   第一个参为包名，第二个各个设置的类名(可以参考下面，包名不用改变)
-//        ComponentName cm = new ComponentName("com.spdata.factory",
-//                "com.android.settings.MasterClear");
-//        ComponentName cm = new ComponentName("com.android.settings",
-//                "com.android.settings.SubSettings");
-//        ComponentName cm = new ComponentName("com.android.settings",
-//                "com.android.settings.SystemDashboardActivity");
-//        Intent intent = new Intent();
-//        intent.setComponent(cm);
-//        intent.setAction("android.intent.action.VIEW");
-//        startActivity(intent);
+        SharedXmlUtil.getInstance(this).clearAll();
+        showToast("清除记录成功！");
+        finish();
 
-
+//        startActivity(new Intent(Settings.ACTION_SETTINGS));
     }
 
     @Override
@@ -94,7 +80,7 @@ public class ResetAct extends FragActBase {
             public void onClick(View v) {
                 finish();
             }
-        }, "恢复出厂", null);
+        }, "清除测试记录", null);
     }
 
     @Override
@@ -102,7 +88,6 @@ public class ResetAct extends FragActBase {
     }
 
 
-    Timer timer;
     boolean is = false;
 
     @AfterViews

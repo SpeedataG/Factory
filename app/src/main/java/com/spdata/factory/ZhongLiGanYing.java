@@ -244,7 +244,7 @@ public class ZhongLiGanYing extends FragActBase {
                     R.mipmap.bal);
             /** 加载游戏背景 **/
             mbitmapBg = BitmapFactory.decodeResource(this.getResources(),
-                    R.mipmap.bg2);
+                    R.drawable.bg2);
             mbitmapBg.getPixel(mScreenWidth, mScreenHeight);
 
             /** 得到SensorManager对象 **/

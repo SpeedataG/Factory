@@ -14,26 +14,38 @@
     <LinearLayout
         style="@style/main_button"
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/tv_infor"
+        <TextView
+            android:id="@+id/tv_send"
             style="@style/base_text"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/selector_item_blue"
-            android:text="清除测试记录" />
+            android:text="" />
+
+        <TextView
+            android:id="@+id/tv_accept1"
+            style="@style/base_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="串口2接收：" />
+
+        <TextView
+            android:id="@+id/tv_accept2"
+            style="@style/base_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="串口3接收：" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
         android:orientation="horizontal">
 
         <Button
@@ -42,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
+
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="成功"
@@ -52,8 +65,8 @@
             android:id="@+id/btn_not_pass"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
             android:text="失败"

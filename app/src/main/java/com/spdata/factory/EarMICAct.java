@@ -114,6 +114,12 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         initTitlebar();
         setSwipeEnable(false);
         context = this;
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         btnSoundRecording.setText(getResources().getString(R.string.sound_start_record));
         btnSoundRecording.setOnClickListener(this);
         btnSoundRecording.setEnabled(false);
@@ -143,6 +149,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         headsetReceiver = new HeadsetReceiver();
         registerReceiver(headsetReceiver, intentFilter);
     }
+
 
     @Override
     protected void onDestroy() {
@@ -257,14 +264,17 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         }
 
         // 当在上面方法中调用publishProgress时，该方法触发,该方法在I线程中被执行
+        @Override
         protected void onProgressUpdate(Integer... progress) {
             tvInfor.setText(progress[0].toString());
         }
 
+        @Override
         protected void onPostExecute(Void result) {
             btnPlay.setEnabled(true);
         }
 
+        @Override
         protected void onPreExecute() {
             btnPlay.setEnabled(false);
         }
@@ -306,6 +316,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
             return null;
         }
 
+        @Override
         protected void onPostExecute(Void result) {
             isPlay = false;
             btnPlay.setText(getResources().getString(R.string.sound_play));
@@ -313,6 +324,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
 
         }
 
+        @Override
         protected void onPreExecute() {
             btnSoundRecording.setEnabled(false);
         }

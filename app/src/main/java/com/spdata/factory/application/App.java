@@ -81,6 +81,9 @@ public class App extends BaseApplication implements AppConst {
     public static final String KEY_ID2 = "export";//二代证测试
     public static final String KEY_RESET = "reset";//恢复出厂设置
     public static final String KEY_PORT232 = "port232";//232串口
+    public static final String KEY_INTENET = "intenet";//RJ45网线接口测试
+    public static final String KEY_GPIOS = "gpios";// tc01 主板gpio测试
+    public static final String KEY_485 = "485";//tc01  485测试
 
     public static App getInstance() {
         return instance;

@@ -172,7 +172,12 @@ public class ChangeAct extends FragActBase {
                             break;
                         case 2:
                             first();
-                            tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000.0 + "V");
+                            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60")) {
+                                tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000000.0 + "V");
+                            }else {
+                                tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000.0 + "V");
+
+                            }
                             tvInfor.append("\n电池温度：" + Integer.parseInt(battTempFile) / 10.0 + "℃");
 //                            try {
 //                                tvInfor.append("\n充电电流：" + readCurrentFile(new File(CHARGER_CURRENT_NOW)) + " mA");
@@ -188,6 +193,8 @@ public class ChangeAct extends FragActBase {
                             break;
                         case 0:
 
+                            break;
+                        default:
                             break;
 
                     }
@@ -278,7 +285,7 @@ public class ChangeAct extends FragActBase {
     public String bufferRead() {
         try {
             BufferedReader bfr;
-            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60") || Build.MODEL.equals("SD55L")) {
+            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60")) {
                 bfr = new BufferedReader(new FileReader("/sys/class/power_supply/battery/current_now"));
             } else {
                 bfr = new BufferedReader(new FileReader(CHARGER_CURRENT_NOW));

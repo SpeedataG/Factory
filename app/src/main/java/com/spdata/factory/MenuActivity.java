@@ -1,5 +1,6 @@
 package com.spdata.factory;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -17,6 +18,7 @@ import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
+
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -110,8 +112,11 @@ public class MenuActivity extends FragActBase {
     private final static int ACTION_EXPAND = 47;//KT55触点检测
     private final static int ACTION_EXPORT = 48;//导出结果
     private final static int ACTION_ID2 = 49;//二代证测试
-    private final static int ACTION_RESET = 50;//恢复出厂设置
+    private final static int ACTION_RESET = 50;//清除记录
     private final static int ACTION_PORT232 = 51;//Rs232串口
+    private final static int ACTION_INTENET = 52;//RJ45网线接口测试
+    private final static int ACTION_GPIOS = 53;//tc01 主板gpio测试
+    private final static int ACTION_485 = 54;//tc01 485测试
     private String[] meneList = {"版本信息", "休眠唤醒", "按键", "屏幕显示", "触屏",
             "亮度调节", "小屏幕", "指示灯", "SD卡", "SIM卡",
             "后置相机/闪光灯", "手电筒", "前置相机", "喇叭", "扫描",
@@ -121,7 +126,8 @@ public class MenuActivity extends FragActBase {
             "振动器", "电子罗盘", "听筒", "虹膜摄像头", "PSAM",
             "指纹", "无线充电", "多点触摸", "气压计", "重力感应"
             , "U盘", "磁吸附充电", "串口孔", "高频RFID", "超高频UHF",
-            "气体传感器", "矿灯摄像头", "触点检测", "导出测试结果", "ID2", "恢复出厂","RS232串口"};
+            "气体传感器", "矿灯摄像头", "触点检测", "导出测试结果", "ID2",
+            "清除测试记录", "RS232串口", "RJ45网线接口测试", "GPIO测试", "485测试"};
     private String nulls[] = new String[0];
     private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
     private String wifi[] = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_WIFI_STATE"};
@@ -143,6 +149,7 @@ public class MenuActivity extends FragActBase {
     /**
      * 导出测试结果到sd卡
      */
+    @SuppressLint("MissingPermission")
     private void exportFile() {
         List<ResultState> list = new ArrayList<>();
         for (int i = 0; i < strings.length - 1; i++) {
@@ -176,7 +183,7 @@ public class MenuActivity extends FragActBase {
 //        UpdateVersion updateVersion = new UpdateVersion(mContext);
 //        updateVersion.startUpdate();
         initList();
-        mWifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+        mWifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         permissUtilses.clear();
         for (int i = 0; i < meneList.length; i++) {
             permissUtils permissUtils = null;
@@ -203,6 +210,7 @@ public class MenuActivity extends FragActBase {
                 permissUtilses.add(permissUtils);
             }
         }
+        openWifi(this);
     }
 
     // 打开WIFI
@@ -302,10 +310,14 @@ public class MenuActivity extends FragActBase {
         } else if (model.equals("SK80H") || model.equals("SK80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "13", "14", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "31", "39", "51","48"};
+                    "23", "24", "31", "39", "51", "52", "48"};
 
+        } else if (model.equals("TC01")) {
+            strings = new String[]{"0", "3", "4", "5", "7", "8", "9", "10",
+                    "13", "16", "17", "18", "19", "21", "22",
+                    "23", "37", "52", "53", "54", "48"};
         } else {
-            strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+            strings = new String[]{"0", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
                     "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46",
@@ -361,14 +373,13 @@ public class MenuActivity extends FragActBase {
     protected void onResume() {
         super.onResume();
         initUI();
-        openWifi(this);
     }
 
     @Override
     protected void onDestroy() {
-        if (mWifiManager.isWifiEnabled()) {
-            mWifiManager.setWifiEnabled(false);
-        }
+//        if (mWifiManager.isWifiEnabled()) {
+//            mWifiManager.setWifiEnabled(false);
+//        }
         super.onDestroy();
     }
 
@@ -530,6 +541,18 @@ public class MenuActivity extends FragActBase {
             case ACTION_PORT232:
                 result = getXml(App.KEY_PORT232, "");
                 break;
+            case ACTION_INTENET:
+                result = getXml(App.KEY_INTENET, "");
+                break;
+            case ACTION_GPIOS:
+                result = getXml(App.KEY_GPIOS, "");
+                break;
+            case ACTION_485:
+                result = getXml(App.KEY_485, "");
+                break;
+            default:
+                break;
+
         }
         return result;
     }
@@ -582,7 +605,7 @@ public class MenuActivity extends FragActBase {
                 openAct(LightAct.class, true);
                 break;
             case ACTION_INDICATOR_LIGHT:
-                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
+                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")) {
                     openAct(IndicatorLightAct_sd55.class, true);
                 } else if (model.equals("SK80H") || model.equals("SK80")) {
                     openAct(IndicatorSk80LightAct.class, true);
@@ -708,6 +731,8 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonKt40Act.class, true);
                 } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
                     openAct(ButtonSd55.class, true);
+                } else if (model.equals("SK80H") || model.equals("SK80")) {
+                    openAct(ButtonSk80Act.class, true);
                 } else {
                     openAct(ButtonAll.class, true);
                 }
@@ -717,7 +742,7 @@ public class MenuActivity extends FragActBase {
                 openAct(FingerPrint.class, true);
                 break;
             case ACTION_FLASH_LIGHT:
-                if (getApiVersion() > 23) {
+                if (getApiVersion() >= 23) {
                     openAct(FlashActivity.class, false);
                 } else {
                     openAct(FlashLightAct.class, true);
@@ -811,7 +836,15 @@ public class MenuActivity extends FragActBase {
                 break;
             case ACTION_PORT232:
                 openAct(Rs232Serport.class, true);
-
+                break;
+            case ACTION_INTENET:
+                openAct(CheckIntentAct.class, true);
+                break;
+            case ACTION_GPIOS:
+                openAct(Tc01GpioAct.class, true);
+                break;
+            case ACTION_485:
+                openAct(Tc01485Act.class, true);
                 break;
             default:
                 break;

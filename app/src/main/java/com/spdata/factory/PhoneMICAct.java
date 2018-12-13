@@ -8,6 +8,7 @@ import android.media.AudioTrack;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -54,14 +55,14 @@ import common.event.ViewMessage;
  * short[BufferSize/4]; startRecording(); 然后一个循环，调用AudioRecord的read方法实现读取
  * 另外使用MediaPlayer是无法播放使用AudioRecord录制的音频的，为了实现播放，我们需要 使用AudioTrack类来实现
  * AudioTrack类允许我们播放原始的音频数据
- *
- *
+ * <p>
+ * <p>
  * 一、实例化一个AudioTrack同样要传入几个参数 1、StreamType:在AudioManager中有几个常量，其中一个是TREAM_MUSIC;
  * 2、SampleRateInHz：最好和AudioRecord使用的是同一个值 3、ChannelConfig：同上 4、AudioFormat：同上
  * 5、BufferSize：通过AudioTrack的静态方法getMinBufferSize来获取
  * 6、Mode：可以是AudioTrack.MODE_STREAM和MODE_STATIC，关于这两种不同之处，可以查阅文档
  * 二、打开一个输入流，指向刚刚录制内容保存的文件，然后开始播放，边读取边播放
- *
+ * <p>
  * 实现时，音频的录制和播放分别使用两个AsyncTask来完成
  */
 
@@ -85,7 +86,6 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
     private PlayTask player;
     private File fpath;
     private File audioFile;
-    private Context context;
     private boolean isRecording = true, isPlaying = false; // 标记
     private int frequence = 16000;// 8000;
     // //录制频率，单位hz.这里的值注意了，写的不好，可能实例化AudioRecord对象的时候，会出错。我开始写成11025就不行。这取决于硬件设备
@@ -95,16 +95,17 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
     private boolean isStart = false;
 
     @Click
-    void btnNotPass(){
-        setXml(App.KEY_PHONE_MIC,App.KEY_UNFINISH);
+    void btnNotPass() {
+        setXml(App.KEY_PHONE_MIC, App.KEY_UNFINISH);
         finish();
     }
 
     @Click
-    void btnPass(){
-        setXml(App.KEY_PHONE_MIC,App.KEY_FINISH);
+    void btnPass() {
+        setXml(App.KEY_PHONE_MIC, App.KEY_FINISH);
         finish();
     }
+
     @Override
     protected Context regieterBaiduBaseCount() {
         return null;
@@ -127,18 +128,17 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
     public void onEventMainThread(ViewMessage viewMessage) {
 
     }
+
     @AfterViews
-    protected void main(){
+    protected void main() {
         initTitlebar();
         setSwipeEnable(false);
-        context = this;
+        btnPlay.setOnClickListener(this);
+        btnPlay.setEnabled(false);
         tvInfor.setText("请点击开始录音按钮进行录音");
         btnSoundRecording.setText(getResources().getString(R.string.sound_start_record));
         btnSoundRecording.setOnClickListener(this);
-
         btnPlay.setText(getResources().getString(R.string.sound_play));
-        btnPlay.setOnClickListener(this);
-        btnPlay.setEnabled(false);
 
 //        registerHeadsetPlugReceiver();
         if (Environment.getExternalStorageState().equals(
@@ -160,23 +160,26 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        fpath = null;
+        audioFile = null;
         if (recorder != null) {
             recorder.cancel(true);
+            recorder = null;
         }
         if (player != null) {
             player.cancel(true);
+            player = null;
         }
     }
 
     @Override
     public void onClick(View v) {
-        if (v==btnSoundRecording){
+        if (v == btnSoundRecording) {
             if (!isStart) {
                 recorder = new RecordTask();
                 recorder.execute();//执行计时
@@ -190,7 +193,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
                 isStart = false;
             }
 
-        }else if (v==btnPlay){
+        } else if (v == btnPlay) {
             btnNotPass.setVisibility(View.VISIBLE);
             btnPass.setVisibility(View.VISIBLE);
             if (!isPlay) {
@@ -212,7 +215,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
         @Override
         protected Void doInBackground(Void... arg0) {
             isRecording = true;
-            if(isCancelled()){
+            if (isCancelled()) {
                 return null;
             }
             try {
@@ -223,13 +226,13 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
                 // 根据定义好的几个配置，来获取合适的缓冲大小
                 int bufferSize = AudioRecord.getMinBufferSize(frequence,
                         channelConfig, audioEncoding);
-                AudioRecord record=null;
-                if (Build.MODEL.equals("spda6735")||Build.MODEL.equals("DCD3")){
+                AudioRecord record = null;
+                if (Build.MODEL.equals("spda6735") || Build.MODEL.equals("DCD3")) {
                     // 实例化AudioRecord
-                     record = new AudioRecord(
+                    record = new AudioRecord(
                             5, frequence,
                             channelConfig, audioEncoding, bufferSize);
-                }else {
+                } else {
                     // 实例化AudioRecord
                     record = new AudioRecord(
                             MediaRecorder.AudioSource.MIC, frequence,
@@ -267,14 +270,17 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
         }
 
         // 当在上面方法中调用publishProgress时，该方法触发,该方法在I线程中被执行
+        @Override
         protected void onProgressUpdate(Integer... progress) {
             tvInfor.setText(progress[0].toString());
         }
 
+        @Override
         protected void onPostExecute(Void result) {
             btnPlay.setEnabled(true);
         }
 
+        @Override
         protected void onPreExecute() {
             btnPlay.setEnabled(false);
         }
@@ -283,7 +289,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
     class PlayTask extends AsyncTask<Void, Integer, Void> {
         @Override
         protected Void doInBackground(Void... arg0) {
-            if(isCancelled()){
+            if (isCancelled()) {
                 return null;
             }
             isPlaying = true;
@@ -322,12 +328,14 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
             return null;
         }
 
+        @Override
         protected void onPostExecute(Void result) {
             isPlay = false;
             btnPlay.setText(getResources().getString(R.string.sound_play));
             btnSoundRecording.setEnabled(true);
         }
 
+        @Override
         protected void onPreExecute() {
             btnSoundRecording.setEnabled(false);
         }

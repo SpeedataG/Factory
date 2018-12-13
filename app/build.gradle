@@ -37,6 +37,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+
 }
 
 
@@ -45,10 +50,12 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.google.firebase:firebase-appindexing:16.0.2'
+    implementation 'com.google.firebase:firebase-appindexing:17.1.0'
     implementation 'com.android.support:design:27.1.1'
     testImplementation 'junit:junit:4.12'
-    implementation 'com.speedata:deivice:+'
+
+    implementation 'com.speedata:deivice:1.5.9'
+
     implementation 'com.speedata:libuhf:6.9.4'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.speedata:r6lib:1.5'
