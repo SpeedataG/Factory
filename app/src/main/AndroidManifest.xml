@@ -2,13 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.spdata.factory">
-    <!--coreApp="true"-->
     <!--android:sharedUserId="android.uid.system">-->
+    <!--coreApp="true"-->
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    //权限
     <!-- 打电话权限 -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -214,7 +213,7 @@
         <activity
             android:name=".EarMICAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ButtonAct_"
             android:launchMode="singleTop" />
@@ -224,7 +223,7 @@
         <activity
             android:name=".PhoneMICAct_"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CallPhoneActi_"
             android:launchMode="singleTop" />
@@ -429,6 +428,9 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".Tc01485Act_"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ButtonSd35Act_"
             android:launchMode="singleTop" />
 
         <provider

@@ -2,7 +2,9 @@ package com.spdata.factory;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.SystemClock;
+import android.serialport.DeviceControl;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -120,6 +122,7 @@ public class PSAMAct extends FragActBase {
 
     //获取psam实例
     IPsam psamIntance = PsamManager.getPsamIntance();
+    DeviceControl deviceControl1;
 
     @AfterViews
     protected void main() {
@@ -127,8 +130,21 @@ public class PSAMAct extends FragActBase {
         setSwipeEnable(false);
         showConfig();
         try {
-            psamIntance.initDev(this);//初始化设备
-            psamIntance.resetDev();//复位
+//            psamIntance.initDev(this);//初始化设备
+//            psamIntance.resetDev();//复位
+            switch (Build.MODEL) {
+                case "SD55":
+                    psamIntance.initDev("ttyMT1", 115200, this);
+                    deviceControl1 = new DeviceControl(DeviceControl.PowerType.NEW_MAIN, 16, 46);
+                    deviceControl1.PowerOnDevice();
+                    psamIntance.resetDev(DeviceControl.PowerType.NEW_MAIN, 23);
+                    break;
+
+                default:
+//                    psamIntance.resetDev();//复位
+                    break;
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
@@ -153,18 +169,19 @@ public class PSAMAct extends FragActBase {
         tv.setText("V" + verson);
 
         boolean isExit = ConfigUtils.isConfigFileExists();
-        if (isExit)
+        if (isExit) {
             tv.setText("定制配置：\n");
-        else
+        } else {
             tv.setText("标准配置：\n");
+        }
         ReadBean.PasmBean pasm = ConfigUtils.readConfig(this).getPasm();
         String gpio = "";
         List<Integer> gpio1 = pasm.getGpio();
         for (Integer s : gpio1) {
             gpio += s + ",";
         }
-        tv.append("串口:" + pasm.getSerialPort() + "  波特率：" + pasm.getBraut() + " 上电类型:" +
-                pasm.getPowerType() + " GPIO:" + gpio + " resetGpio:" + pasm.getResetGpio());
+        tv.append("串口:ttyMT1" + "  波特率：" + pasm.getBraut() + " 上电类型:NEW_MAIN" +
+                " GPIO:16,46" + " resetGpio:23");
     }
 
     @Override

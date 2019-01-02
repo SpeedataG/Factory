@@ -83,17 +83,8 @@ public abstract class FragActBase extends SwipeBackActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
-        int ori = mConfiguration.orientation; //获取屏幕方向
-        if (ori == Configuration.ORIENTATION_LANDSCAPE) {
-            //横屏
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//强制为竖屏
-        } else if (ori == Configuration.ORIENTATION_PORTRAIT) {
-            //竖屏
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
-        }
 
-//        trueorfalse();
+
     }
 
     /**
@@ -238,6 +229,16 @@ public abstract class FragActBase extends SwipeBackActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
+        int ori = mConfiguration.orientation; //获取屏幕方向
+//        if (ori ==Configuration.ORIENTATION_LANDSCAPE) {
+////            //横屏
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
+//        } else if (ori == Configuration.ORIENTATION_PORTRAIT) {
+        //竖屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//强制为竖屏
+//        }
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         if (powerManager != null) {
             mWakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "WakeLock");
@@ -550,15 +551,14 @@ public abstract class FragActBase extends SwipeBackActivity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         if (mWakeLock != null) {
             mWakeLock.acquire();
         }
-
         if (Build.MODEL.equals("CT")) {
             //设置横屏
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
-        super.onResume();
         MobclickAgent.onResume(this);
         onBackPressedCount = 0;
         //去掉Activity上面的状态栏
@@ -578,11 +578,10 @@ public abstract class FragActBase extends SwipeBackActivity {
 
     @Override
     protected void onPause() {
+        super.onPause();
         if (mWakeLock != null) {
             mWakeLock.release();
         }
-
-        super.onPause();
         MobclickAgent.onPause(this);
     }
 

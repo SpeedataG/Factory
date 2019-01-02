@@ -80,6 +80,7 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
         setSwipeEnable(false);
         btnPass.setVisibility(View.GONE);
         mMediaPlayer = MediaPlayer.create(this, R.raw.yiyuel);
+        mMediaPlayer.setLooping(true);
         mMediaPlayer
                 .setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     public void onCompletion(MediaPlayer mediaPlayer) {

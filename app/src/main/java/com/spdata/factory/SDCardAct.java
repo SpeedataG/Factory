@@ -87,9 +87,9 @@ public class SDCardAct extends FragActBase {
             stringBuffer.append("\n外置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[1])
                     + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[1]));
             tvInfor.append(stringBuffer);
-            if (Build.VERSION.RELEASE.equals("6.0")) {
+            for (int i = 0; i < volumePaths.length; i++) {
                 try {
-                    sdUtils.copyBigDataToSD(volumePaths[0]);
+                    sdUtils.copyBigDataToSD(volumePaths[i]);
                     tvInfor.append("\nSDCopy文件成功");
                     yes = 1;
                 } catch (IOException e) {
@@ -97,21 +97,7 @@ public class SDCardAct extends FragActBase {
                     yes = 2;
                     tvInfor.append("\nSD卡Copy文件失败");
                 }
-            }else {
-                for (int i = 0; i < 2; i++) {
-                    try {
-                        sdUtils.copyBigDataToSD(volumePaths[i]);
-                        tvInfor.append("\nSDCopy文件成功");
-                        yes = 1;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        yes = 2;
-                        tvInfor.append("\nSD卡Copy文件失败");
-                    }
-                }
             }
-
-
         } else {
             try {
                 sdUtils.copyBigDataToSD(volumePaths[0]);
@@ -122,7 +108,6 @@ public class SDCardAct extends FragActBase {
                 yes = 2;
                 tvInfor.append("\n内置SD卡Copy文件失败");
             }
-
         }
         task = new remindTask();
         remind(task);

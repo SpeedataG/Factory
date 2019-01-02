@@ -115,6 +115,7 @@ public class CompassSeneorAct extends FragActBase implements SensorEventListener
     }
 
     //传感器报告新的值(方向改变)
+    @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
               /*
@@ -138,13 +139,14 @@ public class CompassSeneorAct extends FragActBase implements SensorEventListener
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
         //旋转过程持续时间
-        ra.setDuration(200);
+        ra.setDuration(60);
         //罗盘图片使用旋转动画
         image.startAnimation(ra);
         currentDegree = -degree;
     }
 
     //传感器精度的改变
+    @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 }

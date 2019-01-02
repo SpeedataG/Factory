@@ -74,14 +74,12 @@ public class Tc01GpioAct extends FragActBase {
         onWindowFocusChanged(true);
         initTitlebar();
         setSwipeEnable(false);
-
         checkGpio();
-        if (errList == null) {
+        if (errList.size() == 0) {
             tvVersionInfor.setTextColor(Color.GREEN);
             tvVersionInfor.setText("GPIO测试全部通过");
             btnPass.setVisibility(View.VISIBLE);
         } else {
-
             for (int i = 0; i < errList.size(); i++) {
                 tvVersionInfor.setTextColor(Color.RED);
                 tvVersionInfor.append(errList.get(i) + "-测试不通过\n");

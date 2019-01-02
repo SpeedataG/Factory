@@ -133,7 +133,7 @@ public class TsHandWriting extends Activity {
 
     private void remind(TimerTask task) {
         timer = new Timer();
-        timer.schedule(task, 1000 * 10);
+        timer.schedule(task, 1000 * 15);
     }
 
     public void finishTimer() {
@@ -207,7 +207,6 @@ public class TsHandWriting extends Activity {
         }
     }
 
-    ;
 
     public class MyView extends View {
         private final Paint mTextPaint;

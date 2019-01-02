@@ -69,29 +69,30 @@ public class VersionAct extends FragActBase {
         initTitlebar();
         setSwipeEnable(false);
         TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        String Versionum=Build.DISPLAY;
-        if (Build.MODEL.equals("N80")||Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")|| Build.MODEL.equals("H5")
-                || Build.MODEL.equals("S1")|| Build.MODEL.equals("H5_35")  || Build.MODEL.equals("S550")) {
+        String Versionum = Build.DISPLAY;
+        if (Build.MODEL.equals("N80") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53") || Build.MODEL.equals("H5")
+                || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35") || Build.MODEL.equals("S550")) {
             tvVersionInfor.setText("型号：" + android.os.Build.MODEL
                     + "\n"
-                    + "版本号:" + Versionum
+                    + "系统版本号:" + Versionum
                     + "\n"
-                    + "APK版本:"
+                    + "APK版本号:"
                     + SysInfoUtil.getVersionName(this)
                     + "\n");
-        }else {
+        } else {
             tvVersionInfor.setText("型号：" + android.os.Build.MODEL
                     + "\n"
-                    + "版本号:" + Versionum
+                    + "系统版本号:" + Versionum
                     + "\n"
-                    +"SN号:"+Build.SERIAL
+                    + "SN号:" + Build.SERIAL
                     + "\n"
-                    + "APK版本:"
+                    + "APK版本号:"
                     + SysInfoUtil.getVersionName(this)
                     + "\n");
         }
 
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         // TODO Auto-generated method stub

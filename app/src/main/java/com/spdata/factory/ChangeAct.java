@@ -205,7 +205,7 @@ public class ChangeAct extends FragActBase {
 
     private void remind(TimerTask task) {
         timer = new Timer();
-        timer.schedule(task, 100);
+        timer.schedule(task, 50);
     }
 
     public void finishTimer() {

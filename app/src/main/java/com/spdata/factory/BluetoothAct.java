@@ -85,11 +85,13 @@ public class BluetoothAct extends FragActBase {
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         registerReceiver(mReceiver, intentFilter);
 
-        if (!myBluetoothAdapter.isEnabled())
+        if (!myBluetoothAdapter.isEnabled()) {
             myBluetoothAdapter.enable();
+        }
 
-        if (myBluetoothAdapter.getState() != myBluetoothAdapter.STATE_ON)
+        if (myBluetoothAdapter.getState() != BluetoothAdapter.STATE_ON) {
             myBluetoothAdapter.enable();
+        }
         handler.removeCallbacks(runnable);
         handler.postDelayed(runnable, 1000);
     }
@@ -117,8 +119,9 @@ public class BluetoothAct extends FragActBase {
                 Log.i("Bluetoothtest000", "num=" + num);
 
                 //执行更新列表的代码
-                if (device != null)
+                if (device != null) {
                     sb = sb.append("【" + device.getName() + "】 " + "\n").append(device.getAddress() + "\n");
+                }
                 tv_infor.setText("可用设备:" + "\n" + sb.toString());
             }
             //搜索完成

@@ -33,7 +33,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="F2" />
+                android:text="FN" />
 
             <Button
                 android:id="@+id/btn_key1"

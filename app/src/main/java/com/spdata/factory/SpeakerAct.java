@@ -36,6 +36,8 @@ public class SpeakerAct extends FragActBase  implements SeekBar.OnSeekBarChangeL
     Button btnPass;
     @ViewById
     Button btnNotPass;
+    private int max;
+
     @Click
     void btnPass() {
         setXml(App.KEY_SPK, App.KEY_FINISH);
@@ -99,11 +101,14 @@ public class SpeakerAct extends FragActBase  implements SeekBar.OnSeekBarChangeL
         currentBell = audioManager
                 .getStreamVolume(AudioManager.STREAM_MUSIC);
         searchBar.setProgress(currentBell);
-        int max = audioManager
+        max = audioManager
                 .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                max, 0);
         searchBar.setMax(max);
         searchBar.setOnSeekBarChangeListener(this);
         curSound = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -149,6 +154,8 @@ public class SpeakerAct extends FragActBase  implements SeekBar.OnSeekBarChangeL
 
     @Override
     protected void onDestroy() {
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                curSound, 0);
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();

@@ -39,9 +39,9 @@ public class ButtonAll extends FragActBase {
     @ViewById
     Button btn_right_F4;
     @ViewById
-    Button btn_home;
-    @ViewById
     TextView tv_infor;
+    @ViewById
+    TextView tv_infor2;
     boolean isOneClick = true;
 
     @AfterViews
@@ -50,13 +50,15 @@ public class ButtonAll extends FragActBase {
         setSwipeEnable(false);
         btn_close.setVisibility(View.GONE);
         btn_down.setVisibility(View.GONE);
-        btn_home.setVisibility(View.GONE);
+
         btn_left_F4.setVisibility(View.GONE);
         btn_right_F4.setVisibility(View.GONE);
         btn_up.setVisibility(View.GONE);
         btn_down.setVisibility(View.GONE);
         tv_infor.setVisibility(View.VISIBLE);
-        tv_infor.setText("请根据Toast显示键值判断按键是否正常！");
+        tv_infor2.setVisibility(View.VISIBLE);
+        tv_infor2.setText("请根据显示键值判断按键是否正常！");
+
 
 
     }
@@ -94,7 +96,8 @@ public class ButtonAll extends FragActBase {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showToast(keyCode + "");
-        if (keyCode == event.KEYCODE_BACK || keyCode == event.KEYCODE_MENU) {
+        tv_infor.setText("按键键值:"+keyCode+"");
+        if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU) {
             return true;
         }
         return super.onKeyDown(keyCode, event);

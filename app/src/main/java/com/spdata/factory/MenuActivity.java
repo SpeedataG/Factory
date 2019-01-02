@@ -60,8 +60,10 @@ public class MenuActivity extends FragActBase {
     }
 
     private CommonAdapter<ListItem> adapter;
-    private final static int ACTION_VERSION = 0;//版本
-    private final static int ACTION_SLEEP_WAKE = 1;//休眠唤醒
+    //版本
+    private final static int ACTION_VERSION = 0;
+    //休眠唤醒
+    private final static int ACTION_SLEEP_WAKE = 1;
     private final static int ACTION_BUTTON = 2; //按键
     private final static int ACTION_DISPLAY = 3;//屏幕显示
     private final static int ACTION_TOUCH_SCREEN = 4;//触屏
@@ -131,16 +133,6 @@ public class MenuActivity extends FragActBase {
     private String nulls[] = new String[0];
     private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
     private String wifi[] = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_WIFI_STATE"};
-    private String[][] permissBytes = {nulls, nulls, nulls, nulls, nulls,
-            nulls, nulls, nulls, Permission.STORAGE, Permission.PHONE,
-            Permission.CAMERA, Permission.CAMERA, Permission.CAMERA, nulls, nulls,
-            Permission.MICROPHONE, Permission.MICROPHONE, wifi, Permission.LOCATION, Permission.LOCATION,
-            nulls, nulls, nulls, nulls, nulls,
-            nulls, nulls, nulls, nulls, nulls,
-            nulls, nulls, nulls, nulls, nulls,
-            nulls, nulls, nulls, nulls, nulls,
-            nulls, nulls, nulls, nulls, nulls,
-            nulls, nulls, nulls};
     List<permissUtils> permissUtilses = new ArrayList<>();
 
     private List<ListItem> listItemList = new ArrayList<>();
@@ -187,7 +179,7 @@ public class MenuActivity extends FragActBase {
         permissUtilses.clear();
         for (int i = 0; i < meneList.length; i++) {
             permissUtils permissUtils = null;
-            if (i == 8) {
+            if (i == 8 || i == 48) {
                 permissUtils = new permissUtils(Permission.STORAGE);
                 permissUtilses.add(permissUtils);
             } else if (i == 9) {
@@ -227,82 +219,82 @@ public class MenuActivity extends FragActBase {
                 || model.equals("M55") || model.equals("T55") || model.equals("KT55L")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "47", "35", "49", "48"};
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "47", "35", "49", "50", "48"};
         } else if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                 || model.equals("T80") || model.equals("T800") || model.equals("FC-K80") || model.equals("Biowolf LE")
                 || model.equals("N800") || model.equals("FC-PK80") || model.equals("SD-55")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23",
-                    "24", "25", "26", "30", "31", "37", "39", "40", "41", "42", "49", "48"};
+                    "24", "25", "26", "30", "31", "37", "39", "40", "41", "42", "49", "50", "48"};
         } else if (model.equals("S510")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "15", "16", "17", "18", "21", "22", "23", "24", "25", "26",
-                    "28", "30", "31", "32", "38", "37", "39", "48"};
+                    "28", "30", "31", "32", "38", "37", "39", "50", "48"};
         } else if (model.equals("DB2_LVDS")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "8", "9", "10", "11", "13",
                     "15", "16", "17", "18", "20", "21", "22", "23", "24", "25", "26", "27",
-                    "28", "30", "31", "37", "38", "39", "48"};
+                    "28", "30", "31", "37", "38", "39", "50", "48"};
 //
         } else if (model.equals("KT50") || model.equals("KT50_B2")
                 || model.equals("R40") || model.equals("T50") || model.equals("KT50_YQ")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
-                    "26", "30", "31", "32", "34", "37", "39", "48"};
+                    "26", "30", "31", "32", "34", "37", "39", "50", "48"};
         } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                 model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27",
-                    "28", "29", "30", "32", "31", "37", "38", "39", "48"};
+                    "28", "29", "30", "32", "31", "37", "38", "39", "50", "48"};
         } else if (model.equals("H500A")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "16", "17", "18", "20", "21", "23", "24", "25", "26",
-                    "28", "30", "32", "31", "37", "39", "48"};
+                    "28", "30", "32", "31", "37", "39", "50", "48"};
         } else if (model.equals("N80") || model.equals("S550")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "15", "16", "17", "18", "20", "21", "22", "23",
-                    "24", "25", "26", "28", "30", "31", "37", "39", "38", "48"};
+                    "24", "25", "26", "28", "30", "31", "37", "39", "38", "50", "48"};
         } else if (model.equals("N55") || model.equals("X55") || model.equals("N55/X55")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "20", "21", "22",
-                    "23", "24", "25", "26", "28", "30", "31", "32", "37", "39", "48"};
+                    "23", "24", "25", "26", "28", "30", "31", "32", "37", "39", "50", "48"};
         } else if (model.equals("spda6735") || model.equals("DCD3")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9",
                     "13", "16", "17", "18", "21", "24",
-                    "23", "26", "30", "37", "45", "46", "48"};
+                    "23", "26", "30", "37", "45", "46", "50", "48"};
         } else if (model.equals("mt6753")) {
             strings = new String[]{"0", "1", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "15", "17", "18", "19", "21", "22",
-                    "23", "25", "26", "31", "34", "35", "37", "39", "48"};
+                    "23", "25", "26", "31", "34", "35", "37", "39", "50", "48"};
         } else if (model.equals("M08")) {
             strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10",
-                    "11", "13", "16", "17", "18", "19", "20", "21", "40", "23", "26", "30", "34", "37", "48"};
+                    "11", "13", "16", "17", "18", "19", "20", "21", "40", "23", "26", "30", "34", "37", "50", "48"};
         } else if (model.equals("KT45Q") || model.equals("UHF45") || model.equals("3000U")
                 || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
                 || model.equals("PT145") || model.equals("TT43")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "26", "30", "31", "32", "34", "37",
-                    "39", "43", "44", "48"};
+                    "39", "43", "44", "50", "48"};
 
         } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53") || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "16", "17", "18", "20", "21", "22", "23",
-                    "24", "25", "26", "30", "31", "37", "39", "48"};
+                    "24", "25", "26", "30", "31", "37", "39", "50", "48"};
         } else if (Build.MODEL.equals("CT")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9",
-                    "13", "16", "17", "18", "19", "21", "22", "24", "26", "39", "48"};
+                    "13", "16", "17", "18", "19", "21", "22", "24", "26", "39", "50", "48"};
         } else if (model.equals("DM-P80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "9", "10", "11",
-                    "12", "13", "15", "16", "19", "30", "37", "48", "49"};
+                    "12", "13", "15", "16", "19", "30", "37", "48", "50", "49"};
         } else if (model.equals("SD80") || model.equals("AQUARIUS Cmp NS208")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "32", "35", "37", "39", "41", "48"};
+                    "23", "24", "25", "26", "30", "31", "32", "35", "37", "39", "41", "50", "48"};
 
         } else if (model.equals("KT40") || model.equals("KT40Q") || model.equals("KT40Q_O")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "10", "11",
                     "13", "14", "15", "16", "17", "19", "20", "18", "21", "22", "23",
-                    "24", "26", "30", "32", "37", "39", "41", "48"};
+                    "24", "26", "30", "32", "37", "39", "41", "50", "48"};
         } else if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -310,18 +302,21 @@ public class MenuActivity extends FragActBase {
         } else if (model.equals("SK80H") || model.equals("SK80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "13", "14", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "31", "39", "51", "52", "48"};
+                    "23", "24", "31", "39", "51", "52", "50", "48"};
 
         } else if (model.equals("TC01")) {
             strings = new String[]{"0", "3", "4", "5", "7", "8", "9", "10",
-                    "13", "16", "17", "18", "19", "21", "22",
-                    "23", "37", "52", "53", "54", "48"};
+                    "13", "16", "17", "18", "19", "21", "23", "37", "52", "53", "54", "50", "48"};
+        } else if (model.equals("SD35")) {
+            strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10",
+                    "11", "12", "13", "14", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "25", "26", "30", "31", "32", "34", "37", "38", "39", "50", "48"};
         } else {
             strings = new String[]{"0", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
                     "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46",
-                    "47", "49", "48"};
+                    "47", "49", "50", "51", "52", "53", "54", "48"};
         }
 
         for (int i = 0; i < strings.length; i++) {
@@ -733,6 +728,8 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonSd55.class, true);
                 } else if (model.equals("SK80H") || model.equals("SK80")) {
                     openAct(ButtonSk80Act.class, true);
+                } else if (model.equals("SD35")) {
+                    openAct(ButtonSd35Act.class, true);
                 } else {
                     openAct(ButtonAll.class, true);
                 }
