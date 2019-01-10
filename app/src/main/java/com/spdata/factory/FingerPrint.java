@@ -1,10 +1,8 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Message;
+import android.os.Bundle;
 import android.serialport.DeviceControl;
 import android.view.View;
 import android.widget.Button;
@@ -14,38 +12,25 @@ import com.spdata.factory.FingerUtil.FingerTypes;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
-import common.utils.DataConversionUtils;
 
-import static com.spdata.factory.R.id.btn_ser1;
-import static com.spdata.factory.R.id.btn_ser2;
-import static com.spdata.factory.R.id.btn_state;
-import static com.spdata.factory.R.id.btn_tcs1g;
-import static com.spdata.factory.R.id.btn_usb;
-import static com.spdata.factory.R.id.btn_zh;
-import static com.spdata.factory.R.id.tv_infor;
-
-@EActivity(R.layout.activity_finger_print)
-public class FingerPrint extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
+public class FingerPrint extends FragActBase implements View.OnClickListener {
     TextView text_show;
     private Intent intent;
     private PackageManager packageManager;
     private DeviceControl mdeviceControl;
+    private CustomTitlebar titlebar;
+    private TextView textShow;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
 //    @Click
 //    void btn_id() {
@@ -76,23 +61,6 @@ public class FingerPrint extends FragActBase {
 
 //    }
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_FINGER_PRINT, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_FINGER_PRINT, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
-
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
@@ -102,11 +70,6 @@ public class FingerPrint extends FragActBase {
                 finish();
             }
         }, "指纹", null);
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
     }
 
     @Override
@@ -122,8 +85,11 @@ public class FingerPrint extends FragActBase {
         }
     }
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_finger_print);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         try {
@@ -169,6 +135,8 @@ public class FingerPrint extends FragActBase {
                                 showToast("查找到金色指纹模块！");
                                 text_show.setText("查找到金色指纹模块！");
                                 break;
+                            default:
+                                break;
                         }
                     }
                 });
@@ -177,4 +145,28 @@ public class FingerPrint extends FragActBase {
 
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        textShow = (TextView) findViewById(R.id.text_show);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_FINGER_PRINT, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_FINGER_PRINT, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

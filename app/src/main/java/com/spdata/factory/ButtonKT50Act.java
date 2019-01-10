@@ -1,113 +1,138 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo_pc on 2016/9/29.
  */
-@EActivity(R.layout.act_btnkt50)
-public class ButtonKT50Act extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_menu;
-    @ViewById
-    Button btn_back;
-    @ViewById
-    Button btn_del;
-    @ViewById
-    Button btn_enter;
-    @ViewById
-    Button btn_scan;
-    @ViewById
-    Button btn_1;
-    @ViewById
-    Button btn_2;
-    @ViewById
-    Button btn_3;
-    @ViewById
-    Button btn_4;
-    @ViewById
-    Button btn_5;
-    @ViewById
-    Button btn_6;
-    @ViewById
-    Button btn_7;
-    @ViewById
-    Button btn_8;
-    @ViewById
-    Button btn_9;
-    @ViewById
-    Button btn_0;
-    @ViewById
-    Button btn_up;
-    @ViewById
-    Button btn_down;
-    @ViewById
-    Button btn_space;
-    @ViewById
-    Button btn_display;
-    @ViewById
-    Button btn_vol_up;
-    @ViewById
-    Button btn_vol_down;
-    @ViewById
-    Button btn_camera;
-    @ViewById
-    Button btn_scan2;
+public class ButtonKT50Act extends FragActBase implements View.OnClickListener {
 
     boolean isOneClick = true;
+    private CustomTitlebar titlebar;
+    /**
+     * VOLU_UP
+     */
+    private Button btn_vol_up;
+    /**
+     * VOLU_DOWN
+     */
+    private Button btn_vol_down;
+    /**
+     * DELETE
+     */
+    private Button btn_del;
+    /**
+     * ENTER
+     */
+    private Button btn_enter;
+    /**
+     * SCAN
+     */
+    private Button btn_scan;
+    /**
+     * 1
+     */
+    private Button btn_1;
+    /**
+     * 2
+     */
+    private Button btn_2;
+    /**
+     * 3
+     */
+    private Button btn_3;
+    /**
+     * 4
+     */
+    private Button btn_4;
+    /**
+     * 5
+     */
+    private Button btn_5;
+    /**
+     * UP
+     */
+    private Button btn_up;
+    /**
+     * 6
+     */
+    private Button btn_6;
+    /**
+     * 7
+     */
+    private Button btn_7;
+    /**
+     * 8
+     */
+    private Button btn_8;
+    /**
+     * 9
+     */
+    private Button btn_9;
+    /**
+     * 0
+     */
+    private Button btn_0;
+    /**
+     * DOWN
+     */
+    private Button btn_down;
+    /**
+     * MENU
+     */
+    private Button btn_menu;
+    /**
+     * BACK
+     */
+    private Button btn_back;
+    /**
+     * SPACE
+     */
+    private Button btn_space;
+    /**
+     * DISPLAY
+     */
+    private Button btn_display;
+    /**
+     * SCAN
+     */
+    private Button btn_scan2;
+    /**
+     * CAMERA
+     */
+    private Button btn_camera;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_btnkt50);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
     }
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
         titlebar.setAttrs("按键测试");
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
     }
 
     @Override
@@ -146,8 +171,8 @@ public class ButtonKT50Act extends FragActBase {
                 return true;
             }
 
-        } else if (keyCode == KeyEvent.KEYCODE_F5||keyCode == KeyEvent.KEYCODE_F4) {
-            if (btn_scan.isPressed()&&btn_scan2.isPressed()) {
+        } else if (keyCode == KeyEvent.KEYCODE_F5 || keyCode == KeyEvent.KEYCODE_F4) {
+            if (btn_scan.isPressed() && btn_scan2.isPressed()) {
                 btn_scan.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_scan.setPressed(false);
                 btn_scan2.setBackgroundColor(Color.parseColor("#CEC7C7"));
@@ -162,7 +187,7 @@ public class ButtonKT50Act extends FragActBase {
             }
 
 
-        }  else if (keyCode == KeyEvent.KEYCODE_DEL) {
+        } else if (keyCode == KeyEvent.KEYCODE_DEL) {
             if (btn_del.isPressed()) {
                 btn_del.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_del.setPressed(false);
@@ -368,44 +393,52 @@ public class ButtonKT50Act extends FragActBase {
         setXml(App.KEY_BUTTON, App.KEY_FINISH);
         finish();
     }
-//    @Override
-//    public boolean onKeyUp(int keyCode, KeyEvent event) {
-//        switch (keyCode) {
-//            case KeyEvent.KEYCODE_ENTER:
-//                if (btn_enter.isPressed()) {
-//                    btn_enter.setBackgroundColor(Color.parseColor("#CEC7C7"));
-//                    btn_enter.setPressed(false);
-//                    showToast(keyCode + "");
-//                    break;
-//                } else {
-//                    btn_enter.setBackgroundColor(Color.parseColor("#0AF229"));
-//                    btn_enter.setPressed(true);
-//                    break;
-//                }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_vol_up = (Button) findViewById(R.id.btn_vol_up);
+        btn_vol_down = (Button) findViewById(R.id.btn_vol_down);
+        btn_del = (Button) findViewById(R.id.btn_del);
+        btn_enter = (Button) findViewById(R.id.btn_enter);
+        btn_scan = (Button) findViewById(R.id.btn_scan);
+        btn_1 = (Button) findViewById(R.id.btn_1);
+        btn_2 = (Button) findViewById(R.id.btn_2);
+        btn_3 = (Button) findViewById(R.id.btn_3);
+        btn_4 = (Button) findViewById(R.id.btn_4);
+        btn_5 = (Button) findViewById(R.id.btn_5);
+        btn_up = (Button) findViewById(R.id.btn_up);
+        btn_6 = (Button) findViewById(R.id.btn_6);
+        btn_7 = (Button) findViewById(R.id.btn_7);
+        btn_8 = (Button) findViewById(R.id.btn_8);
+        btn_9 = (Button) findViewById(R.id.btn_9);
+        btn_0 = (Button) findViewById(R.id.btn_0);
+        btn_down = (Button) findViewById(R.id.btn_down);
+        btn_menu = (Button) findViewById(R.id.btn_menu);
+        btn_back = (Button) findViewById(R.id.btn_back);
+        btn_space = (Button) findViewById(R.id.btn_space);
+        btn_display = (Button) findViewById(R.id.btn_display);
+        btn_scan2 = (Button) findViewById(R.id.btn_scan2);
+        btn_camera = (Button) findViewById(R.id.btn_camera);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 //
-//            case KeyEvent.KEYCODE_MENU:
-//                if (btn_menu.isPressed()) {
-//                    btn_menu.setBackgroundColor(Color.parseColor("#CEC7C7"));
-//                    btn_menu.setPressed(false);
-//                    showToast(keyCode + "");
-//                    break;
-//                } else {
-//                    btn_menu.setBackgroundColor(Color.parseColor("#0AF229"));
-//                    btn_menu.setPressed(true);
-//                    break;
-//                }
-//            case KeyEvent.KEYCODE_0:
-//                if (btn_0.isPressed()) {
-//                    btn_0.setBackgroundColor(Color.parseColor("#CEC7C7"));
-//                    btn_0.setPressed(false);
-//                    showToast(keyCode + "");
-//                    break;
-//                } else {
-//                    btn_0.setBackgroundColor(Color.parseColor("#0AF229"));
-//                    btn_0.setPressed(true);
-//                    break;
-//                }
-//        }
-//        return super.onKeyUp(keyCode, event);
-//    }
 }

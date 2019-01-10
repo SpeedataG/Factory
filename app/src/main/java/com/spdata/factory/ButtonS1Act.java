@@ -1,118 +1,145 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo-pc on 2017/9/13.
  */
-@EActivity(R.layout.act_btn_s1)
-public class ButtonS1Act extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_menu;
-    @ViewById
-    Button btn_back;
-    @ViewById
-    Button btn_1;
-    @ViewById
-    Button btn_2;
-    @ViewById
-    Button btn_3;
-    @ViewById
-    Button btn_4;
-    @ViewById
-    Button btn_5;
-    @ViewById
-    Button btn_6;
-    @ViewById
-    Button btn_7;
-    @ViewById
-    Button btn_8;
-    @ViewById
-    Button btn_9;
-    @ViewById
-    Button btn_0;
-    @ViewById
-    Button btn_sahng;
-    @ViewById
-    Button btn_xia;
-    @ViewById
-    Button btn_fn;
-    @ViewById
-    Button btn_app;
-    @ViewById
-    Button btn_enter;
-    @ViewById
-    Button btn_shift;
-    @ViewById
-    Button btn_backspace;
-    @ViewById
-    Button btn_space;
-    @ViewById
-    Button btn_mi;
-    @ViewById
-    Button btn_jing;
-    @ViewById
-    Button btn_you;
-    @ViewById
-    Button btn_zuo;
-    @ViewById
-    Button btn_weizhi;
+public class ButtonS1Act extends FragActBase implements View.OnClickListener {
+    private CustomTitlebar titlebar;
+    /**
+     * menu
+     */
+    private Button btn_menu;
+    /**
+     * back
+     */
+    private Button btn_back;
+    /**
+     * app
+     */
+    private Button btn_app;
+    /**
+     * up
+     */
+    private Button btn_sahng;
+    /**
+     * location
+     */
+    private Button btn_weizhi;
+    /**
+     * left
+     */
+    private Button btn_zuo;
+    /**
+     * right
+     */
+    private Button btn_you;
+    /**
+     * fn
+     */
+    private Button btn_fn;
+    /**
+     * down
+     */
+    private Button btn_xia;
+    /**
+     * enter
+     */
+    private Button btn_enter;
+    /**
+     * 1,.?
+     */
+    private Button btn_1;
+    /**
+     * 2ABC
+     */
+    private Button btn_2;
+    /**
+     * 3DEF
+     */
+    private Button btn_3;
+    /**
+     * ←
+     */
+    private Button btn_backspace;
+    /**
+     * 4GHI
+     */
+    private Button btn_4;
+    /**
+     * 5JKL
+     */
+    private Button btn_5;
+    /**
+     * 6MNO
+     */
+    private Button btn_6;
+    /**
+     * space
+     */
+    private Button btn_space;
+    /**
+     * 7PQRS
+     */
+    private Button btn_7;
+    /**
+     * 8TUV
+     */
+    private Button btn_8;
+    /**
+     * 9WXYZ
+     */
+    private Button btn_9;
+    /**
+     * shift
+     */
+    private Button btn_shift;
+    /**
+     * -*\t
+     */
+    private Button btn_mi;
+    /**
+     * 0_
+     */
+    private Button btn_0;
+    /**
+     * .#
+     */
+    private Button btn_jing;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
-
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_btn_s1);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
     }
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
         titlebar.setAttrs("按键测试");
     }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -141,8 +168,7 @@ public class ButtonS1Act extends FragActBase {
                 return true;
             }
 
-        }
-        else if (keyCode == KeyEvent.KEYCODE_F1) {
+        } else if (keyCode == KeyEvent.KEYCODE_F1) {
             if (btn_app.isPressed()) {
                 btn_app.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_app.setPressed(false);
@@ -154,8 +180,7 @@ public class ButtonS1Act extends FragActBase {
                 return true;
             }
 
-        }
-        else if (keyCode == KeyEvent.KEYCODE_F2) {
+        } else if (keyCode == KeyEvent.KEYCODE_F2) {
             if (btn_fn.isPressed()) {
                 btn_fn.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_fn.setPressed(false);
@@ -167,8 +192,7 @@ public class ButtonS1Act extends FragActBase {
                 return true;
             }
 
-        }
- else if (keyCode == KeyEvent.KEYCODE_DEL) {
+        } else if (keyCode == KeyEvent.KEYCODE_DEL) {
             if (btn_backspace.isPressed()) {
                 btn_backspace.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_backspace.setPressed(false);
@@ -178,8 +202,7 @@ public class ButtonS1Act extends FragActBase {
                 btn_backspace.setPressed(true);
                 return true;
             }
-        }
-        else if (keyCode == KeyEvent.KEYCODE_0) {
+        } else if (keyCode == KeyEvent.KEYCODE_0) {
             if (btn_0.isPressed()) {
                 btn_0.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_0.setPressed(false);
@@ -293,8 +316,7 @@ public class ButtonS1Act extends FragActBase {
                 isall();
                 return true;
             }
-        }
-        else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
             if (btn_sahng.isPressed()) {
                 btn_sahng.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_sahng.setPressed(false);
@@ -328,8 +350,7 @@ public class ButtonS1Act extends FragActBase {
                 isall();
                 return true;
             }
-        }
-        else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
             if (btn_you.isPressed()) {
                 btn_you.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_you.setPressed(false);
@@ -340,8 +361,7 @@ public class ButtonS1Act extends FragActBase {
                 isall();
                 return true;
             }
-        }
-        else if (keyCode == KeyEvent.KEYCODE_STAR||keyCode==KeyEvent.KEYCODE_MINUS) {//*
+        } else if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == KeyEvent.KEYCODE_MINUS) {//*
             if (btn_mi.isPressed()) {
                 btn_mi.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_mi.setPressed(false);
@@ -352,7 +372,7 @@ public class ButtonS1Act extends FragActBase {
                 isall();
                 return true;
             }
-        } else if (keyCode == KeyEvent.KEYCODE_POUND||keyCode==KeyEvent.KEYCODE_PERIOD) {//#
+        } else if (keyCode == KeyEvent.KEYCODE_POUND || keyCode == KeyEvent.KEYCODE_PERIOD) {//#
             if (btn_jing.isPressed()) {
                 btn_jing.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_jing.setPressed(false);
@@ -363,8 +383,7 @@ public class ButtonS1Act extends FragActBase {
                 isall();
                 return true;
             }
-        }
-         else if (keyCode == KeyEvent.KEYCODE_F3) {//#
+        } else if (keyCode == KeyEvent.KEYCODE_F3) {//#
             if (btn_weizhi.isPressed()) {
                 btn_weizhi.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_weizhi.setPressed(false);
@@ -424,6 +443,55 @@ public class ButtonS1Act extends FragActBase {
                 ) {
 //            setXml(App.KEY_BUTTON, App.KEY_FINISH);
 //            finish();
+        }
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_menu = (Button) findViewById(R.id.btn_menu);
+        btn_back = (Button) findViewById(R.id.btn_back);
+        btn_app = (Button) findViewById(R.id.btn_app);
+        btn_sahng = (Button) findViewById(R.id.btn_sahng);
+        btn_weizhi = (Button) findViewById(R.id.btn_weizhi);
+        btn_zuo = (Button) findViewById(R.id.btn_zuo);
+        btn_you = (Button) findViewById(R.id.btn_you);
+        btn_fn = (Button) findViewById(R.id.btn_fn);
+        btn_xia = (Button) findViewById(R.id.btn_xia);
+        btn_enter = (Button) findViewById(R.id.btn_enter);
+        btn_1 = (Button) findViewById(R.id.btn_1);
+        btn_2 = (Button) findViewById(R.id.btn_2);
+        btn_3 = (Button) findViewById(R.id.btn_3);
+        btn_backspace = (Button) findViewById(R.id.btn_backspace);
+        btn_4 = (Button) findViewById(R.id.btn_4);
+        btn_5 = (Button) findViewById(R.id.btn_5);
+        btn_6 = (Button) findViewById(R.id.btn_6);
+        btn_space = (Button) findViewById(R.id.btn_space);
+        btn_7 = (Button) findViewById(R.id.btn_7);
+        btn_8 = (Button) findViewById(R.id.btn_8);
+        btn_9 = (Button) findViewById(R.id.btn_9);
+        btn_shift = (Button) findViewById(R.id.btn_shift);
+        btn_mi = (Button) findViewById(R.id.btn_mi);
+        btn_0 = (Button) findViewById(R.id.btn_0);
+        btn_jing = (Button) findViewById(R.id.btn_jing);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
         }
     }
 }

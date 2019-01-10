@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.serialport.DeviceControl;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,48 +15,28 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.crash.utils.SysInfoUtil;
-import common.event.ViewMessage;
 
-@EActivity(R.layout.act_version)
-public class CheckIntentAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class CheckIntentAct extends FragActBase implements View.OnClickListener {
     private static NetworkInfo mNetworkInfo;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_INTENET, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_INTENET, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * xxx
+     */
+    private TextView tvVersionInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -69,14 +49,14 @@ public class CheckIntentAct extends FragActBase {
         }, "RJ45网线接口测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     DeviceControl deviceControl = null;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_version);
+        initView();
         onWindowFocusChanged(true);
         initTitlebar();
         setSwipeEnable(false);
@@ -193,7 +173,32 @@ public class CheckIntentAct extends FragActBase {
             System.out.println("Done");
         } catch (IOException e) {
             e.printStackTrace();
-            showToast("xiewenjianerr");
+            showToast("切换RJ45接口失败");
+        }
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvVersionInfor = (TextView) findViewById(R.id.tv_version_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_INTENET, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_INTENET, App.KEY_UNFINISH);
+                finish();
+                break;
         }
     }
 }

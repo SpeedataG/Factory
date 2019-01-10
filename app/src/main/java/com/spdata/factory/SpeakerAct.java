@@ -1,82 +1,49 @@
 package com.spdata.factory;
 
 import android.app.Service;
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.lang.reflect.Method;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by xu on 2016/7/26.
  */
 
-@EActivity(R.layout.act_speaker)
-public class SpeakerAct extends FragActBase  implements SeekBar.OnSeekBarChangeListener {
+public class SpeakerAct extends FragActBase implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    SeekBar searchBar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+
     private int max;
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_SPK, App.KEY_FINISH);
-        finish();
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_SPK, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private SeekBar searchBar;
+    /**
+     * 听筒正在播放音乐……
+     */
+    private TextView tvVersionInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
-    protected void initTitlebar() {
-        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        }, "听筒测试", null);
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
-
-    AudioManager audioManager;
-    MediaPlayer mMediaPlayer = null;
-    int currentBell;
-    int curSound;
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_speaker);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         btnPass.setVisibility(View.GONE);
@@ -126,6 +93,24 @@ public class SpeakerAct extends FragActBase  implements SeekBar.OnSeekBarChangeL
             }
         }).start();
     }
+
+
+    @Override
+    protected void initTitlebar() {
+        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
+        titlebar.setAttrs(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        }, "听筒测试", null);
+    }
+
+    AudioManager audioManager;
+    MediaPlayer mMediaPlayer = null;
+    int currentBell;
+    int curSound;
+
 
     private void setSpeakerphoneOn(boolean on) {
         try {
@@ -217,5 +202,31 @@ public class SpeakerAct extends FragActBase  implements SeekBar.OnSeekBarChangeL
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        searchBar = (SeekBar) findViewById(R.id.search_bar);
+        tvVersionInfor = (TextView) findViewById(R.id.tv_version_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_SPK, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_SPK, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

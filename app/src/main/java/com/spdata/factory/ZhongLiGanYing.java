@@ -11,83 +11,42 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo_pc on 2016/8/24.
  */
-@EActivity(R.layout.act_zhongliganying)
-public class ZhongLiGanYing extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_ZHONGLI, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_ZHONGLI, App.KEY_FINISH);
-        finish();
-    }
+public class ZhongLiGanYing extends FragActBase implements View.OnClickListener {
+    private CustomTitlebar titlebar;
+    private LinearLayout zhongli;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
-
-    @Override
-    protected void initTitlebar() {
-        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        }, "观察xyz数值变化与小球轨迹", null);
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    private SensorManager sm;
-    private StringBuffer sbacc;
-    private StringBuffer sbori;
-    float[] accelerometerValues = new float[3];
-    MyView mAnimView = null;
-    boolean i = true;
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_zhongliganying);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
-        btnPass.setVisibility(View.GONE);
+        btn_pass.setVisibility(View.GONE);
 
         sbacc = new StringBuffer();
         sbori = new StringBuffer();
@@ -106,13 +65,32 @@ public class ZhongLiGanYing extends FragActBase {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        btnPass.setVisibility(View.VISIBLE);
+                        btn_pass.setVisibility(View.VISIBLE);
                     }
                 });
             }
         }).start();
     }
 
+
+    @Override
+    protected void initTitlebar() {
+        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
+        titlebar.setAttrs(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        }, "观察xyz数值变化与小球轨迹", null);
+    }
+
+
+    private SensorManager sm;
+    private StringBuffer sbacc;
+    private StringBuffer sbori;
+    float[] accelerometerValues = new float[3];
+    MyView mAnimView = null;
+    boolean i = true;
 
     private void initSensor() {
         // 获取SensorManager对象
@@ -121,13 +99,40 @@ public class ZhongLiGanYing extends FragActBase {
         sm.registerListener(new AccSensorListener(), sacc, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        zhongli = (LinearLayout) findViewById(R.id.zhongli);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_ZHONGLI, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_ZHONGLI, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
+
 
     public class AccSensorListener implements SensorEventListener {
 
+        @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
         }
 
+        @Override
         public void onSensorChanged(SensorEvent event) {
             //坐标系x轴上的加速度分量
             float accx = event.values[0];
@@ -258,8 +263,9 @@ public class ZhongLiGanYing extends FragActBase {
 
             if (i) {
                 /** 绘制游戏背景 **/
-                if (mCanvas == null)
+                if (mCanvas == null) {
                     return;
+                }
                 mCanvas.drawBitmap(mbitmapBg, 0, 0, mPaint);
                 /** 绘制小球 **/
                 mCanvas.drawBitmap(mbitmapBall, mPosX, mPosY, mPaint);

@@ -1,67 +1,57 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
-@EActivity(R.layout.activity_button)
-public class ButtonAct extends FragActBase {
-    @ViewById
+public class ButtonAct extends FragActBase implements View.OnClickListener {
+
     CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_up;
-    @ViewById
-    Button btn_down;
-    @ViewById
-    Button btn_left_F4;
-    @ViewById
-    Button btn_close;
-    @ViewById
-    Button btn_right_F4;
-    @ViewById
-    Button btn_home;
-    boolean isOneClick = true;
 
-    @AfterViews
-    protected void main() {
+    Button btnPass;
+
+    Button btnNotPass;
+
+    boolean isOneClick = true;
+    /**
+     * VOLUME_UP
+     */
+    private Button btn_up;
+    /**
+     * VOLUME_DOWN
+     */
+    private Button btn_down;
+    private Button btnClose;
+    /**
+     * SCAN
+     */
+    private Button btn_left_F4;
+    /**
+     * SCAN
+     */
+    private Button btn_right_F4;
+    private TextView tvInfor2;
+    private TextView tvInfor;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_button);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         btnPass.setVisibility(View.GONE);
     }
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -70,14 +60,9 @@ public class ButtonAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showToast(keyCode + "");
-        if (keyCode == KeyEvent.KEYCODE_F4||keyCode==KeyEvent.KEYCODE_F5) {
+        if (keyCode == KeyEvent.KEYCODE_F4 || keyCode == KeyEvent.KEYCODE_F5) {
             if (btn_left_F4.isPressed()) {
                 btn_left_F4.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_right_F4.setBackgroundColor(Color.parseColor("#CEC7C7"));
@@ -107,11 +92,11 @@ public class ButtonAct extends FragActBase {
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             if (btn_down.isPressed()) {
                 btn_down.setBackgroundColor(Color.parseColor("#CEC7C7"));
-              btn_down.setPressed(false);
+                btn_down.setPressed(false);
                 return true;
             } else {
                 btn_down.setBackgroundColor(Color.parseColor("#0AF229"));
-               btn_down.setPressed(true);
+                btn_down.setPressed(true);
                 ispress();
                 return true;
             }
@@ -119,9 +104,9 @@ public class ButtonAct extends FragActBase {
         return super.onKeyDown(keyCode, event);
     }
 
-    public void ispress(){
-        if (btn_left_F4.isPressed()&&btn_down.isPressed()&&btn_up.isPressed()) {
-        btnPass.setVisibility(View.VISIBLE);
+    public void ispress() {
+        if (btn_left_F4.isPressed() && btn_down.isPressed() && btn_up.isPressed()) {
+            btnPass.setVisibility(View.VISIBLE);
         }
     }
 
@@ -144,5 +129,38 @@ public class ButtonAct extends FragActBase {
             str = str + temp;
         }
         return str;
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        titlebar.setOnClickListener(this);
+        btn_up = (Button) findViewById(R.id.btn_up);
+        btn_down = (Button) findViewById(R.id.btn_down);
+        btnClose = (Button) findViewById(R.id.btn_close);
+        btnClose.setOnClickListener(this);
+        btn_left_F4 = (Button) findViewById(R.id.btn_left_F4);
+        btn_right_F4 = (Button) findViewById(R.id.btn_right_F4);
+        tvInfor2 = (TextView) findViewById(R.id.tv_infor2);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

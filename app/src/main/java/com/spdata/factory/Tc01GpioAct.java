@@ -1,7 +1,7 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,11 +9,6 @@ import android.widget.Toast;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -23,35 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
-@EActivity(R.layout.tc01_gpio_layout)
-public class Tc01GpioAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class Tc01GpioAct extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_GPIOS, App.KEY_UNFINISH);
-        finish();
-    }
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_GPIOS, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    /**  */
+    private TextView tvVersionInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -65,12 +46,10 @@ public class Tc01GpioAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.tc01_gpio_layout);
+        initView();
         onWindowFocusChanged(true);
         initTitlebar();
         setSwipeEnable(false);
@@ -135,4 +114,28 @@ public class Tc01GpioAct extends FragActBase {
         return lists;
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvVersionInfor = (TextView) findViewById(R.id.tv_version_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_GPIOS, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_GPIOS, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

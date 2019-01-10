@@ -18,7 +18,6 @@ package com.spdata.factory;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -40,60 +39,66 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 import org.xml.sax.XMLReader;
 
 import java.util.Arrays;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.xnfc.Util;
 import common.xnfc.card.CardManager;
 
-@EActivity(R.layout.act_nfcard)
 public class NFCAct extends FragActBase implements OnClickListener,
         Html.ImageGetter, Html.TagHandler {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnNfc;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
     private Resources res;
     private TextView board;
+    private CustomTitlebar titlebar;
+    private ScrollView scrollview;
+    /**
+     * 复制
+     */
+    private Button btnCopy;
+    /**
+     * 设置
+     */
+    private Button btnNfc;
+    private LinearLayout toolbar;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        board = (TextView) findViewById(R.id.board);
+        scrollview = (ScrollView) findViewById(R.id.scrollview);
+        btnCopy = (Button) findViewById(R.id.btnCopy);
+        btnCopy.setOnClickListener(this);
+        btnNfc = (Button) findViewById(R.id.btnNfc);
+        btnNfc.setOnClickListener(this);
+        toolbar = (LinearLayout) findViewById(R.id.toolbar);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
 
     private enum ContentType {
         HINT, DATA, MSG
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_NFC, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_NFC, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
     }
 
     @Override
@@ -108,28 +113,11 @@ public class NFCAct extends FragActBase implements OnClickListener,
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_nfcard);
+        initView();
         setSwipeEnable(false);
-        NfcManager manager = (NfcManager) this.getSystemService(Context.NFC_SERVICE);
-        nfcAdapter = manager.getDefaultAdapter();
-        try {
-            if (!nfcAdapter.isEnabled()) {
-//				SystemProperties.set("persist.sys.nfc.restore","true");
-                startActivity(new Intent("android.settings.NFC_SETTINGS"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @AfterViews
-    protected void main() {
         initTitlebar();
         final Resources res = getResources();
         this.res = res;
@@ -154,21 +142,35 @@ public class NFCAct extends FragActBase implements OnClickListener,
         if (intent != null) {
             onNewIntent(intent);
         }
+        NfcManager manager = (NfcManager) this.getSystemService(Context.NFC_SERVICE);
+        nfcAdapter = manager.getDefaultAdapter();
+        try {
+            if (!nfcAdapter.isEnabled()) {
+//				SystemProperties.set("persist.sys.nfc.restore","true");
+                startActivity(new Intent("android.settings.NFC_SETTINGS"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
+
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (nfcAdapter != null)
+        if (nfcAdapter != null) {
             nfcAdapter.disableForegroundDispatch(this);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (nfcAdapter != null)
+        if (nfcAdapter != null) {
             nfcAdapter.enableForegroundDispatch(this, pendingIntent,
                     CardManager.FILTERS, CardManager.TECHLISTS);
+        }
         refreshStatus();
     }
 
@@ -229,9 +231,18 @@ public class NFCAct extends FragActBase implements OnClickListener,
             }
             default:
                 break;
+            case R.id.btn_pass:
+                setXml(App.KEY_NFC, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_NFC, App.KEY_UNFINISH);
+                finish();
+                break;
         }
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         refreshStatus();
     }
@@ -240,12 +251,13 @@ public class NFCAct extends FragActBase implements OnClickListener,
         final Resources r = this.res;
 
         final String tip;
-        if (nfcAdapter == null)
+        if (nfcAdapter == null) {
             tip = r.getString(R.string.tip_nfc_notfound);
-        else if (nfcAdapter.isEnabled())
+        } else if (nfcAdapter.isEnabled()) {
             tip = r.getString(R.string.tip_nfc_enabled);
-        else
+        } else {
             tip = r.getString(R.string.tip_nfc_disabled);
+        }
 
         showToast(tip);
         final StringBuilder s = new StringBuilder(
@@ -255,15 +267,17 @@ public class NFCAct extends FragActBase implements OnClickListener,
         setTitle(s);
 
         final CharSequence text = board.getText();
-        if (text == null || board.getTag() == ContentType.HINT)
+        if (text == null || board.getTag() == ContentType.HINT) {
             showHint();
+        }
     }
 
     @SuppressWarnings("deprecation")
     private void copyData() {
         final CharSequence text = board.getText();
-        if (text == null || board.getTag() != ContentType.DATA)
+        if (text == null || board.getTag() != ContentType.DATA) {
             return;
+        }
 
         ((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE))
                 .setText(text);
@@ -300,12 +314,13 @@ public class NFCAct extends FragActBase implements OnClickListener,
         final Resources res = this.res;
         final String hint;
 
-        if (nfcAdapter == null)
+        if (nfcAdapter == null) {
             hint = res.getString(R.string.msg_nonfc);
-        else if (nfcAdapter.isEnabled())
+        } else if (nfcAdapter.isEnabled()) {
             hint = res.getString(R.string.msg_nocard);
-        else
+        } else {
             hint = res.getString(R.string.msg_nfcdisabled);
+        }
 
         final int padding = res.getDimensionPixelSize(R.dimen.text_middle);
 

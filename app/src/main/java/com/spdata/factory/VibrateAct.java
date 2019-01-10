@@ -1,55 +1,68 @@
 package com.spdata.factory;
 
 import android.app.Service;
-import android.content.Context;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo_pc on 2016/8/17.
  */
-@EActivity(R.layout.act_vibrate)
-public class VibrateAct extends FragActBase {
+public class VibrateAct extends FragActBase implements View.OnClickListener {
     private Vibrator myVibrator;
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    TextView tv_infor;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_VIBRATE, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_VIBRATE, App.KEY_FINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * sss
+     */
+    private TextView tv_infor;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_vibrate);
+        initView();
+        initTitlebar();
+        //获得系统的Vibrator实例:
+        myVibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
+        if (myVibrator.hasVibrator()) {
+            titlebar.setAttrs("当前设备无振动器");
+        }
+        titlebar.setAttrs("当前设备有振动器");
+        tv_infor.setText("振动中……");
+        myVibrator.vibrate(new long[]{100, 100, 100, 1000}, 0);
+        btn_pass.setVisibility(View.GONE);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_pass.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -64,42 +77,6 @@ public class VibrateAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        //获得系统的Vibrator实例:
-        myVibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
-        if (myVibrator.hasVibrator()) {
-            titlebar.setAttrs("当前设备无振动器");
-        }
-        titlebar.setAttrs("当前设备有振动器");
-        tv_infor.setText("振动中……");
-        myVibrator.vibrate(new long[]{100, 100, 100, 1000}, 0);
-        btnPass.setVisibility(View.GONE);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        btnPass.setVisibility(View.VISIBLE);
-                    }
-                });
-            }
-        }).start();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         myVibrator.cancel();
@@ -109,5 +86,30 @@ public class VibrateAct extends FragActBase {
     protected void onStop() {
         super.onStop();
         myVibrator.cancel();
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tv_infor = (TextView) findViewById(R.id.tv_infor);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_VIBRATE, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_VIBRATE, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

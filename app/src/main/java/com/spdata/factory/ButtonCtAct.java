@@ -1,98 +1,111 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo-pc on 2018/3/21.
  */
-@EActivity(R.layout.act_btn_ct_layout)
-public class ButtonCtAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_back;
-    @ViewById
-    Button btn_key1;
-    @ViewById
-    Button btn_key2;
-    @ViewById
-    Button btn_key3;
-    @ViewById
-    Button btn_key4;
-    @ViewById
-    Button btn_key5;
-    @ViewById
-    Button btn_key6;
-    @ViewById
-    Button btn_key7;
-    @ViewById
-    Button btn_key8;
-    @ViewById
-    Button btn_key9;
-    @ViewById
-    Button btn_key0;
-    @ViewById
-    Button btn_period;
-    @ViewById
-    Button btn_minus;
-    @ViewById
-    Button btn_del;
-    @ViewById
-    Button btn_menu;
-    @ViewById
-    Button btn_f2;
+public class ButtonCtAct extends FragActBase implements View.OnClickListener {
 
 
-    @AfterViews
-    protected void main() {
+    private CustomTitlebar titlebar;
+    /**
+     * FN
+     */
+    private Button btn_f2;
+    /**
+     * 1
+     */
+    private Button btn_key1;
+    /**
+     * 2
+     */
+    private Button btn_key2;
+    /**
+     * 3
+     */
+    private Button btn_key3;
+    /**
+     * 4
+     */
+    private Button btn_key4;
+    /**
+     * 5
+     */
+    private Button btn_key5;
+    /**
+     * 6
+     */
+    private Button btn_key6;
+    /**
+     * MENU
+     */
+    private Button btn_menu;
+    /**
+     * 7
+     */
+    private Button btn_key7;
+    /**
+     * 8
+     */
+    private Button btn_key8;
+    /**
+     * 9
+     */
+    private Button btn_key9;
+    /**
+     * 0
+     */
+    private Button btn_key0;
+    /**
+     * period
+     */
+    private Button btn_period;
+    /**
+     * minus
+     */
+    private Button btn_minus;
+    /**
+     * del
+     */
+    private Button btn_del;
+    /**
+     * BACK
+     */
+    private Button btn_back;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.act_btn_ct_layout);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
     }
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
         titlebar.setAttrs("按键测试");
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
     }
 
     @Override
@@ -265,4 +278,43 @@ public class ButtonCtAct extends FragActBase {
     }
 
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_f2 = (Button) findViewById(R.id.btn_f2);
+        btn_key1 = (Button) findViewById(R.id.btn_key1);
+        btn_key2 = (Button) findViewById(R.id.btn_key2);
+        btn_key3 = (Button) findViewById(R.id.btn_key3);
+        btn_key4 = (Button) findViewById(R.id.btn_key4);
+        btn_key5 = (Button) findViewById(R.id.btn_key5);
+        btn_key6 = (Button) findViewById(R.id.btn_key6);
+        btn_menu = (Button) findViewById(R.id.btn_menu);
+        btn_key7 = (Button) findViewById(R.id.btn_key7);
+        btn_key8 = (Button) findViewById(R.id.btn_key8);
+        btn_key9 = (Button) findViewById(R.id.btn_key9);
+        btn_key0 = (Button) findViewById(R.id.btn_key0);
+        btn_period = (Button) findViewById(R.id.btn_period);
+        btn_minus = (Button) findViewById(R.id.btn_minus);
+        btn_del = (Button) findViewById(R.id.btn_del);
+        btn_back = (Button) findViewById(R.id.btn_back);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

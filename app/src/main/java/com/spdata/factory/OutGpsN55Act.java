@@ -1,8 +1,10 @@
 package com.spdata.factory;
 
-import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.serialport.SerialPort;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,58 +12,37 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
 import common.utils.DeviceControl;
 
 /**
  * Created by suntianwei on 2016/11/25.
  */
-@EActivity(R.layout.act_outgpsn55)
-public class OutGpsN55Act extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btn_start;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    EditText edv_infors;
-    @ViewById
-    TextView tv_gps;
+public class OutGpsN55Act extends FragActBase implements View.OnClickListener {
     private DeviceControl gpio;
     int fd = 0;
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_GPS_OUT, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_GPS_OUT, App.KEY_FINISH);
-        finish();
-    }
-
-    @Click
-    void btn_start() {
-        ReadThread readThread = new ReadThread();
-        readThread.start();
-
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * 读GPS数据
+     */
+    private TextView textView2;
+    private TextView tvGps;
+    private EditText edvInfors;
+    /**
+     * 开始测试
+     */
+    private Button btnStart;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -69,15 +50,14 @@ public class OutGpsN55Act extends FragActBase {
         titlebar.setAttrs("外置GPS");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
 
     private SerialPort mSerialPort;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_outgpsn55);
+        initView();
         initTitlebar();
         mSerialPort = new SerialPort();
         try {
@@ -93,7 +73,7 @@ public class OutGpsN55Act extends FragActBase {
         fd = mSerialPort.getFd();
     }
 
-    android.os.Handler handler = new android.os.Handler() {
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -104,12 +84,45 @@ public class OutGpsN55Act extends FragActBase {
                         titlebar.setAttrs("测试失败！");
                     } else {
                         String s = DataConversionUtils.byteArrayToAscii(temp);
-                        tv_gps.setText(s);
+                        tvGps.setText(s);
                     }
                     break;
             }
         }
     };
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        textView2 = (TextView) findViewById(R.id.textView2);
+        tvGps = (TextView) findViewById(R.id.tv_gps);
+        edvInfors = (EditText) findViewById(R.id.edv_infors);
+        btnStart = (Button) findViewById(R.id.btn_start);
+        btnStart.setOnClickListener(this);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_start:
+                ReadThread readThread = new ReadThread();
+                readThread.start();
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_GPS_OUT, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_GPS_OUT, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 
 
     private class ReadThread extends Thread {

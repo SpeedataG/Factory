@@ -1,7 +1,7 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,11 +9,6 @@ import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,57 +22,34 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
-import common.utils.SDUtils;
 
-@EActivity(R.layout.activity_change)
-public class ChangeAct extends FragActBase {
+public class ChangeAct extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_next;
-    @ViewById
-    Button btn_second;
+
     private String streamToString;
     private String battVoltFile = "";
     private String battTempFile;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_CHANGE, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_CHANGE, App.KEY_FINISH);
-        finish();
-    }
-
-    @Click
-    void btn_next() {
-        first();
-    }
-
-    @Click
-    void btn_second() {
-    }
-
+    private CustomTitlebar titlebar;
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
+    /**
+     * 下一步
+     */
+    private Button btnNext;
+    /**
+     * 下一步
+     */
+    private Button btnSecond;
 
     private final int INPIT = 0;
     private final int OUT = 1;
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -91,11 +63,10 @@ public class ChangeAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_change);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
     }
@@ -154,6 +125,40 @@ public class ChangeAct extends FragActBase {
     private static final String CHARGER_CURRENT_NOW =
             "/sys/class/power_supply/battery/BatteryAverageCurrent";
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+        btnNext = (Button) findViewById(R.id.btn_next);
+        btnNext.setOnClickListener(this);
+        btnSecond = (Button) findViewById(R.id.btn_second);
+        btnSecond.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_CHANGE, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_CHANGE, App.KEY_UNFINISH);
+                finish();
+                break;
+            case R.id.btn_next:
+                first();
+                break;
+            case R.id.btn_second:
+                break;
+        }
+    }
+
     private class remindTask extends TimerTask {
 
         @Override
@@ -174,7 +179,7 @@ public class ChangeAct extends FragActBase {
                             first();
                             if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60")) {
                                 tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000000.0 + "V");
-                            }else {
+                            } else {
                                 tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000.0 + "V");
 
                             }

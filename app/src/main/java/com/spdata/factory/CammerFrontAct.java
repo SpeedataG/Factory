@@ -1,14 +1,12 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
-import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemProperties;
 import android.provider.MediaStore;
@@ -21,18 +19,12 @@ import android.widget.Button;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 import static android.R.attr.path;
 
@@ -40,17 +32,7 @@ import static android.R.attr.path;
  * Created by xu on 2016/7/26.
  */
 
-@EActivity(R.layout.act_cammer_front)
-public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callback {
-
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_light;
+public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callback, View.OnClickListener {
 
     private int count = 0;
     private int light = 0;
@@ -60,55 +42,24 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
     private String filePath = "/sdcard/qian.jpg";//照片保存路径
     boolean isClicked = false;//是否点击标识
     private int cammeraIndex;
-
-    @Click
-    void btnPass() {
-        if (count == 0) {
-            try {
-                myCamera.startPreview();
-                myCamera.takePicture(shutterCallback, null, jpeg);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-//            onAutoFocus(isClicked, myCamera);
-            titlebar.setTitlebarNameText("拍照成功！");
-            btnPass.setText("成功");
-            count++;
-        } else if (count == 1) {
-            setXml(App.KEY_CAMMAR_FRONT, App.KEY_FINISH);
-            finish();
-        }
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_CAMMAR_FRONT, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btn_light() {
-        if (light == 0) {
-            //打开补光灯
-            Camera.Parameters parameters = myCamera.getParameters();
-            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-            myCamera.setParameters(parameters);
-            titlebar.setAttrs("请点击拍照按钮进行拍照！");
-            light = 1;
-        } else if (light == 1) {
-            titlebar.setAttrs("请先打开前置补关灯");
-            //关闭闪光灯
-            Camera.Parameters parameters = myCamera.getParameters();
-            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-            myCamera.setParameters(parameters);
-            light = 0;
-        }
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private SurfaceView camera;
+    /**
+     * 拍照
+     */
+    private Button btnPhoto;
+    /**
+     * 拍照
+     */
+    private Button btnPass;
+    /**
+     * 补光灯
+     */
+    private Button btnLight;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -142,8 +93,11 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
 //        this.sendBroadcast(closecam, null);
     }
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_cammer_front);
+        initView();
         if (SystemProperties.get("persist.sys.iscamera").equals("close")) {
             SystemProperties.set("persist.sys.scanstopimme", "true");
             Intent opencam = new Intent();
@@ -177,11 +131,11 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
         if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                 || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                 || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
-                || model.equals("DM-P80")|| model.equals("SD-55")) {
+                || model.equals("DM-P80") || model.equals("SD-55")) {
             titlebar.setAttrs("请先打开前置补关灯");
         } else {
             titlebar.setAttrs("请点击拍照按钮进行拍照！");
-            btn_light.setVisibility(View.GONE);
+            btnLight.setVisibility(View.GONE);
         }
     }
 
@@ -227,12 +181,11 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
         }
     };
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
+        @Override
         public void onShutter() {
+
         }
     };
 
@@ -297,9 +250,9 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
     /*
     设置方向
      */
-    public static void setCameraDisplayOrientation(CammerFrontAct activity, int cameraId, android.hardware.Camera camera) {
-        android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
-        android.hardware.Camera.getCameraInfo(cameraId, info);
+    public static void setCameraDisplayOrientation(CammerFrontAct activity, int cameraId, Camera camera) {
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         int degrees = 0;
         switch (rotation) {
@@ -325,5 +278,66 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
             result = (info.orientation - degrees + 360) % 360;
         }
         camera.setDisplayOrientation(result);
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        camera = (SurfaceView) findViewById(R.id.camera);
+        btnPhoto = (Button) findViewById(R.id.btn_photo);
+        btnPhoto.setOnClickListener(this);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnLight = (Button) findViewById(R.id.btn_light);
+        btnLight.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_photo:
+                break;
+            case R.id.btn_pass:
+                if (count == 0) {
+                    try {
+                        myCamera.startPreview();
+                        myCamera.takePicture(shutterCallback, null, jpeg);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+//            onAutoFocus(isClicked, myCamera);
+                    titlebar.setTitlebarNameText("拍照成功！");
+                    btnPass.setText("成功");
+                    count++;
+                } else if (count == 1) {
+                    setXml(App.KEY_CAMMAR_FRONT, App.KEY_FINISH);
+                    finish();
+                }
+                break;
+            case R.id.btn_light:
+                if (light == 0) {
+                    //打开补光灯
+                    Camera.Parameters parameters = myCamera.getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                    myCamera.setParameters(parameters);
+                    titlebar.setAttrs("请点击拍照按钮进行拍照！");
+                    light = 1;
+                } else if (light == 1) {
+                    titlebar.setAttrs("请先打开前置补关灯");
+                    //关闭闪光灯
+                    Camera.Parameters parameters = myCamera.getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    myCamera.setParameters(parameters);
+                    light = 0;
+                }
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_CAMMAR_FRONT, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

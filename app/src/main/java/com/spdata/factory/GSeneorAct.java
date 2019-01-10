@@ -1,70 +1,56 @@
 package com.spdata.factory;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
-import common.utils.PlaySoundPool;
 import common.utils.ShakeUtils;
 
 //加速传感器测试
-@EActivity(R.layout.act_gsensor)
-public class GSeneorAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    TextView tv_x;
-    @ViewById
-    TextView tv_y;
-    @ViewById
-    TextView tv_z;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class GSeneorAct extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_G_SENSOR, App.KEY_UNFINISH);
-        finish();
-    }
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_G_SENSOR, App.KEY_FINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * xxx
+     */
+    private TextView tv_infor;
+    /**
+     * x
+     */
+    private TextView tv_x;
+    /**
+     * y
+     */
+    private TextView tv_y;
+    /**
+     * z
+     */
+    private TextView tv_z;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -77,10 +63,6 @@ public class GSeneorAct extends FragActBase {
         }, "加速传感器测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
 
     private ShakeUtils mShakeUtils;
     private int shakeCount = 0;
@@ -90,11 +72,14 @@ public class GSeneorAct extends FragActBase {
     private remindTask task;
     private int change = 0;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_gsensor);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
-        tvInfor.setText("请上下左右移动设备，观察x、y、z变化\n");
+        tv_infor.setText("请上下左右移动设备，观察x、y、z变化\n");
         //创建一个SensorManager来获取系统的传感器服务
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         //选取加速度感应器
@@ -118,13 +103,14 @@ SENSOR_DELAY_UI：匹配用户接口
     }
 
     /*
-         * SensorEventListener接口的实现，需要实现两个方法
-         * 方法1 onSensorChanged 当数据变化的时候被触发调用
-         * 方法2 onAccuracyChanged 当获得数据的精度发生变化的时候被调用，比如突然无法获得数据时
-         * */
+     * SensorEventListener接口的实现，需要实现两个方法
+     * 方法1 onSensorChanged 当数据变化的时候被触发调用
+     * 方法2 onAccuracyChanged 当获得数据的精度发生变化的时候被调用，比如突然无法获得数据时
+     * */
     final SensorEventListener myAccelerometerListener = new SensorEventListener() {
 
         //复写onSensorChanged方法
+        @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 float X_lateral = sensorEvent.values[0];
@@ -135,7 +121,9 @@ SENSOR_DELAY_UI：匹配用户接口
                 tv_z.setText("z=" + Z_vertical);
             }
         }
+
         //复写onAccuracyChanged方法
+        @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 //            tvInfor.setText("onAccuracyChanged被触发");
         }
@@ -157,6 +145,34 @@ SENSOR_DELAY_UI：匹配用户接口
         public void afterTextChanged(Editable s) {
         }
     };
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tv_infor = (TextView) findViewById(R.id.tv_infor);
+        tv_x = (TextView) findViewById(R.id.tv_x);
+        tv_y = (TextView) findViewById(R.id.tv_y);
+        tv_z = (TextView) findViewById(R.id.tv_z);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_G_SENSOR, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_G_SENSOR, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 
     private class remindTask extends TimerTask {
         @Override
@@ -205,8 +221,8 @@ SENSOR_DELAY_UI：匹配用户接口
 //        mShakeUtils.onPause();
         /*
          * 很关键的部分：注意，说明文档中提到，即使activity不可见的时候，感应器依然会继续的工作，测试的时候可以发现，没有正常的刷新频率
-    	 * 也会非常高，所以一定要在onPause方法中关闭触发器，否则讲耗费用户大量电量，很不负责。
-    	 * */
+         * 也会非常高，所以一定要在onPause方法中关闭触发器，否则讲耗费用户大量电量，很不负责。
+         * */
         sm.unregisterListener(myAccelerometerListener);
         super.onPause();
     }

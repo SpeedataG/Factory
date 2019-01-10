@@ -1,6 +1,6 @@
 package com.spdata.factory;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.serialport.DeviceControl;
@@ -12,11 +12,6 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -24,29 +19,26 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
 
 /**
  * Created by 42040 on 2018/11/16.
  */
-@EActivity(R.layout.act_port232_layout)
-public class Rs232Serport extends FragActBase {
+public class Rs232Serport extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_PORT232, App.KEY_UNFINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * xxx
+     */
+    private TextView tvVersionInfor;
+    /**
+     * 发送
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     private void send() {
         new Thread(new Runnable() {
@@ -88,26 +80,6 @@ public class Rs232Serport extends FragActBase {
 
     }
 
-    @Click
-    void btnPass() {
-        if (sendcount == 1) {
-            if (sendstring != "") {
-//                send();
-                byte[] pss = sendstring.getBytes();
-                mSerialPort.WriteSerialByte(fd, pss);
-                handler.postDelayed(runnable, 10);
-            }
-        } else if (sendcount == 2) {
-            btnPass.setText("成功");
-            setXml(App.KEY_PORT232, App.KEY_FINISH);
-            finish();
-        }
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -115,9 +87,6 @@ public class Rs232Serport extends FragActBase {
         titlebar.setAttrs("RS232串口");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     private SerialPort mSerialPort;
     private DeviceControl deviceControl;
@@ -126,8 +95,11 @@ public class Rs232Serport extends FragActBase {
     public String sendstring = "This is Seriaport!";
     private String string;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_port232_layout);
+        initView();
         initTitlebar();
         tvVersionInfor.setText("请将RS232串口自环线插入背面接口，" +
                 "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功");
@@ -225,6 +197,41 @@ public class Rs232Serport extends FragActBase {
             deviceControl.MainPowerOff(90);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvVersionInfor = (TextView) findViewById(R.id.tv_version_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                if (sendcount == 1) {
+                    if (sendstring != "") {
+//                send();
+                        byte[] pss = sendstring.getBytes();
+                        mSerialPort.WriteSerialByte(fd, pss);
+                        handler.postDelayed(runnable, 10);
+                    }
+                } else if (sendcount == 2) {
+                    btnPass.setText("成功");
+                    setXml(App.KEY_PORT232, App.KEY_FINISH);
+                    finish();
+                }
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_PORT232, App.KEY_UNFINISH);
+                finish();
+                break;
         }
     }
 }

@@ -1,63 +1,52 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
-
-/**
- * Created by Administrator on 2017/5/2.
- */
-@EActivity(R.layout.act_btn_m08)
-public class ButtonM08Act extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_up;
-    @ViewById
-    Button btn_down;
-    @ViewById
-    Button btn_f1;
-    @ViewById
-    Button btn_f2;
 
 
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-    }
+public class ButtonM08Act extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * F1
+     */
+    private Button btn_f1;
+    /**
+     * F2
+     */
+    private Button btn_f2;
+    /**
+     * V-
+     */
+    private Button btn_down;
+    /**
+     * V+
+     */
+    private Button btn_up;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_btn_m08);
+        initView();
+        initTitlebar();
+        setSwipeEnable(false);
     }
 
     @Override
@@ -66,10 +55,7 @@ public class ButtonM08Act extends FragActBase {
         titlebar.setAttrs("按键测试");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
 
-    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showToast(keyCode + "");
@@ -116,6 +102,34 @@ public class ButtonM08Act extends FragActBase {
                 return true;
             }
         }
-            return super.onKeyDown(keyCode, event);
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_f1 = (Button) findViewById(R.id.btn_f1);
+        btn_f2 = (Button) findViewById(R.id.btn_f2);
+        btn_down = (Button) findViewById(R.id.btn_down);
+        btn_up = (Button) findViewById(R.id.btn_up);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

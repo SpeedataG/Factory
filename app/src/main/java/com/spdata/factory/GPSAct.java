@@ -27,11 +27,6 @@ import android.widget.Toast;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -44,39 +39,25 @@ import java.util.Iterator;
 import java.util.List;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
-@EActivity(R.layout.act_gps)
-public class GPSAct extends FragActBase {
+public class GPSAct extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    EditText editText;
     private String gpsState;
+    private CustomTitlebar titlebar;
+    private EditText editText;
+    /**
+     * 无数据
+     */
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_GPS, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_GPS, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -89,15 +70,15 @@ public class GPSAct extends FragActBase {
         }, "GPS测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     private SDKMethod gpsnet_device;
     boolean is = true;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_gps);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
 //        x300qgpsDate();
@@ -134,13 +115,13 @@ public class GPSAct extends FragActBase {
         LocationManager locationManager = (LocationManager) this
                 .getSystemService(Context.LOCATION_SERVICE);
         // 判断GPS模块是否开启，如果没有则开启
-        if (!locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(GPSAct.this, "请打开GPS",
                     Toast.LENGTH_SHORT).show();
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage("请打开GPS");
             dialog.setPositiveButton("确定",
-                    new android.content.DialogInterface.OnClickListener() {
+                    new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
@@ -150,7 +131,7 @@ public class GPSAct extends FragActBase {
                             startActivityForResult(intent, 0); // 设置完成后返回到原来的界面
                         }
                     });
-            dialog.setNeutralButton("取消", new android.content.DialogInterface.OnClickListener() {
+            dialog.setNeutralButton("取消", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
@@ -383,5 +364,31 @@ public class GPSAct extends FragActBase {
         locationManager.requestLocationUpdates(provider, 1 * 1000, 1,
                 locationListener);
         locationManager.addGpsStatusListener(gpsStausListener);  //监听状态
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        editText = (EditText) findViewById(R.id.editText);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_GPS, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_GPS, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

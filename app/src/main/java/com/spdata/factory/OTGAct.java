@@ -1,7 +1,7 @@
 package com.spdata.factory;
 
 import android.content.Context;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.StatFs;
 import android.text.format.Formatter;
 import android.view.View;
@@ -10,11 +10,6 @@ import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,33 +20,21 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
-@EActivity(R.layout.act_otg)
-public class OTGAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class OTGAct extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_OTG, App.KEY_UNFINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    /**  */
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btnPass() {
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -64,20 +47,19 @@ public class OTGAct extends FragActBase {
         }, "OTG测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     private Timer timer;
     private remindTask task;
     private int len;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_otg);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
 //        init();
-
     }
 
     public static final String POWER_EXTERNAL = "/sys/class/misc/aw9523/gpio";
@@ -87,6 +69,29 @@ public class OTGAct extends FragActBase {
         super.onResume();
         task = new remindTask();
         remind(task);
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_OTG, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 
     private class remindTask extends TimerTask {
@@ -104,7 +109,7 @@ public class OTGAct extends FragActBase {
                         len = inputStreamReader.read();
                         inputStreamReader.close();
                         if (len == 49) {
-                            if (getApiVersion() >=23) {
+                            if (getApiVersion() >= 23) {
                                 tvInfor.setText("OTG模式\n");
                                 new Thread(new Runnable() {
                                     @Override

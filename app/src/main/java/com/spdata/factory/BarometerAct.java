@@ -1,56 +1,29 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo_pc on 2016/8/24.
  */
-@EActivity(R.layout.act_barometer)
-public class BarometerAct extends FragActBase {
-    @ViewById
+public class BarometerAct extends FragActBase implements View.OnClickListener {
     CustomTitlebar titlebar;
-    @ViewById
     TextView tvVersionInfor;
-    @ViewById
     Button btnPass;
-    @ViewById
     Button btnNotPass;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BAROMETER, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BAROMETER, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private SensorManager sm;
+    private StringBuffer sbpre;
 
     @Override
     protected void initTitlebar() {
@@ -63,21 +36,6 @@ public class BarometerAct extends FragActBase {
         }, "气压计", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    private SensorManager sm;
-    private StringBuffer sbpre;
-
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-        sbpre = new StringBuffer();
-        initSensor();
-    }
-
     private void initSensor() {
         // 获取SensorManager对象
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -85,10 +43,48 @@ public class BarometerAct extends FragActBase {
         sm.registerListener(new PreSensorListener(), spre, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_barometer);
+        initView();
+        initTitlebar();
+        setSwipeEnable(false);
+        sbpre = new StringBuffer();
+        initSensor();
+    }
+
+    public void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvVersionInfor = (TextView) findViewById(R.id.tv_version_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BAROMETER, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BAROMETER, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
+
     public class PreSensorListener implements SensorEventListener {
+        @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
 
+        @Override
         public void onSensorChanged(SensorEvent event) {
             float pre = event.values[0];
             sbpre.setLength(0);

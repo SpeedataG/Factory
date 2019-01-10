@@ -14,6 +14,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -28,29 +29,15 @@ import android.widget.ListView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import common.adapter.WifiRelayListAdapter;
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.LinkWifi;
 
-@EActivity(R.layout.act_wifi)
-public class WifiAct extends FragActBase {
+public class WifiAct extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
     ListView listItem;
     private final int LATE = 0;
 
@@ -66,22 +53,23 @@ public class WifiAct extends FragActBase {
             }
         }
     };
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_WIFI, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_WIFI, App.KEY_FINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_wifi);
+        initView();
+        initTitlebar();
+        init();
     }
 
     @Override
@@ -96,9 +84,6 @@ public class WifiAct extends FragActBase {
         }, "Wifi测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     /**
      * 强制帮用户打开GPS
@@ -118,7 +103,7 @@ public class WifiAct extends FragActBase {
     }
 
     private void closeGPS() {
-        android.provider.Settings.Secure.setLocationProviderEnabled(
+        Settings.Secure.setLocationProviderEnabled(
                 getContentResolver(), "gps", false);
     }
 
@@ -155,11 +140,6 @@ public class WifiAct extends FragActBase {
         scanAndGetResult();
     }
 
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        init();
-    }
 
     private WifiManager wifiManager = null;
     private Context context = null;
@@ -240,8 +220,9 @@ public class WifiAct extends FragActBase {
                         }
                     }
                 }
-                if (isAdd)
+                if (isAdd) {
                     newWifList.add(wifiList.get(i));
+                }
             }
         }
 
@@ -251,11 +232,36 @@ public class WifiAct extends FragActBase {
 
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        listItem = (ListView) findViewById(R.id.list_item);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_WIFI, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass: setXml(App.KEY_WIFI, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
+
     public class SetWifiHandler extends Handler {
         public SetWifiHandler(Looper mainLooper) {
             super(mainLooper);
         }
 
+        @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:// 请求操作某一无线网络
@@ -305,6 +311,7 @@ public class WifiAct extends FragActBase {
                     .setMessage("请选择你要进行的操作？")
                     .setPositiveButton(actionStr,
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog,
                                                     int whichButton) {
 
@@ -331,6 +338,7 @@ public class WifiAct extends FragActBase {
                             })
                     .setNeutralButton("忘记",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog,
                                                     int whichButton) {
                                     wifiManager.removeNetwork(netID);
@@ -339,6 +347,7 @@ public class WifiAct extends FragActBase {
                             })
                     .setNegativeButton("取消",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog,
                                                     int whichButton) {
                                     return;
@@ -380,6 +389,7 @@ public class WifiAct extends FragActBase {
                     .setView(inputPwdView)
                     .setPositiveButton("确定",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
                                     EditText pwd = (EditText) inputPwdView
@@ -415,6 +425,7 @@ public class WifiAct extends FragActBase {
                     .setMessage("你选择的wifi无密码，可能不安全，确定继续连接？")
                     .setPositiveButton("确定",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog,
                                                     int whichButton) {
                                     // 此处加入连接wifi代码
@@ -435,6 +446,7 @@ public class WifiAct extends FragActBase {
                             })
                     .setNegativeButton("取消",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog,
                                                     int whichButton) {
                                     return;

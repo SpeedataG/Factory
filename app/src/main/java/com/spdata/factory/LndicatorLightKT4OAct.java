@@ -1,8 +1,8 @@
 package com.spdata.factory;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,49 +10,32 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo_pc on 2016/10/19.
  */
-@EActivity(R.layout.act_indicator_light)
-public class LndicatorLightKT4OAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class LndicatorLightKT4OAct extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
-        finish();
-    }
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_INDICATOR_LIGHT, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * xxx
+     */
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -82,11 +65,10 @@ public class LndicatorLightKT4OAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_indicator_light);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         init();
@@ -118,6 +100,8 @@ public class LndicatorLightKT4OAct extends FragActBase {
                 break;
             case LED_RED:
                 message = "已点亮红灯，请确认";
+                break;
+            default:
                 break;
         }
 
@@ -166,6 +150,8 @@ public class LndicatorLightKT4OAct extends FragActBase {
                                     e.printStackTrace();
                                     showToast("蓝灯关闭失败");
                                 }
+                                break;
+                            default:
                                 break;
                         }
                     }
@@ -241,5 +227,30 @@ public class LndicatorLightKT4OAct extends FragActBase {
 
     public void DeviceClose() throws IOException {
         CtrlFile.close();
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_INDICATOR_LIGHT, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

@@ -1,71 +1,87 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo_pc on 2016/9/12.
  */
-@EActivity(R.layout.act_s150)
-public class ButtonS150Act extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_up;
-    @ViewById
-    Button btn_beidou;
-    @ViewById
-    Button btn_down;
-    @ViewById
-    Button btn_sos;
-    @ViewById
-    Button btn_camera;
-    @ViewById
-    Button btn_menu;
-    @ViewById
-    Button btn_home;
-    @ViewById
-    Button btn_back;
-    @ViewById
-    Button btn_phone;
-    @ViewById
-    Button btn_more;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
+public class ButtonS150Act extends FragActBase implements View.OnClickListener {
+    private CustomTitlebar titlebar;
+    /**
+     * VOL_UP
+     */
+    private Button btn_up;
+    /**
+     * RESET
+     */
+    private Button btn_reset;
+    /**
+     * BEIDOU
+     */
+    private Button btn_beidou;
+    /**
+     * MENU
+     */
+    private Button btn_DIANYUAN;
+    /**
+     * VOL_DOWN
+     */
+    private Button btn_down;
+    /**
+     * CAMERA
+     */
+    private Button btn_camera;
+    /**
+     * SOS
+     */
+    private Button btn_sos;
+    /**
+     * MENU
+     */
+    private Button btn_f5;
+    /**
+     * MENU
+     */
+    private Button btn_menu;
+    /**
+     * HOME
+     */
+    private Button btn_home;
+    /**
+     * BACK
+     */
+    private Button btn_back;
+    /**
+     * PHONE
+     */
+    private Button btn_phone;
+    /**
+     * MORE
+     */
+    private Button btn_more;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_s150);
+        initView();initTitlebar();
     }
 
     @Override
@@ -74,14 +90,6 @@ public class ButtonS150Act extends FragActBase {
         titlebar.setAttrs("按键测试");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-    }
 
     boolean isOneClick = true;
 
@@ -186,6 +194,43 @@ public class ButtonS150Act extends FragActBase {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_up = (Button) findViewById(R.id.btn_up);
+        btn_reset = (Button) findViewById(R.id.btn_reset);
+        btn_beidou = (Button) findViewById(R.id.btn_beidou);
+        btn_DIANYUAN = (Button) findViewById(R.id.btn_DIANYUAN);
+        btn_down = (Button) findViewById(R.id.btn_down);
+        btn_camera = (Button) findViewById(R.id.btn_camera);
+        btn_sos = (Button) findViewById(R.id.btn_sos);
+        btn_f5 = (Button) findViewById(R.id.btn_f5);
+        btn_menu = (Button) findViewById(R.id.btn_menu);
+        btn_home = (Button) findViewById(R.id.btn_home);
+        btn_back = (Button) findViewById(R.id.btn_back);
+        btn_phone = (Button) findViewById(R.id.btn_phone);
+        btn_more = (Button) findViewById(R.id.btn_more);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 //    public void onAttachedToWindow() {
 //        this.getWindow().setType(WindowManager.LayoutParams.MEMORY_TYPE_CHANGED);

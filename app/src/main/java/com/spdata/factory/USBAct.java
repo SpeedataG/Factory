@@ -4,51 +4,46 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
-@EActivity(R.layout.act_usb)
-public class USBAct extends FragActBase {
+public class USBAct extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_USB, App.KEY_UNFINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * xxx
+     */
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_USB, App.KEY_FINISH);
-        finish();
-    }
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_usb);
+        initView(); initTitlebar();
+        setSwipeEnable(false);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION);
+        registerReceiver(usBroadcastReceiver, filter);
+        tvInfor.setText("请插入usb");
     }
 
     @Override
@@ -62,9 +57,7 @@ public class USBAct extends FragActBase {
         }, "USB测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
+
 
     private final int LATE = 0;
     Handler handler = new Handler() {
@@ -81,15 +74,6 @@ public class USBAct extends FragActBase {
         }
     };
 
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION);
-        registerReceiver(usBroadcastReceiver, filter);
-        tvInfor.setText("请插入usb");
-    }
 
     @Override
     protected void onDestroy() {
@@ -136,4 +120,27 @@ public class USBAct extends FragActBase {
             }
         }
     };
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:setXml(App.KEY_USB, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:setXml(App.KEY_USB, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

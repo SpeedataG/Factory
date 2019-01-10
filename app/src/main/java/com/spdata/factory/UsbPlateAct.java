@@ -5,53 +5,47 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.DeviceControl;
 
 /**
  * Created by lenovo_pc on 2016/9/3.
  */
-@EActivity(R.layout.act_usbmlate)
-public class UsbPlateAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+
+public class UsbPlateAct extends FragActBase implements View.OnClickListener {
+
     private DeviceControl gpio;
+    private CustomTitlebar titlebar;
+    /**
+     * 请插入U盘
+     */
+    private TextView tvVersionInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_USBPLATE, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_USBPLATE, App.KEY_FINISH);
-        finish();
-    }
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_usbmlate);
+        initView();
+        initTitlebar();
     }
 
     @Override
@@ -60,50 +54,39 @@ public class UsbPlateAct extends FragActBase {
         titlebar.setAttrs("U盘");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-
-
-    }
-   Handler handler = new Handler(){
-       @Override
-       public void handleMessage(Message msg) {
-           super.handleMessage(msg);
-           String ss= (String) msg.obj;
-           switch (msg.what){
-               case 0:
-                   tvVersionInfor.setText(ss);
-                   break;
-               case 1:
-                   tvVersionInfor.setText(ss);
-                   break;
-               case 2:
-                   tvVersionInfor.setText(ss);
-                   setXml(App.KEY_USBPLATE, App.KEY_FINISH);
-                   finish();
-                   break;
-           }
-       }
-   };
-   private  BroadcastReceiver broadcastReceiver=new BroadcastReceiver(){
-       @Override
-       public void onReceive(Context context, Intent intent) {
-           String action=intent.getAction();
-           if (action.equals(Intent.ACTION_MEDIA_SCANNER_STARTED)){
-               handler.sendMessage(handler.obtainMessage(0,"U盘已挂载,请拔出"));
-           } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
-              handler.sendMessage(handler.obtainMessage(1,"扫描U盘"));
-           } else if (action.equals(Intent.ACTION_MEDIA_REMOVED)||action.equals(Intent.ACTION_MEDIA_EJECT)) {
-               handler.sendMessage(handler.obtainMessage(2,"U盘已移除"));
-           }
-       }
-   };
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String ss = (String) msg.obj;
+            switch (msg.what) {
+                case 0:
+                    tvVersionInfor.setText(ss);
+                    break;
+                case 1:
+                    tvVersionInfor.setText(ss);
+                    break;
+                case 2:
+                    tvVersionInfor.setText(ss);
+                    setXml(App.KEY_USBPLATE, App.KEY_FINISH);
+                    finish();
+                    break;
+            }
+        }
+    };
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_MEDIA_SCANNER_STARTED)) {
+                handler.sendMessage(handler.obtainMessage(0, "U盘已挂载,请拔出"));
+            } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
+                handler.sendMessage(handler.obtainMessage(1, "扫描U盘"));
+            } else if (action.equals(Intent.ACTION_MEDIA_REMOVED) || action.equals(Intent.ACTION_MEDIA_EJECT)) {
+                handler.sendMessage(handler.obtainMessage(2, "U盘已移除"));
+            }
+        }
+    };
 
 
     @Override
@@ -125,7 +108,7 @@ public class UsbPlateAct extends FragActBase {
         filter.addAction(Intent.ACTION_MEDIA_SCANNER_STARTED);
         filter.addAction(Intent.ACTION_MEDIA_REMOVED);//:表明SDCard 被卸载前己被移除
         filter.addDataScheme("file");
-        registerReceiver(broadcastReceiver,filter);
+        registerReceiver(broadcastReceiver, filter);
     }
 
     @Override
@@ -133,6 +116,7 @@ public class UsbPlateAct extends FragActBase {
         super.onStop();
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -143,6 +127,31 @@ public class UsbPlateAct extends FragActBase {
             gpio.PowerOffDevice98();
             gpio.PowerOffDevice63();
             gpio.PowerOffDevice99();
+        }
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvVersionInfor = (TextView) findViewById(R.id.tv_version_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_USBPLATE, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_USBPLATE, App.KEY_UNFINISH);
+                finish();
+                break;
         }
     }
 }

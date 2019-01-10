@@ -1,11 +1,12 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,58 +15,35 @@ import com.spdata.factory.view.CustomTitlebar;
 import com.speedata.r6lib.IMifareManager;
 import com.speedata.r6lib.R6Manager;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
-
 
 import static com.speedata.r6lib.R6Manager.CardType.MIFARE;
 
 /**
  * Created by suntianwei on 2016/12/6.
  */
-@EActivity(R.layout.sct_r6)
-public class R6Act extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_read_card;
+public class R6Act extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_R6, App.KEY_FINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    private TextView tvInfor;
+    /**
+     * 读卡
+     */
+    private Button btnReadCard;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_R6, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btn_read_card() {
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -73,10 +51,6 @@ public class R6Act extends FragActBase {
         titlebar.setAttrs("高频RFID");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
 
     private IMifareManager dev1;
     private static byte[] RawID;
@@ -84,8 +58,12 @@ public class R6Act extends FragActBase {
     private Timer timer;
     private static final int TIME_TO_READDATA = 500;
     ReadTimerTask readTimerTask;
-    @AfterViews
-    protected void main() {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.sct_r6);
+        initView();
         initTitlebar();
         initSoundPool();
         dev1 = R6Manager.getMifareInstance(MIFARE);
@@ -101,11 +79,41 @@ public class R6Act extends FragActBase {
             super.handleMessage(msg);
             String hids = (String) msg.obj;
             if (!hids.equals("")) {
-                play(2,0);
+                play(2, 0);
             }
-            tvInfor.append("Card ID:" + hids+"\n");
+            tvInfor.append("Card ID:" + hids + "\n");
         }
     };
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnReadCard = (Button) findViewById(R.id.btn_read_card);
+        btnReadCard.setOnClickListener(this);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_read_card:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_R6, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_R6, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
+
     private class ReadTimerTask extends TimerTask {
         @Override
         public void run() {
@@ -121,8 +129,10 @@ public class R6Act extends FragActBase {
 
         }
     }
+
     private SoundPool sp; //声音池
     private Map<Integer, Integer> mapSRC;
+
     //初始化声音池
     private void initSoundPool() {
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
@@ -143,6 +153,7 @@ public class R6Act extends FragActBase {
                 number,//循环次数,0为不循环
                 0);//播放速率，0为正常速率
     }
+
     @Override
     public void onDestroy() {
         dev1.ReleaseDev();
@@ -172,7 +183,7 @@ public class R6Act extends FragActBase {
                 byte[] var5 = cd;
                 int var4 = cd.length;
 
-                for(int var3 = 0; var3 < var4; ++var3) {
+                for (int var3 = 0; var3 < var4; ++var3) {
                     byte a = var5[var3];
                     IDString = IDString + String.format("%02X", new Object[]{Byte.valueOf(a)});
                 }

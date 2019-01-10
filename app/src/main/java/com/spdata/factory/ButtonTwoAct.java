@@ -1,67 +1,48 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo_pc on 2016/8/20.
  */
-@EActivity(R.layout.act_button_two)
-public class ButtonTwoAct extends FragActBase {
-    @ViewById
+public class ButtonTwoAct extends FragActBase implements View.OnClickListener {
+
     CustomTitlebar titlebar;
-    @ViewById
+
     Button btnPass;
-    @ViewById
+
     Button btnNotPass;
-    @ViewById
+
     Button btn_vol_up;
-    @ViewById
+
     Button btn_dwon;
-    @ViewById
+
     Button btn_camera;
-    @ViewById
+
     Button btn_ok;
-    @ViewById
+
     Button btn_fn;
 
     boolean isOneClick = true;
+    /**
+     * X5只需要前两项，X2需要全部测试
+     */
+    private TextView tvInfor;
+    /**
+     * FN
+     */
+    private Button btn_vol_fn;
 
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -70,13 +51,18 @@ public class ButtonTwoAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_button_two);
+        initView();
+        initTitlebar();
+        setSwipeEnable(false);
     }
+
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        showToast(keyCode+"");
-        if (keyCode==KeyEvent.KEYCODE_ENTER){
+        showToast(keyCode + "");
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
             if (btn_ok.isPressed()) {
                 btn_ok.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_ok.setPressed(false);
@@ -84,7 +70,7 @@ public class ButtonTwoAct extends FragActBase {
                 btn_ok.setBackgroundColor(Color.parseColor("#0AF229"));
                 btn_ok.setPressed(true);
             }
-        }else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             if (btn_dwon.isPressed()) {
                 btn_dwon.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_dwon.setPressed(false);
@@ -97,6 +83,7 @@ public class ButtonTwoAct extends FragActBase {
         }
         return super.onKeyUp(keyCode, event);
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showToast(keyCode + "");
@@ -126,7 +113,7 @@ public class ButtonTwoAct extends FragActBase {
                 btn_ok.setPressed(false);
             } else {
                 btn_ok.setBackgroundColor(Color.parseColor("#0AF229"));
-               btn_ok.setPressed(true);
+                btn_ok.setPressed(true);
             }
         } else if (keyCode == KeyEvent.KEYCODE_F3 || keyCode == KeyEvent.KEYCODE_F5) {
             if (btn_fn.isPressed()) {
@@ -138,5 +125,37 @@ public class ButtonTwoAct extends FragActBase {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+        btn_dwon = (Button) findViewById(R.id.btn_dwon);
+        btn_vol_fn = (Button) findViewById(R.id.btn_vol_fn);
+        btn_vol_up = (Button) findViewById(R.id.btn_vol_up);
+        btn_fn = (Button) findViewById(R.id.btn_fn);
+        btn_ok = (Button) findViewById(R.id.btn_ok);
+        btn_camera = (Button) findViewById(R.id.btn_camera);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+
+        }
     }
 }

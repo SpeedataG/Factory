@@ -91,7 +91,7 @@ public class FlashActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SharedXmlUtil.getInstance(FlashActivity.this).write(App
-                        .KEY_FLASH_LIGHT, App.KEY_FINISH);
+                        .KEY_FLASH_LIGHT, App.KEY_UNFINISH);
                 changeFlashState(true);//开->关  关->开
                 finish();
             }

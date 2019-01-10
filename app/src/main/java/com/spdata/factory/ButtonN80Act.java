@@ -1,54 +1,53 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by suntianwei on 2017/3/6.
  */
-@EActivity(R.layout.act_btn_n80)
-public class ButtonN80Act  extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_vup;
-    @ViewById
-    Button btn_vdown;
-    @ViewById
-    Button btn_f1;
-    @ViewById
-    Button btn_f2;
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
+public class ButtonN80Act extends FragActBase implements View.OnClickListener {
+    private CustomTitlebar titlebar;
+    /**
+     * VOLUME_UP
+     */
+    private Button btn_vup;
+    /**
+     * F1
+     */
+    private Button btn_f1;
+    /**
+     * VOLUME_DOWN
+     */
+    private Button btn_vdown;
+    /**
+     * F2
+     */
+    private Button btn_f2;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
+
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_btn_n80);
+        initView(); initTitlebar();
+        setSwipeEnable(false);
     }
 
     @Override
@@ -57,15 +56,7 @@ public class ButtonN80Act  extends FragActBase {
         titlebar.setAttrs("按键测试");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
 
-    }
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showToast(keyCode + "");
@@ -89,7 +80,7 @@ public class ButtonN80Act  extends FragActBase {
                 btn_vdown.setPressed(true);
                 return true;
             }
-        }  else if (keyCode == KeyEvent.KEYCODE_F1) {
+        } else if (keyCode == KeyEvent.KEYCODE_F1) {
             if (btn_f1.isPressed()) {
                 btn_f1.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_f1.setPressed(false);
@@ -107,5 +98,33 @@ public class ButtonN80Act  extends FragActBase {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_vup = (Button) findViewById(R.id.btn_vup);
+        btn_f1 = (Button) findViewById(R.id.btn_f1);
+        btn_vdown = (Button) findViewById(R.id.btn_vdown);
+        btn_f2 = (Button) findViewById(R.id.btn_f2);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

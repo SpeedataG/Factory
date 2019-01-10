@@ -1,6 +1,5 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +7,7 @@ import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -23,36 +23,20 @@ import com.spdata.factory.application.App;
 import com.spdata.factory.view.CameraPreview;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 import static android.R.attr.path;
 
 /**
  * Created by lenovo-pc on 2017/7/24.
  */
-@EActivity(R.layout.act_cammar_background)
-public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Callback,
-        Camera.AutoFocusCallback  {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    View focus_index;
-
+public class M08CameraBacckAct extends FragActBase implements SurfaceHolder.Callback,
+        Camera.AutoFocusCallback, View.OnClickListener {
     private int count = 0;
     private Camera.AutoFocusCallback myAutoFocusCallback = null;
     SurfaceView mySurfaceView;//surfaceView声明
@@ -63,105 +47,29 @@ public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Cal
     Camera.Parameters parameters;
     private CameraPreview preview;
     private Handler handler = new Handler();
+    private CustomTitlebar titlebar;
+    private SurfaceView cameraSurface;
+    private View focusIndex;
+    private FrameLayout layout;
+    /**
+     * 拍照
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btnPass() {
-        if (count == 0) {
-            if (isClicked) {
-                try {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            myCamera.startPreview();   //开启预览
-                            myCamera.takePicture(shutterCallback, null, jpeg);
 
-                        }
-                    }).start();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                isClicked = false;
-            }
-            if (!isClicked) {
-                btnPass.setText("闪光拍照");
-                titlebar.setTitlebarNameText("拍照成功!");
-                btnPass.setEnabled(false);
-                count++;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            myCamera.startPreview();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                btnPass.setEnabled(true);
-//                                titlebar.setAttrs("请点击屏幕对焦！");
-                                isClicked = true;
-                            }
-                        });
-                    }
-                }).start();
-            }
-        } else if (count == 1) {//闪光拍照
-            if (isClicked) {
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Camera.Parameters parameters = myCamera.getParameters();//打开闪光灯
-                            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-                            myCamera.setParameters(parameters);
-                            myCamera.takePicture(shutterCallback, null, jpeg);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
-                isClicked = false;
-            }
-            if (!isClicked) {
-                titlebar.setTitlebarNameText("闪光灯拍照成功！");
-                count++;
-                btnPass.setText("成功");
-            }
-        } else if (count == 2) {
-            setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_FINISH);
-            finish();
-        }
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_UNFINISH);
-        finish();
-    }
     @Override
-
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
-    @Override
-
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
         titlebar.setAttrs("摄像头");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
+        @Override
         public void onShutter() {
         }
     };
@@ -223,8 +131,12 @@ public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Cal
         super.onResume();
     }
 
-    @AfterViews
-    protected void main() {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_cammar_background);
+        initView();
 //        if(SystemProperties.get("persist.sys.iscamera").equals("close")){
 //            Intent opencamera = new Intent();
 //            //SystemProperties.set("persist.sys.iscamera","open");
@@ -415,6 +327,103 @@ public class M08CameraBacckAct  extends FragActBase implements SurfaceHolder.Cal
     protected void onStop() {
         super.onStop();
 
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        cameraSurface = (SurfaceView) findViewById(R.id.camera_surface);
+        focusIndex = (View) findViewById(R.id.focus_index);
+        layout = (FrameLayout) findViewById(R.id.layout);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                if (count == 0) {
+                    if (isClicked) {
+                        try {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    myCamera.startPreview();   //开启预览
+                                    myCamera.takePicture(shutterCallback, null, jpeg);
+
+                                }
+                            }).start();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        isClicked = false;
+                    }
+                    if (!isClicked) {
+                        btnPass.setText("闪光拍照");
+                        titlebar.setTitlebarNameText("拍照成功!");
+                        btnPass.setEnabled(false);
+                        count++;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(3000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    myCamera.startPreview();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        btnPass.setEnabled(true);
+//                                titlebar.setAttrs("请点击屏幕对焦！");
+                                        isClicked = true;
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
+                } else if (count == 1) {//闪光拍照
+                    if (isClicked) {
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Camera.Parameters parameters = myCamera.getParameters();//打开闪光灯
+                                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                                    myCamera.setParameters(parameters);
+                                    myCamera.takePicture(shutterCallback, null, jpeg);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                        isClicked = false;
+                    }
+                    if (!isClicked) {
+                        titlebar.setTitlebarNameText("闪光灯拍照成功！");
+                        count++;
+                        btnPass.setText("成功");
+                    }
+                } else if (count == 2) {
+                    setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_FINISH);
+                    finish();
+                }
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }
 

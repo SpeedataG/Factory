@@ -1,45 +1,41 @@
 package com.spdata.factory;
 
-import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.serialport.SerialPort;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
 
 /**
  * Created by lenovo_pc on 2016/9/3.
  */
-@EActivity(R.layout.act_serialport)
-public class SerialportAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    private ReadThread readThread;
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_SERIALPORT, App.KEY_UNFINISH);
-        finish();
-    }
+public class SerialportAct extends FragActBase implements View.OnClickListener {
+
+    private ReadThread readThread;
+    private CustomTitlebar titlebar;
+    /**
+     * xxx
+     */
+    private TextView tvVersionInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     int send(String passwd) {
         byte[] pss = passwd.getBytes();
@@ -49,36 +45,11 @@ public class SerialportAct extends FragActBase {
         return 0;
     }
 
-    @Click
-    void btnPass() {
-        if (sendcount == 1) {
-            if (sendstring != "") {
-                send(sendstring);
-            }
-            if (tvVersionInfor.getText().equals("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
-                    "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功")) {
-                tvVersionInfor.setText("请插入耳机串口自环线");
-            }
-        } else if (sendcount == 2) {
-            btnPass.setText("成功");
-            setXml(App.KEY_SERIALPORT, App.KEY_FINISH);
-            finish();
-        }
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
         titlebar.setAttrs("串口孔");
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
     }
 
     private SerialPort mSerialPort;
@@ -87,8 +58,12 @@ public class SerialportAct extends FragActBase {
     public String sendstring = "This is Seriaport!";
     private String string;
 
-    @AfterViews
-    protected void main() {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_serialport);
+        initView();
         initTitlebar();
         tvVersionInfor.setText("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
                 "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功");
@@ -108,7 +83,7 @@ public class SerialportAct extends FragActBase {
         }
     }
 
-    android.os.Handler handler = new android.os.Handler() {
+    Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -126,6 +101,42 @@ public class SerialportAct extends FragActBase {
             }
         }
     };
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvVersionInfor = (TextView) findViewById(R.id.tv_version_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                if (sendcount == 1) {
+                    if (sendstring != "") {
+                        send(sendstring);
+                    }
+                    if (tvVersionInfor.getText().equals("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
+                            "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功")) {
+                        tvVersionInfor.setText("请插入耳机串口自环线");
+                    }
+                } else if (sendcount == 2) {
+                    btnPass.setText("成功");
+                    setXml(App.KEY_SERIALPORT, App.KEY_FINISH);
+                    finish();
+                }
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_SERIALPORT, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 
     private class ReadThread extends Thread {
         @Override

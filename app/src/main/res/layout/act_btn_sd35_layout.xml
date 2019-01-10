@@ -112,7 +112,7 @@
                 android:layout_height="20dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-
+               android:visibility="invisible"
                 android:text="MENU"
                 android:textSize="13sp" />
 

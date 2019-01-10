@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -19,11 +20,6 @@ import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
 
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,31 +28,17 @@ import java.util.Map;
 import common.adapter.CommonAdapter;
 import common.adapter.ViewHolder;
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.ExcelUtil;
 import common.utils.permissUtils;
 
-@EActivity(R.layout.activity_menu)
 public class MenuActivity extends FragActBase {
-    @ViewById
     ListView listMenu;
     private String[] strings;
     private String model;
-//    private String models2;
-//    private String author;
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
 
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
     }
 
     private CommonAdapter<ListItem> adapter;
@@ -168,43 +150,6 @@ public class MenuActivity extends FragActBase {
         ExcelUtil.excelExport(MenuActivity.this, list, titleMap, "Factory-" + mgr.getDeviceId());
     }
 
-    @AfterViews
-    protected void main() {
-        setSwipeEnable(false);
-        //强制在线更新
-//        UpdateVersion updateVersion = new UpdateVersion(mContext);
-//        updateVersion.startUpdate();
-        initList();
-        mWifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        permissUtilses.clear();
-        for (int i = 0; i < meneList.length; i++) {
-            permissUtils permissUtils = null;
-            if (i == 8 || i == 48) {
-                permissUtils = new permissUtils(Permission.STORAGE);
-                permissUtilses.add(permissUtils);
-            } else if (i == 9) {
-                permissUtils = new permissUtils(Permission.PHONE);
-                permissUtilses.add(permissUtils);
-            } else if (i == 10 || i == 11 || i == 12) {
-                permissUtils = new permissUtils(Permission.CAMERA);
-                permissUtilses.add(permissUtils);
-            } else if (i == 15 || i == 16) {
-                permissUtils = new permissUtils(Permission.MICROPHONE);
-                permissUtilses.add(permissUtils);
-            } else if (i == 17) {
-                permissUtils = new permissUtils(wifi);
-                permissUtilses.add(permissUtils);
-            } else if (i == 18 || i == 19) {
-                permissUtils = new permissUtils(Permission.LOCATION);
-                permissUtilses.add(permissUtils);
-            } else {
-                permissUtils = new permissUtils(nulls);
-                permissUtilses.add(permissUtils);
-            }
-        }
-        openWifi(this);
-    }
-
     // 打开WIFI
     public void openWifi(Context context) {
         if (!mWifiManager.isWifiEnabled()) {
@@ -240,10 +185,10 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
                     "26", "30", "31", "32", "34", "37", "39", "50", "48"};
-        } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
+        } else if (model.equals("X300Q") || model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                 model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
-                    "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27",
+                    "14", "15", "16", "17", "18", "19", "21", "22", "23", "24", "25", "26",
                     "28", "29", "30", "32", "31", "37", "38", "39", "50", "48"};
         } else if (model.equals("H500A")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
@@ -561,122 +506,123 @@ public class MenuActivity extends FragActBase {
     private void gotoNextPage(int position) {
         switch (position) {
             case ACTION_VERSION:
-                openAct(VersionAct.class, true);
+                openAct(VersionAct.class);
                 break;
             case ACTION_SLEEP_WAKE:
-                openAct(SleepWakeAct.class, true);
+                openAct(SleepWakeAct.class);
                 break;
             case ACTION_DISPLAY:
-                openAct(DisplayTest.class, false);
+                openAct(DisplayTest.class);
                 break;
             case ACTION_USB:
-                openAct(USBAct.class, true);
+                openAct(USBAct.class);
                 break;
             case ACTION_OTG:
-                openAct(OTGAct.class, true);
+                openAct(OTGAct.class);
                 break;
             case ACTION_SD_SCARD:
                 if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                         || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                         || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
                         || model.equals("DM-P80") || model.equals("SD-55")) {
-                    openAct(SDCardkt80Act.class, true);
+                    openAct(SDCardkt80Act.class);
                 } else {
-                    openAct(SDCardAct.class, true);
+                    openAct(SDCardAct.class);
                 }
                 break;
             case ACTION_WIFI:
-                openAct(WifiAct.class, true);
+                openAct(WifiAct.class);
                 break;
             case ACTION_TOUCH_SCREEN:
 //                if (model.equals("N80") || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("S1")) {
-                openAct(TsHandWriting.class, false);
+                openAct(TsHandWriting.class);
 //                } else {
-//                    openAct(TouchTest.class, false);
+//                    openAct(TouchTest.class);
 //                }
 
                 break;
             case ACTION_LIGHT:
-                openAct(LightAct.class, true);
+                openAct(LightAct.class);
                 break;
             case ACTION_INDICATOR_LIGHT:
                 if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")) {
-                    openAct(IndicatorLightAct_sd55.class, true);
+                    openAct(IndicatorLightAct_sd55.class);
                 } else if (model.equals("SK80H") || model.equals("SK80")) {
-                    openAct(IndicatorSk80LightAct.class, true);
+                    openAct(IndicatorSk80LightAct.class);
                 } else {
-                    openAct(IndicatorLightAct.class, true);
+                    openAct(IndicatorLightAct.class);
                 }
                 break;
             case ACTION_LIGHT_SENSOR:
-                openAct(LightSeneorAct.class, true);
+                openAct(LightSeneorAct.class);
                 break;
             case ACTION_COMPASS_SENSOR:
-                openAct(CompassSeneorAct.class, true);
+                openAct(CompassSeneorAct.class);
                 break;
             case ACTION_GSENSOR:
-                openAct(GSeneorAct.class, true);
+                openAct(GSeneorAct.class);
                 break;
             case ACTION_NFC:
-                openAct(NFCAct.class, true);
+                openAct(NFCAct.class);
                 break;
             case ACTION_GPS:
-                openAct(GPSTest.class, false);
+                openAct(GPSTest.class);
                 break;
             case ACTION_SCAN:
                 if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
-                        model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
-                    openAct(ScanX300qAct.class, true);
+                        model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
+                        || model.equals("X300Q")) {
+                    openAct(ScanX300qAct.class);
                 } else {
-                    openAct(ScanAct.class, true);
+                    openAct(ScanAct.class);
                 }
                 break;
             case ACTION_CAMMAR_BACKGROUND:
                 if (model.equals("spda6735") || model.equals("DCD3")) {
-                    openAct(DCD3CammerBackgroundAct.class, true);
+                    openAct(DCD3CammerBackgroundAct.class);
                 } else if (model.equals("M08")) {
-                    openAct(M08CameraBacckAct.class, true);
+                    openAct(M08CameraBacckAct.class);
                 } else {
-                    openAct(CammerBackgroundAct.class, true);
+                    openAct(CammerBackgroundAct.class);
                 }
                 break;
             case ACTION_SIM:
-                openAct(SimAct.class, true);
+                openAct(SimAct.class);
                 break;
             case ACTION_SMALL_SCREEN:
-                openAct(SmallScreenAct.class, true);
+                openAct(SmallScreenAct.class);
                 break;
             case ACTION_CAMMAR_FRONT:
                 // TODO 跳转到前置相机测试界面
-                openAct(CammerFrontAct.class, true);
+                openAct(CammerFrontAct.class);
                 break;
             case ACTION_BELL:
                 // TODO 跳转到喇叭测试界面
-                openAct(BellAct.class, true);
+                openAct(BellAct.class);
                 break;
             case ACTION_SPK:
                 // TODO 跳转到听筒测试界面
-                openAct(SpeakerAct.class, true);
+                openAct(SpeakerAct.class);
                 break;
             case ACTION_EIJI_MIC:
                 // TODO 跳转到耳机MIC测试界面
-                openAct(EarMICAct.class, true);
+                openAct(EarMICAct.class);
                 break;
             case ACTION_PHONE_MIC:
                 //手机mic
-                openAct(PhoneMICAct.class, true);
+                openAct(PhoneMICAct.class);
                 break;
 
             case ACTION_PSAM:
                 // TODO 跳转到PSAM测试界面
-                openAct(PSAMAct.class, true);
+                openAct(PSAMAct.class);
                 break;
             case ACTION_BLUETOOTH:
                 // TODO 跳转到蓝牙测试界面
-                openAct(BluetoothAct.class, true);
+                openAct(BluetoothAct.class);
                 break;
             case ACTION_CHARGE:
-                openAct(ChangeAct.class, true);
+                openAct(ChangeAct.class);
                 break;
 
             case ACTION_BUTTON:
@@ -684,103 +630,105 @@ public class MenuActivity extends FragActBase {
                         || model.equals("N55") || model.equals("X55") || model.equals("T55")
                         || model.equals("N55/X55") || model.equals("T550") || model.equals("M55")
                         || model.equals("KT55L")) {
-                    openAct(ButtonAct.class, true);
+                    openAct(ButtonAct.class);
                 } else if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                         || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                         || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
                         || model.equals("SD-55")) {
-                    openAct(ButtonKT80Act.class, true);
+                    openAct(ButtonKT80Act.class);
                 } else if (model.equals("DM-P80")) {
-                    openAct(ButtonDmP80Act.class, true);
+                    openAct(ButtonDmP80Act.class);
                 } else if (model.equals("S510")) {
-                    openAct(ButtonS150Act.class, true);
+                    openAct(ButtonS150Act.class);
                 } else if (model.equals("DB2_LVDS")) {
-                    openAct(ButtonDb2Act.class, true);
+                    openAct(ButtonDb2Act.class);
                 } else if (model.equals("KT50") || model.equals("KT50_B2")
                         || model.equals("R40") || model.equals("T50") || model.equals("KT50_YQ")) {
-                    openAct(ButtonKT50Act.class, true);
+                    openAct(ButtonKT50Act.class);
                 } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
-                        model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
-                    openAct(ButtonTwoAct.class, true);
+                        model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
+                        || model.equals("X300Q")) {
+                    openAct(ButtonTwoAct.class);
                 } else if (model.equals("H500A")) {
-                    openAct(ButtonH500Act.class, true);
+                    openAct(ButtonH500Act.class);
                 } else if (model.equals("spda6735") || model.equals("DCD3")) {
-                    openAct(DCD3ButtonAct.class, true);
+                    openAct(ButtonDCD3Act.class);
                 } else if (model.equals("N80") || Build.MODEL.equals("S550")) {
-                    openAct(ButtonN80Act.class, true);
+                    openAct(ButtonN80Act.class);
                 } else if (model.equals("M08")) {
-                    openAct(ButtonM08Act.class, true);
+                    openAct(ButtonM08Act.class);
                 } else if (model.equals("KT45Q") || model.equals("UHF45") || model.equals("3000U")
                         || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
                         || model.equals("PT145") || model.equals("TT43")) {
-                    openAct(ButtonKT45qAct.class, true);
+                    openAct(ButtonKT45qAct.class);
                 } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53") || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")) {
-                    openAct(ButtonS1Act.class, true);
+                    openAct(ButtonS1Act.class);
                 } else if (Build.MODEL.equals("CT")) {
-                    openAct(ButtonCtAct.class, true);
+                    openAct(ButtonCtAct.class);
                 } else if (Build.MODEL.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208")) {
-                    openAct(ButtonSd80Act.class, true);
+                    openAct(ButtonSd80Act.class);
                 } else if (model.equals("KT40Q") || model.equals("KT40Q_O")) {
-                    openAct(ButtonKt40qAct.class, true);
+                    openAct(ButtonKt40qAct.class);
                 } else if (model.equals("KT40")) {
-                    openAct(ButtonKt40Act.class, true);
+                    openAct(ButtonKt40Act.class);
                 } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
-                    openAct(ButtonSd55.class, true);
+                    openAct(ButtonSd55.class);
                 } else if (model.equals("SK80H") || model.equals("SK80")) {
-                    openAct(ButtonSk80Act.class, true);
+                    openAct(ButtonSk80Act.class);
                 } else if (model.equals("SD35")) {
-                    openAct(ButtonSd35Act.class, true);
+                    openAct(ButtonSd35Act.class);
                 } else {
-                    openAct(ButtonAll.class, true);
+                    openAct(ButtonAll.class);
                 }
                 break;
 
             case ACTION_FINGER_PRINT:
-                openAct(FingerPrint.class, true);
+                openAct(FingerPrint.class);
                 break;
             case ACTION_FLASH_LIGHT:
                 if (getApiVersion() >= 23) {
-                    openAct(FlashActivity.class, false);
+                    openAct(FlashActivity.class);
                 } else {
-                    openAct(FlashLightAct.class, true);
+                    openAct(FlashLightAct.class);
                 }
                 break;
             case ACTION_CHARGE_NOLINE:      //无线充电
                 break;
             case ACTION_CALL_PHONE:
-                openAct(CallPhoneActi.class, true);
+                openAct(CallPhoneActi.class);
                 break;
             case ACTION_TOUCH_SCREEN_MOR://多点触控
-                openAct(MultitouchVisible.class, false);
+                openAct(MultitouchVisible.class);
                 break;
             case ACTION_EEPROM:
-                openAct(EepromAct.class, true);
+                openAct(EepromAct.class);
                 break;
             case ACTION_LASER:
-                openAct(LaserAct.class, true);
+                openAct(LaserAct.class);
                 break;
             case ACTION_GPS_OUT:
                 if (model.equals("S510")) {
-                    openAct(OutGpsS510Act.class, true);
+                    openAct(OutGpsS510Act.class);
                 } else if (model.equals("DB2_LVDS")) {
-                    openAct(OutGpsDB2Act.class, true);
+                    openAct(OutGpsDB2Act.class);
                 } else if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
-                        model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
-                    openAct(OutGps_x300Act.class, true);
+                        model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
+                        || model.equals("X300Q")) {
+                    openAct(OutGps_x300Act.class);
                 } else if (model.equals("H500A")) {
-                    openAct(OutGpsH500Act.class, true);
+                    openAct(OutGpsH500Act.class);
                 } else if (model.equals("N55") || model.equals("X55") || model.equals("N55/X55")) {
-                    openAct(OutGpsN55Act.class, true);
+                    openAct(OutGpsN55Act.class);
                 } else if (model.equals("N80")) {
-                    openAct(OutGpsN80Act.class, true);
+                    openAct(OutGpsN80Act.class);
                 }
 
                 break;
             case ACTION_VIBRATE:
-                openAct(VibrateAct.class, true);
+                openAct(VibrateAct.class);
                 break;
             case ACTION_BAROMETER:
-                openAct(BarometerAct.class, true);
+                openAct(BarometerAct.class);
                 break;
             case ACTION_ZHONGLI:
                 if (model.equals("KT80") || model.equals("W6") || model.equals("DB2_LVDS")
@@ -788,60 +736,60 @@ public class MenuActivity extends FragActBase {
                         || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                         || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
                         || model.equals("DM-P80") || model.equals("SD-55")) {
-                    openAct(Kt80Zhongli.class, true);
+                    openAct(Kt80Zhongli.class);
                 } else {
-                    openAct(ZhongLiGanYing.class, true);
+                    openAct(ZhongLiGanYing.class);
                 }
                 break;
             case ACTION_MAGLEV:
-                openAct(MaglevAct.class, true);
+                openAct(MaglevAct.class);
                 break;
             case ACTION_SERIALPORT:
                 if (model.equals("N80")) {
-                    openAct(SerialportH80Act.class, true);
+                    openAct(SerialportH80Act.class);
                 } else {
-                    openAct(SerialportAct.class, true);
+                    openAct(SerialportAct.class);
                 }
                 break;
             case ACTION_USBPLATE:
-                openAct(UsbPlateAct.class, true);
+                openAct(UsbPlateAct.class);
                 break;
             case ACTION_R6:
-                openAct(R6Act.class, true);
+                openAct(R6Act.class);
                 break;
             case ACTION_UHF:
-                openAct(UhfAct.class, true);
+                openAct(UhfAct.class);
                 break;
             case ACTION_GAS_SENSOR:
-                openAct(GasSensorAct.class, true);
+                openAct(GasSensorAct.class);
                 break;
             case ACTION_CAMERA_USB:
-                openAct(CameraUSBAct.class, true);
+                openAct(CameraUSBAct.class);
                 break;
             case ACTION_EXPAND:
-                openAct(ExpandAct.class, true);
+                openAct(ExpandAct.class);
                 break;
             case ACTION_EXPORT:
                 exportFile();
                 break;
             case ACTION_ID2:
-                openAct(Id2TestAct.class, true);
+                openAct(Id2TestAct.class);
                 break;
             case ACTION_RESET:
-                openAct(ResetAct.class, true);
+                openAct(ResetAct.class);
 
                 break;
             case ACTION_PORT232:
-                openAct(Rs232Serport.class, true);
+                openAct(Rs232Serport.class);
                 break;
             case ACTION_INTENET:
-                openAct(CheckIntentAct.class, true);
+                openAct(CheckIntentAct.class);
                 break;
             case ACTION_GPIOS:
-                openAct(Tc01GpioAct.class, true);
+                openAct(Tc01GpioAct.class);
                 break;
             case ACTION_485:
-                openAct(Tc01485Act.class, true);
+                openAct(Tc01485Act.class);
                 break;
             default:
                 break;
@@ -879,4 +827,46 @@ public class MenuActivity extends FragActBase {
         }
     };
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_menu);
+        initView();
+        //强制在线更新
+//        UpdateVersion updateVersion = new UpdateVersion(mContext);
+//        updateVersion.startUpdate();
+        initList();
+        mWifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        permissUtilses.clear();
+        for (int i = 0; i < meneList.length; i++) {
+            permissUtils permissUtils = null;
+            if (i == 8 || i == 48) {
+                permissUtils = new permissUtils(Permission.STORAGE);
+                permissUtilses.add(permissUtils);
+            } else if (i == 9) {
+                permissUtils = new permissUtils(Permission.PHONE);
+                permissUtilses.add(permissUtils);
+            } else if (i == 10 || i == 11 || i == 12) {
+                permissUtils = new permissUtils(Permission.CAMERA);
+                permissUtilses.add(permissUtils);
+            } else if (i == 15 || i == 16) {
+                permissUtils = new permissUtils(Permission.MICROPHONE);
+                permissUtilses.add(permissUtils);
+            } else if (i == 17) {
+                permissUtils = new permissUtils(wifi);
+                permissUtilses.add(permissUtils);
+            } else if (i == 18 || i == 19) {
+                permissUtils = new permissUtils(Permission.LOCATION);
+                permissUtilses.add(permissUtils);
+            } else {
+                permissUtils = new permissUtils(nulls);
+                permissUtilses.add(permissUtils);
+            }
+        }
+        openWifi(this);
+    }
+
+    public void initView() {
+        listMenu = (ListView) findViewById(R.id.list_menu);
+    }
 }

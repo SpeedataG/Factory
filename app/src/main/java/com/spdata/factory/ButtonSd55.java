@@ -1,81 +1,74 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by 42040 on 2018/11/5.
  */
 
-@EActivity(R.layout.act_btnsd55_layout)
-public class ButtonSd55 extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_up;
-    @ViewById
-    Button btn_down;
-    @ViewById
-    Button btn_left_F4;
-    @ViewById
-    Button btn_close;
-    @ViewById
-    Button btn_right_F4;
-    @ViewById
-    Button btn_home;
-    boolean isOneClick = true;
+public class ButtonSd55 extends FragActBase implements View.OnClickListener {
 
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-        btnPass.setVisibility(View.GONE);
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
+    private boolean isOneClick = true;
+    private CustomTitlebar titlebar;
+    /**
+     * VOLUME_UP
+     */
+    private Button btn_up;
+    /**
+     * VOLUME_DOWN
+     */
+    private Button btn_down;
+    private Button btn_close;
+    /**
+     * HOME
+     */
+    private Button btn_home;
+    /**
+     * SCAN
+     */
+    private Button btn_left_F4;
+    /**
+     * SCAN
+     */
+    private Button btn_right_F4;
+    /**
+     * dsafasdf
+     */
+    private TextView tv_infor;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_btnsd55_layout);
+        initView();initTitlebar();
+        setSwipeEnable(false);
+        btn_pass.setVisibility(View.GONE);
     }
+
+
 
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
         titlebar.setAttrs("按键测试");
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
     }
 
     @Override
@@ -133,7 +126,7 @@ public class ButtonSd55 extends FragActBase {
 
     public void ispress() {
         if (btn_left_F4.isPressed() && btn_down.isPressed() && btn_up.isPressed() && btn_right_F4.isPressed()) {
-            btnPass.setVisibility(View.VISIBLE);
+            btn_pass.setVisibility(View.VISIBLE);
         }
     }
 
@@ -159,4 +152,34 @@ public class ButtonSd55 extends FragActBase {
     }
 
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_up = (Button) findViewById(R.id.btn_up);
+        btn_down = (Button) findViewById(R.id.btn_down);
+        btn_close = (Button) findViewById(R.id.btn_close);
+        btn_home = (Button) findViewById(R.id.btn_home);
+        btn_left_F4 = (Button) findViewById(R.id.btn_left_F4);
+        btn_right_F4 = (Button) findViewById(R.id.btn_right_F4);
+        tv_infor = (TextView) findViewById(R.id.tv_infor);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

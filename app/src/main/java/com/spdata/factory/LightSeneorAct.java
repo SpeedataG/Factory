@@ -1,59 +1,42 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 //光感传感器测试
-@EActivity(R.layout.act_light_sensor)
-public class LightSeneorAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    TextView tv_infors;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class LightSeneorAct extends FragActBase implements View.OnClickListener {
+
     private MySensorListener mySensorListener;
     private ProSensorListener proSensorListener;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_LIGHT_SENSOR, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_LIGHT_SENSOR, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * 请用手遮挡光感区，光感值变化为正常
+     */
+    private TextView tvInfor;
+    /**
+     * 距离传感器数值：
+     */
+    private TextView tvInfors;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -66,17 +49,17 @@ public class LightSeneorAct extends FragActBase {
         }, "光感测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     private String model;
     private StringBuffer sbpro;
     private SensorManager sm;
     private StringBuffer sb;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_light_sensor);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         sbpro = new StringBuffer();
@@ -105,13 +88,41 @@ public class LightSeneorAct extends FragActBase {
         super.onDestroy();
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        tvInfors = (TextView) findViewById(R.id.tv_infors);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_LIGHT_SENSOR, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_LIGHT_SENSOR, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
+
 
     public class MySensorListener implements SensorEventListener {
 
+        @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
         }
 
+        @Override
         public void onSensorChanged(SensorEvent event) {
             // 获取精度
             float acc = event.accuracy;
@@ -123,10 +134,12 @@ public class LightSeneorAct extends FragActBase {
 
     public class ProSensorListener implements SensorEventListener {
 
+        @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
         }
 
+        @Override
         public void onSensorChanged(SensorEvent event) {
             //获取距离传感器数值
             float pro = event.values[0];
@@ -137,7 +150,7 @@ public class LightSeneorAct extends FragActBase {
                 sbpro.append("距离传感器数值：离开" + pro);
             }
             sbpro.append("\n");
-            tv_infors.setText(sbpro.toString());
+            tvInfors.setText(sbpro.toString());
 
         }
     }

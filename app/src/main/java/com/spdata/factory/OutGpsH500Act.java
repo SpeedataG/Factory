@@ -1,8 +1,10 @@
 package com.spdata.factory;
 
-import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.serialport.SerialPort;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,48 +12,40 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
 import common.utils.DeviceControl;
 
 /**
  * Created by lenovo_pc on 2016/10/11.
  */
-@EActivity(R.layout.out_gps_s510)
-public class OutGpsH500Act extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btn_start;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    EditText edv_infors;
-    @ViewById
-    TextView tv_gps;
+public class OutGpsH500Act extends FragActBase implements View.OnClickListener {
+
     private DeviceControl gpio;
+    private CustomTitlebar titlebar;
+    /**
+     * 读GPS数据
+     */
+    private TextView textView2;
+    private TextView tvGps;
+    private EditText edvInfors;
+    /**
+     * 开始测试
+     */
+    private Button btnStart;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_GPS_OUT, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_GPS_OUT, App.KEY_FINISH);
-        finish();
-    }
 
     int fd = 0;
     private Timer timer;
@@ -59,19 +53,6 @@ public class OutGpsH500Act extends FragActBase {
     ReadTimerTask readTimerTask;
     private SerialPort mSerialPort;
 
-    @Click
-    void btn_start() {
-        ReadThread readThread=new ReadThread();
-        readThread.start();
-//        timer = new Timer();
-//        readTimerTask = new ReadTimerTask();
-//        timer.schedule(readTimerTask, 10, TIME_TO_READDATA);
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -80,11 +61,10 @@ public class OutGpsH500Act extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.out_gps_s510);
+        initView();
         initTitlebar();
         try {
             gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
@@ -97,7 +77,7 @@ public class OutGpsH500Act extends FragActBase {
         }
     }
 
-    android.os.Handler handler = new android.os.Handler() {
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -108,7 +88,7 @@ public class OutGpsH500Act extends FragActBase {
                         titlebar.setAttrs("测试失败！");
                     } else {
                         String s = DataConversionUtils.byteArrayToAscii(temp);
-                        tv_gps.setText(s);
+                        tvGps.setText(s);
                         timer.cancel();
                         readTimerTask.cancel();
                     }
@@ -116,6 +96,43 @@ public class OutGpsH500Act extends FragActBase {
             }
         }
     };
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        textView2 = (TextView) findViewById(R.id.textView2);
+        tvGps = (TextView) findViewById(R.id.tv_gps);
+        edvInfors = (EditText) findViewById(R.id.edv_infors);
+        btnStart = (Button) findViewById(R.id.btn_start);
+        btnStart.setOnClickListener(this);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_start:
+                ReadThread readThread = new ReadThread();
+                readThread.start();
+//        timer = new Timer();
+//        readTimerTask = new ReadTimerTask();
+//        timer.schedule(readTimerTask, 10, TIME_TO_READDATA);
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_GPS_OUT, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_GPS_OUT, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
+
     private class ReadThread extends Thread {
         @Override
         public void run() {
@@ -133,6 +150,7 @@ public class OutGpsH500Act extends FragActBase {
             }
         }
     }
+
     private class ReadTimerTask extends TimerTask {
         @Override
         public void run() {
@@ -148,6 +166,7 @@ public class OutGpsH500Act extends FragActBase {
             }
         }
     }
+
     @Override
     protected void onDestroy() {
         mSerialPort.CloseSerial(fd);

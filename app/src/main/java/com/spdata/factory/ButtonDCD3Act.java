@@ -1,79 +1,71 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
-@EActivity(R.layout.act_dcd3_button)
-public class DCD3ButtonAct extends FragActBase {
+public class ButtonDCD3Act extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_ok;
-    @ViewById
-    Button btn_sure;
-    @ViewById
-    Button btn_top;
-    @ViewById
-    Button btn_bootm;
-    @ViewById
-    Button btn_left;
-    @ViewById
-    Button btn_right;
-    @ViewById
-    Button btn_help;
 
     boolean isOneClick = true;
-
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * TOP
+     */
+    private Button btn_top;
+    /**
+     * BOOTM
+     */
+    private Button btn_bootm;
+    /**
+     * LEFT
+     */
+    private Button btn_left;
+    /**
+     * RIGHT
+     */
+    private Button btn_right;
+    /**
+     * OK
+     */
+    private Button btn_ok;
+    /**
+     * 确认
+     */
+    private Button btn_sure;
+    /**
+     * 救援
+     */
+    private Button btn_help;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_dcd3_button);
+        initView();
+        initTitlebar();
+        setSwipeEnable(false);
     }
 
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
         titlebar.setAttrs("按键测试");
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
     }
 
     @Override
@@ -90,7 +82,7 @@ public class DCD3ButtonAct extends FragActBase {
                 return true;
             }
 
-        }else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
             if (btn_top.isPressed()) {
                 btn_top.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_top.setPressed(false);
@@ -101,8 +93,7 @@ public class DCD3ButtonAct extends FragActBase {
                 return true;
             }
 
-        }
-        else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
             if (btn_bootm.isPressed()) {
                 btn_bootm.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_bootm.setPressed(false);
@@ -113,7 +104,7 @@ public class DCD3ButtonAct extends FragActBase {
                 return true;
             }
 
-        }else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
             if (btn_right.isPressed()) {
                 btn_right.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_right.setPressed(false);
@@ -124,8 +115,7 @@ public class DCD3ButtonAct extends FragActBase {
                 return true;
             }
 
-        }
-        else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
             if (btn_left.isPressed()) {
                 btn_left.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_left.setPressed(false);
@@ -163,5 +153,57 @@ public class DCD3ButtonAct extends FragActBase {
 //        }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_top = (Button) findViewById(R.id.btn_top);
+        btn_top.setOnClickListener(this);
+        btn_bootm = (Button) findViewById(R.id.btn_bootm);
+        btn_bootm.setOnClickListener(this);
+        btn_left = (Button) findViewById(R.id.btn_left);
+        btn_left.setOnClickListener(this);
+        btn_right = (Button) findViewById(R.id.btn_right);
+        btn_right.setOnClickListener(this);
+        btn_ok = (Button) findViewById(R.id.btn_ok);
+        btn_ok.setOnClickListener(this);
+        btn_sure = (Button) findViewById(R.id.btn_sure);
+        btn_sure.setOnClickListener(this);
+        btn_help = (Button) findViewById(R.id.btn_help);
+        btn_help.setOnClickListener(this);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_top:
+                break;
+            case R.id.btn_bootm:
+                break;
+            case R.id.btn_left:
+                break;
+            case R.id.btn_right:
+                break;
+            case R.id.btn_ok:
+                break;
+            case R.id.btn_sure:
+                break;
+            case R.id.btn_help:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

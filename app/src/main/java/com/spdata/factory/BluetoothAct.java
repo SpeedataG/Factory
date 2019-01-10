@@ -6,8 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,49 +17,28 @@ import android.widget.Toast;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by suntianwei on 2017/4/5.
  */
-@EActivity(R.layout.activity_bluetooth)
-public class BluetoothAct extends FragActBase {
-    @ViewById
+public class BluetoothAct extends FragActBase implements View.OnClickListener {
     CustomTitlebar titlebar;
-    @ViewById
     Button btn_not_pass;
-    @ViewById
     Button btn_pass;
-    @ViewById
     Button btn_scan;
-    @ViewById
-    TextView tv_infor;
     /* 取得默认的蓝牙适配器 */
     private BluetoothAdapter myBluetoothAdapter = null;
     private StringBuffer sb = new StringBuffer();
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BLUETOOTH, App.KEY_FINISH);
-        finish();
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BLUETOOTH, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
 
     @Override
@@ -67,21 +48,18 @@ public class BluetoothAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    @AfterViews
-    protected void main() {
-
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bluetooth);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
-
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-// 设置广播信息过滤
+        // 设置广播信息过滤
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
         intentFilter.addAction(BluetoothAdapter.ACTION_LOCAL_NAME_CHANGED);
-//		intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        //intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         registerReceiver(mReceiver, intentFilter);
 
@@ -109,6 +87,7 @@ public class BluetoothAct extends FragActBase {
     int num = 0;
     // 搜索周围的蓝牙设备
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             //找到设备
@@ -122,7 +101,7 @@ public class BluetoothAct extends FragActBase {
                 if (device != null) {
                     sb = sb.append("【" + device.getName() + "】 " + "\n").append(device.getAddress() + "\n");
                 }
-                tv_infor.setText("可用设备:" + "\n" + sb.toString());
+                tvInfor.setText("可用设备:" + "\n" + sb.toString());
             }
             //搜索完成
             else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
@@ -140,15 +119,34 @@ public class BluetoothAct extends FragActBase {
     };
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         myBluetoothAdapter.disable();
         unregisterReceiver(mReceiver);
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BLUETOOTH, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BLUETOOTH, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

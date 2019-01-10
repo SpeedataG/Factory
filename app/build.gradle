@@ -16,10 +16,10 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
-    dexOptions {
-        javaMaxHeapSize "5g"
-    }
+//    buildToolsVersion '28.0.3'
+//    dexOptions {
+//        javaMaxHeapSize "4g"
+//    }
     defaultConfig {
         ndk {
             abiFilters "armeabi"
@@ -28,7 +28,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "V1.6.2" + "."+getDate()
+        versionName "V1.6.2" + "." + getDate()
         multiDexEnabled true
     }
     buildTypes {
@@ -38,8 +38,9 @@ android {
         }
     }
 //    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
+//        sourceCompatibility JavaVersion.VERSION_1_7
+//        targetCompatibility JavaVersion.VERSION_1_7
+//        incremental false
 //    }
 
 }
@@ -59,16 +60,16 @@ dependencies {
     implementation 'com.speedata:r6lib:1.5'
     implementation 'com.speedata:psam:1.5.3'
     implementation 'com.speedata:libid2:2.5.1'
-    implementation 'me.imid.swipebacklayout.lib:library:1.0.0'
-    implementation 'com.yanzhenjie:permission:1.1.2'
-    //6.0获取权限
     //友盟sdk添加
     implementation 'com.umeng.analytics:analytics:6.1.4'
     implementation 'com.android.support:multidex:1.0.3'
-    // @Ectivity注解
-    implementation 'org.androidannotations:androidannotations-api:4.1.0'
-    annotationProcessor 'org.androidannotations:androidannotations:4.1.0'
+    //6.0获取权限
+    implementation 'com.yanzhenjie:permission:1.1.2'
     implementation 'com.alibaba:fastjson:1.2.54'
+    // @Ectivity注解
+//    implementation 'org.androidannotations:androidannotations-api:4.1.0'
+//    implementation 'me.imid.swipebacklayout.lib:library:1.0.0'
+//    annotationProcessor 'org.androidannotations:androidannotations:4.1.0'
 }
 
 

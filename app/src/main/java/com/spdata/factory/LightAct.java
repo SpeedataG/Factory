@@ -2,9 +2,7 @@ package com.spdata.factory;
 
 import android.app.Activity;
 import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
@@ -15,41 +13,20 @@ import android.widget.SeekBar;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
-@EActivity(R.layout.act_light)
-public class LightAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    SeekBar searchBar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class LightAct extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_LIGHT, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_LIGHT, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private SeekBar searchBar;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -62,16 +39,16 @@ public class LightAct extends FragActBase {
         }, "屏幕亮度测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     int Max_Brightness = 100;
     float fBrightness = 0.0f;
     WindowManager.LayoutParams lp = null;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_light);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         int normal = Settings.System.getInt(getContentResolver(),
@@ -85,12 +62,15 @@ public class LightAct extends FragActBase {
     }
 
     SeekBar.OnSeekBarChangeListener seekListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
         }
 
+        @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
         }
 
+        @Override
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
             changeAppBrightness(mContext, progress);
@@ -111,4 +91,28 @@ public class LightAct extends FragActBase {
                 Settings.System.SCREEN_BRIGHTNESS, brightness);
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        searchBar = (SeekBar) findViewById(R.id.search_bar);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_LIGHT, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_LIGHT, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

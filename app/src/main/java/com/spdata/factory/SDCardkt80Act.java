@@ -1,18 +1,12 @@
 package com.spdata.factory;
 
-import android.content.Context;
-import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,36 +16,21 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.SDUtils;
 
-@EActivity(R.layout.act_sdcard)
-public class SDCardkt80Act extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class SDCardkt80Act extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
-        finish();
-    }
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_SDCARD, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -64,9 +43,6 @@ public class SDCardkt80Act extends FragActBase {
         }, "SD卡测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     private SDUtils sdUtils;
     private Timer timer;
@@ -75,13 +51,16 @@ public class SDCardkt80Act extends FragActBase {
     private int yes = 0;
     private String stada;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_sdcard);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         sdUtils = new SDUtils(mContext);
         String[] volumePaths = sdUtils.getVolumePaths();
-        if (volumePaths.length >1) {
+        if (volumePaths.length > 1) {
             StringBuffer stringBuffer = new StringBuffer();
             String size = sdUtils.getSDTotalSize(volumePaths[1]);
             stringBuffer.append("\n内置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[0])
@@ -130,6 +109,7 @@ public class SDCardkt80Act extends FragActBase {
         remind(task);
     }
 
+
     private void readSD2() {
         File file = new File("/sys/class/misc/hwoper/sd2_status");
         try {
@@ -141,6 +121,31 @@ public class SDCardkt80Act extends FragActBase {
         } catch (IOException e) {
             stada = "";
             e.printStackTrace();
+        }
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_SDCARD, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
+                finish();
+                break;
         }
     }
 
@@ -165,10 +170,10 @@ public class SDCardkt80Act extends FragActBase {
                             finish();
                         }
                     } else {
-                        if (yes == 1 ) {
+                        if (yes == 1) {
                             setXml(App.KEY_SDCARD, App.KEY_FINISH);
                             finish();
-                        } else if (yes == 2 ) {
+                        } else if (yes == 2) {
                             setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
                             showToast("失败");
                             finish();

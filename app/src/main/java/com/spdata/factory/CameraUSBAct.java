@@ -1,67 +1,41 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by suntianwei on 2017/1/23.
  */
-@EActivity(R.layout.act_camera_usb)
-public class CameraUSBAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_test;
-
-    @Click
-    void btn_test() {
-        try {
-            PackageManager packageManager = getPackageManager();
-            Intent intent = packageManager.getLaunchIntentForPackage("com.camera.app");
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showToast("无法连接到相机！");
-            finish();
-        }
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_GAS_SENSOR, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_GAS_SENSOR, App.KEY_FINISH);
-        finish();
-    }
+public class CameraUSBAct extends FragActBase implements View.OnClickListener {
+    private CustomTitlebar titlebar;
+    /**
+     * 相机测试
+     */
+    private Button btn_test;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_camera_usb);
+        initView();
+        initTitlebar();
+        setSwipeEnable(false);
     }
 
     @Override
@@ -75,14 +49,40 @@ public class CameraUSBAct extends FragActBase {
         }, "矿灯摄像头", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_test = (Button) findViewById(R.id.btn_test);
+        btn_test.setOnClickListener(this);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
     }
 
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_test:
+                try {
+                    PackageManager packageManager = getPackageManager();
+                    Intent intent = packageManager.getLaunchIntentForPackage("com.camera.app");
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showToast("无法连接到相机！");
+                    finish();
+                }
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_CAMERA_USB, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_CAMERA_USB, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

@@ -1,40 +1,28 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
-
 
 
 /**
  * Created by xu on 2016/7/26.
  */
+public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
-@EActivity(R.layout.act_bell)
-public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListener {
-
-    @ViewById
     CustomTitlebar titlebar;
-    @ViewById
     Button btnPass;
-    @ViewById
     Button btnNotPass;
-    @ViewById
     SeekBar searchBar;
     AudioManager audioManager;
     int currentBell;
@@ -42,22 +30,10 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
     private static final String TAG = "AudioFxActivity";
     private static final float VISUALIZER_HEIGHT_DIP = 160f;
     private MediaPlayer mMediaPlayer;
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BELL, App.KEY_FINISH);
-        finish();
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BELL, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    /**
+     * 请滑动进度条调节音量：
+     */
+    private TextView tvInfor;
 
     @Override
     protected void initTitlebar() {
@@ -71,11 +47,11 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    @AfterViews
-    protected void main() {
+        setContentView(R.layout.act_bell);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         btnPass.setVisibility(View.GONE);
@@ -83,6 +59,7 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
         mMediaPlayer.setLooping(true);
         mMediaPlayer
                 .setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         getWindow().clearFlags(
                                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -180,4 +157,29 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
     public void onStopTrackingTouch(SeekBar seekBar) {
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        searchBar = (SeekBar) findViewById(R.id.search_bar);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BELL, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BELL, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

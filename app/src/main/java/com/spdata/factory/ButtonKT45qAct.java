@@ -1,95 +1,115 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo-pc on 2017/7/21.
  */
-@EActivity(R.layout.act_btnkt45q)
-public class ButtonKT45qAct extends FragActBase {
-
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_del;
-    @ViewById
-    Button btn_enter;
-    @ViewById
-    Button btn_scan;
-    @ViewById
-    Button btn_1;
-    @ViewById
-    Button btn_2;
-    @ViewById
-    Button btn_3;
-    @ViewById
-    Button btn_4;
-    @ViewById
-    Button btn_5;
-    @ViewById
-    Button btn_6;
-    @ViewById
-    Button btn_7;
-    @ViewById
-    Button btn_8;
-    @ViewById
-    Button btn_9;
-    @ViewById
-    Button btn_0;
-    @ViewById
-    Button btn_vol_up;
-    @ViewById
-    Button btn_vol_down;
-    @ViewById
-    Button btn_camera;
-    @ViewById
-    Button btn_mi;
-    @ViewById
-    Button btn_xing;
-    @ViewById
-    Button btn_shift;
+public class ButtonKT45qAct extends FragActBase implements View.OnClickListener {
 
     boolean isOneClick = true;
-
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * Shift
+     */
+    private Button btn_shift;
+    /**
+     * DELETE
+     */
+    private Button btn_del;
+    /**
+     * SCAN
+     */
+    private Button btn_scan;
+    /**
+     * ENTER
+     */
+    private Button btn_enter;
+    /**
+     * 1
+     */
+    private Button btn_1;
+    /**
+     * 2
+     */
+    private Button btn_2;
+    /**
+     * 3
+     */
+    private Button btn_3;
+    /**
+     * .*
+     */
+    private Button btn_mi;
+    /**
+     * 4
+     */
+    private Button btn_4;
+    /**
+     * 5
+     */
+    private Button btn_5;
+    /**
+     * 6
+     */
+    private Button btn_6;
+    /**
+     * 0
+     */
+    private Button btn_0;
+    /**
+     * 7
+     */
+    private Button btn_7;
+    /**
+     * 8
+     */
+    private Button btn_8;
+    /**
+     * 9
+     */
+    private Button btn_9;
+    /**
+     * -#
+     */
+    private Button btn_xing;
+    /**
+     * VOL_EUP
+     */
+    private Button btn_vol_up;
+    /**
+     * VOL_DOWN
+     */
+    private Button btn_vol_down;
+    /**
+     * CAMERA
+     */
+    private Button btn_camera;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_btnkt45q);
+        initView();
+        initTitlebar();
+        setSwipeEnable(false);
     }
 
     @Override
@@ -99,14 +119,9 @@ public class ButtonKT45qAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showToast(keyCode + "");
-      if (keyCode == KeyEvent.KEYCODE_ENTER) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
             if (btn_enter.isPressed()) {
                 btn_enter.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_enter.setPressed(false);
@@ -117,7 +132,7 @@ public class ButtonKT45qAct extends FragActBase {
                 return true;
             }
 
-        } else if (keyCode == KeyEvent.KEYCODE_F5||keyCode == KeyEvent.KEYCODE_F4) {
+        } else if (keyCode == KeyEvent.KEYCODE_F5 || keyCode == KeyEvent.KEYCODE_F4) {
             if (btn_scan.isPressed()) {
                 btn_scan.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_scan.setPressed(false);
@@ -247,7 +262,7 @@ public class ButtonKT45qAct extends FragActBase {
                 btn_9.setPressed(true);
                 return true;
             }
-        }  else if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+        } else if (keyCode == KeyEvent.KEYCODE_CAMERA) {
             if (btn_camera.isPressed()) {
                 btn_camera.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_camera.setPressed(false);
@@ -297,17 +312,17 @@ public class ButtonKT45qAct extends FragActBase {
                 btn_mi.setPressed(true);
                 return true;
             }
-        }else if (keyCode == KeyEvent.KEYCODE_PERIOD) {
-          if (btn_xing.isPressed()) {
-              btn_xing.setBackgroundColor(Color.parseColor("#CEC7C7"));
-              btn_xing.setPressed(false);
-              return true;
-          } else {
-              btn_xing.setBackgroundColor(Color.parseColor("#0AF229"));
-              btn_xing.setPressed(true);
-              return true;
-          }
-      }
+        } else if (keyCode == KeyEvent.KEYCODE_PERIOD) {
+            if (btn_xing.isPressed()) {
+                btn_xing.setBackgroundColor(Color.parseColor("#CEC7C7"));
+                btn_xing.setPressed(false);
+                return true;
+            } else {
+                btn_xing.setBackgroundColor(Color.parseColor("#0AF229"));
+                btn_xing.setPressed(true);
+                return true;
+            }
+        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -323,44 +338,47 @@ public class ButtonKT45qAct extends FragActBase {
         setXml(App.KEY_BUTTON, App.KEY_FINISH);
         finish();
     }
-//    @Override
-//    public boolean onKeyUp(int keyCode, KeyEvent event) {
-//        switch (keyCode) {
-//            case KeyEvent.KEYCODE_ENTER:
-//                if (btn_enter.isPressed()) {
-//                    btn_enter.setBackgroundColor(Color.parseColor("#CEC7C7"));
-//                    btn_enter.setPressed(false);
-//                    showToast(keyCode + "");
-//                    break;
-//                } else {
-//                    btn_enter.setBackgroundColor(Color.parseColor("#0AF229"));
-//                    btn_enter.setPressed(true);
-//                    break;
-//                }
-//
-//            case KeyEvent.KEYCODE_MENU:
-//                if (btn_menu.isPressed()) {
-//                    btn_menu.setBackgroundColor(Color.parseColor("#CEC7C7"));
-//                    btn_menu.setPressed(false);
-//                    showToast(keyCode + "");
-//                    break;
-//                } else {
-//                    btn_menu.setBackgroundColor(Color.parseColor("#0AF229"));
-//                    btn_menu.setPressed(true);
-//                    break;
-//                }
-//            case KeyEvent.KEYCODE_0:
-//                if (btn_0.isPressed()) {
-//                    btn_0.setBackgroundColor(Color.parseColor("#CEC7C7"));
-//                    btn_0.setPressed(false);
-//                    showToast(keyCode + "");
-//                    break;
-//                } else {
-//                    btn_0.setBackgroundColor(Color.parseColor("#0AF229"));
-//                    btn_0.setPressed(true);
-//                    break;
-//                }
-//        }
-//        return super.onKeyUp(keyCode, event);
-//    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_shift = (Button) findViewById(R.id.btn_shift);
+        btn_del = (Button) findViewById(R.id.btn_del);
+        btn_scan = (Button) findViewById(R.id.btn_scan);
+        btn_enter = (Button) findViewById(R.id.btn_enter);
+        btn_1 = (Button) findViewById(R.id.btn_1);
+        btn_2 = (Button) findViewById(R.id.btn_2);
+        btn_3 = (Button) findViewById(R.id.btn_3);
+        btn_mi = (Button) findViewById(R.id.btn_mi);
+        btn_4 = (Button) findViewById(R.id.btn_4);
+        btn_5 = (Button) findViewById(R.id.btn_5);
+        btn_6 = (Button) findViewById(R.id.btn_6);
+        btn_0 = (Button) findViewById(R.id.btn_0);
+        btn_7 = (Button) findViewById(R.id.btn_7);
+        btn_8 = (Button) findViewById(R.id.btn_8);
+        btn_9 = (Button) findViewById(R.id.btn_9);
+        btn_xing = (Button) findViewById(R.id.btn_xing);
+        btn_vol_up = (Button) findViewById(R.id.btn_vol_up);
+        btn_vol_down = (Button) findViewById(R.id.btn_vol_down);
+        btn_camera = (Button) findViewById(R.id.btn_camera);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

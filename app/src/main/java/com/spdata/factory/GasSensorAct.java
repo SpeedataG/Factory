@@ -1,69 +1,35 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by suntianwei on 2017/1/13.
  */
-@EActivity(R.layout.act_gassensor)
-public class GasSensorAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_test;
+public class GasSensorAct extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btn_test() {
-        try {
-            PackageManager packageManager = getPackageManager();
-            Intent intent = new Intent();
-            intent = packageManager.getLaunchIntentForPackage("cn.ccrise.mobile.cd3");
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showToast("未指定指定应用！");
-            finish();
-        }
-    }
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_GAS_SENSOR, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_GAS_SENSOR, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * 测试
+     */
+    private Button btnTest;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -77,13 +43,49 @@ public class GasSensorAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_gassensor);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
+    }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btnTest = (Button) findViewById(R.id.btn_test);
+        btnTest.setOnClickListener(this);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_test:
+                try {
+                    PackageManager packageManager = getPackageManager();
+                    Intent intent = new Intent();
+                    intent = packageManager.getLaunchIntentForPackage("cn.ccrise.mobile.cd3");
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showToast("未指定指定应用！");
+                    finish();
+                }
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_GAS_SENSOR, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_GAS_SENSOR, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

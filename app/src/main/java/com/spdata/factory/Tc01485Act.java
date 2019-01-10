@@ -1,6 +1,6 @@
 package com.spdata.factory;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.serialport.DeviceControl;
 import android.serialport.SerialPort;
@@ -11,78 +11,48 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.DataConversionUtils;
 
-@EActivity(R.layout.tc01_485_layout)
-public class Tc01485Act extends FragActBase {
+public class Tc01485Act extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tv_send;
-    @ViewById
-    TextView tv_accept1;
-    @ViewById
-    TextView tv_accept2;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+
     private SerialPort serialPort;
     private SerialPort serialPort2;
     private int fd;
     private int fd2;
     private Handler handler = new Handler();
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_485, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_485, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
-
-    @Override
-    protected void initTitlebar() {
-        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        }, "485测试", null);
-    }
+    private CustomTitlebar titlebar;
+    /**  */
+    private TextView tvSend;
+    /**
+     * 串口2接收：
+     */
+    private TextView tvAccept1;
+    /**
+     * 串口3接收：
+     */
+    private TextView tvAccept2;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-
-    @AfterViews
-    protected void main() {
-        onWindowFocusChanged(true);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.tc01_485_layout);
+        initView(); onWindowFocusChanged(true);
         initTitlebar();
         setSwipeEnable(false);
-        tv_send.setText("发送内容：This is 485 test");
+        tvSend.setText("发送内容：This is 485 test");
         try {
             DeviceControl deviceControl = new DeviceControl(DeviceControl.PowerType.MAIN, 21);
             deviceControl.PowerOnDevice();
@@ -99,18 +69,29 @@ public class Tc01485Act extends FragActBase {
         }
     }
 
+    @Override
+    protected void initTitlebar() {
+        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
+        titlebar.setAttrs(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        }, "485测试", null);
+    }
+
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
             try {
                 byte[] resultBytes = serialPort.ReadSerial(fd, 512);
                 byte[] resultBytes2 = serialPort2.ReadSerial(fd2, 512);
-                if (resultBytes!=null){
+                if (resultBytes != null) {
 
-                    tv_accept1.setText("串口2接收：" + DataConversionUtils.byteArrayToAscii(resultBytes));
+                    tvAccept1.setText("串口2接收：" + DataConversionUtils.byteArrayToAscii(resultBytes));
                 }
-                if (resultBytes2!=null){
-                    tv_accept2.setText("串口3接收：" + DataConversionUtils.byteArrayToAscii(resultBytes2));
+                if (resultBytes2 != null) {
+                    tvAccept2.setText("串口3接收：" + DataConversionUtils.byteArrayToAscii(resultBytes2));
                 }
                 handler.postDelayed(runnable, 50);
             } catch (UnsupportedEncodingException e) {
@@ -131,13 +112,40 @@ public class Tc01485Act extends FragActBase {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (serialPort!=null){
+        if (serialPort != null) {
             serialPort.CloseSerial(fd);
         }
-        if (serialPort2!=null){
+        if (serialPort2 != null) {
             serialPort2.CloseSerial(fd2);
         }
         handler.removeCallbacks(runnable);
         handler.removeCallbacks(runnable2);
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvSend = (TextView) findViewById(R.id.tv_send);
+        tvAccept1 = (TextView) findViewById(R.id.tv_accept1);
+        tvAccept2 = (TextView) findViewById(R.id.tv_accept2);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_485, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_485, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

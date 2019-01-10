@@ -1,8 +1,9 @@
 package com.spdata.factory;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
@@ -15,101 +16,51 @@ import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.MsgEvent;
 import common.utils.SearchTagDialog;
 
 /**
  * Created by suntianwei on 2016/12/6.
  */
-@EActivity(R.layout.act_uhf)
-public class UhfAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvGreen;
-    @ViewById
-    TextView tvRed;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button pandian;
-    @ViewById
-    Button read;
+public class UhfAct extends FragActBase implements View.OnClickListener {
 
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_UHF, App.KEY_FINISH);
-        finish();
-    }
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_UHF, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void pandian() {
-        SearchTagDialog searchTag = new SearchTagDialog(this, iuhfService, "");
-        searchTag.show();
-    }
-
-    @Click
-    void read() {
-        String read_area = iuhfService.read_area(3, "0", "6", "0");
-        if (read_area == null) {
-            EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
-        } else {
-            int length = read_area.length();
-            if (length < 24) {
-                EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
-            } else {
-                EventBus.getDefault().post(new MsgEvent("success", "读成功"));
-            }
-        }
-
-        int writeArea = iuhfService.write_area(3, "0", "0", "6", read_area);
-        if (writeArea != 0) {
-            EventBus.getDefault().post(new MsgEvent("failed", "写失败"));
-        } else {
-            EventBus.getDefault().post(new MsgEvent("success", "写成功"));
-        }
-    }
+    private CustomTitlebar titlebar;
+    private TextView tvGreen;
+    private TextView tvRed;
+    /**
+     * 盘点测试
+     */
+    private Button pandian;
+    /**
+     * 读写测试
+     */
+    private Button read;
+    /**
+     * 读卡
+     */
+    private Button btnReadCard;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     private IUHFService iuhfService;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
-
-    @Override
-    protected void initTitlebar() {
-        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("超高频UHF");
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
-
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_uhf);
+        initView();
         initTitlebar();
 
         SharedXmlUtil.getInstance(UhfAct.this).write("modle", "");
@@ -121,14 +72,20 @@ public class UhfAct extends FragActBase {
                 tvRed.setText("*无uhf模块*");
             }
             newWakeLock();
-            org.greenrobot.eventbus.EventBus.getDefault().register(this);
+            EventBus.getDefault().register(this);
         } catch (Exception e) {
             e.printStackTrace();
             tvRed.setVisibility(View.VISIBLE);
             tvRed.setText("*模块不识别*");
         }
-
     }
+
+    @Override
+    protected void initTitlebar() {
+        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
+        titlebar.setAttrs("超高频UHF");
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void mEventBus(MsgEvent msgEvent) {
@@ -148,6 +105,7 @@ public class UhfAct extends FragActBase {
     private PowerManager.WakeLock wK = null;
     private int init_progress = 0;
 
+    @SuppressLint("InvalidWakeLockTag")
     private void newWakeLock() {
         init_progress++;
         pM = (PowerManager) getSystemService(POWER_SERVICE);
@@ -212,6 +170,64 @@ public class UhfAct extends FragActBase {
             iuhfService.CloseDev();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvGreen = (TextView) findViewById(R.id.tvGreen);
+        tvRed = (TextView) findViewById(R.id.tvRed);
+        pandian = (Button) findViewById(R.id.pandian);
+        pandian.setOnClickListener(this);
+        read = (Button) findViewById(R.id.read);
+        read.setOnClickListener(this);
+        btnReadCard = (Button) findViewById(R.id.btn_read_card);
+        btnReadCard.setOnClickListener(this);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.pandian:
+                SearchTagDialog searchTag = new SearchTagDialog(this, iuhfService, "");
+                searchTag.show();
+                break;
+            case R.id.read:
+                String read_area = iuhfService.read_area(3, "0", "6", "0");
+                if (read_area == null) {
+                    EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
+                } else {
+                    int length = read_area.length();
+                    if (length < 24) {
+                        EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
+                    } else {
+                        EventBus.getDefault().post(new MsgEvent("success", "读成功"));
+                    }
+                }
+
+                int writeArea = iuhfService.write_area(3, "0", "0", "6", read_area);
+                if (writeArea != 0) {
+                    EventBus.getDefault().post(new MsgEvent("failed", "写失败"));
+                } else {
+                    EventBus.getDefault().post(new MsgEvent("success", "写成功"));
+                }
+                break;
+            case R.id.btn_read_card:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_UHF, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_UHF, App.KEY_UNFINISH);
+                finish();
+                break;
         }
     }
 }

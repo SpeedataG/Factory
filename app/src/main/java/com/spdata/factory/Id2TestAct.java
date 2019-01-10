@@ -2,8 +2,8 @@ package com.spdata.factory;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.serialport.DeviceControl;
@@ -21,49 +21,27 @@ import com.speedata.libid2.IDManager;
 import com.speedata.libid2.IDReadCallBack;
 import com.speedata.libid2.IID2Service;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo-pc on 2018/3/8.
  */
-@EActivity(R.layout.act_id2)
-public class Id2TestAct extends FragActBase {
+public class Id2TestAct extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    ToggleButton btnStart;
+    private CustomTitlebar titlebar;
+    private TextView tvVersionInfor;
+    private ToggleButton btnStart;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_ID2, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_ID2, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -76,15 +54,15 @@ public class Id2TestAct extends FragActBase {
         }, "ID2", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     private IID2Service iid2Service;
     private ProgressDialog progressDialog;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_id2);
+        initView();
         onWindowFocusChanged(true);
         initTitlebar();
         setSwipeEnable(false);
@@ -209,11 +187,38 @@ public class Id2TestAct extends FragActBase {
             progressDialog.cancel();
         }
         try {
-            if (iid2Service != null)
+            if (iid2Service != null) {
                 iid2Service.releaseDev();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         super.onStop();
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvVersionInfor = (TextView) findViewById(R.id.tv_version_infor);
+        btnStart = (ToggleButton) findViewById(R.id.btn_start);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_ID2, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_ID2, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

@@ -1,8 +1,8 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
+import android.os.Bundle;
 import android.os.SystemProperties;
 import android.view.View;
 import android.widget.Button;
@@ -12,65 +12,56 @@ import android.widget.ToggleButton;
 
 import com.spdata.factory.application.App;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by xu on 2016/7/27.
  */
-@EActivity(R.layout.activity_flashlight)
-public class FlashLightAct extends FragActBase {
+public class FlashLightAct extends FragActBase implements View.OnClickListener {
 
-    Camera camera=null;// = Camera.open();
+    Camera camera = null;// = Camera.open();
     Camera.Parameters parameter;// = camera.getParameters();
-    @ViewById
-    ToggleButton toggleButton;
-    @ViewById
-    TextView tv_flashlight;
-    @ViewById
-    Button btn_pass;
-    @ViewById
-    Button btn_not_pass;
+    /**
+     * 请关闭手电筒
+     */
+    private TextView tvFlashlight;
+    private ToggleButton toggleButton;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btn_not_pass() {
-        setXml(App.KEY_FLASH_LIGHT, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btn_pass() {
-        setXml(App.KEY_FLASH_LIGHT, App.KEY_FINISH);
-        finish();
-    }
     int allCount = 0;
-    @AfterViews
-    protected void main() {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_flashlight);
+        initView();
         setSwipeEnable(false);
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
                 if (arg1) {
-                    tv_flashlight.setText("请关闭手电筒");
+                    tvFlashlight.setText("请关闭手电筒");
                     openLight();
                     allCount++;
                 } else {
-                    tv_flashlight.setText("请打开手电筒");
+                    tvFlashlight.setText("请打开手电筒");
                     closeLight();
                     allCount++;
                     if (allCount >= 2) {
-                        btn_not_pass.setVisibility(View.VISIBLE);
-                        btn_pass.setVisibility(View.VISIBLE);
+                        btnNotPass.setVisibility(View.VISIBLE);
+                        btnPass.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -87,7 +78,7 @@ public class FlashLightAct extends FragActBase {
             opencam.setAction("com.se4500.opencamera");
             this.sendBroadcast(opencam, null);
         }
-        if (camera==null){
+        if (camera == null) {
             try {
                 camera = Camera.open();
                 parameter = camera.getParameters();
@@ -96,7 +87,7 @@ public class FlashLightAct extends FragActBase {
             }
             System.out.println("ceshi----");
             openLight();
-        }else {
+        } else {
             return;
         }
     }
@@ -163,16 +154,34 @@ public class FlashLightAct extends FragActBase {
         }
     }
 
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
     }
 
+
+    private void initView() {
+        tvFlashlight = (TextView) findViewById(R.id.tv_flashlight);
+        toggleButton = (ToggleButton) findViewById(R.id.toggle_button);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_FLASH_LIGHT, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_FLASH_LIGHT, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

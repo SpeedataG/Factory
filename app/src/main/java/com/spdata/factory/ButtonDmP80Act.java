@@ -5,74 +5,80 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo-pc on 2018/3/9.
  */
-@EActivity(R.layout.act_dmp80_layout)
-public class ButtonDmP80Act extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    Button btn_up;
-    @ViewById
-    Button btn_down;
-    @ViewById
-    Button btn_ok2;
-    @ViewById
-    Button btn_ok;
-    @ViewById
-    Button btn_back;
-    @ViewById
-    Button btn_menu;
-    @ViewById
-    Button btn_f1;
-    @ViewById
-    Button btn_f2;
-    @ViewById
-    Button btn_f3;
-    @ViewById
-    Button btn_f4;
+public class ButtonDmP80Act extends FragActBase implements View.OnClickListener {
+    private CustomTitlebar titlebar;
+    /**
+     * light_up
+     */
+    private Button btn_back;
+    /**
+     * light_dow
+     */
+    private Button btn_menu;
+    /**
+     * F5
+     */
+    private Button btn_ok;
+    /**
+     * F1
+     */
+    private Button btn_up;
+    /**
+     * F2
+     */
+    private Button btn_down;
+    /**
+     * Vol_up
+     */
+    private Button btn_f1;
+    /**
+     * Vol_down
+     */
+    private Button btn_f2;
+    /**
+     * F5
+     */
+    private Button btn_ok2;
+    /**
+     * F3
+     */
+    private Button btn_f3;
+    /**
+     * F4
+     */
+    private Button btn_f4;
+    /**
+     * 成功
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_dmp80_layout);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
     }
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
-        finish();
-    }
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_BUTTON, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -134,10 +140,6 @@ public class ButtonDmP80Act extends FragActBase {
         }
     };
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -226,5 +228,39 @@ public class ButtonDmP80Act extends FragActBase {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        btn_back = (Button) findViewById(R.id.btn_back);
+        btn_menu = (Button) findViewById(R.id.btn_menu);
+        btn_ok = (Button) findViewById(R.id.btn_ok);
+        btn_up = (Button) findViewById(R.id.btn_up);
+        btn_down = (Button) findViewById(R.id.btn_down);
+        btn_f1 = (Button) findViewById(R.id.btn_f1);
+        btn_f2 = (Button) findViewById(R.id.btn_f2);
+        btn_ok2 = (Button) findViewById(R.id.btn_ok2);
+        btn_f3 = (Button) findViewById(R.id.btn_f3);
+        btn_f4 = (Button) findViewById(R.id.btn_f4);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_BUTTON, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_BUTTON, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

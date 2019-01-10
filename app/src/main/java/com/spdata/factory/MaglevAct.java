@@ -1,19 +1,13 @@
 package com.spdata.factory;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,38 +20,23 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo_pc on 2016/9/3.
  */
-@EActivity(R.layout.act_magle)
-public class MaglevAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class MaglevAct extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_MAGLEV, App.KEY_UNFINISH);
-        finish();
-    }
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_MAGLEV, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private TextView tvVersionInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -65,9 +44,6 @@ public class MaglevAct extends FragActBase {
         titlebar.setAttrs("磁吸附充电");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     private int count = 0;
     private Timer timer;
@@ -77,8 +53,12 @@ public class MaglevAct extends FragActBase {
     private String battTempFile;
     private static final String CHARGER_CURRENT_NOW =
             "/sys/class/power_supply/battery/BatteryAverageCurrent";
-    @AfterViews
-    protected void main() {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_magle);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         task = new remindTask();
@@ -108,6 +88,31 @@ public class MaglevAct extends FragActBase {
         }
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvVersionInfor = (TextView) findViewById(R.id.tv_version_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_MAGLEV, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_MAGLEV, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
+
     private class remindTask extends TimerTask {
         @Override
         public void run() {
@@ -124,10 +129,10 @@ public class MaglevAct extends FragActBase {
                             break;
                         case 2:
                             first();
-                            tvVersionInfor.append("\n电池电压：" +Integer.parseInt(battVoltFile)/1000.0+"V" );
-                            tvVersionInfor.append("\n电池温度：" + Integer.parseInt(battTempFile)/10.0+"℃");
+                            tvVersionInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000.0 + "V");
+                            tvVersionInfor.append("\n电池温度：" + Integer.parseInt(battTempFile) / 10.0 + "℃");
                             try {
-                                tvVersionInfor.append("\n充电电流：" +readCurrentFile(new File(CHARGER_CURRENT_NOW))+" mA");
+                                tvVersionInfor.append("\n充电电流：" + readCurrentFile(new File(CHARGER_CURRENT_NOW)) + " mA");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -214,6 +219,7 @@ public class MaglevAct extends FragActBase {
         }
         return sb.toString();
     }
+
     public String readCurrentFile(File file) throws IOException {
         InputStream input = new FileInputStream(file);
         try {

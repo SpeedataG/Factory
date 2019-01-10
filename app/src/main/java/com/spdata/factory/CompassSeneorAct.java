@@ -1,12 +1,11 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
@@ -16,44 +15,23 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 //电子罗盘传感器测试
-@EActivity(R.layout.act_compass_sensor)
-public class CompassSeneorAct extends FragActBase implements SensorEventListener {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    ImageView image;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class CompassSeneorAct extends FragActBase implements SensorEventListener, View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_COMPASS_SENSOR, App.KEY_UNFINISH);
-        finish();
-    }
 
-    @Click
-    void btnPass() {
-        setXml(App.KEY_COMPASS_SENSOR, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private TextView tvInfor;
+    private ImageView image;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -66,9 +44,6 @@ public class CompassSeneorAct extends FragActBase implements SensorEventListener
         }, "电子罗盘测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     private int count = 1;
     private SensorManager sm;
@@ -76,8 +51,11 @@ public class CompassSeneorAct extends FragActBase implements SensorEventListener
     private StringBuffer sb;
     private float currentDegree = 0f;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_compass_sensor);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         initSensor();
@@ -148,5 +126,31 @@ public class CompassSeneorAct extends FragActBase implements SensorEventListener
     //传感器精度的改变
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        image = (ImageView) findViewById(R.id.image);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_COMPASS_SENSOR, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_COMPASS_SENSOR, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

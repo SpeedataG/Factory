@@ -1,9 +1,8 @@
 package com.spdata.factory;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
+import android.os.Bundle;
 import android.serialport.DeviceControl;
 import android.view.View;
 import android.widget.Button;
@@ -12,50 +11,31 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by 42040 on 2018/7/23.
  */
-@EActivity(R.layout.act_indicator_light)
-public class IndicatorLightAct_sd55 extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class IndicatorLightAct_sd55 extends FragActBase implements View.OnClickListener {
     private DeviceControl deviceControl;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_INDICATOR_LIGHT, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    /**
+     * xxx
+     */
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -75,13 +55,11 @@ public class IndicatorLightAct_sd55 extends FragActBase {
         }, "指示灯测试", null);
     }
 
-
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_indicator_light);
+        initView();
         try {
             deviceControl = new DeviceControl(DeviceControl.POWER_NEWMAIN);
         } catch (IOException e) {
@@ -293,4 +271,28 @@ public class IndicatorLightAct_sd55 extends FragActBase {
         }
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_INDICATOR_LIGHT, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 }

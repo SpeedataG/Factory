@@ -1,8 +1,8 @@
 package com.spdata.factory;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.serialport.DeviceControl;
 import android.view.View;
@@ -14,96 +14,38 @@ import com.spdata.factory.view.CustomTitlebar;
 import com.speedata.libutils.ConfigUtils;
 import com.speedata.libutils.ReadBean;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.IOException;
 import java.util.List;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import speedatacom.a3310libs.PsamManager;
 import speedatacom.a3310libs.inf.IPsam;
 
 import static jxl.Workbook.getVersion;
 
-@EActivity(R.layout.activity_psam)
-public class PSAMAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    TextView tv;
-    @ViewById
-    TextView btn_psam1;
-    @ViewById
-    TextView btn_psam2;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_PSAM, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_PSAM, App.KEY_FINISH);
-        finish();
-    }
-
-    @Click
-    void btn_psam1() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final byte[] data = psamIntance.PsamPower(IPsam.PowerType.Psam1);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (data == null) {
-                            tvInfor.append("No Psam1\n");
-                        } else {
-                            tvInfor.append("Psam1 Succeed \n");
-                        }
-                    }
-                });
-            }
-        }).start();
+public class PSAMAct extends FragActBase implements View.OnClickListener {
 
 
-    }
+    private CustomTitlebar titlebar;
+    private TextView tv;
+    private TextView tvInfor;
+    /**
+     * psam1
+     */
+    private Button btnPsam1;
+    /**
+     * psam2
+     */
+    private Button btnPsam2;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
-    @Click
-    void btn_psam2() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final byte[] data = psamIntance.PsamPower(IPsam.PowerType.Psam2);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (data == null) {
-                            tvInfor.append("No Psam2\n");
-                        } else {
-                            tvInfor.append("Psam2 Succeed \n");
-                        }
-                    }
-                });
-            }
-        }).start();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
 
     @Override
     protected void initTitlebar() {
@@ -116,16 +58,16 @@ public class PSAMAct extends FragActBase {
         }, "PSAM测试", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     //获取psam实例
     IPsam psamIntance = PsamManager.getPsamIntance();
     DeviceControl deviceControl1;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_psam);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         showConfig();
@@ -191,6 +133,73 @@ public class PSAMAct extends FragActBase {
             psamIntance.releaseDev();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tv = (TextView) findViewById(R.id.tv);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPsam1 = (Button) findViewById(R.id.btn_psam1);
+        btnPsam1.setOnClickListener(this);
+        btnPsam2 = (Button) findViewById(R.id.btn_psam2);
+        btnPsam2.setOnClickListener(this);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_psam1:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final byte[] data = psamIntance.PsamPower(IPsam.PowerType.Psam1);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (data == null) {
+                                    tvInfor.append("No Psam1\n");
+                                } else {
+                                    tvInfor.append("Psam1 Succeed \n");
+                                }
+                            }
+                        });
+                    }
+                }).start();
+
+                break;
+            case R.id.btn_psam2:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final byte[] data = psamIntance.PsamPower(IPsam.PowerType.Psam2);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (data == null) {
+                                    tvInfor.append("No Psam2\n");
+                                } else {
+                                    tvInfor.append("Psam2 Succeed \n");
+                                }
+                            }
+                        });
+                    }
+                }).start();
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_PSAM, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_PSAM, App.KEY_UNFINISH);
+                finish();
+                break;
         }
     }
 }

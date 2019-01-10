@@ -1,6 +1,5 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -18,11 +17,6 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -33,7 +27,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by xu on 2016/7/26.
@@ -66,21 +59,8 @@ import common.event.ViewMessage;
  * 实现时，音频的录制和播放分别使用两个AsyncTask来完成
  */
 
-@EActivity(R.layout.act_earmic)
 public class PhoneMICAct extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnSoundRecording;
-    @ViewById
-    Button btnPlay;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    TextView tvInfor;
 
     private RecordTask recorder;
     private PlayTask player;
@@ -93,23 +73,24 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
     private int audioEncoding = AudioFormat.ENCODING_PCM_16BIT;
     private boolean isPlay = false;
     private boolean isStart = false;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_PHONE_MIC, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_PHONE_MIC, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private TextView tvInfor;
+    /**
+     * 开始录音
+     */
+    private Button btnSoundRecording;
+    /**
+     * 播放录音
+     */
+    private Button btnPlay;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -125,12 +106,10 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-
-    }
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_earmic);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         btnPlay.setOnClickListener(this);
@@ -207,8 +186,28 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
                 btnPlay.setText(getResources().getString(R.string.sound_play));
                 this.isPlaying = false;
             }
+        } else if (v == btnNotPass) {
+            setXml(App.KEY_PHONE_MIC, App.KEY_UNFINISH);
+            finish();
+
+        } else if (v == btnPass) {
+            setXml(App.KEY_PHONE_MIC, App.KEY_FINISH);
+            finish();
         }
 
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnSoundRecording = (Button) findViewById(R.id.btn_sound_recording);
+        btnSoundRecording.setOnClickListener(this);
+        btnPlay = (Button) findViewById(R.id.btn_play);
+        btnPlay.setOnClickListener(this);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
     }
 
     class RecordTask extends AsyncTask<Void, Integer, Void> {

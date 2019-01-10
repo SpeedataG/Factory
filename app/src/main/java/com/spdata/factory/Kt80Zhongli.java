@@ -10,55 +10,34 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 /**
  * Created by lenovo_pc on 2016/8/24.
  */
-@EActivity(R.layout.act_zhongli_layout)
-public class Kt80Zhongli extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvVersionInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class Kt80Zhongli extends FragActBase implements View.OnClickListener {
 
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_ZHONGLI, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_ZHONGLI, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private LinearLayout zhongli;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -71,10 +50,6 @@ public class Kt80Zhongli extends FragActBase {
         }, "重力感应", null);
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
     private SensorManager sm;
     private StringBuffer sbacc;
     private StringBuffer sbori;
@@ -82,8 +57,11 @@ public class Kt80Zhongli extends FragActBase {
     MyView mAnimView = null;
     boolean i = true;
 
-    @AfterViews
-    protected void main() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_zhongli_layout);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         sbacc = new StringBuffer();
@@ -101,10 +79,37 @@ public class Kt80Zhongli extends FragActBase {
         sm.registerListener(new AccSensorListener(), sacc, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        zhongli = (LinearLayout) findViewById(R.id.zhongli);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_ZHONGLI, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_ZHONGLI, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
+
     public class AccSensorListener implements SensorEventListener {
+        @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
 
+        @Override
         public void onSensorChanged(SensorEvent event) {
             //坐标系x轴上的加速度分量
             float accx = event.values[0];
@@ -223,8 +228,9 @@ public class Kt80Zhongli extends FragActBase {
         private void Draw() {
             if (i) {
                 /** 绘制游戏背景 **/
-                if (mCanvas == null)
+                if (mCanvas == null) {
                     return;
+                }
                 mCanvas.drawBitmap(mbitmapBg, 0, 0, mPaint);
                 /** 绘制小球 **/
                 mCanvas.drawBitmap(mbitmapBall, mPosX, mPosY, mPaint);

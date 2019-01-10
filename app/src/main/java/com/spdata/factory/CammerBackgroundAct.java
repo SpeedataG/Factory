@@ -1,6 +1,5 @@
 package com.spdata.factory;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +7,7 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemProperties;
@@ -26,37 +26,19 @@ import com.spdata.factory.application.App;
 import com.spdata.factory.view.CameraPreview;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
 import static android.R.attr.path;
 import static com.spdata.factory.view.CameraPreview.setCameraDisplayOrientation;
 
-@EActivity(R.layout.act_cammar_background)
 public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Callback,
         View.OnClickListener, Camera.AutoFocusCallback, View.OnTouchListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-    @ViewById
-    View focus_index;
-    @ViewById
-    SurfaceView camera_surface;//surfaceView声明;
-    @ViewById
     FrameLayout layout;//surfaceView声明;
 
     private int count = 0;
@@ -69,48 +51,17 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
     Camera.Parameters parameters;
     private CameraPreview preview;
     private Handler handler = new Handler();
-
-    @Click
-    void btnPass() {
-        if (count == 0) {
-            count++;
-            isClicked = false;
-            myCamera.takePicture(shutterCallback, null, jpeg);
-            titlebar.setTitlebarNameText("拍照成功!");
-            btnPass.setEnabled(false);
-            btnPass.setText("闪光拍照");
-            myCamera.stopPreview();
-            myCamera.startPreview();  //开启预览
-            titlebar.setAttrs("请点击屏幕对焦！");
-        } else if (count == 1) {//闪光拍照
-            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-            myCamera.setParameters(parameters);
-            myCamera.takePicture(shutterCallback, null, jpeg);
-            titlebar.setTitlebarNameText("闪光灯拍照成功！");
-            btnPass.setText("成功");
-            myCamera.stopPreview();
-            myCamera.startPreview();
-            count++;
-        } else if (count == 2) {
-//            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-//            myCamera.setParameters(parameters);
-            setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_FINISH);
-            finish();
-        }
-    }
-
-    @Click
-    void btnNotPass() {
-//        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-//        myCamera.setParameters(parameters);
-        setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private SurfaceView camera_surface;
+    private View focus_index;
+    /**
+     * 拍照
+     */
+    private Button btn_pass;
+    /**
+     * 失败
+     */
+    private Button btn_not_pass;
 
     @Override
     protected void initTitlebar() {
@@ -118,11 +69,9 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
         titlebar.setAttrs("后置摄像头/闪光灯测试");
     }
 
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
 
     Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
+        @Override
         public void onShutter() {
         }
     };
@@ -171,13 +120,10 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
     };
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_cammar_background);
+        initView();
 //        if(SystemProperties.get("persist.sys.iscamera").equals("close")){
 //            Intent opencamera = new Intent();
 //            //SystemProperties.set("persist.sys.iscamera","open");
@@ -218,7 +164,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
         }
 
         initTitlebar();
-        btnPass.setEnabled(false);
+        btn_pass.setEnabled(false);
         //获得控件
         camera_surface = (SurfaceView) findViewById(R.id.camera_surface);
         //获得句柄
@@ -333,23 +279,56 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
 
     @Override
     public void onClick(View v) {
-        try {
-            myCamera.autoFocus(new Camera.AutoFocusCallback() {
-                @Override
-                public void onAutoFocus(boolean success, Camera camera) {
-                    if (success) {
-                        initCamera();//实现相机的参数初始化
-                        camera.cancelAutoFocus();//只有加上了这一句，才会自动对焦。
-                        titlebar.setAttrs("对焦成功！");
-                        btnPass.setEnabled(true);
-                    } else {
-                        titlebar.setAttrs("对焦失败！");
+        if (v == camera_surface) {
+            try {
+                myCamera.autoFocus(new Camera.AutoFocusCallback() {
+                    @Override
+                    public void onAutoFocus(boolean success, Camera camera) {
+                        if (success) {
+                            initCamera();//实现相机的参数初始化
+                            camera.cancelAutoFocus();//只有加上了这一句，才会自动对焦。
+                            titlebar.setAttrs("对焦成功！");
+                            btn_pass.setEnabled(true);
+                        } else {
+                            titlebar.setAttrs("对焦失败！");
+                        }
                     }
-                }
-            }); //自动对焦
-        } catch (Exception e) {
-            e.printStackTrace();
+                }); //自动对焦
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (v == btn_pass) {
+            if (count == 0) {
+                count++;
+                isClicked = false;
+                myCamera.takePicture(shutterCallback, null, jpeg);
+                titlebar.setTitlebarNameText("拍照成功!");
+                btn_pass.setEnabled(false);
+                btn_pass.setText("闪光拍照");
+                myCamera.stopPreview();
+                myCamera.startPreview();  //开启预览
+                titlebar.setAttrs("请点击屏幕对焦！");
+            } else if (count == 1) {//闪光拍照
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                myCamera.setParameters(parameters);
+                myCamera.takePicture(shutterCallback, null, jpeg);
+                titlebar.setTitlebarNameText("闪光灯拍照成功！");
+                btn_pass.setText("成功");
+                myCamera.stopPreview();
+                myCamera.startPreview();
+                count++;
+            } else if (count == 2) {
+//            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+//            myCamera.setParameters(parameters);
+                setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_FINISH);
+                finish();
+            }
+
+        } else if (v == btn_not_pass) {
+            setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_UNFINISH);
+            finish();
         }
+
     }
 
     //相机参数的初始化设置
@@ -386,4 +365,14 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
     }
 
 
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        camera_surface = (SurfaceView) findViewById(R.id.camera_surface);
+        focus_index = (View) findViewById(R.id.focus_index);
+        layout = (FrameLayout) findViewById(R.id.layout);
+        btn_pass = (Button) findViewById(R.id.btn_pass);
+        btn_pass.setOnClickListener(this);
+        btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
+        btn_not_pass.setOnClickListener(this);
+    }
 }

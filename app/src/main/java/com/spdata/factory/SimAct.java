@@ -2,6 +2,7 @@ package com.spdata.factory;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
@@ -10,71 +11,31 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.getimei;
 import common.utils.security.CTelephoneInfo;
 
-@EActivity(R.layout.act_sim)
-public class SimAct extends FragActBase {
-    private static Context mContext;
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class SimAct extends FragActBase implements View.OnClickListener {
+
     private boolean isSIM1Ready;
     private boolean isSIM2Ready;
     private String model;
-    private String models;
-    private static String imei_2;
-    private static String imei_1;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_SIM, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_SIM, App.KEY_FINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
-
-    @Override
-    protected void initTitlebar() {
-        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        }, "SIM测试", null);
-    }
-
-    @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    private TelephonyManager mgr;
-    int phonetype;
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_sim);
+        initView();
         initTitlebar();
         String ss = getimei.getImsiAll(mContext);
 //        initQualcommDoubleSim();
@@ -93,13 +54,13 @@ public class SimAct extends FragActBase {
         tvInfor.setText("IMEI1:" + imeiSIM1 + "\n" + "IMEI2:" + imeiSIM2 + "\n");
         model = Build.MODEL;
 //        models = model.substring(0, 4);
-        if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
-                model.equals("S510") || model.equals("H500A") ||
-                model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
+        if (model.equals("X300Q_X1") || model.equals("X300Q_P1")
+                || model.equals("S510") || model.equals("H500A")
+                || model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
                 || model.equals("spda6735") || model.equals("DCD3") || model.equals("mt6753")
                 || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")
                 || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")
-                || Build.MODEL.equals("CT") || model.equals("TC01")) {
+                || Build.MODEL.equals("CT") || model.equals("TC01") || model.equals("X300Q")) {
             tvInfor.setText("IMEI:" + imeiSIM1 + "\n");
             if (isCanUseSim()) {
                 tvInfor.append("SIM卡存在");
@@ -140,7 +101,8 @@ public class SimAct extends FragActBase {
                                 || model.equals("DCD3") || model.equals("mt6753") || model.equals("M08")
                                 || Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")
                                 || Build.MODEL.equals("H5") || Build.MODEL.equals("S1")
-                                || Build.MODEL.equals("H5_35") || model.equals("TC01")) {
+                                || Build.MODEL.equals("H5_35") || model.equals("TC01")
+                                || model.equals("X300Q")) {
                             if (isCanUseSim()) {
                                 setXml(App.KEY_SIM, App.KEY_FINISH);
                                 finish();
@@ -165,6 +127,21 @@ public class SimAct extends FragActBase {
     }
 
     @Override
+    protected void initTitlebar() {
+        titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
+        titlebar.setAttrs(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        }, "SIM测试", null);
+    }
+
+    private TelephonyManager mgr;
+    int phonetype;
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
     }
@@ -180,5 +157,30 @@ public class SimAct extends FragActBase {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_SIM, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_SIM, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

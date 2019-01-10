@@ -1,9 +1,9 @@
 package com.spdata.factory;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.SystemProperties;
 import android.view.View;
 import android.widget.Button;
@@ -12,31 +12,16 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 import common.utils.ScanUtil;
 
 /**
  * Created by suntianwei on 2017/1/3.
  */
-@EActivity(R.layout.act_scan)
-public class ScanX300qAct extends FragActBase {
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
+public class ScanX300qAct extends FragActBase implements View.OnClickListener {
     private String result;
     private String START_SCAN_ACTION = "com.geomobile.se4500barcode";
 
@@ -45,23 +30,16 @@ public class ScanX300qAct extends FragActBase {
 
     private String STOP_SCAN = "com.geomobile.se4500barcode.poweroff";
     private String state;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_SCAN, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_SCAN, App.KEY_FINISH);
-        finish();
-    }
-
-    @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
-    }
+    private CustomTitlebar titlebar;
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
     protected void initTitlebar() {
@@ -75,12 +53,10 @@ public class ScanX300qAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-
-    @AfterViews
-    protected void main() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_scan);
+        initView();
         initTitlebar();
         setSwipeEnable(false);
         init();
@@ -149,6 +125,31 @@ public class ScanX300qAct extends FragActBase {
     }
 
     private Timer timer = new Timer();
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_SCAN, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_SCAN, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
+    }
 
     public class MyTask extends TimerTask {
         @Override

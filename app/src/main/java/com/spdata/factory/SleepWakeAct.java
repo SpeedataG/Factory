@@ -1,50 +1,36 @@
 package com.spdata.factory;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import common.base.act.FragActBase;
-import common.event.ViewMessage;
 
-@EActivity(R.layout.act_sleep_wake)
-public class SleepWakeAct extends FragActBase {
+public class SleepWakeAct extends FragActBase implements View.OnClickListener {
 
-    @ViewById
-    CustomTitlebar titlebar;
-    @ViewById
-    TextView tvInfor;
-    @ViewById
-    Button btnPass;
-    @ViewById
-    Button btnNotPass;
-
-    @Click
-    void btnNotPass() {
-        setXml(App.KEY_SLEEP_WAKE, App.KEY_UNFINISH);
-        finish();
-    }
-
-    @Click
-    void btnPass() {
-        setXml(App.KEY_SLEEP_WAKE, App.KEY_FINISH);
-        finish();
-    }
+    private CustomTitlebar titlebar;
+    private TextView tvInfor;
+    /**
+     * 成功
+     */
+    private Button btnPass;
+    /**
+     * 失败
+     */
+    private Button btnNotPass;
 
     @Override
-    protected Context regieterBaiduBaseCount() {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_sleep_wake);
+        initView();
+        initTitlebar();
+        setSwipeEnable(false);
+        tvInfor.setText("请按下休眠按键\n");
     }
 
     @Override
@@ -59,22 +45,10 @@ public class SleepWakeAct extends FragActBase {
     }
 
     @Override
-    public void onEventMainThread(ViewMessage viewMessage) {
-    }
-
-    @AfterViews
-    protected void main() {
-        initTitlebar();
-        setSwipeEnable(false);
-        tvInfor.setText("请按下休眠按键\n");
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         tvInfor.append("挂起\n");
     }
-
     private int count = 0;
 
     @Override
@@ -88,5 +62,30 @@ public class SleepWakeAct extends FragActBase {
             finish();
         }
         count++;
+    }
+
+    private void initView() {
+        titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
+        tvInfor = (TextView) findViewById(R.id.tv_infor);
+        btnPass = (Button) findViewById(R.id.btn_pass);
+        btnPass.setOnClickListener(this);
+        btnNotPass = (Button) findViewById(R.id.btn_not_pass);
+        btnNotPass.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn_pass:
+                setXml(App.KEY_SLEEP_WAKE, App.KEY_FINISH);
+                finish();
+                break;
+            case R.id.btn_not_pass:
+                setXml(App.KEY_SLEEP_WAKE, App.KEY_UNFINISH);
+                finish();
+                break;
+        }
     }
 }

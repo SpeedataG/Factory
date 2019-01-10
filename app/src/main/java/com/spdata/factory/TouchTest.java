@@ -45,8 +45,9 @@ public class TouchTest extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (mDebug)
+        if (mDebug) {
             Log.v(TAG, "start TouchpanelTest");
+        }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -78,8 +79,9 @@ public class TouchTest extends Activity {
 
         for (int i = 0; i < numX; i += (numX - 1) / 2) {
             for (int j = 1; j < numY - 1; j++) {
-                if (j == (numY - 1) / 2)
+                if (j == (numY - 1) / 2) {
                     continue;
+                }
 
                 Rect r = new Rect(i * absX, j * absY, absX, absY);
 
@@ -160,10 +162,12 @@ public class TouchTest extends Activity {
 
         }
 
+        @Override
         protected void onDraw(Canvas canvas) {
             canvas.drawBitmap(bitmap, 0, 0, null);
         }
 
+        @Override
         public boolean onTouchEvent(MotionEvent event) {
             int action = event.getAction();
             float x = event.getX();
@@ -188,9 +192,10 @@ public class TouchTest extends Activity {
                     }
 
                 }
-                if (mDebug)
+                if (mDebug) {
                     Log.v(TAG, "onTouchEvent" + " bNeedFindRect="
                             + bNeedFindRect);
+                }
                 if (bNeedFindRect) {
                     Iterator<Rect> iterator = rectList.iterator();
                     while (iterator.hasNext()) {
@@ -232,6 +237,7 @@ public class TouchTest extends Activity {
                 .setMessage("请确认屏幕是否正常")
                 .setNegativeButton(R.string.successed, new DialogInterface.OnClickListener() {
 
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
                         TouchTest.this.setResult(1);
                         SharedXmlUtil.getInstance(TouchTest.this).write(App.KEY_TOUCH_SCREEN, App.KEY_FINISH);
@@ -240,6 +246,7 @@ public class TouchTest extends Activity {
                 })
                 .setPositiveButton(R.string.failed, new DialogInterface.OnClickListener() {
 
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
                         TouchTest.this.setResult(-1);
                         SharedXmlUtil.getInstance(TouchTest.this).write(App.KEY_TOUCH_SCREEN, App.KEY_UNFINISH);

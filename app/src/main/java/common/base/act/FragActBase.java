@@ -18,18 +18,15 @@
 
 package common.base.act;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.os.PowerManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -48,26 +45,17 @@ import com.spdata.factory.R;
 import com.spdata.factory.application.App;
 import com.umeng.analytics.MobclickAgent;
 
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Receiver;
-
 import java.io.Serializable;
 
 import common.base.dialog.FlippingLoadingDialog;
 import common.base.dialog.ToastUtils;
-import common.crash.log.ExceptionHandler;
 import common.event.EventBusWraper;
-import common.event.ViewMessage;
 import common.utils.AbInnerUtil;
 import common.utils.PlaySoundPool;
 import common.utils.SharedXmlUtil;
 import common.utils.StringUtil;
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
-//@WindowFeature(value = Window.FEATURE_NO_TITLE)
-@EActivity
-public abstract class FragActBase extends SwipeBackActivity {
+public abstract class FragActBase extends Activity {
     protected static final int RIGHT = 0;
     protected static final int LEFT = 1;
     protected static Fragment mContent;
@@ -80,44 +68,21 @@ public abstract class FragActBase extends SwipeBackActivity {
     public PlaySoundPool pl;
     private PowerManager.WakeLock mWakeLock;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-
-
-    }
-
-    /**
-     * 注册百度统计监听
-     */
-    protected abstract Context regieterBaiduBaseCount();
 
     protected abstract void initTitlebar();
 
-
-    public abstract void onEventMainThread(ViewMessage viewMessage);
-
-    /**
-     * 注册监听
-     *
-     * @param o
-     */
-    protected void registerEventbus(Context o) {
-        mContext = o;
-        EventBusWraper.getInstance().register(o);
-    }
 
     protected void setXml(String key, String value) {
         SharedXmlUtil.getInstance(mContext).write(key, value);
     }
 
-    public int getApiVersion() {
-        return android.os.Build.VERSION.SDK_INT;
-    }
-
     protected String getXml(String key, String devalue) {
         String read = SharedXmlUtil.getInstance(mContext).read(key, devalue);
         return read;
+    }
+
+    public int getApiVersion() {
+        return android.os.Build.VERSION.SDK_INT;
     }
 
     public static void setMargins(View view, int left, int top, int right, int bottom) {
@@ -226,6 +191,7 @@ public abstract class FragActBase extends SwipeBackActivity {
         }
     }
 
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -243,7 +209,6 @@ public abstract class FragActBase extends SwipeBackActivity {
         if (powerManager != null) {
             mWakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "WakeLock");
         }
-        mContext = regieterBaiduBaseCount();
         App application = (App) this.getApplication();
         if (mContext != null && mContext instanceof Activity) {
             application.addActivity((Activity) mContext);
@@ -251,31 +216,11 @@ public abstract class FragActBase extends SwipeBackActivity {
             mContext = this;
         }
         ToastUtils.changeContext(mContext);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            Window window = getWindow();
-//            // Translucent status bar
-//            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-//                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-////            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-////             Translucent navigation bar
-//            window.setFlags(
-//                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
-//                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        }
-//        StateBarController.getInstance().setStateGone(this);
-        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
-        if (swipeBackLayout != null) {
-            swipeBackLayout.setEnableGesture(true);
-            swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
-        }
 
     }
 
     protected void setSwipeEnable(boolean enable) {
-        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
-        if (swipeBackLayout != null) {
-            swipeBackLayout.setEnableGesture(enable);
-        }
+
     }
 
     public void showLoading() {
@@ -330,26 +275,6 @@ public abstract class FragActBase extends SwipeBackActivity {
         EventBusWraper.getInstance().unregister(mContext);
         super.onDestroy();
     }
-
-    @Receiver(actions = {ConnectivityManager.CONNECTIVITY_ACTION})
-    public void receivedConnectivity(Intent intent) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info != null && info.isAvailable()) {
-            String name = info.getTypeName();
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    ExceptionHandler.getInstanceMyExceptionHandler(getApplicationContext())
-                            .sendErrorLogFromSdcard();
-                }
-            }.start();
-
-        } else {
-        }
-    }
-
 
     /**
      * 打开指定的Activity页面
@@ -585,10 +510,6 @@ public abstract class FragActBase extends SwipeBackActivity {
         MobclickAgent.onPause(this);
     }
 
-    // @Override
-    // public void onBackPressed() {
-    // // SjcjActivity.isCollected = false;
-    // }
 
     protected void switchContent(Fragment fragment) {
         if (mContent != fragment) {
