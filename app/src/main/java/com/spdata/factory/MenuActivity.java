@@ -38,7 +38,6 @@ public class MenuActivity extends FragActBase {
 
     @Override
     protected void initTitlebar() {
-
     }
 
     private CommonAdapter<ListItem> adapter;
@@ -101,17 +100,7 @@ public class MenuActivity extends FragActBase {
     private final static int ACTION_INTENET = 52;//RJ45网线接口测试
     private final static int ACTION_GPIOS = 53;//tc01 主板gpio测试
     private final static int ACTION_485 = 54;//tc01 485测试
-    private String[] meneList = {"版本信息", "休眠唤醒", "按键", "屏幕显示", "触屏",
-            "亮度调节", "小屏幕", "指示灯", "SD卡", "SIM卡",
-            "后置相机/闪光灯", "手电筒", "前置相机", "喇叭", "扫描",
-            "耳机MIC", "主机MIC", "wifi", "蓝牙", "GPS",
-            "NFC", "USB", "OTG", "有线充电", "加速传感器",
-            "光感", "打电话", "EEPROM", "外置GPS", "激光",
-            "振动器", "电子罗盘", "听筒", "虹膜摄像头", "PSAM",
-            "指纹", "无线充电", "多点触摸", "气压计", "重力感应"
-            , "U盘", "磁吸附充电", "串口孔", "高频RFID", "超高频UHF",
-            "气体传感器", "矿灯摄像头", "触点检测", "导出测试结果", "ID2",
-            "清除测试记录", "RS232串口", "RJ45网线接口测试", "GPIO测试", "485测试"};
+    private String[] meneList = null;
     private String nulls[] = new String[0];
     private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
     private String wifi[] = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_WIFI_STATE"};
@@ -143,9 +132,9 @@ public class MenuActivity extends FragActBase {
         }
         //导出Excel表格
         Map<String, String> titleMap = new LinkedHashMap<String, String>();
-        titleMap.put("num", "序号");
-        titleMap.put("name", "测试项");
-        titleMap.put("content", "状态");
+        titleMap.put("num", getResources().getString(R.string.Excle_title));
+        titleMap.put("name", getResources().getString(R.string.Excle_title2));
+        titleMap.put("content", getResources().getString(R.string.Excle_title3));
         TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         ExcelUtil.excelExport(MenuActivity.this, list, titleMap, "Factory-" + mgr.getDeviceId());
     }
@@ -187,8 +176,8 @@ public class MenuActivity extends FragActBase {
                     "26", "30", "31", "32", "34", "37", "39", "50", "48"};
         } else if (model.equals("X300Q") || model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                 model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
-            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
-                    "14", "15", "16", "17", "18", "19", "21", "22", "23", "24", "25", "26",
+            strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10", "11",
+                    "15", "16", "17", "18", "21", "22", "23", "24", "25", "26",
                     "28", "29", "30", "32", "31", "37", "38", "39", "50", "48"};
         } else if (model.equals("H500A")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
@@ -512,7 +501,7 @@ public class MenuActivity extends FragActBase {
                 openAct(SleepWakeAct.class);
                 break;
             case ACTION_DISPLAY:
-                openAct(DisplayTest.class);
+                openAct(DisplayTestAct.class);
                 break;
             case ACTION_USB:
                 openAct(USBAct.class);
@@ -535,7 +524,7 @@ public class MenuActivity extends FragActBase {
                 break;
             case ACTION_TOUCH_SCREEN:
 //                if (model.equals("N80") || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("S1")) {
-                openAct(TsHandWriting.class);
+                openAct(TsHandWritingAct.class);
 //                } else {
 //                    openAct(TouchTest.class);
 //                }
@@ -832,6 +821,17 @@ public class MenuActivity extends FragActBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         initView();
+        meneList = new String[]{getResources().getString(R.string.menu_version), getResources().getString(R.string.menu_sleep_wake), getResources().getString(R.string.menu_button), getResources().getString(R.string.menu_display), getResources().getString(R.string.menu_touch_screen),
+                getResources().getString(R.string.menu_light), getResources().getString(R.string.menu_small_screen), getResources().getString(R.string.menu_indicator_light), getResources().getString(R.string.menu_sdcard), getResources().getString(R.string.menu_simcard),
+                getResources().getString(R.string.menu_background_camera), getResources().getString(R.string.menu_flash_light), getResources().getString(R.string.menu_front_camera), getResources().getString(R.string.menu_bell), getResources().getString(R.string.menu_scan),
+                getResources().getString(R.string.menu_erji_mic), getResources().getString(R.string.menu_phone_mic), getResources().getString(R.string.menu_wifi), getResources().getString(R.string.menu_bluetooth), getResources().getString(R.string.menu_gps),
+                getResources().getString(R.string.menu_nfc), getResources().getString(R.string.menu_usb), getResources().getString(R.string.menu_otg), getResources().getString(R.string.menu_charge), getResources().getString(R.string.menu_gsensor),
+                getResources().getString(R.string.menu_light_sensor), getResources().getString(R.string.menu_call_phone), getResources().getString(R.string.menu_eeprom), getResources().getString(R.string.menu_expan_gps), getResources().getString(R.string.menu_laser),
+                getResources().getString(R.string.menu_vibrate), getResources().getString(R.string.menu_compass_sensor), getResources().getString(R.string.menu_spk), getResources().getString(R.string.menu_ris_camera), getResources().getString(R.string.menu_ris_psam),
+                getResources().getString(R.string.menu_finger), getResources().getString(R.string.menu_notline_charge), getResources().getString(R.string.menu_touch_mor), getResources().getString(R.string.menu_barometer), getResources().getString(R.string.menu_zhongli)
+                , getResources().getString(R.string.menu_usbplate), getResources().getString(R.string.menu_maglev), getResources().getString(R.string.menu_serialport), getResources().getString(R.string.menu_rfid), getResources().getString(R.string.menu_uhf),
+                getResources().getString(R.string.menu_gas_sensor), getResources().getString(R.string.menu_camera_usb), getResources().getString(R.string.menu_expand), getResources().getString(R.string.menu_export), getResources().getString(R.string.menu_id2),
+                getResources().getString(R.string.menu_reset), getResources().getString(R.string.menu_rs232), getResources().getString(R.string.menu_rj45), getResources().getString(R.string.menu_gpio), getResources().getString(R.string.menu_test485)};
         //强制在线更新
 //        UpdateVersion updateVersion = new UpdateVersion(mContext);
 //        updateVersion.startUpdate();

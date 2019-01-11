@@ -30,7 +30,7 @@ public class SleepWakeAct extends FragActBase implements View.OnClickListener {
         initView();
         initTitlebar();
         setSwipeEnable(false);
-        tvInfor.setText("请按下休眠按键\n");
+        tvInfor.setText(getResources().getString(R.string.SleepWakeAct_msg));
     }
 
     @Override
@@ -41,23 +41,23 @@ public class SleepWakeAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "休眠唤醒测试", null);
+        }, R.string.menu_sleep_wake, null);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        tvInfor.append("挂起\n");
+        count++;
     }
+
     private int count = 0;
 
     @Override
     protected void onResume() {
         super.onResume();
         if (count == 0) {
-            tvInfor.setText("请按下休眠按键\n");
+            tvInfor.setText(getResources().getString(R.string.SleepWakeAct_msg));
         } else {
-            tvInfor.append("已经唤醒\n");
             setXml(App.KEY_SLEEP_WAKE, App.KEY_FINISH);
             finish();
         }

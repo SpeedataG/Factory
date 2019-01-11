@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,28 +12,29 @@
         android:layout_height="wrap_content" />
 
 
-        <LinearLayout
-            style="@style/main_button"
-            android:layout_width="fill_parent"
+    <LinearLayout
+        style="@style/main_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:textSize="20sp"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/white"
-                android:text="请进行屏幕亮度测试"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <SeekBar
-                android:id="@+id/search_bar"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/LightAct_msg"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <SeekBar
+            android:id="@+id/search_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -51,9 +51,9 @@
 
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
-            android:textSize="@dimen/commom_textsize"/>
+            android:textSize="@dimen/commom_textsize" />
 
         <Button
             android:id="@+id/btn_not_pass"
@@ -63,9 +63,9 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
-            android:textSize="@dimen/commom_textsize"/>
+            android:textSize="@dimen/commom_textsize" />
     </LinearLayout>
 
 

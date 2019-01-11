@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'android-apt'
 
 //获取时间戳
 static def getDate() {
@@ -16,10 +15,6 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
     compileSdkVersion 27
-//    buildToolsVersion '28.0.3'
-//    dexOptions {
-//        javaMaxHeapSize "4g"
-//    }
     defaultConfig {
         ndk {
             abiFilters "armeabi"
@@ -37,11 +32,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_7
-//        targetCompatibility JavaVersion.VERSION_1_7
-//        incremental false
-//    }
 
 }
 
@@ -66,10 +56,6 @@ dependencies {
     //6.0获取权限
     implementation 'com.yanzhenjie:permission:1.1.2'
     implementation 'com.alibaba:fastjson:1.2.54'
-    // @Ectivity注解
-//    implementation 'org.androidannotations:androidannotations-api:4.1.0'
-//    implementation 'me.imid.swipebacklayout.lib:library:1.0.0'
-//    annotationProcessor 'org.androidannotations:androidannotations:4.1.0'
 }
 
 

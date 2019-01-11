@@ -233,9 +233,9 @@ public class TouchTest extends Activity {
 
     private void checkDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle(R.string.display)
+                .setTitle("查看")
                 .setMessage("请确认屏幕是否正常")
-                .setNegativeButton(R.string.successed, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.btn_success, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -244,7 +244,7 @@ public class TouchTest extends Activity {
                         TouchTest.this.finish();
                     }
                 })
-                .setPositiveButton(R.string.failed, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.btn_fail, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -16,8 +16,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
 
@@ -67,11 +67,11 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
             android:layout_weight="1"
-            android:visibility="gone"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
-            android:textSize="@dimen/commom_textsize" />
+            android:textSize="@dimen/commom_textsize"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_not_pass"
@@ -81,7 +81,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>

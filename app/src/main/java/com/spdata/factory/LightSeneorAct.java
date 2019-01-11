@@ -46,7 +46,7 @@ public class LightSeneorAct extends FragActBase implements View.OnClickListener 
             public void onClick(View v) {
                 finish();
             }
-        }, "光感测试", null);
+        }, getResources().getString(R.string.menu_light_sensor), null);
     }
 
 
@@ -128,7 +128,7 @@ public class LightSeneorAct extends FragActBase implements View.OnClickListener 
             float acc = event.accuracy;
             // 获取光线强度
             float lux = event.values[0];
-            tvInfor.setText("请用手遮挡光感区，光感值变化为正常 " + "\n\n" + "光线强度：" + lux + "\n");
+            tvInfor.setText(getResources().getString(R.string.LightSeneorAct_msg) + lux + "\n");
         }
     }
 
@@ -145,9 +145,9 @@ public class LightSeneorAct extends FragActBase implements View.OnClickListener 
             float pro = event.values[0];
             sbpro.setLength(0);
             if (pro == 0.0) {
-                sbpro.append("距离传感器数值：接近" + pro);
+                sbpro.append(getResources().getString(R.string.LightSeneorAct_msg2) + pro);
             } else {
-                sbpro.append("距离传感器数值：离开" + pro);
+                sbpro.append(getResources().getString(R.string.LightSeneorAct_msg3) + pro);
             }
             sbpro.append("\n");
             tvInfors.setText(sbpro.toString());

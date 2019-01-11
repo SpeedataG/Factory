@@ -39,7 +39,7 @@ public class ScanAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "扫描测试", null);
+        }, getResources().getString(R.string.menu_scan), null);
     }
 
     Timer timer;
@@ -120,8 +120,8 @@ public class ScanAct extends FragActBase implements View.OnClickListener {
         scanUtil.setOnScanListener(new ScanUtil.OnScanListener() {
             @Override
             public void getBarcode(String data) {
-                new AlertDialog.Builder(mContext).setMessage("扫描到的数据:" + data).setTitle("成功")
-                        .setPositiveButton("成功", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(mContext).setMessage(getResources().getString(R.string.ScanAct_dialog_msg) + data).setTitle(getResources().getString(R.string.btn_fail))
+                        .setPositiveButton(getResources().getString(R.string.btn_success), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 setXml(App.KEY_SCAN, App.KEY_FINISH);
@@ -159,40 +159,6 @@ public class ScanAct extends FragActBase implements View.OnClickListener {
         Intent Barcodeintent = new Intent();
         Barcodeintent.setPackage("com.geomobile.oemscanservice");
         mContext.stopService(Barcodeintent);
-    }
-
-    /**
-     * 判断快捷扫描是否勾选 不勾选跳转到系统设置中进行设置
-     */
-    private void judgePropert() {
-        result = SystemProperties.get("persisy.sys.scankeydisable", "true");
-//        SystemProperties.set("persist.sys.keyreport", "true");
-        if (result.equals("false")) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.key_test_back_title)
-                    .setMessage(R.string.action_dialog_setting_config)
-                    .setPositiveButton(
-                            R.string.action_dialog_setting_config_sure_go,
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                                    startActivityForResult(intent, 1);
-                                }
-                            })
-                    .setNegativeButton(R.string.action_exit_cancel,
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    finish();
-                                }
-                            }
-                    ).show();
-        }
     }
 
     private void initView() {

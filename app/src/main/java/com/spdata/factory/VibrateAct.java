@@ -39,11 +39,10 @@ public class VibrateAct extends FragActBase implements View.OnClickListener {
         initTitlebar();
         //获得系统的Vibrator实例:
         myVibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
-        if (myVibrator.hasVibrator()) {
-            titlebar.setAttrs("当前设备无振动器");
+        if (!myVibrator.hasVibrator()) {
+            titlebar.setAttrs(getResources().getString(R.string.VibrateAct_state));
         }
-        titlebar.setAttrs("当前设备有振动器");
-        tv_infor.setText("振动中……");
+        tv_infor.setText(getResources().getString(R.string.VibrateAct_msg));
         myVibrator.vibrate(new long[]{100, 100, 100, 1000}, 0);
         btn_pass.setVisibility(View.GONE);
 
@@ -73,7 +72,7 @@ public class VibrateAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "震动器", null);
+        }, getResources().getString(R.string.menu_vibrate), null);
     }
 
     @Override

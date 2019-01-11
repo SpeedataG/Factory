@@ -82,7 +82,7 @@ public class IndicatorSk80LightAct extends FragActBase implements View.OnClickLi
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("指示灯测试");
+        titlebar.setAttrs(getResources().getString(R.string.menu_indicator_light));
     }
 
     @Override

@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">工厂测试</string>
+    <string name="app_name">Factory Testing</string>
 
-    <string name="btn_success">成功</string>
-    <string name="btn_fail">失败</string>
+    <string name="btn_success">success</string>
+    <string name="btn_fail">failed</string>
     <!--menuactivity and titlebar-->
-    <string name="menu_version">版本信息</string>
-    <string name="menu_sleep_wake">休眠唤醒</string>
-    <string name="menu_button">按键</string>
+    <string name="menu_version">Version Info</string>
+    <string name="menu_sleep_wake">Sleep Wake Up</string>
+    <string name="menu_button">Keypad</string>
     <string name="menu_display">屏幕显示</string>
     <string name="menu_touch_screen">触屏</string>
     <string name="menu_light">亮度调节</string>
@@ -60,9 +60,9 @@
     <string name="menu_gpio">GPIO测试</string>
     <string name="menu_test485">485测试</string>
     <!--VersionAct-->
-    <string name="VersionAct_modle">型号:</string>
-    <string name="VersionAct_system_num">系统版本号:</string>
-    <string name="VersionAct_apk_num">APK版本号:</string>
+    <string name="VersionAct_modle">Version:</string>
+    <string name="VersionAct_system_num">System Version:</string>
+    <string name="VersionAct_apk_num">APK Version:</string>
     <!--SleepWakeAct-->
     <string name="SleepWakeAct_msg">请按下休眠按键</string>
 

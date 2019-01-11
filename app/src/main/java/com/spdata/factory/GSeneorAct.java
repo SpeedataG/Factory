@@ -60,7 +60,7 @@ public class GSeneorAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "加速传感器测试", null);
+        }, getResources().getString(R.string.menu_gsensor), null);
     }
 
 
@@ -79,7 +79,7 @@ public class GSeneorAct extends FragActBase implements View.OnClickListener {
         initView();
         initTitlebar();
         setSwipeEnable(false);
-        tv_infor.setText("请上下左右移动设备，观察x、y、z变化\n");
+        tv_infor.setText(getResources().getString(R.string.GSeneorAct_msg));
         //创建一个SensorManager来获取系统的传感器服务
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         //选取加速度感应器
@@ -137,7 +137,7 @@ SENSOR_DELAY_UI：匹配用户接口
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             change = 1;
             setXml(App.KEY_G_SENSOR, App.KEY_FINISH);
-            showToast("加速传感器正常!");
+            showToast(getResources().getString(R.string.GSeneorAct_state));
             finish();
         }
 
@@ -186,7 +186,7 @@ SENSOR_DELAY_UI：匹配用户接口
                         tv_z.addTextChangedListener(textWatcher);
                     } else {
                         setXml(App.KEY_G_SENSOR, App.KEY_UNFINISH);
-                        showToast("加速传感器不正常！");
+                        showToast(getResources().getString(R.string.GSeneorAct_state2));
                         finish();
                     }
                 }

@@ -315,7 +315,7 @@ public class GPSTest extends Activity {
 		super.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.test_gps);
 		CustomTitlebar customTitlebar= (CustomTitlebar) findViewById(R.id.titlebar);
-		customTitlebar.setAttrs("GPS测试");
+		customTitlebar.setAttrs(getResources().getString(R.string.menu_gps));
 		Button btn_success= (Button) findViewById(R.id.btn_pass);
 		Button btn_failed= (Button) findViewById(R.id.btn_not_pass);
 		btn_failed.setOnClickListener(new View.OnClickListener() {

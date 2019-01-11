@@ -50,9 +50,9 @@ public class MultitouchVisible extends Activity {
                     remind(task);
                     if (count != 0 && is == true) {
                         is = false;
-                        builder.setTitle("提示")
+                        builder.setTitle("")
                                 .setPositiveButton
-                                        ("成功", new DialogInterface.OnClickListener() {
+                                        (getResources().getString(R.string.btn_success), new DialogInterface.OnClickListener() {
 
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -70,7 +70,7 @@ public class MultitouchVisible extends Activity {
 //                                        remind(task)
                                         is = true;
                                     }
-                                }).setNegativeButton("失败", new DialogInterface.OnClickListener() {
+                                }).setNegativeButton(getResources().getString(R.string.btn_success), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 SharedXmlUtil.getInstance(MultitouchVisible.this).write(App
@@ -79,7 +79,7 @@ public class MultitouchVisible extends Activity {
                                 finish();
 
                             }
-                        }).setMessage("屏幕支持" + count + "个点，请选择！").setCancelable(false).show();
+                        }).setMessage(getResources().getString(R.string.MultitouchVisible_msg2) + count + getResources().getString(R.string.MultitouchVisible_msg3)).setCancelable(false).show();
                     }
                 }
             });

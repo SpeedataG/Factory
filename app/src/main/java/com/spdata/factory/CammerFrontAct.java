@@ -64,7 +64,7 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("前置摄像头测试");
+        titlebar.setAttrs(getResources().getString(R.string.menu_front_camera));
     }
 
     @Override
@@ -132,9 +132,9 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
                 || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                 || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")
                 || model.equals("DM-P80") || model.equals("SD-55")) {
-            titlebar.setAttrs("请先打开前置补关灯");
+            titlebar.setAttrs(getResources().getString(R.string.camera_title7));
         } else {
-            titlebar.setAttrs("请点击拍照按钮进行拍照！");
+            titlebar.setAttrs(getResources().getString(R.string.camera_title8));
             btnLight.setVisibility(View.GONE);
         }
     }
@@ -220,7 +220,7 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
         }
         cammeraIndex = FindFrontCamera();
         if (cammeraIndex == -1) {
-            showToast("无前置摄像头");
+            showToast(getResources().getString(R.string.camera_msg));
             finish();
             return;
         } else {
@@ -309,8 +309,8 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
                         e.printStackTrace();
                     }
 //            onAutoFocus(isClicked, myCamera);
-                    titlebar.setTitlebarNameText("拍照成功！");
-                    btnPass.setText("成功");
+                    titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title4));
+                    btnPass.setText(getResources().getString(R.string.camera_btn3));
                     count++;
                 } else if (count == 1) {
                     setXml(App.KEY_CAMMAR_FRONT, App.KEY_FINISH);
@@ -323,10 +323,10 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
                     Camera.Parameters parameters = myCamera.getParameters();
                     parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
                     myCamera.setParameters(parameters);
-                    titlebar.setAttrs("请点击拍照按钮进行拍照！");
+                    titlebar.setAttrs(getResources().getString(R.string.camera_title8));
                     light = 1;
                 } else if (light == 1) {
-                    titlebar.setAttrs("请先打开前置补关灯");
+                    titlebar.setAttrs(getResources().getString(R.string.camera_title7));
                     //关闭闪光灯
                     Camera.Parameters parameters = myCamera.getParameters();
                     parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);

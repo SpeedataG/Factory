@@ -24,7 +24,7 @@ public class AbInnerUtil {
         if (clazz.getCanonicalName().endsWith("_")) {
             return clazz;
         }
-        String name = clazz.getCanonicalName() + "_";
+        String name = clazz.getCanonicalName();
         try {
             Class result = Class.forName(name);
             return result;

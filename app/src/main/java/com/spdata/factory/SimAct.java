@@ -63,24 +63,24 @@ public class SimAct extends FragActBase implements View.OnClickListener {
                 || Build.MODEL.equals("CT") || model.equals("TC01") || model.equals("X300Q")) {
             tvInfor.setText("IMEI:" + imeiSIM1 + "\n");
             if (isCanUseSim()) {
-                tvInfor.append("SIM卡存在");
+                tvInfor.append(getResources().getString(R.string.SimAct_on) );
             } else {
-                tvInfor.setText("SIM不存在");
+                tvInfor.setText(getResources().getString(R.string.SimAct_off));
             }
         } else {
             if (isSIM1Ready) {
-                tvInfor.append("sim1:存在\n");
+                tvInfor.append(getResources().getString(R.string.SimAct_on1));
             } else {
-                tvInfor.append("sim1:不存在\n");
+                tvInfor.append(getResources().getString(R.string.SimAct_off1));
             }
             if (isSIM2Ready) {
-                tvInfor.append("sim2:存在\n");
+                tvInfor.append(getResources().getString(R.string.SimAct_on2));
             } else {
-                tvInfor.append("sim2:不存在\n");
+                tvInfor.append(getResources().getString(R.string.SimAct_off2));
             }
 
             if (!isSIM1Ready || !isSIM2Ready) {
-                titlebar.setAttrs("请插入两张SIM卡进行测试！");
+                titlebar.setAttrs(getResources().getString(R.string.SimAct_msg));
             }
         }
 
@@ -134,7 +134,7 @@ public class SimAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "SIM测试", null);
+        }, R.string.menu_simcard, null);
     }
 
     private TelephonyManager mgr;

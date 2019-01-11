@@ -36,7 +36,7 @@ public class SDCardAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "SD卡测试", null);
+        }, R.string.menu_sdcard, null);
     }
 
 
@@ -57,33 +57,33 @@ public class SDCardAct extends FragActBase implements View.OnClickListener {
         sdUtils = new SDUtils(mContext);
         String[] volumePaths = sdUtils.getVolumePaths();
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("内置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[0])
-                + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[0]));
+        stringBuffer.append(getResources().getString(R.string.SDCardAct_neizhi)  + sdUtils.getSDTotalSize(volumePaths[0])
+                + getResources().getString(R.string.SDCardAct_keyong)  + sdUtils.getSDAvailableSize(volumePaths[0]));
         tvInfor.append(stringBuffer);
         if (volumePaths.length > 1) {
-            stringBuffer.append("\n外置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[1])
-                    + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[1]));
+            stringBuffer.append(getResources().getString(R.string.SDCardAct_wai) + sdUtils.getSDTotalSize(volumePaths[1])
+                    + getResources().getString(R.string.SDCardAct_keyong) + sdUtils.getSDAvailableSize(volumePaths[1]));
             tvInfor.append(stringBuffer);
             for (int i = 0; i < volumePaths.length; i++) {
                 try {
                     sdUtils.copyBigDataToSD(volumePaths[i]);
-                    tvInfor.append("\nSDCopy文件成功");
+                    tvInfor.append(getResources().getString(R.string.SDCardAct_copy_suc));
                     yes = 1;
                 } catch (IOException e) {
                     e.printStackTrace();
                     yes = 2;
-                    tvInfor.append("\nSD卡Copy文件失败");
+                    tvInfor.append(getResources().getString(R.string.SDCardAct_copy_fa));
                 }
             }
         } else {
             try {
                 sdUtils.copyBigDataToSD(volumePaths[0]);
-                tvInfor.append("\n内置SDCopy文件成功");
+                tvInfor.append(getResources().getString(R.string.SDCardAct_copy_neisuc));
                 yes = 1;
             } catch (IOException e) {
                 e.printStackTrace();
                 yes = 2;
-                tvInfor.append("\n内置SD卡Copy文件失败");
+                tvInfor.append(getResources().getString(R.string.SDCardAct_copy_neifa));
             }
         }
         task = new remindTask();

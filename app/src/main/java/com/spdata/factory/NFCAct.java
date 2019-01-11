@@ -109,7 +109,7 @@ public class NFCAct extends FragActBase implements OnClickListener,
             public void onClick(View v) {
                 finish();
             }
-        }, "NFC测试", null);
+        }, getResources().getString(R.string.menu_nfc), null);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class NFCAct extends FragActBase implements OnClickListener,
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
             setXml(App.KEY_NFC, App.KEY_UNFINISH);
-            showToast("NFC不可用！");
+            showToast(getResources().getString(R.string.nfc_toast_msg));
             finish();
         }
         pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,

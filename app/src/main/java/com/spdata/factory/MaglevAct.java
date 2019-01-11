@@ -41,7 +41,7 @@ public class MaglevAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("磁吸附充电");
+        titlebar.setAttrs(getResources().getString(R.string.menu_maglev) );
     }
 
 
@@ -125,22 +125,22 @@ public class MaglevAct extends FragActBase implements View.OnClickListener {
                     Log.i("sss", count + "");
                     switch (count) {
                         case 1:
-                            tvVersionInfor.setText("电池状态：Full(已满)，换块电池重新试下");
+                            tvVersionInfor.setText(getResources().getString(R.string.ChangeAct_full) );
                             break;
                         case 2:
                             first();
-                            tvVersionInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000.0 + "V");
-                            tvVersionInfor.append("\n电池温度：" + Integer.parseInt(battTempFile) / 10.0 + "℃");
+                            tvVersionInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000.0 + "V");
+                            tvVersionInfor.append(getResources().getString(R.string.ChangeAct_dian_c) + Integer.parseInt(battTempFile) / 10.0 + "℃");
                             try {
-                                tvVersionInfor.append("\n充电电流：" + readCurrentFile(new File(CHARGER_CURRENT_NOW)) + " mA");
+                                tvVersionInfor.append(getResources().getString(R.string.ChangeAct_dian_i) + readCurrentFile(new File(CHARGER_CURRENT_NOW)) + " mA");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            titlebar.setAttrs("正在充电");
+                            titlebar.setAttrs(getResources().getString(R.string.ChangeAct_state5));
                             break;
                         case 3:
-                            tvVersionInfor.setText("电池未充电，请连接磁吸附充电线！");
-                            titlebar.setAttrs("磁吸附充电");
+                            tvVersionInfor.setText(getResources().getString(R.string.ChangeAct_state7));
+                            titlebar.setAttrs(getResources().getString(R.string.ChangeAct_state8));
                             break;
                         case 0:
                             break;
@@ -180,9 +180,9 @@ public class MaglevAct extends FragActBase implements View.OnClickListener {
             int AC = inputStreamReader.read();
             inputStreamReader.close();
             if (AC == 49) {
-                tvVersionInfor.setText("\n直流电源充电");
+                tvVersionInfor.setText(getResources().getString(R.string.ChangeAct_state3));
             } else if (AC == 48) {
-                tvVersionInfor.setText("\n非直流电源充电");
+                tvVersionInfor.setText(getResources().getString(R.string.ChangeAct_state4));
             }
 
             InputStream usb = new FileInputStream("sys/class/power_supply/usb/online");
@@ -190,9 +190,9 @@ public class MaglevAct extends FragActBase implements View.OnClickListener {
             int USB = inputStreamReaderUsb.read();
             inputStreamReaderUsb.close();
             if (USB == 49) {
-                tvVersionInfor.append("\nUSB充电,请接入磁吸附充电器");
+                tvVersionInfor.append(getResources().getString(R.string.ChangeAct_state9));
             } else if (USB == 48) {
-                tvVersionInfor.append("\n磁吸附充电");
+                tvVersionInfor.append(getResources().getString(R.string.ChangeAct_state8));
             }
         } catch (IOException e) {
             e.printStackTrace();

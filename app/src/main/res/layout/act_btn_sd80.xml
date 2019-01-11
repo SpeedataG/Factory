@@ -15,22 +15,24 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/btn_down"
                 android:layout_width="130dp"
-                android:layout_marginRight="10sp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10sp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
                 android:text="VOLUME_DOWN" />
+
             <Button
                 android:id="@+id/btn_up"
                 android:layout_width="130dp"

@@ -103,7 +103,7 @@ public class SpeakerAct extends FragActBase implements SeekBar.OnSeekBarChangeLi
             public void onClick(View v) {
                 finish();
             }
-        }, "听筒测试", null);
+        }, getResources().getString(R.string.menu_spk), null);
     }
 
     AudioManager audioManager;

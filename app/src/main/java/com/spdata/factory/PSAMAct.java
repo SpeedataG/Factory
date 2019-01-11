@@ -55,9 +55,8 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "PSAM测试", null);
+        }, getResources().getString(R.string.menu_ris_psam), null);
     }
-
 
     //获取psam实例
     IPsam psamIntance = PsamManager.getPsamIntance();

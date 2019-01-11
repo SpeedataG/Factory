@@ -44,7 +44,7 @@ public class OTGAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "OTG测试", null);
+        }, getResources().getString(R.string.menu_otg), null);
     }
 
 
@@ -110,7 +110,7 @@ public class OTGAct extends FragActBase implements View.OnClickListener {
                         inputStreamReader.close();
                         if (len == 49) {
                             if (getApiVersion() >= 23) {
-                                tvInfor.setText("OTG模式\n");
+                                tvInfor.setText(getResources().getString(R.string.otg_msg));
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -138,9 +138,9 @@ public class OTGAct extends FragActBase implements View.OnClickListener {
                                 final String availableSize = Formatter.formatFileSize(mContext, availableBlocks * blockSize);
 //                            tvInfor.setText("OTG模式\n"+getUSBStorage(mContext));
                                 if (usedSize.equals("0.00B") && availableSize.equals("0.00B")) {
-                                    tvInfor.setText("读取中……");
+                                    tvInfor.setText(getResources().getString(R.string.otg_msg2));
                                 } else {
-                                    tvInfor.setText("OTG模式\n" + "已用空间：" + usedSize + "\n可用空间：" + availableSize);
+                                    tvInfor.setText(getResources().getString(R.string.otg_msg) + getResources().getString(R.string.otg_msg3) + usedSize + getResources().getString(R.string.otg_msg4) + availableSize);
 
                                     new Thread(new Runnable() {
                                         @Override
@@ -162,7 +162,7 @@ public class OTGAct extends FragActBase implements View.OnClickListener {
                                 }
                             }
                         } else if (len == 48) {
-                            tvInfor.setText("非OTG模式\n" + "请插入USB OTG并连接U盘");
+                            tvInfor.setText(getResources().getString(R.string.otg_msg5));
                         } else {
                             tvInfor.append("bs0=" + len + "\n");
                         }
@@ -190,7 +190,7 @@ public class OTGAct extends FragActBase implements View.OnClickListener {
     }
 
     //获得挂载的USB设备的存储空间使用情况
-    public static String getUSBStorage(Context context) {
+    public String getUSBStorage(Context context) {
         // USB Storage
         //storage/usbotg为USB设备在Android设备上的挂载路径.不同厂商的Android设备路径不同。
         //这样写同样适合于SD卡挂载。
@@ -201,7 +201,7 @@ public class OTGAct extends FragActBase implements View.OnClickListener {
         long availableBlocks = stat.getAvailableBlocks();
         String usedSize = Formatter.formatFileSize(context, (totalBlocks - availableBlocks) * blockSize);
         String availableSize = Formatter.formatFileSize(context, availableBlocks * blockSize);
-        return "已用空间：" + usedSize + "\n可用空间：" + availableSize;//空间:已使用/可用的
+        return getResources().getString(R.string.otg_msg3) + usedSize + getResources().getString(R.string.otg_msg4) + availableSize;//空间:已使用/可用的
     }
 
     @Override
@@ -210,8 +210,4 @@ public class OTGAct extends FragActBase implements View.OnClickListener {
         finishTimer();
     }
 
-    private void init() {
-        tvInfor.setText("插入USB OTG转接的U盘\n");
-        tvInfor.append("插入后点击下一步\n");
-    }
 }

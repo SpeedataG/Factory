@@ -36,7 +36,7 @@ public class LightAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "屏幕亮度测试", null);
+        }, R.string.menu_light, null);
     }
 
 

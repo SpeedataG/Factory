@@ -59,7 +59,7 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "有线充电测试", null);
+        }, getResources().getString(R.string.menu_charge), null);
     }
 
     @Override
@@ -173,28 +173,28 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
                     Log.i("sss", count + "");
                     switch (count) {
                         case 1:
-                            tvInfor.setText("电池状态：Full(已满)，换块电池重新试下");
+                            tvInfor.setText(getResources().getString(R.string.ChangeAct_full));
                             break;
                         case 2:
                             first();
                             if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60")) {
-                                tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000000.0 + "V");
+                                tvInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000000.0 + "V");
                             } else {
-                                tvInfor.append("\n电池电压：" + Integer.parseInt(battVoltFile) / 1000.0 + "V");
+                                tvInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000.0 + "V");
 
                             }
-                            tvInfor.append("\n电池温度：" + Integer.parseInt(battTempFile) / 10.0 + "℃");
+                            tvInfor.append(getResources().getString(R.string.ChangeAct_dian_c) + Integer.parseInt(battTempFile) / 10.0 + "℃");
 //                            try {
 //                                tvInfor.append("\n充电电流：" + readCurrentFile(new File(CHARGER_CURRENT_NOW)) + " mA");
 //                            } catch (IOException e) {
 //                                e.printStackTrace();
 //                            }
-                            tvInfor.append("\n充电电流：" + bufferRead() + " mA");
-                            titlebar.setAttrs("正在充电");
+                            tvInfor.append(getResources().getString(R.string.ChangeAct_dian_i) + bufferRead() + " mA");
+                            titlebar.setAttrs(getResources().getString(R.string.ChangeAct_state5));
                             break;
                         case 3:
-                            tvInfor.setText("电池未充电，请连接充电器！");
-                            titlebar.setAttrs("有线充电测试");
+                            tvInfor.setText(getResources().getString(R.string.ChangeAct_state6));
+                            titlebar.setAttrs(getResources().getString(R.string.ChangeAct_state5));
                             break;
                         case 0:
 
@@ -225,9 +225,9 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
             int AC = inputStreamReader.read();
             inputStreamReader.close();
             if (AC == 49) {
-                tvInfor.setText("\n直流电源充电");
+                tvInfor.setText(getResources().getString(R.string.ChangeAct_state3));
             } else if (AC == 48) {
-                tvInfor.setText("\n非直流电源充电");
+                tvInfor.setText(getResources().getString(R.string.ChangeAct_state4));
             }
 
             InputStream usb = new FileInputStream("sys/class/power_supply/usb/online");
@@ -235,9 +235,9 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
             int USB = inputStreamReaderUsb.read();
             inputStreamReaderUsb.close();
             if (USB == 49) {
-                tvInfor.append("\nUSB充电");
+                tvInfor.append(getResources().getString(R.string.ChangeAct_state));
             } else if (USB == 48) {
-                tvInfor.append("\n非USB充电");
+                tvInfor.append(getResources().getString(R.string.ChangeAct_state2));
             }
         } catch (IOException e) {
             e.printStackTrace();

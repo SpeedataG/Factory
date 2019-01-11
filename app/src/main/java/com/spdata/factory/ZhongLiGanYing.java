@@ -81,7 +81,7 @@ public class ZhongLiGanYing extends FragActBase implements View.OnClickListener 
             public void onClick(View v) {
                 finish();
             }
-        }, "观察xyz数值变化与小球轨迹", null);
+        }, getResources().getString(R.string.ZhongLiGanYing_title) , null);
     }
 
 
@@ -271,9 +271,9 @@ public class ZhongLiGanYing extends FragActBase implements View.OnClickListener 
                 mCanvas.drawBitmap(mbitmapBall, mPosX, mPosY, mPaint);
                 /** X轴 Y轴 Z轴的重力值 **/
 
-                mCanvas.drawText("X轴重力值 ：" + mGX, 0, 20, mPaint);
-                mCanvas.drawText("Y轴重力值 ：" + mGY, 0, 40, mPaint);
-                mCanvas.drawText("Z轴重力值 ：" + mGZ, 0, 60, mPaint);
+                mCanvas.drawText(getResources().getString(R.string.ZhongLiGanYing_x) + mGX, 0, 20, mPaint);
+                mCanvas.drawText(getResources().getString(R.string.ZhongLiGanYing_y)  + mGY, 0, 40, mPaint);
+                mCanvas.drawText(getResources().getString(R.string.ZhongLiGanYing_z)  + mGZ, 0, 60, mPaint);
                 Log.d("1111", "2222");
             }
         }

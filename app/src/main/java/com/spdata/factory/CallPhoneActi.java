@@ -41,7 +41,7 @@ public class CallPhoneActi extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setTitlebarNameText("打电话测试");
+        titlebar.setTitlebarNameText(getResources().getString(R.string.menu_call_phone));
     }
 
     private void initView() {

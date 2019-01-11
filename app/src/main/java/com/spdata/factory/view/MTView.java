@@ -1,7 +1,6 @@
 package com.spdata.factory.view;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,11 +8,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.spdata.factory.MultitouchVisible;
-
-import common.utils.SharedXmlUtil;
-
-import static android.R.attr.key;
+import com.spdata.factory.R;
 
 public class MTView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -77,7 +72,7 @@ public class MTView extends SurfaceView implements SurfaceHolder.Callback {
             c.drawColor(Color.BLACK);
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 // 当手离开屏幕时，清屏
-                pointerCount=0;
+                pointerCount = 0;
             } else {
                 // 在每一个触点上绘制一个十字和坐标信息
                 for (int i = 0; i < pointerCount; i++) {
@@ -149,15 +144,17 @@ public class MTView extends SurfaceView implements SurfaceHolder.Callback {
         if (c != null) {
             // 背景黑色
             c.drawColor(Color.BLACK);
-            float tWidth = textPaint.measureText(START_TEXT);
-            c.drawText(START_TEXT, width / 2 - tWidth / 2, height / 2, textPaint);
+            float tWidth = textPaint.measureText(getResources().getString(R.string.MultitouchVisible_msg));
+            c.drawText(getResources().getString(R.string.MultitouchVisible_msg), width / 2 - tWidth / 2, height / 2, textPaint);
             getHolder().unlockCanvasAndPost(c);
         }
     }
 
+    @Override
     public void surfaceCreated(SurfaceHolder holder) {
     }
 
+    @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
     }
 }

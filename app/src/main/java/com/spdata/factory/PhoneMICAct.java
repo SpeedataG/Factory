@@ -101,7 +101,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "主机MIC测试", null);
+        }, getResources().getString(R.string.menu_phone_mic), null);
 
     }
 
@@ -114,7 +114,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
         setSwipeEnable(false);
         btnPlay.setOnClickListener(this);
         btnPlay.setEnabled(false);
-        tvInfor.setText("请点击开始录音按钮进行录音");
+        tvInfor.setText(getResources().getString(R.string.sound_phonemsg));
         btnSoundRecording.setText(getResources().getString(R.string.sound_start_record));
         btnSoundRecording.setOnClickListener(this);
         btnPlay.setText(getResources().getString(R.string.sound_play));

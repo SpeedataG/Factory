@@ -106,6 +106,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         initView();
         initTitlebar();
         setSwipeEnable(false);
+        tvInfor.setText(getResources().getString(R.string.sound_ermsg));
         context = this;
 
     }
@@ -164,7 +165,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "耳机MIC测试", null);
+        }, getResources().getString(R.string.menu_erji_mic), null);
     }
 
     @Override
@@ -348,19 +349,19 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
                     if (player != null) {
                         player.cancel(true);
                     }
-                    Toast.makeText(context, "未连接耳机", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, getResources().getString(R.string.sound_er_tosast), Toast.LENGTH_LONG).show();
                     btnSoundRecording.setEnabled(false);
                     btnPlay.setEnabled(false);
                 } else if (intent.getIntExtra("state", 0) == 1) { //耳机插入
                     if (intent.getIntExtra("microphone", 0) == 0) {
                         //无mic
-                        Toast.makeText(context, "耳机已插入,无麦克风", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, getResources().getString(R.string.sound_er_tosast2), Toast.LENGTH_LONG).show();
                         setXml(App.KEY_EIJI_MIC, App.KEY_UNFINISH);
                         finish();
                     } else if (intent.getIntExtra("microphone", 0) == 1) {
-                        Toast.makeText(context, "耳机已插入,有麦克风",
+                        Toast.makeText(context, getResources().getString(R.string.sound_er_tosast3),
                                 Toast.LENGTH_LONG).show();
-                        tvInfor.setText("耳机已插入,有麦克风\n请点击开始录音按钮进行录音");
+                        tvInfor.setText(getResources().getString(R.string.sound_ermsg2));
                         btnSoundRecording.setEnabled(true);
                     }
                 }

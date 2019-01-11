@@ -50,12 +50,12 @@ public class SmallScreenAct extends FragActBase implements View.OnClickListener 
             public void onClick(View v) {
                 finish();
             }
-        }, "小屏幕测试", null);
+        }, R.string.menu_small_screen, null);
     }
 
     private void Test() {
         if (mSmallScreenManager == null) {
-            tvInfor.setText("启动服务失败");
+            tvInfor.setText(R.string.SmallScreenAct_server);
             return;
         }
 //        try {
@@ -75,17 +75,19 @@ public class SmallScreenAct extends FragActBase implements View.OnClickListener 
 //        }
 
         try {
-            mSmallScreenManager.writeGb2312Buffer("你好思必拓".getBytes("gb2312"), 10);
+
+            String msg = getResources().getString(R.string.SmallScreenAct_write_msg);
+            mSmallScreenManager.writeGb2312Buffer(msg.getBytes("gb2312"), 10);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            tvInfor.setText("写入失败");
+            tvInfor.setText(R.string.SmallScreenAct_write_faild);
         }
 
 
         tvInfor.setTextSize(30);
-        tvInfor.setText("请确认右上角小屏幕时间是否显示 你好思必拓");
+        tvInfor.setText(R.string.SmallScreenAct_write);
     }
 
     private static final String SMALL_SCREEN = "smallscreen";

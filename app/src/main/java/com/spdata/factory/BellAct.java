@@ -43,7 +43,7 @@ public class BellAct extends FragActBase implements SeekBar.OnSeekBarChangeListe
             public void onClick(View v) {
                 finish();
             }
-        }, "喇叭测试", null);
+        }, getResources().getString(R.string.menu_bell), null);
     }
 
     @Override

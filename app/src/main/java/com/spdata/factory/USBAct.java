@@ -38,12 +38,13 @@ public class USBAct extends FragActBase implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_usb);
-        initView(); initTitlebar();
+        initView();
+        initTitlebar();
         setSwipeEnable(false);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION);
         registerReceiver(usBroadcastReceiver, filter);
-        tvInfor.setText("请插入usb");
+        tvInfor.setText(getResources().getString(R.string.usb_state_msg));
     }
 
     @Override
@@ -54,9 +55,8 @@ public class USBAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
 //                finish();
             }
-        }, "USB测试", null);
+        }, getResources().getString(R.string.menu_usb), null);
     }
-
 
 
     private final int LATE = 0;
@@ -99,7 +99,7 @@ public class USBAct extends FragActBase implements View.OnClickListener {
                     is = false;
                 }
                 if (!is) {
-                    tvInfor.append("请接入USB进行测试！");
+                    tvInfor.append(getResources().getString(R.string.usb_state_msg2));
 //                    setXml(App.KEY_USB, App.KEY_UNFINISH);
 //                    finish();
                 } else {
@@ -135,10 +135,12 @@ public class USBAct extends FragActBase implements View.OnClickListener {
         switch (v.getId()) {
             default:
                 break;
-            case R.id.btn_pass:setXml(App.KEY_USB, App.KEY_FINISH);
+            case R.id.btn_pass:
+                setXml(App.KEY_USB, App.KEY_FINISH);
                 finish();
                 break;
-            case R.id.btn_not_pass:setXml(App.KEY_USB, App.KEY_UNFINISH);
+            case R.id.btn_not_pass:
+                setXml(App.KEY_USB, App.KEY_UNFINISH);
                 finish();
                 break;
         }

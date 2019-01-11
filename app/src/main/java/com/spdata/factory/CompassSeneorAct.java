@@ -41,7 +41,7 @@ public class CompassSeneorAct extends FragActBase implements SensorEventListener
             public void onClick(View v) {
                 finish();
             }
-        }, "电子罗盘测试", null);
+        }, getResources().getString(R.string.menu_compass_sensor), null);
     }
 
 

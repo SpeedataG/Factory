@@ -81,7 +81,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "Wifi测试", null);
+        }, getResources().getString(R.string.menu_wifi), null);
     }
 
 
@@ -113,7 +113,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
     private void openWifi() {
         if (!wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(true);
-            titlebar.setAttrs("wifi开启中...");
+            titlebar.setAttrs(getResources().getString(R.string.wifi_opening));
             regWifiReceiver();
             new Thread(new Runnable() {
                 @Override
@@ -126,7 +126,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            titlebar.setAttrs("wifi已开启");
+                            titlebar.setAttrs(getResources().getString(R.string.wifi_open));
                             if (wifiManager.isWifiEnabled()) {
                                 scanAndGetResult();
                             }
@@ -291,24 +291,24 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
 
         // 如果本机已经配置过的话
         if (linkWifi.IsExsits(wifiinfo.SSID) != null) {
-            showToast("WIFI连接成功");
+            showToast(getResources().getString(R.string.wifi_toast));
             setXml(App.KEY_WIFI, App.KEY_FINISH);
             finish();
             final int netID = linkWifi.IsExsits(wifiinfo.SSID).networkId;
             String actionStr;
             // 如果目前连接了此网络
             if (wifiManager.getConnectionInfo().getNetworkId() == netID) {
-                actionStr = "断开";
+                actionStr = getResources().getString(R.string.wifi_dialog_but2);
             } else {
-                actionStr = "连接";
+                actionStr = getResources().getString(R.string.wifi_dialog_but);
             }
             System.out
                     .println("wifiManager.getConnectionInfo().getNetworkId()="
                             + wifiManager.getConnectionInfo().getNetworkId());
 
             new AlertDialog.Builder(context)
-                    .setTitle("提示")
-                    .setMessage("请选择你要进行的操作？")
+                    .setTitle(getResources().getString(R.string.wifi_dialog_title))
+                    .setMessage(getResources().getString(R.string.wifi_dialog_msg))
                     .setPositiveButton(actionStr,
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -322,13 +322,13 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                                         WifiConfiguration config = linkWifi
                                                 .IsExsits(wifiinfo.SSID);
                                         if (config == null) {
-                                            showToast("连接失败！");
+                                            showToast(getResources().getString(R.string.wifi_toast2));
                                             setXml(App.KEY_WIFI, App.KEY_UNFINISH);
                                             finish();
                                         } else {
                                             linkWifi.setMaxPriority(config);
                                             linkWifi.ConnectToNetID(config.networkId);
-                                            showToast("连接成功！");
+                                            showToast(getResources().getString(R.string.wifi_toast));
                                             setXml(App.KEY_WIFI, App.KEY_FINISH);
                                             finish();
                                         }
@@ -336,7 +336,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                                     }
                                 }
                             })
-                    .setNeutralButton("忘记",
+                    .setNeutralButton(getResources().getString(R.string.wifi_dialog_but3),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog,
@@ -345,7 +345,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                                     return;
                                 }
                             })
-                    .setNegativeButton("取消",
+                    .setNegativeButton(getResources().getString(R.string.wifi_dialog_but4),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog,
@@ -383,11 +383,11 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
             final View inputPwdView = factory.inflate(R.layout.dialog_inputpwd,
                     null);
             new AlertDialog.Builder(context)
-                    .setTitle("请输入该无线的连接密码")
-                    .setMessage("无线SSID：" + wifiinfo.SSID)
+                    .setTitle(getResources().getString(R.string.wifi_dialog2_title))
+                    .setMessage(getResources().getString(R.string.wifi_dialog2_msg) + wifiinfo.SSID)
                     .setIcon(android.R.drawable.ic_dialog_info)
                     .setView(inputPwdView)
-                    .setPositiveButton("确定",
+                    .setPositiveButton(getResources().getString(R.string.wifi_dialog_but5),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog,
@@ -400,18 +400,18 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                                     int netID = linkWifi.CreateWifiInfo2(
                                             wifiinfo, wifipwd);
                                     if (netID == -1) {
-                                        showToast("连接失败！");
+                                        showToast(getResources().getString(R.string.wifi_toast2));
                                         setXml(App.KEY_WIFI, App.KEY_UNFINISH);
                                         finish();
                                     } else {
                                         linkWifi.ConnectToNetID(netID);
-                                        showToast("连接成功！");
+                                        showToast(getResources().getString(R.string.wifi_toast));
                                         setXml(App.KEY_WIFI, App.KEY_FINISH);
                                         finish();
                                     }
                                 }
                             })
-                    .setNegativeButton("取消",
+                    .setNegativeButton(getResources().getString(R.string.wifi_dialog_but4),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog,
@@ -421,9 +421,9 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
         } else {
             // 无密码
             new AlertDialog.Builder(context)
-                    .setTitle("提示")
-                    .setMessage("你选择的wifi无密码，可能不安全，确定继续连接？")
-                    .setPositiveButton("确定",
+                    .setTitle(getResources().getString(R.string.wifi_dialog_title))
+                    .setMessage(getResources().getString(R.string.wifi_dialog3_msg))
+                    .setPositiveButton(getResources().getString(R.string.wifi_dialog_but5),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog,
@@ -432,19 +432,19 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                                     int netID = linkWifi.CreateWifiInfo2(
                                             wifiinfo, "");
                                     if (netID == -1) {
-                                        showToast("连接失败！");
+                                        showToast(getResources().getString(R.string.wifi_toast2));
                                         setXml(App.KEY_WIFI, App.KEY_UNFINISH);
                                         finish();
                                     } else {
                                         linkWifi.ConnectToNetID(netID);
-                                        showToast("连接成功！");
+                                        showToast(getResources().getString(R.string.wifi_toast));
                                         setXml(App.KEY_WIFI, App.KEY_FINISH);
                                         finish();
                                     }
                                 }
 
                             })
-                    .setNegativeButton("取消",
+                    .setNegativeButton(getResources().getString(R.string.wifi_dialog_but4),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog,

@@ -42,28 +42,13 @@ public class VersionAct extends FragActBase implements View.OnClickListener {
         onWindowFocusChanged(true);
         initTitlebar();
         setSwipeEnable(false);
-        TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        String Versionum = Build.DISPLAY;
-        if (Build.MODEL.equals("N80") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53") || Build.MODEL.equals("H5")
-                || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35") || Build.MODEL.equals("S550")) {
-            tvVersionInfor.setText("型号：" + Build.MODEL
-                    + "\n"
-                    + "系统版本号:" + Versionum
-                    + "\n"
-                    + "APK版本号:"
-                    + SysInfoUtil.getVersionName(this)
-                    + "\n");
-        } else {
-            tvVersionInfor.setText("型号：" + Build.MODEL
-                    + "\n"
-                    + "系统版本号:" + Versionum
-                    + "\n"
-                    + "SN号:" + Build.SERIAL
-                    + "\n"
-                    + "APK版本号:"
-                    + SysInfoUtil.getVersionName(this)
-                    + "\n");
-        }
+        tvVersionInfor.setText(getResources().getString(R.string.VersionAct_modle) + Build.MODEL
+                + "\n"
+                + getResources().getString(R.string.VersionAct_system_num) + Build.DISPLAY
+                + "\n"
+                + getResources().getString(R.string.VersionAct_apk_num)
+                + SysInfoUtil.getVersionName(this)
+                + "\n");
     }
 
     @Override
@@ -74,7 +59,7 @@ public class VersionAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "版本信息", null);
+        }, getResources().getString(R.string.menu_version), null);
     }
 
     @Override

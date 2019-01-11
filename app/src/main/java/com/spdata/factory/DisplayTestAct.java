@@ -20,7 +20,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import common.utils.SharedXmlUtil;
 
-public class DisplayTest extends Activity {
+public class DisplayTestAct extends Activity {
     boolean finished;
     private Message msg;
     Thread mThread = new Thread();
@@ -45,22 +45,24 @@ public class DisplayTest extends Activity {
 
     private void checkDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle(R.string.display)
-                .setMessage(R.string.lcdtesttip)
-                .setNegativeButton(R.string.successed, new OnClickListener() {
+                .setTitle(R.string.DisplayTestAct_display)
+                .setMessage(R.string.DisplayTestAct_lcdtesttip)
+                .setNegativeButton(R.string.btn_success, new OnClickListener() {
 
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DisplayTest.this.setResult(1);
-                        SharedXmlUtil.getInstance(DisplayTest.this).write(App.KEY_DISPLAY, App.KEY_FINISH);
-                        DisplayTest.this.finish();
+                        DisplayTestAct.this.setResult(1);
+                        SharedXmlUtil.getInstance(DisplayTestAct.this).write(App.KEY_DISPLAY, App.KEY_FINISH);
+                        DisplayTestAct.this.finish();
                     }
                 })
-                .setPositiveButton(R.string.failed, new OnClickListener() {
+                .setPositiveButton(R.string.btn_fail, new OnClickListener() {
 
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DisplayTest.this.setResult(-1);
-                        SharedXmlUtil.getInstance(DisplayTest.this).write(App.KEY_DISPLAY, App.KEY_UNFINISH);
-                        DisplayTest.this.finish();
+                        DisplayTestAct.this.setResult(-1);
+                        SharedXmlUtil.getInstance(DisplayTestAct.this).write(App.KEY_DISPLAY, App.KEY_UNFINISH);
+                        DisplayTestAct.this.finish();
                     }
                 });
         builder.show();

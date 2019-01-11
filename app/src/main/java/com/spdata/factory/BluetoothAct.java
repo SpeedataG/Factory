@@ -44,7 +44,7 @@ public class BluetoothAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("蓝牙测试");
+        titlebar.setAttrs(getResources().getString(R.string.menu_bluetooth));
     }
 
     @Override
@@ -101,16 +101,16 @@ public class BluetoothAct extends FragActBase implements View.OnClickListener {
                 if (device != null) {
                     sb = sb.append("【" + device.getName() + "】 " + "\n").append(device.getAddress() + "\n");
                 }
-                tvInfor.setText("可用设备:" + "\n" + sb.toString());
+                tvInfor.setText(getResources().getString(R.string.bluetooth_state) + "\n" + sb.toString());
             }
             //搜索完成
             else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
                 if (num == 0) {
-                    Toast.makeText(context, "搜索完成,未搜索到任何设备", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getResources().getString(R.string.bluetooth_toast), Toast.LENGTH_SHORT).show();
                     setXml(App.KEY_BLUETOOTH, App.KEY_UNFINISH);
                     finish();
                 } else {
-                    Toast.makeText(context, "搜索完成", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getResources().getString(R.string.bluetooth_toast2), Toast.LENGTH_SHORT).show();
                     setXml(App.KEY_BLUETOOTH, App.KEY_FINISH);
                     finish();
                 }

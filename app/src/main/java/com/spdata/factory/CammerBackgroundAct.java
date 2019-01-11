@@ -66,7 +66,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("后置摄像头/闪光灯测试");
+        titlebar.setAttrs(getResources().getString(R.string.menu_background_camera));
     }
 
 
@@ -175,7 +175,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         //设置监听
         camera_surface.setOnClickListener(this);
-        titlebar.setTitlebarNameText("请点击屏幕进行对焦!");
+        titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title));
         myAutoFocusCallback = new Camera.AutoFocusCallback() {
 
             public void onAutoFocus(boolean success, Camera camera) {
@@ -260,7 +260,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                     setCameraDisplayOrientation(CammerBackgroundAct.this, 0, myCamera);//设置预览方向,
                 } catch (Exception e) {
                     e.printStackTrace();
-                    showToast("相机打开失败");
+                    showToast(getResources().getString(R.string.camera_faild));
                 }
 //                if (Build.MODEL.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208") || Build.MODEL.equals("N80")
 //                        || Build.MODEL.equals("S550")) {
@@ -287,10 +287,10 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                         if (success) {
                             initCamera();//实现相机的参数初始化
                             camera.cancelAutoFocus();//只有加上了这一句，才会自动对焦。
-                            titlebar.setAttrs("对焦成功！");
+                            titlebar.setAttrs(getResources().getString(R.string.camera_title2));
                             btn_pass.setEnabled(true);
                         } else {
-                            titlebar.setAttrs("对焦失败！");
+                            titlebar.setAttrs(getResources().getString(R.string.camera_title3));
                         }
                     }
                 }); //自动对焦
@@ -302,18 +302,18 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                 count++;
                 isClicked = false;
                 myCamera.takePicture(shutterCallback, null, jpeg);
-                titlebar.setTitlebarNameText("拍照成功!");
+                titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title4));
                 btn_pass.setEnabled(false);
-                btn_pass.setText("闪光拍照");
+                btn_pass.setText(getResources().getString(R.string.camera_btn2));
                 myCamera.stopPreview();
                 myCamera.startPreview();  //开启预览
-                titlebar.setAttrs("请点击屏幕对焦！");
+                titlebar.setAttrs(getResources().getString(R.string.camera_title5));
             } else if (count == 1) {//闪光拍照
                 parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
                 myCamera.setParameters(parameters);
                 myCamera.takePicture(shutterCallback, null, jpeg);
-                titlebar.setTitlebarNameText("闪光灯拍照成功！");
-                btn_pass.setText("成功");
+                titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title6));
+                btn_pass.setText(getResources().getString(R.string.camera_btn3));
                 myCamera.stopPreview();
                 myCamera.startPreview();
                 count++;

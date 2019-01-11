@@ -38,7 +38,7 @@ public class ResetAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "清除测试记录", null);
+        }, getResources().getString(R.string.menu_reset), null);
     }
 
 
@@ -86,7 +86,7 @@ public class ResetAct extends FragActBase implements View.OnClickListener {
                 break;
             case R.id.tv_infor:
                 SharedXmlUtil.getInstance(this).clearAll();
-                showToast("清除记录成功！");
+                showToast(getResources().getString(R.string.reste_msg));
                 finish();
                 break;
             case R.id.btn_pass:

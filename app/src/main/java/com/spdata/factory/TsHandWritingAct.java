@@ -70,7 +70,7 @@ import common.utils.SharedXmlUtil;
  * 触摸屏幕
  */
 
-public class TsHandWriting extends Activity {
+public class TsHandWritingAct extends Activity {
 
     public static final int CLEAR_CANVAS_ID = Menu.FIRST;
     private static final String TAG = "EM/TouchScreen/HW";
@@ -101,31 +101,31 @@ public class TsHandWriting extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    new AlertDialog.Builder(TsHandWriting.this).setTitle("提示")
+                    new AlertDialog.Builder(TsHandWritingAct.this).setTitle(R.string.TsHandWritingAct_dialog_title)
                             .setPositiveButton
-                                    ("成功", new DialogInterface.OnClickListener() {
+                                    (R.string.btn_success, new DialogInterface.OnClickListener() {
 
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            SharedXmlUtil.getInstance(TsHandWriting.this).write(App
+                                            SharedXmlUtil.getInstance(TsHandWritingAct.this).write(App
                                                     .KEY_TOUCH_SCREEN, App.KEY_FINISH);
                                             finish();
                                         }
                                     })
-                            .setNeutralButton("再测试一会", new DialogInterface.OnClickListener() {
+                            .setNeutralButton(R.string.TsHandWritingAct_dialog_btn, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     remindTask task = new remindTask();
                                     remind(task);
                                 }
-                            }).setNegativeButton("失败", new DialogInterface.OnClickListener() {
+                            }).setNegativeButton(R.string.btn_fail, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SharedXmlUtil.getInstance(TsHandWriting.this).write(App
+                            SharedXmlUtil.getInstance(TsHandWritingAct.this).write(App
                                     .KEY_TOUCH_SCREEN, App.KEY_UNFINISH);
                             finish();
                         }
-                    }).setMessage("请选择屏幕测试结果").setCancelable(false).show();
+                    }).setMessage(R.string.TsHandWritingAct_dialog_mes).setCancelable(false).show();
                 }
             });
         }
@@ -230,7 +230,7 @@ public class TsHandWriting extends Activity {
             super(c);
 
             DisplayMetrics dm = new DisplayMetrics();
-            dm = TsHandWriting.this.getApplicationContext().getResources()
+            dm = TsHandWritingAct.this.getApplicationContext().getResources()
                     .getDisplayMetrics();
             int screenWidth = dm.widthPixels;
             int screenHeight = dm.heightPixels;
