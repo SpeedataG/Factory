@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.gpio.MainActivity;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 import com.speedata.libuhf.IUHFService;
@@ -28,8 +30,6 @@ import common.utils.SearchTagDialog;
  * Created by suntianwei on 2016/12/6.
  */
 public class UhfAct extends FragActBase implements View.OnClickListener {
-
-
     private CustomTitlebar titlebar;
     private TextView tvGreen;
     private TextView tvRed;
@@ -37,14 +37,7 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
      * 盘点测试
      */
     private Button pandian;
-    /**
-     * 读写测试
-     */
-    private Button read;
-    /**
-     * 读卡
-     */
-    private Button btnReadCard;
+
     /**
      * 成功
      */
@@ -62,22 +55,23 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
         setContentView(R.layout.act_uhf);
         initView();
         initTitlebar();
-
-        SharedXmlUtil.getInstance(UhfAct.this).write("modle", "");
+        UHFManager.setStipulationLevel(0);
         try {
             iuhfService = UHFManager.getUHFService(UhfAct.this);
-            String s = SharedXmlUtil.getInstance(UhfAct.this).read("modle", "");
-            if (s.equals("3992")) {
-                tvRed.setVisibility(View.VISIBLE);
-                tvRed.setText("*无uhf模块*");
-            }
-            newWakeLock();
-            EventBus.getDefault().register(this);
         } catch (Exception e) {
             e.printStackTrace();
-            tvRed.setVisibility(View.VISIBLE);
-            tvRed.setText("*模块不识别*");
+            boolean cn = getApplicationContext().getResources().getConfiguration().locale.getCountry().equals("CN");
+            if (cn) {
+                tvRed.setText("模块不存在");
+                Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
+            } else {
+                tvRed.setText("模块不存在");
+                Toast.makeText(getApplicationContext(), "Module does not exist", Toast.LENGTH_SHORT).show();
+            }
+            return;
         }
+        String modle = SharedXmlUtil.getInstance(UhfAct.this).read("modle", "");
+        tvGreen.setText("型号:" + modle);
     }
 
     @Override
@@ -124,7 +118,7 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
     }
 
     private boolean openDev() {
-        if (iuhfService.OpenDev() != 0) {
+        if (iuhfService.openDev() != 0) {
             new AlertDialog.Builder(this).setTitle("警告！").setMessage("上电失败").setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
                 @Override
@@ -142,6 +136,7 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
         super.onDestroy();
 //        UHFManager.closeUHFService();
         try {
+            UHFManager.closeUHFService();
             wK.release();
             EventBus.getDefault().unregister(this);
             iuhfService = null;
@@ -167,7 +162,7 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
         try {
-            iuhfService.CloseDev();
+            iuhfService.closeDev();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,10 +174,6 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
         tvRed = (TextView) findViewById(R.id.tvRed);
         pandian = (Button) findViewById(R.id.pandian);
         pandian.setOnClickListener(this);
-        read = (Button) findViewById(R.id.read);
-        read.setOnClickListener(this);
-        btnReadCard = (Button) findViewById(R.id.btn_read_card);
-        btnReadCard.setOnClickListener(this);
         btnPass = (Button) findViewById(R.id.btn_pass);
         btnPass.setOnClickListener(this);
         btnNotPass = (Button) findViewById(R.id.btn_not_pass);
@@ -198,26 +189,7 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
                 SearchTagDialog searchTag = new SearchTagDialog(this, iuhfService, "");
                 searchTag.show();
                 break;
-            case R.id.read:
-                String read_area = iuhfService.read_area(3, "0", "6", "0");
-                if (read_area == null) {
-                    EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
-                } else {
-                    int length = read_area.length();
-                    if (length < 24) {
-                        EventBus.getDefault().post(new MsgEvent("failed", "读失败"));
-                    } else {
-                        EventBus.getDefault().post(new MsgEvent("success", "读成功"));
-                    }
-                }
 
-                int writeArea = iuhfService.write_area(3, "0", "0", "6", read_area);
-                if (writeArea != 0) {
-                    EventBus.getDefault().post(new MsgEvent("failed", "写失败"));
-                } else {
-                    EventBus.getDefault().post(new MsgEvent("success", "写成功"));
-                }
-                break;
             case R.id.btn_read_card:
                 break;
             case R.id.btn_pass:

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -18,21 +19,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.spdata.factory.R;
 import com.speedata.libuhf.IUHFService;
-import com.speedata.libuhf.bean.Tag_Data;
+import com.speedata.libuhf.bean.SpdInventoryData;
+import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
+import com.speedata.libuhf.utils.SharedXmlUtil;
+import com.speedata.libutils.excel.ExcelUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import jxl.write.Colour;
 
 /**
  * Created by 张明_ on 2016/12/28.
  */
 
 public class SearchTagDialog extends Dialog implements
-        View.OnClickListener, AdapterView.OnItemClickListener {
+        android.view.View.OnClickListener, AdapterView.OnItemClickListener {
 
     private Button Cancle;
     private Button Action;
@@ -40,7 +48,6 @@ public class SearchTagDialog extends Dialog implements
     private ListView EpcList;
     private boolean inSearch = false;
     private List<EpcDataBase> firm = new ArrayList<EpcDataBase>();
-    private Handler handler = null;
     private ArrayAdapter<EpcDataBase> adapter;
     private Context cont;
     private SoundPool soundPool;
@@ -49,6 +56,8 @@ public class SearchTagDialog extends Dialog implements
     private CheckBox cbb;
     private IUHFService iuhfService;
     private String model;
+//    private Button export;
+    private KProgressHUD kProgressHUD;
 
     public SearchTagDialog(Context context, IUHFService iuhfService, String model) {
         super(context);
@@ -67,9 +76,7 @@ public class SearchTagDialog extends Dialog implements
         Cancle.setOnClickListener(this);
         Action = (Button) findViewById(R.id.btn_search_action);
         Action.setOnClickListener(this);
-
         cbb = (CheckBox) findViewById(R.id.checkBox_beep);
-
         Status = (TextView) findViewById(R.id.textView_search_status);
         EpcList = (ListView) findViewById(R.id.listView_search_epclist);
         EpcList.setOnItemClickListener(this);
@@ -81,113 +88,82 @@ public class SearchTagDialog extends Dialog implements
         soundId = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
         Log.w("as3992_6C", "id is " + soundId);
 
-        //inventory_start(handler) 方法参考代码
-
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                if (msg.what == 1) {
-                    scant++;
-                    if (!cbb.isChecked()) {
-                        if (scant % 10 == 0) {
-                            soundPool.play(soundId, 1, 1, 0, 0, 1);
-                        }
-                    }
-                    ArrayList<Tag_Data> ks = (ArrayList<Tag_Data>) msg.obj;
-                    int i, j;
-                    for (i = 0; i < ks.size(); i++) {
-                        for (j = 0; j < firm.size(); j++) {
-                            if (ks.get(i).epc.equals(firm.get(j).epc)) {
-                                firm.get(j).valid++;
-                                firm.get(j).setRssi(ks.get(i).rssi);
-                                break;
-                            }
-                        }
-                        if (j == firm.size()) {
-                            firm.add(new EpcDataBase(ks.get(i).epc, 1,
-                                    ks.get(i).rssi, ks.get(i).tid));
-                            if (cbb.isChecked()) {
-                                soundPool.play(soundId, 1, 1, 0, 0, 1);
-                            }
-                        }
-                    }
-                }
-                adapter = new ArrayAdapter<EpcDataBase>(
-                        cont, android.R.layout.simple_list_item_1, firm);
-                EpcList.setAdapter(adapter);
-                Status.setText("Total: " + firm.size());
-
-            }
-        };
-
 
         //新的Listener回调参考代码
 
-//        adapter = new ArrayAdapter<EpcDataBase>(
-//                cont, android.R.layout.simple_list_item_1, firm);
-//        EpcList.setAdapter(adapter);
-//
-//        iuhfService.setListener(new IUHFService.Listener() {
-//            @Override
-//            public void update(Tag_Data var1) {
-//                handler.sendMessage(handler.obtainMessage(1, var1));
-//            }
-//        });
+        adapter = new ArrayAdapter<EpcDataBase>(
+                cont, android.R.layout.simple_list_item_1, firm);
+        EpcList.setAdapter(adapter);
+
+        iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
+            @Override
+            public void getInventoryData(SpdInventoryData var1) {
+                handler.sendMessage(handler.obtainMessage(1, var1));
+            }
+        });
     }
 
     //新的Listener回调参考代码
-//    private Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            switch (msg.what) {
-//                case 1:
-//                    scant++;
-//                    if (!cbb.isChecked()) {
-//                        if (scant % 10 == 0) {
-//                            soundPool.play(soundId, 1, 1, 0, 0, 1);
-//                        }
-//                    }
-//                    Tag_Data var1 = (Tag_Data) msg.obj;
-//                    byte[] nq = var1.epc;
-//                    if (nq != null) {
-//                        StringBuilder tmp = new StringBuilder("");
-//                        for (byte aNq : nq) {
-//                            tmp.append(String.format("%02x ", aNq));
-//                        }
-//                        final String finalTmp = tmp.toString();
-//
-//                        int i = 0;
-//                        for (int j = 0; j < firm.size(); j++) {
-//                            if (finalTmp.equals(firm.get(j).epc)) {
-//                                firm.get(j).valid++;
-//                                i++;
-//                                break;
-//                            }
-//                        }
-//                        if (i == 0) {
-//                            firm.add(new EpcDataBase(finalTmp, 1));
-//                            if (cbb.isChecked()) {
-//                                soundPool.play(soundId, 1, 1, 0, 0, 1);
-//                            }
-//                        }
-//                        adapter.notifyDataSetChanged();
-//                        Status.setText("Total: " + firm.size());
-//                    }
-//                    break;
-//
-//            }
-//
-//        }
-//    };
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            boolean cn = cont.getApplicationContext().getResources().getConfiguration().locale.getCountry().equals("CN");
+            switch (msg.what) {
+                case 1:
+                    scant++;
+                    if (!cbb.isChecked()) {
+                        if (scant % 1 == 0) {
+                            soundPool.play(soundId, 1, 1, 0, 0, 1);
+                        }
+                    }
+                    SpdInventoryData var1 = (SpdInventoryData) msg.obj;
+                    int j;
+                    for (j = 0; j < firm.size(); j++) {
+                        if (var1.epc.equals(firm.get(j).epc)) {
+                            firm.get(j).valid++;
+                            firm.get(j).setRssi(var1.rssi);
+                            break;
+                        }
+                    }
+                    if (j == firm.size()) {
+                        firm.add(new EpcDataBase(var1.epc, 1,
+                                var1.rssi, var1.tid));
+                        if (cbb.isChecked()) {
+                            soundPool.play(soundId, 1, 1, 0, 0, 1);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                    Status.setText("Total: " + firm.size());
+                    break;
+
+                case 2:
+                    kProgressHUD.dismiss();
+                    if (cn) {
+                        Toast.makeText(cont, "导出完成", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(cont, "Export the complete", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                case 3:
+                    kProgressHUD.dismiss();
+                    if (cn) {
+                        Toast.makeText(cont, "导出过程中出现问题！请重试", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(cont, "There is a problem in exporting! Please try again", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+
+        }
+    };
 
     @Override
     protected void onStop() {
         Log.w("stop", "im stopping");
         if (inSearch) {
-            iuhfService.inventory_stop();
-//            iuhfService.newInventoryStop();
+            iuhfService.inventoryStop();
             inSearch = false;
         }
         soundPool.release();
@@ -203,23 +179,26 @@ public class SearchTagDialog extends Dialog implements
             if (inSearch) {
                 inSearch = false;
                 this.setCancelable(true);
-                int inventoryStop = iuhfService.inventory_stop();
-                if (inventoryStop != 0) {
-                    Toast.makeText(cont, "停止失败", Toast.LENGTH_SHORT).show();
-                }
-//                        iuhfService.newInventoryStop();
+                iuhfService.inventoryStop();
+//                iuhfService.inventoryStart();
 
                 Action.setText("开始");
                 Cancle.setEnabled(true);
+//                export.setEnabled(true);
             } else {
                 inSearch = true;
                 this.setCancelable(false);
                 scant = 0;
-                iuhfService.inventory_start(handler);
+                //取消掩码
+                iuhfService.selectCard(1, "", false);
+                EventBus.getDefault().post(new MsgEvent("CancelSelectCard", ""));
+                iuhfService.inventoryStart();
                 Action.setText("停止");
                 Cancle.setEnabled(false);
+//                export.setEnabled(false);
             }
         }
+
     }
 
     class EpcDataBase {
@@ -248,15 +227,16 @@ public class SearchTagDialog extends Dialog implements
         public String toString() {
             if (TextUtils.isEmpty(tid_user)) {
                 return "EPC:" + epc + "\n"
-                        + "(" + "COUNT:" + valid + ")" + " RSSI:" + rssi+"\n";
+                        + "(" + "COUNT:" + valid + ")" + " RSSI:" + rssi + "\n";
             } else {
                 return "EPC:" + epc + "\n"
                         + "T/U:" + tid_user + "\n"
-                        + "(" + "COUNT:" + valid + ")" + " RSSI:" + rssi+"\n";
+                        + "(" + "COUNT:" + valid + ")" + " RSSI:" + rssi + "\n";
             }
         }
 
     }
+
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                             long arg3) {
@@ -264,9 +244,15 @@ public class SearchTagDialog extends Dialog implements
         if (inSearch) {
             return;
         }
-        int res = iuhfService.select_card(1,firm.get(arg2).epc,true);
+
+        String epcStr = firm.get(arg2).epc;
+        boolean u8 = SharedXmlUtil.getInstance(cont).read("U8", false);
+        if (u8) {
+            epcStr = epcStr.substring(0, 24);
+        }
+        int res = iuhfService.selectCard(1, epcStr, true);
         if (res == 0) {
-            EventBus.getDefault().post(new MsgEvent("set_current_tag_epc", firm.get(arg2).epc));
+            EventBus.getDefault().post(new MsgEvent("set_current_tag_epc", epcStr));
             dismiss();
         } else {
             Status.setText("选卡失败");

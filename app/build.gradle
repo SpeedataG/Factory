@@ -45,11 +45,12 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     testImplementation 'junit:junit:4.12'
     implementation 'com.speedata:deivice:1.6.0'
-    implementation 'com.speedata:libuhf:6.9.4'
+    implementation 'com.speedata:libuhf:7.6.7'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.speedata:r6lib:1.5'
     implementation 'com.speedata:psam:1.5.3'
     implementation 'com.speedata:libid2:2.5.1'
+    implementation 'com.kaopiz:kprogresshud:1.2.0'
     //友盟sdk添加
     implementation 'com.umeng.analytics:analytics:6.1.4'
     implementation 'com.android.support:multidex:1.0.3'
