@@ -295,6 +295,22 @@
     <string name="gps_info_averageSignalIntensity">Average signal strength:</string>
 
 
+    <!--GPSAct-->
+    <string name="gps_open">Please open GPS</string>
+    <string name="gps_start">Start positioning</string>
+    <string name="gps_searched">Search to：</string>
+    <string name="gps_count">satellite</string>
+    <string name="gps_now_date">current date：</string>
+    <string name="gps_year">year</string>
+    <string name="gps_month">month</string>
+    <string name="gps_day">day</string>
+    <string name="gps_hour">hour</string>
+    <string name="gps_minute">minute</string>
+    <string name="gps_second">second</string>
+    <string name="gps_update_lon">Location information of equipment\nlongitude：</string>
+    <string name="gps_update_lat">\nlatitude：</string>
+
+
     <!-- nfc -->
     <string name="menu_clear">Clear screen</string>
         
@@ -472,6 +488,8 @@
     <string name="wifi_toast"> WIFI connection succeeded</string>
         
     <string name="wifi_toast2"> WIFI connection failed</string>
+
+    <string name="wifi_toast3">Connected</string>
         
     <string name="wifi_suc">WIFI connection succeeded</string>
         
@@ -506,6 +524,33 @@
         
     <string name="wifi_item_msg6"> (Connected) </string>
     <string name="wifi_pwd_msg">Password:"</string>
+
+
+    <!--FlashLightAct-->
+    <string name="flash_light_close">Please turn off the flashlight</string>
+    <string name="flash_light_open">Please turn on the flashlight</string>
+
+
+    <!--PSAMAct-->
+    <string name="psam_custom_config">Custom configuration：\n</string>
+    <string name="psam_standard_config">Standard configuration：\n</string>
+    <string name="psam_append1">Serial port:ttyMT1</string>
+    <string name="psam_append2">  Baud rate：</string>
+    <string name="psam_append3"> Power on type:NEW_MAIN</string>
+    <string name="psam_append4"> GPIO:16,46</string>
+    <string name="psam_append5"> resetGpio:23</string>
+    <string name="psam1_no">No Psam1\n</string>
+    <string name="psam1_succeed">Psam1 Succeed \n</string>
+    <string name="psam2_no">No Psam2\n</string>
+    <string name="psam2_succeed">Psam2 Succeed \n</string>
+
+    <!--EepromAct-->
+    <string name="eeprom_read">Read Magic Number:\n</string>
+    <string name="eeprom_ok">Magic Number OK!\n</string>
+    <string name="eeprom_error">Magic Number Error!\n</string>
+    <string name="eeprom_Retry">\nRetry:\n </string>
+
+
 </resources>
 
 

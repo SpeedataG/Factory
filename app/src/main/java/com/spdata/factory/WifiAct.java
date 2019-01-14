@@ -487,7 +487,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                     WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                     //获取当前wifi名称
                     System.out.println("连接到网络 " + wifiInfo.getSSID());
-                    showToast("已连接" + wifiInfo.getSSID() + "  WIFI");
+                    showToast(getResources().getString(R.string.wifi_toast3) + wifiInfo.getSSID() + "  WIFI");
                     setXml(App.KEY_WIFI, App.KEY_FINISH);
                     finish();
                 }

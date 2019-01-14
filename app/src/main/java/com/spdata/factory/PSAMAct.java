@@ -111,9 +111,9 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
 
         boolean isExit = ConfigUtils.isConfigFileExists();
         if (isExit) {
-            tv.setText("定制配置：\n");
+            tv.setText(getResources().getString(R.string.psam_custom_config));
         } else {
-            tv.setText("标准配置：\n");
+            tv.setText(getResources().getString(R.string.psam_standard_config));
         }
         ReadBean.PasmBean pasm = ConfigUtils.readConfig(this).getPasm();
         String gpio = "";
@@ -121,8 +121,8 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
         for (Integer s : gpio1) {
             gpio += s + ",";
         }
-        tv.append("串口:ttyMT1" + "  波特率：" + pasm.getBraut() + " 上电类型:NEW_MAIN" +
-                " GPIO:16,46" + " resetGpio:23");
+        tv.append(getResources().getString(R.string.psam_append1) + getResources().getString(R.string.psam_append2) + pasm.getBraut() + getResources().getString(R.string.psam_append3) +
+                getResources().getString(R.string.psam_append4) + getResources().getString(R.string.psam_append5));
     }
 
     @Override
@@ -163,9 +163,9 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                             @Override
                             public void run() {
                                 if (data == null) {
-                                    tvInfor.append("No Psam1\n");
+                                    tvInfor.append(getResources().getString(R.string.psam1_no));
                                 } else {
-                                    tvInfor.append("Psam1 Succeed \n");
+                                    tvInfor.append(getResources().getString(R.string.psam1_succeed));
                                 }
                             }
                         });
@@ -182,9 +182,9 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                             @Override
                             public void run() {
                                 if (data == null) {
-                                    tvInfor.append("No Psam2\n");
+                                    tvInfor.append(getResources().getString(R.string.psam2_no));
                                 } else {
-                                    tvInfor.append("Psam2 Succeed \n");
+                                    tvInfor.append(getResources().getString(R.string.psam2_succeed));
                                 }
                             }
                         });

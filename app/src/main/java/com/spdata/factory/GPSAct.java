@@ -67,7 +67,7 @@ public class GPSAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "GPS测试", null);
+        }, getResources().getString(R.string.menu_gps), null);
     }
 
 
@@ -116,11 +116,11 @@ public class GPSAct extends FragActBase implements View.OnClickListener {
                 .getSystemService(Context.LOCATION_SERVICE);
         // 判断GPS模块是否开启，如果没有则开启
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(GPSAct.this, "请打开GPS",
+            Toast.makeText(GPSAct.this, getResources().getString(R.string.gps_open),
                     Toast.LENGTH_SHORT).show();
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setMessage("请打开GPS");
-            dialog.setPositiveButton("确定",
+            dialog.setMessage(getResources().getString(R.string.gps_open));
+            dialog.setPositiveButton(getResources().getString(R.string.alert_dialog_ok),
                     new DialogInterface.OnClickListener() {
 
                         @Override
@@ -131,7 +131,7 @@ public class GPSAct extends FragActBase implements View.OnClickListener {
                             startActivityForResult(intent, 0); // 设置完成后返回到原来的界面
                         }
                     });
-            dialog.setNeutralButton("取消", new DialogInterface.OnClickListener() {
+            dialog.setNeutralButton(getResources().getString(R.string.alert_dialog_cancel), new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
@@ -140,7 +140,7 @@ public class GPSAct extends FragActBase implements View.OnClickListener {
             });
             dialog.show();
         } else {
-            showToast("开始定位");
+            showToast(getResources().getString(R.string.gps_start));
         }
     }
 
@@ -280,7 +280,7 @@ public class GPSAct extends FragActBase implements View.OnClickListener {
                     Iterator<GpsSatellite> iters = currentgpsStatus.getSatellites()
                             .iterator();
                     mSatelliteCount = 0;
-                    tvInfor.setText("搜索到：");
+                    tvInfor.setText(getResources().getString(R.string.gps_searched));
                     mSatellitesStrenthList = new ArrayList<Float>();
                     String result = "";
                     while (iters.hasNext() && mSatelliteCount <= maxSatellites) {
@@ -289,7 +289,7 @@ public class GPSAct extends FragActBase implements View.OnClickListener {
 //                        tvInfor.append("," + iters.next().getSnr());
                         mSatelliteCount++;
                     }
-                    tvInfor.append(mSatelliteCount + "颗卫星" + "\n");
+                    tvInfor.append(mSatelliteCount + getResources().getString(R.string.gps_count) + "\n");
                     tvInfor.append(result + "\n");
                     printTime();
                     break;
@@ -313,7 +313,7 @@ public class GPSAct extends FragActBase implements View.OnClickListener {
         int hour = ca.get(Calendar.HOUR);//小时
         int second = ca.get(Calendar.SECOND);//秒
         int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
-        tvInfor.append("当前日期：" + year + "年" + month + "月" + day + "日" + +hour + "时" + minute + "分" + second + "秒");
+        tvInfor.append(getResources().getString(R.string.gps_now_date) + year + getResources().getString(R.string.gps_year) + month + getResources().getString(R.string.gps_month) + day + getResources().getString(R.string.gps_day) + hour + getResources().getString(R.string.gps_hour) + minute + getResources().getString(R.string.gps_minute) + second + getResources().getString(R.string.gps_second));
     }
 
     /**
@@ -323,9 +323,9 @@ public class GPSAct extends FragActBase implements View.OnClickListener {
      */
     private void updateView(Location location) {
         if (location != null) {
-            editText.setText("设备位置信息\n经度：");
+            editText.setText(getResources().getString(R.string.gps_update_lon));
             editText.append(String.valueOf(location.getLongitude()));
-            editText.append("\n纬度：");
+            editText.append(getResources().getString(R.string.gps_update_lat));
             editText.append(String.valueOf(location.getLatitude()));
         } else {
             //清空EditText对象

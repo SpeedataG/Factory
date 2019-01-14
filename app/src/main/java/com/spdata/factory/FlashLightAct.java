@@ -52,11 +52,11 @@ public class FlashLightAct extends FragActBase implements View.OnClickListener {
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
                 if (arg1) {
-                    tvFlashlight.setText("请关闭手电筒");
+                    tvFlashlight.setText(getResources().getString(R.string.flash_light_close));
                     openLight();
                     allCount++;
                 } else {
-                    tvFlashlight.setText("请打开手电筒");
+                    tvFlashlight.setText(getResources().getString(R.string.flash_light_open));
                     closeLight();
                     allCount++;
                     if (allCount >= 2) {

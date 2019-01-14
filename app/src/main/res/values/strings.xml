@@ -178,6 +178,21 @@
     <string name="gps_info_null">无法获取地理信息</string>
     <string name="gps_info_averageSignalIntensity">平均信号强度：</string>
 
+    <!--GPSAct-->
+    <string name="gps_open">请打开GPS</string>
+    <string name="gps_start">开始定位</string>
+    <string name="gps_searched">搜索到：</string>
+    <string name="gps_count">颗卫星</string>
+    <string name="gps_now_date">当前日期：</string>
+    <string name="gps_year">年</string>
+    <string name="gps_month">月</string>
+    <string name="gps_day">日</string>
+    <string name="gps_hour">时</string>
+    <string name="gps_minute">分</string>
+    <string name="gps_second">秒</string>
+    <string name="gps_update_lon">设备位置信息\n经度：</string>
+    <string name="gps_update_lat">\n纬度：</string>
+
 
     <!-- nfc -->
     <string name="menu_clear">清屏</string>
@@ -283,6 +298,7 @@
     <string name="wifi_open">wifi已开启</string>
     <string name="wifi_toast">WIFI连接成功</string>
     <string name="wifi_toast2">WIFI连接失败</string>
+    <string name="wifi_toast3">已连接</string>
     <string name="wifi_suc">WIFI连接成功</string>
     <string name="wifi_dialog_msg">请选择你要进行的操作</string>
     <string name="wifi_dialog_title">提示</string>
@@ -302,6 +318,28 @@
     <string name="wifi_item_msg6">(已连接)</string>
     <string name="wifi_pwd_msg">密码:"</string>
 
+    <!--FlashLightAct-->
+    <string name="flash_light_close">请关闭手电筒</string>
+    <string name="flash_light_open">请打开手电筒</string>
+
+    <!--PSAMAct-->
+    <string name="psam_custom_config">定制配置：\n</string>
+    <string name="psam_standard_config">标准配置：\n</string>
+    <string name="psam_append1">串口:ttyMT1</string>
+    <string name="psam_append2">  波特率：</string>
+    <string name="psam_append3"> 上电类型:NEW_MAIN</string>
+    <string name="psam_append4"> GPIO:16,46</string>
+    <string name="psam_append5"> resetGpio:23</string>
+    <string name="psam1_no">无 Psam1\n</string>
+    <string name="psam1_succeed">Psam1 成功 \n</string>
+    <string name="psam2_no">无 Psam2\n</string>
+    <string name="psam2_succeed">Psam2 成功 \n</string>
+
+    <!--EepromAct-->
+    <string name="eeprom_read">Read Magic Number:\n</string>
+    <string name="eeprom_ok">Magic Number OK!\n</string>
+    <string name="eeprom_error">Magic Number Error!\n</string>
+    <string name="eeprom_Retry">\nRetry:\n </string>
 
 </resources>
 

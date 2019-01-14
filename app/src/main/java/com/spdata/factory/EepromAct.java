@@ -40,7 +40,7 @@ public class EepromAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("EEROM");
+        titlebar.setAttrs(getResources().getString(R.string.menu_eeprom));
     }
 
     private SDKMethod nv_device;
@@ -60,7 +60,7 @@ public class EepromAct extends FragActBase implements View.OnClickListener {
         initView();
         initTitlebar();
         setSwipeEnable(false);
-        textViewS.setText("Read Magic Number:\n");
+        textViewS.setText(getResources().getString(R.string.eeprom_read));
         nv_device = new SDKMethod();
         offsetbuffer = 80;
         lengthbuffer = 8;
@@ -86,9 +86,9 @@ public class EepromAct extends FragActBase implements View.OnClickListener {
         buftmp[6] = uniteBytes(b[0], e[0]);
         buftmp[7] = uniteBytes(a[0], f[0]);
         if (Arrays.equals(buftmp, rebuffer)) {
-            textViewS.append("Magic Number OK!\n");
+            textViewS.append(getResources().getString(R.string.eeprom_ok));
         } else {
-            textViewS.append("Magic Number Error\n");
+            textViewS.append(getResources().getString(R.string.eeprom_error));
         }
         TimerTask task = new SynchroTimerTask();
         Timer timer = new Timer();
@@ -148,9 +148,9 @@ public class EepromAct extends FragActBase implements View.OnClickListener {
                 nv_device.readE2(offsetbuffer, rebuffer, lengthbuffer);
                 String accept_show2 = bytesToHexString(rebuffer, lengthbuffer);
                 if (Arrays.equals(buftmp, rebuffer)) {
-                    name = "\nRetry:\n " + accept_show2 + "\nMagic Number OK!\n";
+                    name = getResources().getString(R.string.eeprom_Retry) + accept_show2 + "\n" + getResources().getString(R.string.eeprom_ok);
                 } else {
-                    name = "\nRetry:\n " + accept_show2 + "\nMagic Number Error!\n";
+                    name = getResources().getString(R.string.eeprom_Retry) + accept_show2 + "\n" + getResources().getString(R.string.eeprom_error);
                 }
                 if (handler == null) {
                     handler = new Handler();
