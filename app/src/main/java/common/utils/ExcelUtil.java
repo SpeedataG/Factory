@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Environment;
 import android.widget.Toast;
 
+import com.spdata.factory.R;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -67,7 +69,7 @@ public final class ExcelUtil {
      * @param titleMap  表头信息（对象属性名称->要显示的标题值)[按顺序添加]
      * @param sheetName sheet名称和表头值
      */
-    public static void excelExport(Context context,List<?> dataList, Map<String, String> titleMap, String sheetName) {
+    public static void excelExport(Context context, List<?> dataList, Map<String, String> titleMap, String sheetName) {
         // 初始化workbook
         initHSSFWorkbook(sheetName);
         // 标题行
@@ -94,11 +96,12 @@ public final class ExcelUtil {
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context,"导出数据失败",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.Excle_fal), Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(context,"导出数据成功",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getResources().getString(R.string.Excle_suc), Toast.LENGTH_SHORT).show();
 
     }
+
     private static String dd() {
         File sd = Environment.getExternalStorageDirectory();
         String mPath = sd.getPath() + "/Factory";
@@ -111,6 +114,7 @@ public final class ExcelUtil {
         }
 
     }
+
     /***
      *
      * @param sheetName

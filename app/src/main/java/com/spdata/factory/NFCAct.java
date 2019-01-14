@@ -189,7 +189,7 @@ public class NFCAct extends FragActBase implements OnClickListener,
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final String data = (p != null) ? CardManager.load(p, res, mfc) + "卡片ID：" + CardId : null;
+                final String data = (p != null) ? CardManager.load(p, res, mfc) + "CardID:" + CardId : null;
 
                 runOnUiThread(new Runnable() {
                     @Override

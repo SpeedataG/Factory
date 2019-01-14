@@ -16,7 +16,7 @@ import android.widget.TextView;
 /**
  * 跑马灯效果的textview
  */
-public class MarqueeTextView extends TextView {
+public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
 	public MarqueeTextView(Context context) {
 		super(context);
 	}

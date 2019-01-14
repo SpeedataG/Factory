@@ -112,7 +112,7 @@ public class IndicatorLightAct extends FragActBase implements View.OnClickListen
                 break;
         }
 
-        new AlertDialog.Builder(mContext).setMessage(message).setCancelable(false).setTitle("提示").setPositiveButton
+        new AlertDialog.Builder(mContext).setMessage(message).setCancelable(false).setTitle("").setPositiveButton
                 (R.string.btn_success, new DialogInterface.OnClickListener() {
 
 
@@ -141,7 +141,7 @@ public class IndicatorLightAct extends FragActBase implements View.OnClickListen
                                         tvInfor.setText(R.string.IndicatorLightAct_green_faild);
                                         setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
                                         finish();
-                                        showToast( getResources().getString(R.string.IndicatorLightAct_green_faild));
+                                        showToast(getResources().getString(R.string.IndicatorLightAct_green_faild));
                                     }
                                 }
                                 break;
@@ -156,7 +156,7 @@ public class IndicatorLightAct extends FragActBase implements View.OnClickListen
                                     tvInfor.setText(R.string.IndicatorLightAct_bule_faild);
                                     setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
                                     finish();
-                                    showToast( getResources().getString(R.string.IndicatorLightAct_green_faild));
+                                    showToast(getResources().getString(R.string.IndicatorLightAct_green_faild));
                                 }
                                 break;
                             case LED_BLUE:
@@ -177,9 +177,9 @@ public class IndicatorLightAct extends FragActBase implements View.OnClickListen
                                         tvInfor.setText(R.string.IndicatorLightAct_red_faild);
                                         setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
                                         finish();
-                                        showToast( getResources().getString(R.string.IndicatorLightAct_red_faild));
+                                        showToast(getResources().getString(R.string.IndicatorLightAct_red_faild));
                                     } else {
-                                        showToast( getResources().getString(R.string.IndicatorLightAct_bule_faild));
+                                        showToast(getResources().getString(R.string.IndicatorLightAct_bule_faild));
                                     }
                                 }
                                 break;
@@ -190,7 +190,7 @@ public class IndicatorLightAct extends FragActBase implements View.OnClickListen
                                     finish();
                                 } catch (IOException e) {
                                     e.printStackTrace();
-                                    showToast( getResources().getString(R.string.IndicatorLightAct_red_faild));
+                                    showToast(getResources().getString(R.string.IndicatorLightAct_red_faild));
                                 }
                                 break;
                             default:

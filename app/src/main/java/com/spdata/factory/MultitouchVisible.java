@@ -63,7 +63,7 @@ public class MultitouchVisible extends Activity {
                                                 finish();
                                             }
                                         })
-                                .setNeutralButton("重新测试", new DialogInterface.OnClickListener() {
+                                .setNeutralButton(getResources().getString(R.string.MultitouchVisible_dialog_btn), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 //                                        remindTask task = new remindTask();

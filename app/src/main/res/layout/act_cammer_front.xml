@@ -81,7 +81,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="拍照"
+            android:text="@string/camera_btn_buguang"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
 
@@ -105,7 +105,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="@string/btn_success"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>

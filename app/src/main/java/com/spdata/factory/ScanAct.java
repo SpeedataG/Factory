@@ -120,7 +120,7 @@ public class ScanAct extends FragActBase implements View.OnClickListener {
         scanUtil.setOnScanListener(new ScanUtil.OnScanListener() {
             @Override
             public void getBarcode(String data) {
-                new AlertDialog.Builder(mContext).setMessage(getResources().getString(R.string.ScanAct_dialog_msg) + data).setTitle(getResources().getString(R.string.btn_fail))
+                new AlertDialog.Builder(mContext).setMessage(getResources().getString(R.string.ScanAct_dialog_msg) + data).setTitle("")
                         .setPositiveButton(getResources().getString(R.string.btn_success), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

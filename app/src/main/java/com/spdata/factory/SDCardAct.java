@@ -1,14 +1,21 @@
 package com.spdata.factory;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,6 +46,29 @@ public class SDCardAct extends FragActBase implements View.OnClickListener {
         }, R.string.menu_sdcard, null);
     }
 
+    PermissionListener listener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+
+        }
+
+        @Override
+        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+            // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+            if (AndPermission.hasAlwaysDeniedPermission(SDCardAct.this, deniedPermissions)) {
+                AndPermission.defaultSettingDialog(SDCardAct.this, 300).show();
+            }
+        }
+    };
+
+    private void permission() {
+        AndPermission.with(this).permission(Permission.STORAGE).callback(listener).rationale(new RationaleListener() {
+            @Override
+            public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
+                AndPermission.rationaleDialog(SDCardAct.this, rationale).show();
+            }
+        }).start();
+    }
 
     private SDUtils sdUtils;
     private Timer timer;
@@ -54,11 +84,12 @@ public class SDCardAct extends FragActBase implements View.OnClickListener {
         initView();
         initTitlebar();
         setSwipeEnable(false);
+        permission();
         sdUtils = new SDUtils(mContext);
         String[] volumePaths = sdUtils.getVolumePaths();
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(getResources().getString(R.string.SDCardAct_neizhi)  + sdUtils.getSDTotalSize(volumePaths[0])
-                + getResources().getString(R.string.SDCardAct_keyong)  + sdUtils.getSDAvailableSize(volumePaths[0]));
+        stringBuffer.append(getResources().getString(R.string.SDCardAct_neizhi) + sdUtils.getSDTotalSize(volumePaths[0])
+                + getResources().getString(R.string.SDCardAct_keyong) + sdUtils.getSDAvailableSize(volumePaths[0]));
         tvInfor.append(stringBuffer);
         if (volumePaths.length > 1) {
             stringBuffer.append(getResources().getString(R.string.SDCardAct_wai) + sdUtils.getSDTotalSize(volumePaths[1])
@@ -86,8 +117,8 @@ public class SDCardAct extends FragActBase implements View.OnClickListener {
                 tvInfor.append(getResources().getString(R.string.SDCardAct_copy_neifa));
             }
         }
-        task = new remindTask();
-        remind(task);
+//        task = new remindTask();
+//        remind(task);
     }
 
     private void initView() {

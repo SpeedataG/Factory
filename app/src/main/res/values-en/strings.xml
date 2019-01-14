@@ -7,292 +7,505 @@
     <string name="menu_version">Version Info</string>
     <string name="menu_sleep_wake">Sleep Wake Up</string>
     <string name="menu_button">Keypad</string>
-    <string name="menu_display">屏幕显示</string>
-    <string name="menu_touch_screen">触屏</string>
-    <string name="menu_light">亮度调节</string>
-    <string name="menu_small_screen">小屏幕</string>
-    <string name="menu_indicator_light">指示灯</string>
-    <string name="menu_sdcard">SD卡</string>
-    <string name="menu_simcard">SIM卡</string>
-    <string name="menu_background_camera">后置相机/闪光灯</string>
-    <string name="menu_flash_light">手电筒</string>
-    <string name="menu_front_camera">前置相机</string>
-    <string name="menu_bell">喇叭</string>
-    <string name="menu_scan">扫描</string>
-    <string name="menu_erji_mic">耳机MIC</string>
-    <string name="menu_phone_mic">主机MIC</string>
+    <string name="menu_display">Dcreen Display</string>
+        
+    <string name="menu_touch_screen">Touch Screen</string>
+        
+    <string name="menu_light">Brightness Adjustment</string>
+        
+    <string name="menu_small_screen">Small Screen</string>
+        
+    <string name="menu_indicator_light">Indicator</string>
+        
+    <string name="menu_sdcard">SD Card</string>
+        
+    <string name="menu_simcard">SIM Card</string>
+    <string name="menu_background_camera">Rear Camera/Flash</string>
+        
+    <string name="menu_flash_light">Flashlight</string>
+        
+    <string name="menu_front_camera">Front Camera</string>
+        
+    <string name="menu_bell">Horn</string>
+        
+    <string name="menu_scan">Scan</string>
+        
+    <string name="menu_erji_mic">Headphone MIC</string>
+        
+    <string name="menu_phone_mic">Host MIC</string>
+        
     <string name="menu_wifi">WIFI</string>
-    <string name="menu_bluetooth">蓝牙</string>
+        
+    <string name="menu_bluetooth">Bluetooth</string>
     <string name="menu_gps">GPS</string>
     <string name="menu_nfc">NFC</string>
     <string name="menu_usb">USB</string>
     <string name="menu_otg">OTG</string>
-    <string name="menu_charge">有线充电</string>
-    <string name="menu_gsensor">加速传感器</string>
-    <string name="menu_light_sensor">光感</string>
-    <string name="menu_call_phone">打电话</string>
+    <string name="menu_charge">Wired Charging</string>
+        
+    <string name="menu_gsensor"> Acceleration Censor</string>
+        
+    <string name="menu_light_sensor">Light Sensor</string>
+        
+    <string name="menu_call_phone">Call</string>
+        
     <string name="menu_eeprom">EEPROM</string>
-    <string name="menu_expan_gps">外置GPS</string>
-    <string name="menu_laser">激光</string>
-    <string name="menu_vibrate">振动器</string>
-    <string name="menu_compass_sensor">电子罗盘</string>
-    <string name="menu_spk">听筒</string>
-    <string name="menu_ris_camera">虹膜摄像头</string>
+        
+    <string name="menu_expan_gps">External GPS</string>
+        
+    <string name="menu_laser">Laser</string>
+    <string name="menu_vibrate">Vibrator </string>
+        
+    <string name="menu_compass_sensor">Electronic Compass</string>
+        
+    <string name="menu_spk">Handset</string>
+        
+    <string name="menu_ris_camera">Iris Camera</string>
+        
     <string name="menu_ris_psam">PSAM</string>
-    <string name="menu_finger">指纹</string>
-    <string name="menu_notline_charge">无线充电</string>
-    <string name="menu_touch_mor">多点触摸</string>
-    <string name="menu_barometer">气压计</string>
-    <string name="menu_zhongli">重力感应</string>
-    <string name="menu_usbplate">U盘</string>
-    <string name="menu_maglev">磁吸附充电</string>
-    <string name="menu_serialport">串口孔</string>
-    <string name="menu_rfid">高频RFID</string>
-    <string name="menu_uhf">超高频UHF</string>
-    <string name="menu_gas_sensor">气体传感器</string>
-    <string name="menu_camera_usb">矿灯摄像头</string>
-    <string name="menu_expand">触点检测</string>
-    <string name="menu_export">导出测试结果</string>
+        
+    <string name="menu_finger">Fingerprint</string>
+        
+    <string name="menu_notline_charge">Wireless Charging</string>
+        
+    <string name="menu_touch_mor">Multiple Touch</string>
+        
+    <string name="menu_barometer">Barometer </string>
+    <string name="menu_zhongli">Gravity Sensing</string>
+        
+    <string name="menu_usbplate">U Disk </string>
+        
+    <string name="menu_maglev">Magnetic Adsorption Charging</string>
+        
+    <string name="menu_serialport"> SerialPort Hole</string>
+        
+    <string name="menu_rfid">RFID</string>
+        
+    <string name="menu_uhf">UHF</string>
+    <string name="menu_gas_sensor">Gas Sensor</string>
+        
+    <string name="menu_camera_usb">mineral lamp camera</string>
+        
+    <string name="menu_expand">Contact Detection</string>
+        
+    <string name="menu_export">Export Test Results</string>
+        
     <string name="menu_id2">ID2</string>
-    <string name="menu_reset">清除测试记录</string>
-    <string name="menu_rs232">RS232串口</string>
-    <string name="menu_rj45">RJ45网线接口测试</string>
-    <string name="menu_gpio">GPIO测试</string>
-    <string name="menu_test485">485测试</string>
+        
+    <string name="menu_reset">Clear test record </string>
+    <string name="menu_rs232">RS232 SerialPort</string>
+        
+    <string name="menu_rj45">RJ45 Network Test</string>
+        
+    <string name="menu_gpio">GPIO Test</string>
+        
+    <string name="menu_test485">485 Test</string>
     <!--VersionAct-->
     <string name="VersionAct_modle">Version:</string>
     <string name="VersionAct_system_num">System Version:</string>
     <string name="VersionAct_apk_num">APK Version:</string>
     <!--SleepWakeAct-->
-    <string name="SleepWakeAct_msg">请按下休眠按键</string>
+    <string name="SleepWakeAct_msg">Please press the sleep button</string>
 
     <!--DisplayTestAct-->
-    <string name="DisplayTestAct_display">屏幕显示</string>
-    <string name="DisplayTestAct_lcdtesttip">请确认LCD是否有坏点</string>
+        
+    <string name="DisplayTestAct_display">Screen display </string>
+        
+    <string name="DisplayTestAct_lcdtesttip">Please confirm whether the LCD has a bad point</string>
 
-    <!--TsHandWritingAct-->
-    <string name="TsHandWritingAct_dialog_title">触屏</string>
-    <string name="TsHandWritingAct_dialog_mes">请选择屏幕测试结果</string>
-    <string name="TsHandWritingAct_dialog_btn">继续测试</string>
+         <!--TsHandWritingAct-->
+        
+    <string name="TsHandWritingAct_dialog_title">Touch screen</string>
+        
+    <string name="TsHandWritingAct_dialog_mes">Please select the screen test result</string>
+        
+    <string name="TsHandWritingAct_dialog_btn">Continue testing</string>
 
-    <!--LightAct-->
-    <string name="LightAct_msg">请进行屏幕亮度测试</string>
+         <!--LightAct-->
+        
+    <string name="LightAct_msg">Please perform screen brightness test</string>
 
     <!--SmallScreenAct-->
-    <string name="SmallScreenAct_server">启动服务失败</string>
-    <string name="SmallScreenAct_write_faild">写入失败</string>
-    <string name="SmallScreenAct_write_msg">你好思必拓</string>
-    <string name="SmallScreenAct_write">请确认右上角小屏幕时间是否显示 你好思必拓</string>
+    <string name="SmallScreenAct_server">Start service failed</string>
+        
+    <string name="SmallScreenAct_write_faild">Write failed</string>
+        
+    <string name="SmallScreenAct_write_msg">Hello Spirent</string>
+        
+    <string name="SmallScreenAct_write">Please confirm whether the small screen time in the upper right corner is displayed. You are spirit</string>
 
     <!-- IndicatorLightAct -->
-    <string name="IndicatorLightAct_red_open">已点亮红灯,请确认</string>
-    <string name="IndicatorLightAct_green_open">已点亮绿灯,请确认</string>
-    <string name="IndicatorLightAct_bule_open">已点亮蓝灯,请确认</string>
-    <string name="IndicatorLightAct_red_faild">红灯点亮失败</string>
-    <string name="IndicatorLightAct_green_faild">绿灯点亮失败</string>
-    <string name="IndicatorLightAct_bule_faild">蓝灯点亮失败</string>
+    <string name="IndicatorLightAct_red_open">Has been lit red, please confirm</string>
+        
+    <string name="IndicatorLightAct_green_open">Has been lit green, please confirm</string>
+        
+    <string name="IndicatorLightAct_bule_open">Has been lit blue, please confirm</string>
+        
+    <string name="IndicatorLightAct_red_faild">Red light failed to light</string>
+        
+    <string name="IndicatorLightAct_green_faild">Green light failed</string>
+        
+    <string name="IndicatorLightAct_bule_faild">Blue light failed to light</string>
 
     <!--SDCardAct-->
-    <string name="SDCardAct_neizhi">内置SD卡总大小</string>
-    <string name="SDCardAct_wai">外置SD卡总大小</string>
-    <string name="SDCardAct_keyong">\n可用大小</string>
-    <string name="SDCardAct_copy_suc">\nSDCopy文件成功</string>
-    <string name="SDCardAct_copy_fa">\nSD卡Copy文件失败</string>
-    <string name="SDCardAct_copy_neisuc">\n内置SDCopy文件成功</string>
-    <string name="SDCardAct_copy_neifa">\n内置SD卡Copy文件失败</string>
+    <string name="SDCardAct_neizhi">The total size of the built-in SD card</string>
+        
+    <string name="SDCardAct_wai">The total size of the external SD card</string>
+        
+    <string name="SDCardAct_keyong">\nAvailable size</string>
+        
+    <string name="SDCardAct_copy_suc">\nSDCopy file succeeded</string>
+        
+    <string name="SDCardAct_copy_fa">\nSD card Copy file failed</string>
+        
+    <string name="SDCardAct_copy_neisuc">\nBuilt-in SDCopy file success</string>
+        
+    <string name="SDCardAct_copy_neifa">\nBuilt-in SD card Copy file failed</string>
 
     <!-- SimAct -->
-    <string name="SimAct_on">SIM卡存在</string>
-    <string name="SimAct_off">SIM卡不存在</string>
-    <string name="SimAct_on1">SIM1卡存在\n</string>
-    <string name="SimAct_off1">SIM1卡不存在\n</string>
-    <string name="SimAct_on2">SIM2卡存在\n</string>
-    <string name="SimAct_off2">SIM2卡不存在\n</string>
-    <string name="SimAct_msg">请插入两张SIM卡进行测试!\n</string>
+    <string name="SimAct_on">SIM card exists</string>
+        
+    <string name="SimAct_off">SIM card does not exist</string>
+        
+    <string name="SimAct_on1">SIM1 card exists\n</string>
+        
+    <string name="SimAct_off1">SIM1 card does not exist\n</string>
+        
+    <string name="SimAct_on2">SIM2 card exists\n</string>
+        
+    <string name="SimAct_off2">SIM2 card does not exist\n</string>
+        
+    <string name="SimAct_msg">Please insert two SIM cards for testing!\n</string>
 
     <!-- CammerBackgroundAct and CammerFrontAct -->
-    <string name="camera_btn">拍照</string>
-    <string name="camera_btn_buguang">拍照</string>
-    <string name="camera_btn2">闪光拍照</string>
-    <string name="camera_btn3">成功</string>
-    <string name="camera_title">请点击屏幕进行对焦</string>
-    <string name="camera_title2">对焦成功</string>
-    <string name="camera_title3">对焦失败</string>
-    <string name="camera_title4">拍照成功</string>
-    <string name="camera_title5">请点击屏幕对焦</string>
-    <string name="camera_title6">闪光灯拍照成功</string>
-    <string name="camera_title7">请先打开前置补关灯</string>
-    <string name="camera_title8">请点击拍照按钮进行拍照</string>
-    <string name="camera_faild">相机打开失败</string>
-    <string name="camera_msg">无前置摄像头</string>
+    <string name="camera_btn">Photograph</string>
+        
+    <string name="camera_btn_buguang">Photograph</string>
+        
+    <string name="camera_btn2">Flash photo</string>
+        
+    <string name="camera_btn3">Successful</string>
+        
+    <string name="camera_title">Please click the screen to focus</string>
+        
+    <string name="camera_title2">Focus success</string>
+        
+    <string name="camera_title3">Failed focus</string>
+        
+    <string name="camera_title4">Photo success</string>
+        
+    <string name="camera_title5">Please click on the screen to focus</string>
+        
+    <string name="camera_title6">Flash photo success</string>
+        
+    <string name="camera_title7">Please open the front fill light</string>
+        
+    <string name="camera_title8">Please click the photo button to take a photo</string>
+        
+    <string name="camera_faild">Camera failed to open</string>
+        
+    <string name="camera_msg">No front camera</string>
     <!-- BellAct -->
-    <string name="BellAct_msg">请滑动进度条调节音量:</string>
+        
+    <string name="BellAct_msg">Please slide the progress bar to adjust the volume:</string>
     <!-- ScanAct -->
-    <string name="ScanAct_dialog_msg">USB 扫描到的数据:</string>
+    <string name="ScanAct_dialog_msg">Scanned data:</string>
 
     <!-- 耳机 主机mic测试 -->
-    <string name="sound_music_play">播放音乐</string>
-    <string name="sound_play">播放录音</string>
-    <string name="sound_play_stop">停止播放</string>
-    <string name="sound_start_record">开始录音</string>
-    <string name="sound_stop_record">停止录音</string>
-    <string name="sound_ermsg">请接入耳机</string>
-    <string name="sound_ermsg2">耳机已插入,有麦克风\n请点击开始录音按钮进行录音</string>
-    <string name="sound_er_tosast">未连接耳机</string>
-    <string name="sound_er_tosast2">耳机已插入,无麦克风</string>
-    <string name="sound_er_tosast3">耳机已插入,有麦克风</string>
-    <string name="sound_phonemsg">请点击开始录音按钮进行录音</string>
+    <string name="sound_music_play">Play music</string>
+        
+    <string name="sound_play">Play recording </string>
+        
+    <string name="sound_play_stop"> Stop playing </string>
+        
+    <string name="sound_start_record"> tart recording</string>
+        
+    <string name="sound_stop_record">Stop recording</string>
+        
+    <string name="sound_ermsg">Please access the headset</string>
+        
+    <string name="sound_ermsg2">The headset is plugged in, there is a microphone\nPlease click the Start Recording button to record</string>
+        
+    <string name="sound_er_tosast">Not connected to the headset</string>
+        
+    <string name="sound_er_tosast2">The headset is plugged in, no microphone</string>
+        
+    <string name="sound_er_tosast3">The headset is plugged in, there is a microphone</string>
+        
+    <string name="sound_phonemsg">Please click the Start Recording button to record</string>
 
     <!-- usb -->
-    <string name="usb_state_connect">USB 已接入</string>
-    <string name="usb_state_no_connect">USB 断开状态</string>
-    <string name="usb_state_msg">请插入USB</string>
-    <string name="usb_state_msg2">请接入USB进行测试</string>
+    <string name="usb_state_connect">USB is connected</string>
+        
+    <string name="usb_state_no_connect">USB disconnect status</string>
+        
+    <string name="usb_state_msg">Please insert USB</string>
+        
+    <string name="usb_state_msg2">Please connect to USB for testing</string>
     <!--otg-->
-    <string name="otg_msg">OTG模式\n</string>
-    <string name="otg_msg2">读取中……</string>
-    <string name="otg_msg3">已用空间:</string>
-    <string name="otg_msg4">\n可用空间:</string>
-    <string name="otg_msg5">非OTG模式\n请插入USB-OTG并连接U盘</string>
+    <string name="otg_msg">OTG mode\n</string>
+        
+    <string name="otg_msg2">Reading...</string>
+        
+    <string name="otg_msg3">Used space:</string>
+        
+    <string name="otg_msg4">\nfree space:</string>
+        
+    <string name="otg_msg5">Non-OTG mode\nPlease insert USB-OTG and connect U disk</string>
 
     <!-- bluetooth -->
-    <string name="bluetooth_state">可用设备:</string>
-    <string name="bluetooth_toast">搜索完成,未搜索到任何设备</string>
-    <string name="bluetooth_toast2">搜索完成</string>
+    <string name="bluetooth_state">Available devices:</string>
+        
+    <string name="bluetooth_toast">Search completed,no device found</string>
+        
+    <string name="bluetooth_toast2">Search completed</string>
     <!--gps-->
-    <string name="tv_st_success">正在定位...</string>
-    <string name="tv_st_located">定位成功</string>
+    <string name="tv_st_success">Locating...</string>
+        
+    <string name="tv_st_located">Position success</string>
+        
     <string name="g_null_text" />
-    <string name="tv_st_info">正在获取GPS数据：</string>
-    <string name="alert_dialog_ok">确定</string>
-    <string name="alert_dialog_cancel">取消</string>
-    <string name="gps_st_info_snr">信噪比：</string>
-    <string name="gps_st_info_prn">prn：</string>
-    <string name="gps_st_info_azimuth">方位角：</string>
-    <string name="gps_st_info_elevation">海拔：</string>
-    <string name="gps_info_lat">纬度：</string>
-    <string name="gps_info_lon">经度：</string>
-    <string name="gps_info_speed">速度：</string>
-    <string name="gps_info_elevation">高度：</string>
-    <string name="gps_info_accuracy">精度：</string>
-    <string name="gps_info_null">无法获取地理信息</string>
-    <string name="gps_info_averageSignalIntensity">平均信号强度：</string>
+        
+    <string name="tv_st_info">Getting GPS data: </string>
+        
+    <string name="alert_dialog_ok">OK</string>
+        
+    <string name="alert_dialog_cancel">Cancel </string>
+        
+    <string name="gps_st_info_snr">Signal to noise ratio: </string>
+        
+    <string name="gps_st_info_prn">Prn:</string>
+        
+    <string name="gps_st_info_azimuth">Azimuth:</string>
+        
+    <string name="gps_st_info_elevation">Elevation:</string>
+        
+    <string name="gps_info_lat">latitude:</string>
+        
+    <string name="gps_info_lon">Longitude:</string>
+        
+    <string name="gps_info_speed">speed: </string>
+        
+    <string name="gps_info_elevation">Height:</string>
+        
+    <string name="gps_info_accuracy">Accuracy:</string>
+        
+    <string name="gps_info_null">Unable to get geographic information</string>
+        
+    <string name="gps_info_averageSignalIntensity">Average signal strength:</string>
 
 
     <!-- nfc -->
-    <string name="menu_clear">清屏</string>
-    <string name="nfc_toast_msg">NFC不可用</string>
-    <string name="menu_help">帮助</string>
-    <string name="menu_about">关于</string>
-    <string name="btn_copy">复制</string>
-    <string name="btn_nfc">设置</string>
-    <string name="btn_exit">退出</string>
-    <string name="tip_nfc_notfound">没有NFC硬件！</string>
-    <string name="tip_nfc_disabled">NFC已禁用</string>
-    <string name="tip_nfc_enabled">NFC已启用</string>
-    <string name="msg_reading">读取中...</string>
-    <string name="msg_nonfc">没有找到NFC硬件，程序无法工作！</string>
-    <string name="msg_nfcdisabled">NFC已被禁用，请先启用该硬件。可以使用下边的 ‘设置’ 按钮控制NFC传感器的开关。</string>
-    <string name="msg_nocard">没有卡片信息，请将卡片靠近手机后盖尝试重新读取。</string>
-    <string name="msg_copied">卡片信息已经复制到剪贴板</string>
-    <string name="lab_id">标识：</string>
-    <string name="lab_pmm">参数：</string>
-    <string name="lab_serl">序号：</string>
-    <string name="lab_ver">版本：</string>
-    <string name="lab_date">生效：</string>
-    <string name="lab_op">使用：</string>
-    <string name="lab_log">交易记录：</string>
-    <string name="lab_balance">余额：</string>
-    <string name="lab_cur_cny">元</string>
-    <string name="lab_cur_hkd">港币</string>
-    <string name="lab_op_time">次</string>
-    <string name="lab_user_id">读者证号：</string>
-    <string name="lab_bktg_sn">书籍编号：</string>
-    <string name="lab_bkcat">书籍类别：</string>
-    <string name="name_bkcat_soc">社会科学</string>
-    <string name="name_bkcat_sci">自然科学</string>
-    <string name="name_bkcat_ltr">文学</string>
-    <string name="name_octopuscard">八达通卡（香港）</string>
-    <string name="name_szt">深圳通卡</string>
-    <string name="name_szt_f">深圳通卡（旧版）</string>
-    <string name="name_lnt">岭南通卡（羊城通）</string>
-    <string name="name_wht">武汉城市一卡通</string>
-    <string name="name_cac">长安通卡</string>
-    <string name="name_bj">北京市政交通卡</string>
-    <string name="name_bj_m">北京市政交通卡（旧版）</string>
-    <string name="name_unknowntag">未知的电子标签</string>
-    <string name="name_szlib_center">深圳图书馆（市民中心）</string>
-    <string name="name_szlib_nanshan">深圳图书馆（南山）</string>
-    <string name="name_lib_readercard">读者证</string>
-    <string name="name_lib_booktag">书籍标签</string>
+    <string name="menu_clear">Clear screen</string>
+        
+    <string name="nfc_toast_msg">NFC is not available</string>
+        
+    <string name="menu_help">Help</string>
+        
+    <string name="menu_about">About</string>
+        
+    <string name="btn_copy">Copy</string>
+        
+    <string name="btn_nfc">Settings</string>
+        
+    <string name="btn_exit">Exit</string>
+        
+    <string name="tip_nfc_notfound">No NFC hardware!</string>
+        
+    <string name="tip_nfc_disabled">NFC is disabled</string>
+        
+    <string name="tip_nfc_enabled">NFC is enabled</string>
+        
+    <string name="msg_reading">Reading...</string>
+        
+    <string name="msg_nonfc">The NFC hardware was not found and the program could not work! </string>
+        
+    <string name="msg_nfcdisabled">NFC has been disabled, please enable the hardware first. The switch of the NFC sensor can be controlled using the ‘Settings’ button below. </string>
+        
+    <string name="msg_nocard">Without card information, please try to re-read the card near the back cover of the phone. </string>
+        
+    <string name="msg_copied">Card information has been copied to the clipboard </string>
+        
+    <string name="lab_id">Identification:</string>
+        
+    <string name="lab_pmm">Parameters </string>
+        
+    <string name="lab_serl">Serial number:</string>
+        
+    <string name="lab_ver">Version:</string>
+        
+    <string name="lab_date">Effective:</string>
+        
+    <string name="lab_op">Use:</string>
+        
+    <string name="lab_log">Transaction record:</string>
+        
+    <string name="lab_balance">Balance:</string>
+        
+    <string name="lab_cur_cny">Yuan</string>
+        
+    <string name="lab_cur_hkd">HK dollar</string>
+        
+    <string name="lab_op_time">Times</string>
+        
+    <string name="lab_user_id">Reader ID:</string>
+        
+    <string name="lab_bktg_sn">book number:</string>
+        
+    <string name="lab_bkcat">Book category:</string>
+        
+    <string name="name_bkcat_soc">Social science</string>
+        
+    <string name="name_bkcat_sci">Natural science</string>
+        
+    <string name="name_bkcat_ltr">Literature</string>
+        
+    <string name="name_octopuscard">Octopus card (Hong Kong)</string>
+        
+    <string name="name_szt">Shenzhen Tongka </string>
+        
+    <string name="name_szt_f">Shenzhen Tongka (old version)</string>
+        
+    <string name="name_lnt">Ling Nantong Card (Yangchengtong)</string>
+        
+    <string name="name_wht">Wuhan City Card</string>
+        
+    <string name="name_cac">Changantong card</string>
+        
+    <string name="name_bj">Beijing Municipal Traffic Card</string>
+        
+    <string name="name_bj_m">Beijing political transportation card (old version)</string>
+        
+    <string name="name_unknowntag">unknown electronic tag </string>
+        
+    <string name="name_szlib_center">Shenzhen Library (Citizen Center)</string>
+        
+    <string name="name_szlib_nanshan">Shenzhen Library (Nanshan)</string>
+        
+    <string name="name_lib_readercard">Reader badge</string>
+        
+    <string name="name_lib_booktag">book label</string>
 
     <!--ChangeAct-->
-    <string name="ChangeAct_full">电池状态：Full(已满)，换块电池重新试下</string>
-    <string name="ChangeAct_dian_v">\n电池电压:</string>
-    <string name="ChangeAct_dian_c">\n电池温度:</string>
-    <string name="ChangeAct_dian_i">\n电池电流:</string>
-    <string name="ChangeAct_state">\nUSB充电</string>
-    <string name="ChangeAct_state2">\n非USB充电</string>
-    <string name="ChangeAct_state3">\n直流电源充电</string>
-    <string name="ChangeAct_state4">\n非直流电源充电</string>
-    <string name="ChangeAct_state5">正在充电</string>
-    <string name="ChangeAct_state6">电池未充电,请连接充电器</string>
-    <string name="ChangeAct_state7">电池未充电,请连接磁吸附充电线</string>
-    <string name="ChangeAct_state8">磁吸附充电</string>
-    <string name="ChangeAct_state9">\nUSB充电,请接入磁吸附充电器</string>
-    <!--GSeneorAct加速传感器-->
-    <string name="GSeneorAct_msg">请上下左右移动设备，观察x、y、z变化\n</string>
-    <string name="GSeneorAct_state">加速传感器正常</string>
-    <string name="GSeneorAct_state2">加速传感器不正常</string>
-    <!--LightSeneorAct 光感-->
-    <string name="LightSeneorAct_msg">请用手遮挡光感区,光感值变化为正常\n\n光线强度:</string>
-    <string name="LightSeneorAct_msg2">距离传感器数值:接近</string>
-    <string name="LightSeneorAct_msg3">距离传感器数值:离开</string>
-    <!--打电话-->
-    <string name="phone_call">拨打电话</string>
+    <string name="ChangeAct_full">Battery status: Full (full), try again with a replacement battery</string>
+        
+    <string name="ChangeAct_dian_v">\nBattery voltage: </string>
+        
+    <string name="ChangeAct_dian_c">\nBattery temperature:</string>
+        
+    <string name="ChangeAct_dian_i">\nBattery current:</string>
+        
+    <string name="ChangeAct_state">\nUSB charging</string>
+        
+    <string name="ChangeAct_state2">\nNon-USB charging</string>
+        
+    <string name="ChangeAct_state3">\nDC power charging</string>
+        
+    <string name="ChangeAct_state4">\nNon-DC power charging</string>
+        
+    <string name="ChangeAct_state5">Charging</string>
+        
+    <string name="ChangeAct_state6">The battery is not charging, please connect the charger</string>
+        
+    <string name="ChangeAct_state7">The battery is not charging, please connect the magnetic adsorption charging line </string>
+        
+    <string name="ChangeAct_state8">Magnetic adsorption charging</string>
+        
+    <string name="ChangeAct_state9">\nUSB charging, please connect to the magnetic adsorption charger</string>
+    <!--GSeneorAct-->
+    <string name="GSeneorAct_msg">Please move the device up and down, and observe x, y, z changes\n</string>
+        
+    <string name="GSeneorAct_state">Acceleration sensor is normal</string>
+        
+    <string name="GSeneorAct_state2">Acceleration sensor is not working</string>
+    <!--LightSeneorAct -->
+    <string name="LightSeneorAct_msg">Please block the light area by hand, the light value changes to normal \n\n light intensity:</string>
+        
+    <string name="LightSeneorAct_msg2">Distance sensor value:close to</string>
+        
+    <string name="LightSeneorAct_msg3">Distance sensor value:leave</string>
+    <!--callphone-->
+    <string name="phone_call">Call The Phone</string>
 
-    <!--VibrateAct  振动器-->
-    <string name="VibrateAct_state">当前设备无振动器</string>
-    <string name="VibrateAct_msg">振动中……</string>
+    <!--VibrateAct -->
+    <string name="VibrateAct_state">Current device without vibrator</string>
+        
+    <string name="VibrateAct_msg">Vibration...</string>
 
-    <!--听筒-->
-    <string name="SpeakerAct_msg">听筒正在播放音乐……</string>
-    <!--MultitouchVisible多点触摸-->
-    <string name="MultitouchVisible_msg">请进行多点触摸测试</string>
-    <string name="MultitouchVisible_dialog_btn">重新测试</string>
-    <string name="MultitouchVisible_msg2">屏幕支持</string>
-    <string name="MultitouchVisible_msg3">个,请选择</string>
+    <!--Headset-->
+    <string name="SpeakerAct_msg">The handset is playing music...</string>
+    <!--MultitouchVisible-->
+    <string name="MultitouchVisible_msg">Please perform multi-touch test</string>
+        
+    <string name="MultitouchVisible_dialog_btn">Retest</string>
+        
+    <string name="MultitouchVisible_msg2">Screen support</string>
+        
+    <string name="MultitouchVisible_msg3">,Please select</string>
 
-    <!--ZhongLiGanYing 重力感应-->
-    <string name="ZhongLiGanYing_title">观察xyz数值变化与小球轨迹</string>
-    <string name="ZhongLiGanYing_x">X轴重力值:</string>
-    <string name="ZhongLiGanYing_y">Y轴重力值:</string>
-    <string name="ZhongLiGanYing_z">Z轴重力值:</string>
-    <!--清除测试记录-->
-    <string name="reste_msg">清除测试记录成功</string>
+    <!--ZhongLiGanYing -->
+    <string name="ZhongLiGanYing_title">Observe xyz value changes and small ball trajectory</string>
+        
+    <string name="ZhongLiGanYing_x">X-axis gravity value:</string>
+        
+    <string name="ZhongLiGanYing_y">Y axis gravity value:</string>
+        
+    <string name="ZhongLiGanYing_z">Z axis gravity value:</string>
 
-    <!--导出测试记录-->
-    <string name="Excle_title">序号</string>
-    <string name="Excle_title2">测试项</string>
-    <string name="Excle_title3">状态</string>
+    <!--Clear test record --> 
+    <string name="reste_msg">Clear test record success </string>
 
+    <!--Export test record-->
+    <string name="Excle_title">Serial number</string>
+        
+    <string name="Excle_title2">Test item</string>
+        
+    <string name="Excle_title3">Status</string>
+    <string name="Excle_suc"> Export data successfully </string>
+        
+    <string name="Excle_fal">Failed to export data</string>
     <!--wifi-->
-    <string name="wifi_opening">wifi开启中...</string>
-    <string name="wifi_open">wifi已开启</string>
-    <string name="wifi_toast">WIFI连接成功</string>
-    <string name="wifi_toast2">WIFI连接失败</string>
-    <string name="wifi_suc">WIFI连接成功</string>
-    <string name="wifi_dialog_msg">请选择你要进行的操作</string>
-    <string name="wifi_dialog_title">提示</string>
-    <string name="wifi_dialog_but">连接</string>
-    <string name="wifi_dialog_but2">断开</string>
-    <string name="wifi_dialog_but3">忘记</string>
-    <string name="wifi_dialog_but4">取消</string>
-    <string name="wifi_dialog_but5">确定</string>
-    <string name="wifi_dialog2_msg">无线SSID:</string>
-    <string name="wifi_dialog3_msg">你选择的wifi无密码,可能不安全,确定继续连接?</string>
-    <string name="wifi_dialog2_title">请输入该无线的连接密码</string>
-
+    <string name="wifi_opening">WIFI is turned on...</string>
+        
+    <string name="wifi_open">WIFI is turned on</string>
+        
+    <string name="wifi_toast"> WIFI connection succeeded</string>
+        
+    <string name="wifi_toast2"> WIFI connection failed</string>
+        
+    <string name="wifi_suc">WIFI connection succeeded</string>
+        
+    <string name="wifi_dialog_msg">Please select the action you want to perform </string>
+        
+    <string name="wifi_dialog_title">Prompt</string>
+        
+    <string name="wifi_dialog_but">Connection</string>
+        
+    <string name="wifi_dialog_but2">Disconnect</string>
+        
+    <string name="wifi_dialog_but3">Forgot</string>
+        
+    <string name="wifi_dialog_but4">Cancel</string>
+        
+    <string name="wifi_dialog_but5"> OK </string>
+        
+    <string name="wifi_dialog2_msg">Wireless SSID:</string>
+        
+    <string name="wifi_dialog3_msg">When you choose WIFI without password, it may not be safe, be sure to continue connecting?</string>
+        
+    <string name="wifi_dialog2_title">Please enter the wireless connection password</string>
+    <string name="wifi_item_msg">Protected by WPA2-PSK</string>
+        
+    <string name="wifi_item_msg2">Protected by WPA-PSK</string>
+        
+    <string name="wifi_item_msg3">Protected by WPA-EAP</string>
+        
+    <string name="wifi_item_msg4">Protected by WEP</string>
+        
+    <string name="wifi_item_msg5">Open network</string>
+        
+    <string name="wifi_item_msg6"> (Connected) </string>
+    <string name="wifi_pwd_msg">Password:"</string>
 </resources>
 
 

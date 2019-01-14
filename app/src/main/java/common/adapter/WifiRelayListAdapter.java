@@ -78,36 +78,36 @@ public class WifiRelayListAdapter extends BaseAdapter {
         String lock_str;
         boolean lock_type = true;
 
-        // System.out.println("ssid=" + childData.SSID);
-        // System.out.println("childData.capabilities=" +
-        // childData.capabilities);
-        // System.out.println("childData.level=" + childData.level);
+//         System.out.println("ssid=" + childData.SSID);
+//         System.out.println("childData.capabilities=" +
+//         childData.capabilities);
+//         System.out.println("childData.level=" + childData.level);
         if (childData.capabilities.contains("WPA2-PSK")) {
             // WPA-PSK加密
-            lock_str = "通过WPA2-PSK进行保护";
+            lock_str =context.getResources().getString(R.string.wifi_item_msg);
         } else if (childData.capabilities.contains("WPA-PSK")) {
             // WPA-PSK加密
-            lock_str = "通过WPA-PSK进行保护";
+            lock_str = context.getResources().getString(R.string.wifi_item_msg2);
         } else if (childData.capabilities.contains("WPA-EAP")) {
             // WPA-EAP加密
-            lock_str = "通过WPA-EAP进行保护";
+            lock_str = context.getResources().getString(R.string.wifi_item_msg3);
         } else if (childData.capabilities.contains("WEP")) {
             // WEP加密
-            lock_str = "通过WEP进行保护";
+            lock_str = context.getResources().getString(R.string.wifi_item_msg4);
         } else {
             // 无密码
-            lock_str = "开放网络";
+            lock_str = context.getResources().getString(R.string.wifi_item_msg5);
             lock_type = false;
         }
 
         LinkWifi linkWifi = new LinkWifi(context);
-        WifiManager wifiManager = (WifiManager) context
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext()
                 .getSystemService(Service.WIFI_SERVICE);
 
         if (linkWifi.IsExsits(childData.SSID) != null
                 && linkWifi.IsExsits(childData.SSID).networkId == wifiManager
                 .getConnectionInfo().getNetworkId()) {
-            lock_str += "(已连接)";
+            lock_str += context.getResources().getString(R.string.wifi_item_msg6);
         }
 
         wifi_lock_text.setText(lock_str);
@@ -127,6 +127,7 @@ public class WifiRelayListAdapter extends BaseAdapter {
 
         convertView.setOnTouchListener(new View.OnTouchListener() {
 
+            @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
                 if (arg1.getAction() == MotionEvent.ACTION_DOWN) {
                     arg0.setBackgroundColor(0xaa333333);
@@ -139,34 +140,37 @@ public class WifiRelayListAdapter extends BaseAdapter {
         });
 
         if (childData.level < -90) {
-            if (lock_type)
+            if (lock_type) {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel0_lock);
-            else
+            } else {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel0);
+            }
         } else if (childData.level < -85) {
-            if (lock_type)
+            if (lock_type) {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel1_lock);
-            else
+            } else {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel1);
+            }
         } else if (childData.level < -70) {
-            if (lock_type)
+            if (lock_type) {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel2_lock);
-            else
+            } else {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel2);
+            }
         } else if (childData.level < -60) {
-            if (lock_type)
+            if (lock_type) {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel3_lock);
-            else
+            } else {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel3);
+            }
         } else if (childData.level < -50) {
-            if (lock_type)
+            if (lock_type) {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel4_lock);
-            else
+            } else {
                 wifi_state.setBackgroundResource(R.mipmap.wifilevel4);
+            }
         }
-
         convertView.setTag("wifi_" + childData.BSSID);
-
         return convertView;
     }
 

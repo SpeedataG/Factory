@@ -50,7 +50,6 @@ public class LightSeneorAct extends FragActBase implements View.OnClickListener 
     }
 
 
-    private String model;
     private StringBuffer sbpro;
     private SensorManager sm;
     private StringBuffer sb;
@@ -62,13 +61,12 @@ public class LightSeneorAct extends FragActBase implements View.OnClickListener 
         initView();
         initTitlebar();
         setSwipeEnable(false);
-        sbpro = new StringBuffer();
-        model = Build.MODEL;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        sbpro = new StringBuffer();
         // 获取SensorManager对象
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         mySensorListener = new MySensorListener();

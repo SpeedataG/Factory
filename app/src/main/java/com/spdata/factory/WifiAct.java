@@ -229,6 +229,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
         wifiListAdapter = new WifiRelayListAdapter(context, newWifList,
                 setWifiHandler);
         wifi_list.setAdapter(wifiListAdapter);
+        wifiListAdapter.notifyDataSetChanged();
 
     }
 
