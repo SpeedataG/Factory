@@ -336,10 +336,10 @@
     <string name="psam2_succeed">Psam2 成功 \n</string>
 
     <!--EepromAct-->
-    <string name="eeprom_read">Read Magic Number:\n</string>
-    <string name="eeprom_ok">Magic Number OK!\n</string>
-    <string name="eeprom_error">Magic Number Error!\n</string>
-    <string name="eeprom_Retry">\nRetry:\n </string>
+    <string name="eeprom_read">读取魔法数字:\n</string>
+    <string name="eeprom_ok">魔法数字正确!\n</string>
+    <string name="eeprom_error">魔法数字错误!\n</string>
+    <string name="eeprom_Retry">\n重试:\n </string>
 
 </resources>
 
