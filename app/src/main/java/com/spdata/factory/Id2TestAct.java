@@ -51,7 +51,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "ID2", null);
+        }, getResources().getString(R.string.menu_id2), null);
     }
 
 
@@ -71,7 +71,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 iid2Service.getIDInfor(false, isChecked);
                 if (!isChecked) {
-                    tvVersionInfor.setText("ID2模块初始化成功\n请将身份证靠近读卡器");
+                    tvVersionInfor.setText(getResources().getString(R.string.ID2_init_ok));
                 }
             }
         });
@@ -98,8 +98,8 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
             iid2Service.getIDInfor(false, btnStart.isChecked());
             idInfor = (IDInfor) msg.obj;
             if (idInfor.isSuccess()) {
-                tvVersionInfor.setText("姓名：" + idInfor.getName() + "性别：" + idInfor.getSex() + "\n出生年月：" + idInfor.getYear() + "-" + idInfor.getMonth() + "-" + idInfor.getDay()
-                        + "\n住址：" + idInfor.getAddress() + "\n身份证号：" + idInfor.getNum());
+                tvVersionInfor.setText(getResources().getString(R.string.ID2_idInfor1) + idInfor.getName() + getResources().getString(R.string.ID2_idInfor2) + idInfor.getSex() + getResources().getString(R.string.ID2_idInfor3) + idInfor.getYear() + "-" + idInfor.getMonth() + "-" + idInfor.getDay()
+                        + getResources().getString(R.string.ID2_idInfor4) + idInfor.getAddress() + getResources().getString(R.string.ID2_idInfor5) + idInfor.getNum());
 //                iid2Service.getIDInfor(false, false);
             } else {
 //                tvVersionInfor.setText("读取信息失败");
@@ -114,7 +114,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
     public void initIDService() {
         iid2Service = IDManager.getInstance();
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("正在初始化");
+        progressDialog.setMessage(getResources().getString(R.string.ID2_init_ing));
         progressDialog.setCancelable(false);
         progressDialog.show();
 //        showDialog(dia);
@@ -154,11 +154,11 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
                                 progressDialog.cancel();
                             }
                             if (!finalResult) {
-                                showToast("二代证模块初始化失败");
+                                showToast(getResources().getString(R.string.ID2_init_fail));
                                 setXml(App.KEY_ID2, App.KEY_UNFINISH);
                                 finish();
                             } else {
-                                tvVersionInfor.setText("ID2模块初始化成功\n请将身份证靠近读卡器");
+                                tvVersionInfor.setText(getResources().getString(R.string.ID2_init_ok));
                             }
                         }
                     });
@@ -174,7 +174,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
     protected Dialog onCreateDialog(int id) {
         if (id == 1) {
             progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("正在初始化");
+            progressDialog.setMessage(getResources().getString(R.string.ID2_init_ing));
             progressDialog.setCancelable(false);
         }
         return progressDialog;

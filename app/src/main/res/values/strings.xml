@@ -59,6 +59,7 @@
     <string name="menu_rj45">RJ45网线接口测试</string>
     <string name="menu_gpio">GPIO测试</string>
     <string name="menu_test485">485测试</string>
+    <!--<string name="menu_camera">摄像头</string>-->
     <!--VersionAct-->
     <string name="VersionAct_modle">型号:</string>
     <string name="VersionAct_system_num">系统版本号:</string>
@@ -78,7 +79,7 @@
     <!--LightAct-->
     <string name="LightAct_msg">请进行屏幕亮度测试</string>
 
-    <!--LndicatorLightKT4OAct-->
+    <!--LndicatorLightKT4OAct \ IndicatorLightAct_sd55 -->
     <string name="LndicatorLight_redtrue">红灯点亮</string>
     <string name="LndicatorLight_red_return">点亮红灯失败，返回</string>
     <string name="LndicatorLight_red_false">红灯点亮失败</string>
@@ -107,6 +108,8 @@
     <string name="IndicatorLightAct_green_faild">绿灯点亮失败</string>
     <string name="IndicatorLightAct_bule_faild">蓝灯点亮失败</string>
 
+
+
     <!--SDCardAct-->
     <string name="SDCardAct_neizhi">内置SD卡总大小</string>
     <string name="SDCardAct_wai">外置SD卡总大小</string>
@@ -125,7 +128,13 @@
     <string name="SimAct_off2">SIM2卡不存在\n</string>
     <string name="SimAct_msg">请插入两张SIM卡进行测试!\n</string>
 
-    <!-- CammerBackgroundAct and CammerFrontAct -->
+    <!--SimKt40Act-->
+    <string name="SimKt40_on1">SIM1存在:</string>
+    <string name="SimKt40_off1">\nSIM1不存在:</string>
+    <string name="SimKt40_on2">SIM2存在:</string>
+    <string name="SimKt40_off2">\nSIM2不存在:</string>
+
+    <!-- CammerBackgroundAct and CammerFrontAct  \ M08CameraBacckAct \ DCD3CammerBackgroundAct -->
     <string name="camera_btn">拍照</string>
     <string name="camera_btn_buguang">拍照</string>
     <string name="camera_btn2">闪光拍照</string>
@@ -140,9 +149,13 @@
     <string name="camera_title8">请点击拍照按钮进行拍照</string>
     <string name="camera_faild">相机打开失败</string>
     <string name="camera_msg">无前置摄像头</string>
+
+    <!--CameraUSBAct-->
+    <string name="camera_toast">无法连接到相机！</string>
+
     <!-- BellAct -->
     <string name="BellAct_msg">请滑动进度条调节音量:</string>
-    <!-- ScanAct -->
+    <!-- ScanAct \ X300q -->
     <string name="ScanAct_dialog_msg">扫描到的数据:</string>
 
     <!-- 耳机 主机mic测试 -->
@@ -217,9 +230,11 @@
     <!--GpsOutAct-->
     <string name="gps_out_sInfo">什么也没选！</string>
 
-    <!--OutGpsS510Act-->
-    <string name="out_gps_s510_msg">测试失败！</string>
+    <!--OutGpsS510Act  \ N55 \ H500 -->
+    <string name="out_gps_msg">测试失败！</string>
 
+    <!--OutGps_x300Act-->
+    <string name="out_gps_x300">X2测试失败！</string>
 
     <!-- nfc -->
     <string name="menu_clear">清屏</string>
@@ -345,6 +360,11 @@
     <string name="wifi_item_msg6">(已连接)</string>
     <string name="wifi_pwd_msg">密码:"</string>
 
+    <!--FlashActivity-->
+    <string name="FlashActivity_toast">手电筒被占用</string>
+    <string name="FlashActivity_title">手电筒已开启</string>
+    <string name="FlashActivity_click_close">点击可关闭手电筒</string>
+
     <!--FlashLightAct-->
     <string name="flash_light_close">请关闭手电筒</string>
     <string name="flash_light_open">请打开手电筒</string>
@@ -368,11 +388,88 @@
     <string name="eeprom_error">魔法数字错误!\n</string>
     <string name="eeprom_Retry">\n重试:\n </string>
 
-    <!--SerialportAct-->
+    <!-- SerialportAct  \ H80  \ X300Serport  -->
     <string name="serialport_info1">请将耳机串口自环线插入耳机接口左侧无标示接口，</string>
-    <string name="serialport_info2">点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功</string>
+    <string name="serialport_info2">点击发送按钮\n\n发送内容“This is Serialport!”接收到发送内容成功</string>
     <string name="serialport_info3">接收内容：\n\n</string>
     <string name="serialport_info4">请插入耳机串口自环线</string>
+
+    <!-- Rs232Serport-->
+    <string name="Rs232Serport_equals1">请将RS232串口自环线插入背面接口，</string>
+    <string name="Rs232Serport_equals2">点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功</string>
+    <string name="Rs232Serport_infor1">请插入耳机串口自环线</string>
+    <string name="Rs232Serport_infor2">接收内容：\n\n</string>
+    <string name="Rs232Serport_open_fail">串口打开失败请重试！！！</string>
+
+
+    <!--R6Act-->
+    <string name="R6Act_info">卡片ID:</string>
+
+    <!--UhfAct-->
+    <string name="uhf_nonexist">模块不存在</string>
+    <string name="uhf_model">型号:</string>
+    <string name="uhf_msg_title">警告！</string>
+    <string name="uhf_msg">上电失败</string>
+    <string name="uhf_msg_ok">确定</string>
+    <string name="uhf_msg_error">*模块不识别*</string>
+
+    <!--GasSensorAct-->
+    <string name="GasSensor_toast">未指定指定应用！</string>
+
+    <!--ExpandAct \ FingerPrint -->
+    <string name="Expand_port1_pass">串口1通过\n</string>
+    <string name="Expand_port1_fail">串口1失败\n</string>
+    <string name="Expand_port2_pass">串口2通过\n</string>
+    <string name="Expand_port2_fail">串口2失败\n</string>
+    <string name="Expand_msg1">请链接背夹！</string>
+    <string name="Expand_msg2">背夹已连接！</string>
+    <string name="Expand_toast">未检测到触点！</string>
+    <string name="Expand_loading">检测模块中……</string>
+    <string name="Expand_msg_obj1">无指纹模块！</string>
+    <string name="Expand_msg_obj2">公安指纹模块！</string>
+    <string name="Expand_msg_obj3">民用指纹模块！</string>
+    <string name="Expand_msg_obj4">金色指纹模块！</string>
+
+    <string name="FingerPrint_toast1">查找到公安指纹模块！</string>
+    <string name="FingerPrint_toast2">查找到民用指纹模块！</string>
+    <string name="FingerPrint_toast3">查找到金色指纹模块！</string>
+
+    <!--TouchTest-->
+    <string name="TouchTest_title">查看</string>
+    <string name="TouchTest_msg">请确认屏幕是否正常</string>
+
+    <!--Id2TestAct-->
+    <string name="ID2_init_ok">ID2模块初始化成功\n请将身份证靠近读卡器</string>
+    <string name="ID2_idInfor1">姓名：</string>
+    <string name="ID2_idInfor2">性别：</string>
+    <string name="ID2_idInfor3">\n出生年月：</string>
+    <string name="ID2_idInfor4">\n住址：</string>
+    <string name="ID2_idInfor5">\n身份证号：</string>
+    <string name="ID2_init_ing">正在初始化</string>
+    <string name="ID2_init_fail">二代证模块初始化失败</string>
+
+    <!--ButtonAll-->
+    <string name="btnAll_infor1">请根据显示键值判断按键是否正常！</string>
+    <string name="btnAll_infor2">按键键值:</string>
+
+    <!--ButtonSd80Act-->
+    <string name="btn_showToast">菜单键</string>
+
+    <!--Tc01485Act-->
+    <string name="Tc01485Act_send">发送内容：This is 485 test</string>
+    <string name="Tc01485Act_accept1">串口2接收：</string>
+    <string name="Tc01485Act_accept2">串口3接收：This is 485 test</string>
+
+    <!--Tc01GpioAct-->
+    <string name="Tc01GpioAct_info_pass">GPIO测试全部通过</string>
+    <string name="Tc01GpioAct_info_fail">-测试不通过\n</string>
+    <string name="Tc01GpioAct_info_error">未知错误！</string>
+
+    <!--CheckIntentAct-->
+    <string name="CheckIntentAct_infor1">请插入RJ45网线</string>
+    <string name="CheckIntentAct_infor2">RJ45网络已连接</string>
+    <string name="CheckIntentAct_infor3">未连接网络</string>
+    <string name="CheckIntentAct_toast">切换RJ45接口失败</string>
 
 
 </resources>

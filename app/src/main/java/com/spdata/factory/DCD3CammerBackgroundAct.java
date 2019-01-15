@@ -66,7 +66,7 @@ public class DCD3CammerBackgroundAct extends FragActBase implements SurfaceHolde
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("摄像头");
+        titlebar.setAttrs(getResources().getString(R.string.menu_background_camera));
     }
 
 
@@ -171,7 +171,7 @@ public class DCD3CammerBackgroundAct extends FragActBase implements SurfaceHolde
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         //设置监听
         mySurfaceView.setOnClickListener(this);
-        titlebar.setTitlebarNameText("请点击屏幕进行对焦!");
+        titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title5));
         myAutoFocusCallback = new Camera.AutoFocusCallback() {
 
             public void onAutoFocus(boolean success, Camera camera) {
@@ -261,7 +261,7 @@ public class DCD3CammerBackgroundAct extends FragActBase implements SurfaceHolde
                     myCamera = Camera.open();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    showToast("相机打开失败");
+                    showToast(getResources().getString(R.string.camera_faild));
                 }
                 myCamera.setDisplayOrientation(180);//设置预览方向,
                 myCamera.setPreviewDisplay(holder);
@@ -295,8 +295,8 @@ public class DCD3CammerBackgroundAct extends FragActBase implements SurfaceHolde
                     isClicked = false;
                 }
                 if (!isClicked) {
-                    btnPass.setText("成功");
-                    titlebar.setAttrs("拍照成功");
+                    btnPass.setText(getResources().getString(R.string.camera_btn3));
+                    titlebar.setAttrs(getResources().getString(R.string.camera_title4));
                     count++;
                 }
             } else if (count == 1) {
@@ -311,10 +311,10 @@ public class DCD3CammerBackgroundAct extends FragActBase implements SurfaceHolde
                         if (success) {
                             initCamera();//实现相机的参数初始化
                             camera.cancelAutoFocus();//只有加上了这一句，才会自动对焦。
-                            titlebar.setAttrs("对焦成功！");
+                            titlebar.setAttrs(getResources().getString(R.string.camera_title2));
                             btnPass.setEnabled(true);
                         } else {
-                            titlebar.setAttrs("对焦失败！");
+                            titlebar.setAttrs(getResources().getString(R.string.camera_title3));
                         }
                     }
                 }); //自动对焦

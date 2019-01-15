@@ -100,6 +100,8 @@
     <string name="menu_gpio">GPIO Test</string>
         
     <string name="menu_test485">485 Test</string>
+    <!--<string name="menu_camera">camera</string>-->
+
     <!--VersionAct-->
     <string name="VersionAct_modle">Version:</string>
     <string name="VersionAct_system_num">System Version:</string>
@@ -162,6 +164,7 @@
         
     <string name="IndicatorLightAct_bule_faild">Blue light failed to light</string>
 
+
     <!--SDCardAct-->
     <string name="SDCardAct_neizhi">The total size of the built-in SD card</string>
         
@@ -192,7 +195,14 @@
         
     <string name="SimAct_msg">Please insert two SIM cards for testing!\n</string>
 
-    <!-- CammerBackgroundAct and CammerFrontAct -->
+    <!--SimKt40Act-->
+    <string name="SimKt40_on1">SIM1 exist:</string>
+    <string name="SimKt40_off1">\nSIM1 not exist:</string>
+    <string name="SimKt40_on2">SIM2 exist:</string>
+    <string name="SimKt40_off2">\nSIM2 not exist:</string>
+
+
+    <!-- CammerBackgroundAct and CammerFrontAct \ M08CameraBacckAct \ DCD3CammerBackgroundAct  -->
     <string name="camera_btn">Photograph</string>
         
     <string name="camera_btn_buguang">Photograph</string>
@@ -220,6 +230,10 @@
     <string name="camera_faild">Camera failed to open</string>
         
     <string name="camera_msg">No front camera</string>
+
+    <!--CameraUSBAct-->
+    <string name="camera_toast">Unable to connect to camera!</string>
+
     <!-- BellAct -->
         
     <string name="BellAct_msg">Please slide the progress bar to adjust the volume:</string>
@@ -334,9 +348,11 @@
     <!--GpsOutAct-->
     <string name="gps_out_sInfo">Nothing！</string>
 
-    <!--OutGpsS510Act-->
-    <string name="out_gps_s510_msg">Test to fail！</string>
+    <!--OutGpsS510Act  \ N55 \ H500 -->
+    <string name="out_gps_msg">Test to fail！</string>
 
+    <!--OutGps_x300Act-->
+    <string name="out_gps_x300">X2 Test to fail！</string>
 
     <!-- nfc -->
     <string name="menu_clear">Clear screen</string>
@@ -552,6 +568,10 @@
     <string name="wifi_item_msg6"> (Connected) </string>
     <string name="wifi_pwd_msg">Password:"</string>
 
+    <!--FlashActivity-->
+    <string name="FlashActivity_toast">Flashlight occupied</string>
+    <string name="FlashActivity_title">Flashlight on</string>
+    <string name="FlashActivity_click_close">Click to turn off the flashlight</string>
 
     <!--FlashLightAct-->
     <string name="flash_light_close">Please turn off the flashlight</string>
@@ -580,9 +600,86 @@
 
     <!--SerialportAct-->
     <string name="serialport_info1">Please insert the serial port from the loop line into the unlabeled port on the left side of the headphone jack,</string>
-    <string name="serialport_info2">Click the Send button\n\nSend content“This is Seriaport!”Received the sent content successfully</string>
+    <string name="serialport_info2">Click the Send button\n\nSend content“This is Serialport!”Received the sent content successfully</string>
     <string name="serialport_info3">Receiving content:\n\n</string>
     <string name="serialport_info4">Please insert headphone serial self-loop</string>
+
+    <!-- Rs232Serport-->
+    <string name="Rs232Serport_equals1">Please insert RS232 serial self-loop into back interface，</string>
+    <string name="Rs232Serport_equals2">Click the Send button\n\nSend content“This is Seriaport!”Received the sent content successfully</string>
+    <string name="Rs232Serport_infor1">Please insert headphone serial self-loop</string>
+    <string name="Rs232Serport_infor2">Receiving content:\n\n</string>
+    <string name="Rs232Serport_open_fail">Serial port open failed please try again!!!</string>
+
+    <!--R6Act-->
+    <string name="R6Act_info">Card ID:</string>
+
+    <!--UhfAct-->
+    <string name="uhf_nonexist">Module does not exist</string>
+    <string name="uhf_model">model:</string>
+    <string name="uhf_msg_title">Warning！</string>
+    <string name="uhf_msg">The electricity failure</string>
+    <string name="uhf_msg_ok">OK</string>
+    <string name="uhf_msg_error">*Module unrecognized*</string>
+
+    <!--GasSensorAct-->
+    <string name="GasSensor_toast">Specified application not specified!</string>
+
+    <!--ExpandAct-->
+    <string name="Expand_port1_pass">Serial port 1 pass\n</string>
+    <string name="Expand_port1_fail">Serial port 1 failed\n</string>
+    <string name="Expand_port2_pass">Serial port 2 pass\n</string>
+    <string name="Expand_port2_fail">Serial port 2 failed\n</string>
+    <string name="Expand_msg1">Please link back clip!</string>
+    <string name="Expand_msg2">Back clip is connected!</string>
+    <string name="Expand_toast">No contact detected!</string>
+    <string name="Expand_loading">In the detection module...</string>
+    <string name="Expand_msg_obj1">No fingerprint module!</string>
+    <string name="Expand_msg_obj2">Public security fingerprint module!</string>
+    <string name="Expand_msg_obj3">Civilian fingerprint module!</string>
+    <string name="Expand_msg_obj4">Gold fingerprint module!</string>
+
+    <string name="FingerPrint_toast1">Find the public security fingerprint module!</string>
+    <string name="FingerPrint_toast2">Find the civil fingerprint module!</string>
+    <string name="FingerPrint_toast3">Find the gold fingerprint module!</string>
+
+    <!--TouchTest-->
+    <string name="TouchTest_title">look</string>
+    <string name="TouchTest_msg">Please confirm whether the screen is normal</string>
+
+    <!--Id2TestAct-->
+    <string name="ID2_init_ok">Initialization of ID2 module is successful.\n Please close the ID card to the card reader.</string>
+    <string name="ID2_idInfor1">Name:</string>
+    <string name="ID2_idInfor2">Gender:</string>
+    <string name="ID2_idInfor3">\nDate of birth:</string>
+    <string name="ID2_idInfor4">\nAddress:</string>
+    <string name="ID2_idInfor5">\nId number:</string>
+    <string name="ID2_init_ing">initializing</string>
+    <string name="ID2_init_fail">ID2 module initialization failed</string>
+
+    <!--ButtonAll-->
+    <string name="btnAll_infor1">Please judge whether the key is normal according to the displayed key value!</string>
+    <string name="btnAll_infor2">Key value:</string>
+
+    <!--ButtonSd80Act-->
+    <string name="btn_showToast">menu</string>
+
+    <!--Tc01485Act-->
+    <string name="Tc01485Act_send">Send content:This is 485 test</string>
+    <string name="Tc01485Act_accept1">Serial port 2 receives:</string>
+    <string name="Tc01485Act_accept2">Serial port 3 receives:This is 485 test</string>
+
+    <!--Tc01GpioAct-->
+    <string name="Tc01GpioAct_info_pass">GPIO tests are all passed</string>
+    <string name="Tc01GpioAct_info_fail">-The test failed.\n</string>
+    <string name="Tc01GpioAct_info_error">Unknown error!</string>
+
+    <!--CheckIntentAct-->
+    <string name="CheckIntentAct_infor1">Please insert the RJ45 network cable</string>
+    <string name="CheckIntentAct_infor2">The RJ45 network is connected</string>
+    <string name="CheckIntentAct_infor3">Unconnected network</string>
+    <string name="CheckIntentAct_toast">Failed to switch RJ45 interface</string>
+
 
 </resources>
 

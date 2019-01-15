@@ -49,7 +49,7 @@ public class ScanX300qAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "扫描测试", null);
+        }, getResources().getString(R.string.menu_scan), null);
     }
 
     @Override
@@ -105,8 +105,8 @@ public class ScanX300qAct extends FragActBase implements View.OnClickListener {
         scanUtil.setOnScanListener(new ScanUtil.OnScanListener() {
             @Override
             public void getBarcode(String data) {
-                new AlertDialog.Builder(mContext).setMessage("扫描到的数据:" + data).setTitle("成功")
-                        .setPositiveButton("成功", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(mContext).setMessage(getResources().getString(R.string.ScanAct_dialog_msg) + data).setTitle(getResources().getString(R.string.btn_success))
+                        .setPositiveButton(getResources().getString(R.string.btn_success), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 setXml(App.KEY_SCAN, App.KEY_FINISH);

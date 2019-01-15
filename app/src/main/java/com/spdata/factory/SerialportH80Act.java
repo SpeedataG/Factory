@@ -48,7 +48,7 @@ public class SerialportH80Act extends FragActBase implements View.OnClickListene
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("串口孔");
+        titlebar.setAttrs(getResources().getString(R.string.menu_serialport));
     }
 
     private SerialPort mSerialPort;
@@ -58,7 +58,7 @@ public class SerialportH80Act extends FragActBase implements View.OnClickListene
     private Timer timer;
     private ReadTimerTask readTimerTask;
     private static final int TIME_TO_READDATA = 400;
-    public String sendstring = "This is Seriaport!";
+    public String sendstring = "This is Serialport!";
     private String string;
 
     @Override
@@ -67,8 +67,8 @@ public class SerialportH80Act extends FragActBase implements View.OnClickListene
         setContentView(R.layout.act_serialport);
         initView();
         initTitlebar();
-        tvVersionInfor.setText("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
-                "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功");
+        tvVersionInfor.setText(getResources().getString(R.string.serialport_info1) +
+                getResources().getString(R.string.serialport_info2));
     }
 
     @Override
@@ -94,11 +94,11 @@ public class SerialportH80Act extends FragActBase implements View.OnClickListene
             if (temp == null) {
             } else {
                 string = DataConversionUtils.byteArrayToAscii(temp);
-                tvVersionInfor.setText("接收内容：\n\n" + string);
+                tvVersionInfor.setText(getResources().getString(R.string.serialport_info3) + string);
                 if (sendstring.equals(string)) {
 //                    readThread.stop();
                     sendcount++;
-                    btnPass.setText("成功");
+                    btnPass.setText(getResources().getString(R.string.btn_success));
                     timer.cancel();
                     readTimerTask.cancel();
                 }
@@ -133,13 +133,13 @@ public class SerialportH80Act extends FragActBase implements View.OnClickListene
                     timer.schedule(readTimerTask, 10, TIME_TO_READDATA);
 //            sendcount++;
 //            btnPass.setText("成功");
-                    if (tvVersionInfor.getText().equals("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
-                            "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功")) {
+                    if (tvVersionInfor.getText().equals(getResources().getString(R.string.serialport_info1) +
+                            getResources().getString(R.string.serialport_info2))) {
 //                btnPass.setEnabled(false);
-                        tvVersionInfor.setText("请插入耳机串口自环线");
+                        tvVersionInfor.setText(getResources().getString(R.string.serialport_info4));
                     }
                 } else if (sendcount == 2) {
-                    btnPass.setText("成功");
+                    btnPass.setText(getResources().getString(R.string.btn_success));
                     setXml(App.KEY_SERIALPORT, App.KEY_FINISH);
                     finish();
                 }

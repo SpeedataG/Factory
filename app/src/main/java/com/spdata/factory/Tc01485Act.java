@@ -52,7 +52,7 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
         initView(); onWindowFocusChanged(true);
         initTitlebar();
         setSwipeEnable(false);
-        tvSend.setText("发送内容：This is 485 test");
+        tvSend.setText(getResources().getString(R.string.Tc01485Act_send));
         try {
             DeviceControl deviceControl = new DeviceControl(DeviceControl.PowerType.MAIN, 21);
             deviceControl.PowerOnDevice();
@@ -77,7 +77,7 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "485测试", null);
+        }, getResources().getString(R.string.menu_test485), null);
     }
 
     Runnable runnable = new Runnable() {
@@ -88,10 +88,10 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
                 byte[] resultBytes2 = serialPort2.ReadSerial(fd2, 512);
                 if (resultBytes != null) {
 
-                    tvAccept1.setText("串口2接收：" + DataConversionUtils.byteArrayToAscii(resultBytes));
+                    tvAccept1.setText(getResources().getString(R.string.Tc01485Act_accept1) + DataConversionUtils.byteArrayToAscii(resultBytes));
                 }
                 if (resultBytes2 != null) {
-                    tvAccept2.setText("串口3接收：" + DataConversionUtils.byteArrayToAscii(resultBytes2));
+                    tvAccept2.setText(getResources().getString(R.string.Tc01485Act_accept2) + DataConversionUtils.byteArrayToAscii(resultBytes2));
                 }
                 handler.postDelayed(runnable, 50);
             } catch (UnsupportedEncodingException e) {

@@ -64,14 +64,14 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
                         } else {
                             string = DataConversionUtils.byteArrayToAscii(temp1);
                         }
-                        if (string.equals("") || string.equals("请将RS232串口自环线插入背面接口，" + "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功")) {
-                            tvVersionInfor.setText("请插入耳机串口自环线");
+                        if (string.equals("") || string.equals(getResources().getString(R.string.Rs232Serport_equals1) + getResources().getString(R.string.Rs232Serport_equals2))) {
+                            tvVersionInfor.setText(getResources().getString(R.string.Rs232Serport_infor1));
                             sendcount = 1;
 //                                return;
                         } else if (string.equals(sendstring)) {
-                            tvVersionInfor.setText("接收内容：\n\n" + string);
+                            tvVersionInfor.setText(getResources().getString(R.string.Rs232Serport_infor2) + string);
                             sendcount++;
-                            btnPass.setText("成功");
+                            btnPass.setText(getResources().getString(R.string.btn_success));
                         }
                     }
                 });
@@ -84,7 +84,7 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("RS232串口");
+        titlebar.setAttrs(getResources().getString(R.string.menu_rs232));
     }
 
 
@@ -101,8 +101,7 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
         setContentView(R.layout.act_port232_layout);
         initView();
         initTitlebar();
-        tvVersionInfor.setText("请将RS232串口自环线插入背面接口，" +
-                "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功");
+        tvVersionInfor.setText(getResources().getString(R.string.Rs232Serport_equals1) + getResources().getString(R.string.Rs232Serport_equals2));
         try {
             deviceControl = new DeviceControl(DeviceControl.POWER_MAIN);
             deviceControl.MainPowerOn(90);
@@ -116,7 +115,7 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
         } catch (IOException e) {
             e.printStackTrace();
             btnPass.setVisibility(View.GONE);
-            showToast("串口打开失败请重试！！！" + e.toString());
+            showToast(getResources().getString(R.string.Rs232Serport_open_fail) + e.toString());
         }
     }
 
@@ -171,14 +170,14 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
                 } else {
                     string = DataConversionUtils.byteArrayToAscii(temp1);
                 }
-                if (string.equals("") || string.equals("请将RS232串口自环线插入背面接口，" + "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功")) {
-                    tvVersionInfor.setText("请插入耳机串口自环线");
+                if (string.equals("") || string.equals(getResources().getString(R.string.Rs232Serport_equals1) + getResources().getString(R.string.Rs232Serport_equals2))) {
+                    tvVersionInfor.setText(getResources().getString(R.string.Rs232Serport_infor1));
                     sendcount = 1;
 //                                return;
                 } else if (string.equals(sendstring)) {
-                    tvVersionInfor.setText("接收内容：\n\n" + string);
+                    tvVersionInfor.setText(getResources().getString(R.string.Rs232Serport_infor2) + string);
                     sendcount++;
-                    btnPass.setText("成功");
+                    btnPass.setText(getResources().getString(R.string.btn_success));
                 }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -223,7 +222,7 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
                         handler.postDelayed(runnable, 10);
                     }
                 } else if (sendcount == 2) {
-                    btnPass.setText("成功");
+                    btnPass.setText(getResources().getString(R.string.btn_success));
                     setXml(App.KEY_PORT232, App.KEY_FINISH);
                     finish();
                 }

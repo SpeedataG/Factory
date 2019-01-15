@@ -46,7 +46,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
             public void onClick(View v) {
                 finish();
             }
-        }, "RJ45网线接口测试", null);
+        }, getResources().getString(R.string.menu_rj45), null);
     }
 
 
@@ -81,7 +81,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
                 e.printStackTrace();
             }
         }
-        tvVersionInfor.setText("请插入RJ45网线");
+        tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor1));
         handler.postDelayed(runnable, 500);
 
     }
@@ -97,7 +97,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
                     //以太网
 
 //                    if (mNetworkInfo.isConnected()) {
-                    tvVersionInfor.setText("RJ45网络已连接");
+                    tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor2));
                     setXml(App.KEY_INTENET, App.KEY_FINISH);
                     finish();
 //                    } else {
@@ -105,10 +105,10 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
 //
 //                    }
                 } else {
-                    tvVersionInfor.setText("请插入RJ45网线");
+                    tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor1));
                 }
             } else {
-                tvVersionInfor.setText("未连接网络");
+                tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor3));
             }
             handler.postDelayed(runnable, 500);
         }
@@ -173,7 +173,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
             System.out.println("Done");
         } catch (IOException e) {
             e.printStackTrace();
-            showToast("切换RJ45接口失败");
+            showToast(getResources().getString(R.string.CheckIntentAct_toast));
         }
     }
 

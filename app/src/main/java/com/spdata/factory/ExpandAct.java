@@ -81,7 +81,7 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("触点检测");
+        titlebar.setAttrs(getResources().getString(R.string.menu_expand));
     }
 
     @Override
@@ -153,10 +153,10 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
                     byte[] temp = (byte[]) msg.obj;
                     String string = DataConversionUtils.byteArrayToAscii(temp);
                     if (string.equals("This is SerialPort 1")) {
-                        tv_version_infor.append("串口1通过\n");
+                        tv_version_infor.append(getResources().getString(R.string.Expand_port1_pass));
                         btn_ser1.setBackgroundColor(Color.parseColor("#0AF229"));
                     } else {
-                        tv_version_infor.append("串口1失败\n");
+                        tv_version_infor.append(getResources().getString(R.string.Expand_port1_fail));
                         btn_ser1.setBackgroundColor(Color.parseColor("#ed0c2e"));
                     }
                     break;
@@ -164,10 +164,10 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
                     byte[] temps = (byte[]) msg.obj;
                     String strings = DataConversionUtils.byteArrayToAscii(temps);
                     if (strings.equals("This is SerialPort 2")) {
-                        tv_version_infor.append("串口2通过\n");
+                        tv_version_infor.append(getResources().getString(R.string.Expand_port2_pass));
                         btn_ser2.setBackgroundColor(Color.parseColor("#0AF229"));
                     } else {
-                        tv_version_infor.append("串口2失败\n");
+                        tv_version_infor.append(getResources().getString(R.string.Expand_port2_fail));
                         btn_ser2.setBackgroundColor(Color.parseColor("#ed0c2e"));
                     }
                     break;
@@ -186,7 +186,7 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
                 case 4:
                     if (msg.obj.equals("234")) {
                         tv_infor.setTextColor(Color.RED);
-                        tv_infor.setText((String) msg.obj + "请链接背夹！");
+                        tv_infor.setText((String) msg.obj + getResources().getString(R.string.Expand_msg1));
                         btn_tcs1g.setEnabled(false);
                         btn_ser2.setBackgroundColor(Color.parseColor("#ed0c2e"));
                         btn_ser1.setBackgroundColor(Color.parseColor("#ed0c2e"));
@@ -195,7 +195,7 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
                     } else {
                         btn_tcs1g.setEnabled(true);
                         tv_infor.setTextColor(Color.GREEN);
-                        tv_infor.setText((String) msg.obj + "背夹已连接！");
+                        tv_infor.setText((String) msg.obj + getResources().getString(R.string.Expand_msg2));
                         btn_state.setBackgroundColor(Color.parseColor("#0AF229"));
                     }
 
@@ -204,7 +204,7 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
                     btn_usb.setBackgroundColor(Color.parseColor("#ed0c2e"));
                     break;
                 case 8:
-                    showToast("未检测到触点！");
+                    showToast(getResources().getString(R.string.Expand_toast));
                     finish();
                     break;
                 default:
@@ -335,7 +335,7 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
                 }
                 break;
             case R.id.btn_usb:
-                showLoading("检测模块中……");
+                showLoading(getResources().getString(R.string.Expand_loading));
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -349,21 +349,21 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
                             public void run() {
                                 switch (FingerTypes.getrwusbdevices(ExpandAct.this)) {
                                     case 0:
-                                        showToast("无指纹模块！");
+                                        showToast(getResources().getString(R.string.Expand_msg_obj1));
                                         hideLoading();
-                                        handler.sendMessage(handler.obtainMessage(5, "无指纹模块！"));
+                                        handler.sendMessage(handler.obtainMessage(5, getResources().getString(R.string.Expand_msg_obj1)));
                                         break;
                                     case 1:
                                         hideLoading();
-                                        handler.sendMessage(handler.obtainMessage(1, "公安指纹模块！"));
+                                        handler.sendMessage(handler.obtainMessage(1, getResources().getString(R.string.Expand_msg_obj2)));
                                         break;
                                     case 2:
                                         hideLoading();
-                                        handler.sendMessage(handler.obtainMessage(2, "民用指纹模块！"));
+                                        handler.sendMessage(handler.obtainMessage(2, getResources().getString(R.string.Expand_msg_obj3)));
                                         break;
                                     case 3:
                                         hideLoading();
-                                        handler.sendMessage(handler.obtainMessage(3, "金色指纹模块！"));
+                                        handler.sendMessage(handler.obtainMessage(3, getResources().getString(R.string.Expand_msg_obj4)));
                                         break;
                                     default:
                                         break;

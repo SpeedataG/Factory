@@ -83,7 +83,7 @@ public class ButtonDmP80Act extends FragActBase implements View.OnClickListener 
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("按键测试");
+        titlebar.setAttrs(getResources().getString(R.string.menu_button));
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.yysgm.key_f1_sd");
         intentFilter.addAction("com.yysgm.key_f2_sd");

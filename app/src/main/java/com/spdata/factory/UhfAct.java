@@ -62,22 +62,22 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
             e.printStackTrace();
             boolean cn = getApplicationContext().getResources().getConfiguration().locale.getCountry().equals("CN");
             if (cn) {
-                tvRed.setText("模块不存在");
-                Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
+                tvRed.setText(getResources().getString(R.string.uhf_nonexist));
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.uhf_nonexist), Toast.LENGTH_SHORT).show();
             } else {
-                tvRed.setText("模块不存在");
-                Toast.makeText(getApplicationContext(), "Module does not exist", Toast.LENGTH_SHORT).show();
+                tvRed.setText(getResources().getString(R.string.uhf_nonexist));
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.uhf_nonexist), Toast.LENGTH_SHORT).show();
             }
             return;
         }
         String modle = SharedXmlUtil.getInstance(UhfAct.this).read("modle", "");
-        tvGreen.setText("型号:" + modle);
+        tvGreen.setText(getResources().getString(R.string.uhf_model) + modle);
     }
 
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("超高频UHF");
+        titlebar.setAttrs(getResources().getString(R.string.menu_uhf));
     }
 
 
@@ -119,7 +119,7 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
 
     private boolean openDev() {
         if (iuhfService.openDev() != 0) {
-            new AlertDialog.Builder(this).setTitle("警告！").setMessage("上电失败").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.uhf_msg_title)).setMessage(getResources().getString(R.string.uhf_msg)).setPositiveButton(getResources().getString(R.string.uhf_msg_ok), new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -153,7 +153,7 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
             tvRed.setVisibility(View.VISIBLE);
-            tvRed.setText("*模块不识别*");
+            tvRed.setText(getResources().getString(R.string.uhf_msg_error));
         }
     }
 

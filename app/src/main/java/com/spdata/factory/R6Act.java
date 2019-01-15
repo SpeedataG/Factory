@@ -48,7 +48,7 @@ public class R6Act extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("高频RFID");
+        titlebar.setAttrs(getResources().getString(R.string.menu_rfid));
     }
 
 
@@ -81,7 +81,7 @@ public class R6Act extends FragActBase implements View.OnClickListener {
             if (!hids.equals("")) {
                 play(2, 0);
             }
-            tvInfor.append("Card ID:" + hids + "\n");
+            tvInfor.append(getResources().getString(R.string.R6Act_info) + hids + "\n");
         }
     };
 

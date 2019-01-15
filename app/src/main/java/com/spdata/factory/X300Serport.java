@@ -66,7 +66,7 @@ public class X300Serport extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("串口孔");
+        titlebar.setAttrs(getResources().getString(R.string.menu_serialport));
     }
 
 
@@ -90,7 +90,7 @@ public class X300Serport extends FragActBase implements View.OnClickListener {
             super.handleMessage(msg);
             byte[] temp = (byte[]) msg.obj;
             String string = DataConversionUtils.byteArrayToAscii(temp);
-            tv_version_infor.setText("接收内容：\n" + string);
+            tv_version_infor.setText(getResources().getString(R.string.serialport_info3) + string);
         }
     };
 

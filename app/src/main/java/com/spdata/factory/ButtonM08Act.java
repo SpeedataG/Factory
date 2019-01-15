@@ -52,7 +52,7 @@ public class ButtonM08Act extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("按键测试");
+        titlebar.setAttrs(getResources().getString(R.string.menu_button));
     }
 
 

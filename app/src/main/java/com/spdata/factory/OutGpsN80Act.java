@@ -50,7 +50,7 @@ public class OutGpsN80Act extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("外置GPS");
+        titlebar.setAttrs(getResources().getString(R.string.menu_expan_gps));
     }
 
 
@@ -93,7 +93,7 @@ public class OutGpsN80Act extends FragActBase implements View.OnClickListener {
             String datas = DataConversionUtils.byteArrayToString((byte[]) msg.obj);
             tvGps.setText(datas);
 //            if (datas.indexOf("b562050102000617254e") >= 0) {
-            showToast("成功");
+            showToast(getResources().getString(R.string.btn_success));
             setXml(App.KEY_GPS_OUT, App.KEY_FINISH);
             finish();
 //            } else {

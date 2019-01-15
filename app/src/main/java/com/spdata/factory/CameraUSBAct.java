@@ -46,7 +46,7 @@ public class CameraUSBAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "矿灯摄像头", null);
+        }, getResources().getString(R.string.menu_camera_usb), null);
     }
 
     private void initView() {
@@ -71,7 +71,7 @@ public class CameraUSBAct extends FragActBase implements View.OnClickListener {
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    showToast("无法连接到相机！");
+                    showToast(getResources().getString(R.string.camera_toast));
                     finish();
                 }
                 break;

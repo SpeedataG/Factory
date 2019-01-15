@@ -55,7 +55,7 @@ public class SerialportAct extends FragActBase implements View.OnClickListener {
     private SerialPort mSerialPort;
     private int sendcount = 1;
     private int fd;
-    public String sendstring = "This is Seriaport!";
+    public String sendstring = "This is Serialport!";
     private String string;
 
 

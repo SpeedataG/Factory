@@ -91,7 +91,7 @@ public class OutGpsS510Act extends FragActBase implements View.OnClickListener {
                 case 0:
                     byte[] temp = (byte[]) msg.obj;
                     if (temp == null) {
-                        titlebar.setAttrs(getResources().getString(R.string.out_gps_s510_msg));
+                        titlebar.setAttrs(getResources().getString(R.string.out_gps_msg));
                     } else {
                         String s = DataConversionUtils.byteArrayToAscii(temp);
                         tvGps.setText(s);

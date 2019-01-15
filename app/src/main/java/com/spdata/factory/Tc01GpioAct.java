@@ -42,7 +42,7 @@ public class Tc01GpioAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "GPIO测试", null);
+        }, getResources().getString(R.string.menu_gpio), null);
     }
 
     @Override
@@ -56,12 +56,12 @@ public class Tc01GpioAct extends FragActBase implements View.OnClickListener {
         checkGpio();
         if (errList.size() == 0) {
             tvVersionInfor.setTextColor(Color.GREEN);
-            tvVersionInfor.setText("GPIO测试全部通过");
+            tvVersionInfor.setText(getResources().getString(R.string.Tc01GpioAct_info_pass));
             btnPass.setVisibility(View.VISIBLE);
         } else {
             for (int i = 0; i < errList.size(); i++) {
                 tvVersionInfor.setTextColor(Color.RED);
-                tvVersionInfor.append(errList.get(i) + "-测试不通过\n");
+                tvVersionInfor.append(errList.get(i) + getResources().getString(R.string.Tc01GpioAct_info_fail));
             }
         }
     }
@@ -83,7 +83,7 @@ public class Tc01GpioAct extends FragActBase implements View.OnClickListener {
                     } else if (upordown.equals("0")) {
                         errList.add(byteGpios[j]);
                     } else {
-                        Toast.makeText(Tc01GpioAct.this, "未知错误！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Tc01GpioAct.this, getResources().getString(R.string.Tc01GpioAct_info_error), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     continue;

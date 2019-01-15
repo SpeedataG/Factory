@@ -69,7 +69,7 @@ public class FingerPrint extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "指纹", null);
+        }, getResources().getString(R.string.menu_finger), null);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class FingerPrint extends FragActBase implements View.OnClickListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        showLoading("检测模块中……");
+        showLoading(getResources().getString(R.string.Expand_loading));
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -116,24 +116,24 @@ public class FingerPrint extends FragActBase implements View.OnClickListener {
                     public void run() {
                         switch (FingerTypes.getrwusbdevices(FingerPrint.this)) {
                             case 0:
-                                showToast("无指纹模块！");
+                                showToast(getResources().getString(R.string.Expand_msg_obj1));
                                 hideLoading();
-                                text_show.setText("无指纹模块！");
+                                text_show.setText(getResources().getString(R.string.Expand_msg_obj1));
                                 break;
                             case 1:
                                 hideLoading();
-                                showToast("查找到公安指纹模块！");
-                                text_show.setText("查找到公安指纹模块！");
+                                showToast(getResources().getString(R.string.FingerPrint_toast1));
+                                text_show.setText(getResources().getString(R.string.FingerPrint_toast1));
                                 break;
                             case 2:
                                 hideLoading();
-                                showToast("查找到民用指纹模块！");
-                                text_show.setText("查找到民用指纹模块！");
+                                showToast(getResources().getString(R.string.FingerPrint_toast2));
+                                text_show.setText(getResources().getString(R.string.FingerPrint_toast2));
                                 break;
                             case 3:
                                 hideLoading();
-                                showToast("查找到金色指纹模块！");
-                                text_show.setText("查找到金色指纹模块！");
+                                showToast(getResources().getString(R.string.FingerPrint_toast3));
+                                text_show.setText(getResources().getString(R.string.FingerPrint_toast3));
                                 break;
                             default:
                                 break;

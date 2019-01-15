@@ -39,7 +39,7 @@ public class GasSensorAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "气体传感器", null);
+        }, getResources().getString(R.string.menu_gas_sensor), null);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GasSensorAct extends FragActBase implements View.OnClickListener {
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    showToast("未指定指定应用！");
+                    showToast(getResources().getString(R.string.GasSensor_toast));
                     finish();
                 }
                 break;

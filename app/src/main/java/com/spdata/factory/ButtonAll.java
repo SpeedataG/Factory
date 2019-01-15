@@ -48,7 +48,7 @@ public class ButtonAll extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         mTitlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        mTitlebar.setAttrs("按键测试");
+        mTitlebar.setAttrs(getResources().getString(R.string.menu_button));
     }
 
 
@@ -67,13 +67,13 @@ public class ButtonAll extends FragActBase implements View.OnClickListener {
         btn_down.setVisibility(View.GONE);
         tv_infor.setVisibility(View.VISIBLE);
         tv_infor2.setVisibility(View.VISIBLE);
-        tv_infor2.setText("请根据显示键值判断按键是否正常！");
+        tv_infor2.setText(getResources().getString(R.string.btnAll_infor1));
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showToast(keyCode + "");
-        tv_infor.setText("按键键值:" + keyCode + "");
+        tv_infor.setText(getResources().getString(R.string.btnAll_infor2) + keyCode + "");
         if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU) {
             return true;
         }

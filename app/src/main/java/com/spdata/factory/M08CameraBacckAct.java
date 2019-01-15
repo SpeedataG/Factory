@@ -64,7 +64,7 @@ public class M08CameraBacckAct extends FragActBase implements SurfaceHolder.Call
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("摄像头");
+        titlebar.setAttrs(getResources().getString(R.string.menu_background_camera));
     }
 
 
@@ -259,7 +259,7 @@ public class M08CameraBacckAct extends FragActBase implements SurfaceHolder.Call
                     myCamera = Camera.open();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    showToast("相机打开失败");
+                    showToast(getResources().getString(R.string.camera_faild));
                 }
                 myCamera.setDisplayOrientation(180);//设置预览方向,
                 myCamera.setPreviewDisplay(holder);
@@ -363,8 +363,8 @@ public class M08CameraBacckAct extends FragActBase implements SurfaceHolder.Call
                         isClicked = false;
                     }
                     if (!isClicked) {
-                        btnPass.setText("闪光拍照");
-                        titlebar.setTitlebarNameText("拍照成功!");
+                        btnPass.setText(getResources().getString(R.string.camera_btn2));
+                        titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title4));
                         btnPass.setEnabled(false);
                         count++;
                         new Thread(new Runnable() {
@@ -410,9 +410,9 @@ public class M08CameraBacckAct extends FragActBase implements SurfaceHolder.Call
                         isClicked = false;
                     }
                     if (!isClicked) {
-                        titlebar.setTitlebarNameText("闪光灯拍照成功！");
+                        titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title6));
                         count++;
-                        btnPass.setText("成功");
+                        btnPass.setText(getResources().getString(R.string.camera_btn3));
                     }
                 } else if (count == 2) {
                     setXml(App.KEY_CAMMAR_BACKGROUND, App.KEY_FINISH);

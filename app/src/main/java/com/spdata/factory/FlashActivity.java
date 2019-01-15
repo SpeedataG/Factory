@@ -116,7 +116,7 @@ public class FlashActivity extends AppCompatActivity {
         //如果当前Flash 处于unavailable状态，说明当前闪光灯被占用，无法使用
         if (!isFlashAvailbale) {
             //显示当前闪光灯被占用的提示
-            Toast.makeText(this, "手电筒被占用", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.FlashActivity_toast), Toast.LENGTH_SHORT).show();
             return;
         }
         changeFlashState(mIsFlashOn);//开->关  关->开
@@ -197,8 +197,8 @@ public class FlashActivity extends AppCompatActivity {
         if (mFlashOnNotification != null) return;
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setLargeIcon(createNotificationLargeIcon(this))
-                .setContentTitle("手电筒已开启")
-                .setContentText("点击可关闭手电筒")
+                .setContentTitle(getResources().getString(R.string.FlashActivity_title))
+                .setContentText(getResources().getString(R.string.FlashActivity_click_close))
                 .setSmallIcon(R.mipmap.test_app, 3)
                 .setContentIntent(createCloseFlashPendingIntent());
         mFlashOnNotification = builder.build();

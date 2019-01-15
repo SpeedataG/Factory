@@ -40,14 +40,14 @@ public class SimKt40Act extends FragActBase implements View.OnClickListener {
         tvInfor.setText("IMEI1:" + imei1);
         tvInfor.append("\nIMEI2:" + imei2);
         if (!sim1.equals("")) {
-            tvInfor.append("SIM1存在:");
+            tvInfor.append(getResources().getString(R.string.SimKt40_on1));
         } else {
-            tvInfor.append("\nSIM1不存在:");
+            tvInfor.append(getResources().getString(R.string.SimKt40_off1));
         }
         if (!sim2.equals("")) {
-            tvInfor.append("SIM2存在:");
+            tvInfor.append(getResources().getString(R.string.SimKt40_on2));
         } else {
-            tvInfor.append("\nSIM2不存在:");
+            tvInfor.append(getResources().getString(R.string.SimKt40_off2));
         }
 
 //        tvInfor.append("\nSIM1:"+imei1);
@@ -63,7 +63,7 @@ public class SimKt40Act extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "SIM测试", null);
+        }, getResources().getString(R.string.menu_simcard), null);
     }
 
     private void initView() {

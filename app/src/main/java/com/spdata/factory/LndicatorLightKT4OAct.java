@@ -138,7 +138,7 @@ public class LndicatorLightKT4OAct extends FragActBase implements View.OnClickLi
                                     tvInfor.setText(getResources().getString(R.string.LndicatorLight_blue_false));
                                     setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
                                     finish();
-                                    showToast(getResources().getString(R.string.LndicatorLight_blue_false));
+                                    showToast(getResources().getString(R.string.LndicatorLight_green_false));
                                 }
                                 break;
                             case LED_BLUE:

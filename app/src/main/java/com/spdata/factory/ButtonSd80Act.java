@@ -121,7 +121,7 @@ public class ButtonSd80Act extends FragActBase implements View.OnClickListener {
                 return true;
             }
         } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            showToast("caidanjian");
+            showToast(getResources().getString(R.string.btn_showToast));
             return true;
         }
         return super.onKeyDown(keyCode, event);
