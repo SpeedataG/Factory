@@ -126,18 +126,18 @@
     <string name="LightAct_msg">Please perform screen brightness test</string>
 
     <!--LndicatorLightKT4OAct-->
-    <string name="LndicatorLight_redtrue">红灯点亮</string>
-    <string name="LndicatorLight_red_return">点亮红灯失败，返回</string>
-    <string name="LndicatorLight_red_false">红灯点亮失败</string>
-    <string name="LndicatorLight_blue_sure">已点亮蓝灯，请确认</string>
-    <string name="LndicatorLight_green_sure">已点亮绿灯，请确认</string>
-    <string name="LndicatorLight_red_sure">已点亮红灯，请确认</string>
-    <string name="LndicatorLight_tips">提示</string>
-    <string name="LndicatorLight_green_true">绿灯点亮</string>
-    <string name="LndicatorLight_green_false">绿灯点亮失败</string>
-    <string name="LndicatorLight_blue_true">蓝灯点亮</string>
-    <string name="LndicatorLight_blue_false">蓝灯点亮失败</string>
-    <string name="LndicatorLight_blue_close_false">蓝灯关闭失败</string>
+    <string name="LndicatorLight_redtrue">Red light light up</string>
+    <string name="LndicatorLight_red_return">Failed to light the red light, return</string>
+    <string name="LndicatorLight_red_false">Failure to light a red light</string>
+    <string name="LndicatorLight_blue_sure">Blue light is on, please confirm</string>
+    <string name="LndicatorLight_green_sure">Green light is on, please confirm</string>
+    <string name="LndicatorLight_red_sure">Red light is on, please confirm</string>
+    <string name="LndicatorLight_tips">tips</string>
+    <string name="LndicatorLight_green_true">Green light light up</string>
+    <string name="LndicatorLight_green_false">Failure to light the green light</string>
+    <string name="LndicatorLight_blue_true">Blue light light up</string>
+    <string name="LndicatorLight_blue_false">Failure to light the blue light</string>
+    <string name="LndicatorLight_blue_close_false">Blue light failed to turn off</string>
 
 
     <!--SmallScreenAct-->
