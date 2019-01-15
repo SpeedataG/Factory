@@ -49,7 +49,7 @@ public class OutGpsDB2Act extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("外置GPS");
+        titlebar.setAttrs(getResources().getString(R.string.menu_expan_gps));
     }
 
     @Override

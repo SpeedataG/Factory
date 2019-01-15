@@ -52,7 +52,7 @@ public class LndicatorLightKT4OAct extends FragActBase implements View.OnClickLi
                 }
                 finish();
             }
-        }, "指示灯测试", null);
+        }, getResources().getString(R.string.menu_indicator_light), null);
     }
 
     private void init() {
@@ -74,11 +74,11 @@ public class LndicatorLightKT4OAct extends FragActBase implements View.OnClickLi
         init();
         try {
             PowerOnRed();
-            tvInfor.setText("红灯点亮");
+            tvInfor.setText(getResources().getString(R.string.LndicatorLight_redtrue));
             showAlert(LED_RED);
         } catch (IOException e) {
-            showToast("点亮红灯失败，返回");
-            tvInfor.setText("红灯点亮失败");
+            showToast(getResources().getString(R.string.LndicatorLight_red_return));
+            tvInfor.setText(getResources().getString(R.string.LndicatorLight_red_false));
             setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
             finish();
             e.printStackTrace();
@@ -93,20 +93,20 @@ public class LndicatorLightKT4OAct extends FragActBase implements View.OnClickLi
         String message = "";
         switch (currentLed) {
             case LED_BLUE:
-                message = "已点亮蓝灯，请确认";
+                message = getResources().getString(R.string.LndicatorLight_blue_sure);
                 break;
             case LED_GREEN:
-                message = "已点亮绿灯，请确认";
+                message = getResources().getString(R.string.LndicatorLight_green_sure);
                 break;
             case LED_RED:
-                message = "已点亮红灯，请确认";
+                message = getResources().getString(R.string.LndicatorLight_red_sure);
                 break;
             default:
                 break;
         }
 
-        new AlertDialog.Builder(mContext).setMessage(message).setCancelable(false).setTitle("提示").setPositiveButton
-                ("成功", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(mContext).setMessage(message).setCancelable(false).setTitle(getResources().getString(R.string.LndicatorLight_tips)).setPositiveButton
+                (getResources().getString(R.string.btn_success), new DialogInterface.OnClickListener() {
 
 
                     @Override
@@ -117,28 +117,28 @@ public class LndicatorLightKT4OAct extends FragActBase implements View.OnClickLi
                                 try {
                                     PowerOffRed();
                                     PowerOnGreen();
-                                    tvInfor.setText("绿灯点亮");
+                                    tvInfor.setText(getResources().getString(R.string.LndicatorLight_green_true));
                                     showAlert(LED_GREEN);
                                 } catch (IOException e) {
                                     e.printStackTrace();
-                                    tvInfor.setText("绿灯点亮失败");
+                                    tvInfor.setText(getResources().getString(R.string.LndicatorLight_green_false));
                                     setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
                                     finish();
-                                    showToast("绿灯点亮失败");
+                                    showToast(getResources().getString(R.string.LndicatorLight_green_false));
                                 }
                                 break;
                             case LED_GREEN:
                                 try {
                                     PowerOffGreen();
                                     PowerOnBlue();
-                                    tvInfor.setText("蓝灯点亮");
+                                    tvInfor.setText(getResources().getString(R.string.LndicatorLight_blue_true));
                                     showAlert(LED_BLUE);
                                 } catch (IOException e) {
                                     e.printStackTrace();
-                                    tvInfor.setText("蓝灯点亮失败");
+                                    tvInfor.setText(getResources().getString(R.string.LndicatorLight_blue_false));
                                     setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
                                     finish();
-                                    showToast("绿灯点亮失败");
+                                    showToast(getResources().getString(R.string.LndicatorLight_blue_false));
                                 }
                                 break;
                             case LED_BLUE:
@@ -148,14 +148,14 @@ public class LndicatorLightKT4OAct extends FragActBase implements View.OnClickLi
                                     finish();
                                 } catch (IOException e) {
                                     e.printStackTrace();
-                                    showToast("蓝灯关闭失败");
+                                    showToast(getResources().getString(R.string.LndicatorLight_blue_close_false));
                                 }
                                 break;
                             default:
                                 break;
                         }
                     }
-                }).setNegativeButton("失败", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(getResources().getString(R.string.btn_fail), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);

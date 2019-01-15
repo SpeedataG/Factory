@@ -49,7 +49,7 @@ public class SerialportAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("串口孔");
+        titlebar.setAttrs(getResources().getString(R.string.menu_serialport));
     }
 
     private SerialPort mSerialPort;
@@ -65,8 +65,8 @@ public class SerialportAct extends FragActBase implements View.OnClickListener {
         setContentView(R.layout.act_serialport);
         initView();
         initTitlebar();
-        tvVersionInfor.setText("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
-                "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功");
+        tvVersionInfor.setText(getResources().getString(R.string.serialport_info1) +
+                getResources().getString(R.string.serialport_info2));
     }
 
     @Override
@@ -90,14 +90,14 @@ public class SerialportAct extends FragActBase implements View.OnClickListener {
             super.handleMessage(msg);
             byte[] temp = (byte[]) msg.obj;
             string = DataConversionUtils.byteArrayToAscii(temp);
-            tvVersionInfor.setText("接收内容：\n\n" + string);
+            tvVersionInfor.setText(getResources().getString(R.string.serialport_info3) + string);
             if (sendstring.equals(string)) {
                 if (readThread != null) {
                     readThread.interrupt();
                     readThread = null;
                 }
                 sendcount++;
-                btnPass.setText("成功");
+                btnPass.setText(getResources().getString(R.string.btn_success));
             }
         }
     };
@@ -121,12 +121,12 @@ public class SerialportAct extends FragActBase implements View.OnClickListener {
                     if (sendstring != "") {
                         send(sendstring);
                     }
-                    if (tvVersionInfor.getText().equals("请将耳机串口自环线插入耳机接口左侧无标示接口，" +
-                            "点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功")) {
-                        tvVersionInfor.setText("请插入耳机串口自环线");
+                    if (tvVersionInfor.getText().equals(getResources().getString(R.string.serialport_info1) +
+                            getResources().getString(R.string.serialport_info2))) {
+                        tvVersionInfor.setText(getResources().getString(R.string.serialport_info4));
                     }
                 } else if (sendcount == 2) {
-                    btnPass.setText("成功");
+                    btnPass.setText(getResources().getString(R.string.btn_success));
                     setXml(App.KEY_SERIALPORT, App.KEY_FINISH);
                     finish();
                 }

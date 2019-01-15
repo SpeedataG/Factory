@@ -125,6 +125,21 @@
         
     <string name="LightAct_msg">Please perform screen brightness test</string>
 
+    <!--LndicatorLightKT4OAct-->
+    <string name="LndicatorLight_redtrue">红灯点亮</string>
+    <string name="LndicatorLight_red_return">点亮红灯失败，返回</string>
+    <string name="LndicatorLight_red_false">红灯点亮失败</string>
+    <string name="LndicatorLight_blue_sure">已点亮蓝灯，请确认</string>
+    <string name="LndicatorLight_green_sure">已点亮绿灯，请确认</string>
+    <string name="LndicatorLight_red_sure">已点亮红灯，请确认</string>
+    <string name="LndicatorLight_tips">提示</string>
+    <string name="LndicatorLight_green_true">绿灯点亮</string>
+    <string name="LndicatorLight_green_false">绿灯点亮失败</string>
+    <string name="LndicatorLight_blue_true">蓝灯点亮</string>
+    <string name="LndicatorLight_blue_false">蓝灯点亮失败</string>
+    <string name="LndicatorLight_blue_close_false">蓝灯关闭失败</string>
+
+
     <!--SmallScreenAct-->
     <string name="SmallScreenAct_server">Start service failed</string>
         
@@ -242,6 +257,12 @@
     <string name="usb_state_msg">Please insert USB</string>
         
     <string name="usb_state_msg2">Please connect to USB for testing</string>
+
+    <!--UsbPlateAct-->
+    <string name="usb_plate_msg1">The usb flash disk is mounted, please pull it out</string>
+    <string name="usb_plate_msg2">Scan the U disk</string>
+    <string name="usb_plate_msg3">U disk removed</string>
+
     <!--otg-->
     <string name="otg_msg">OTG mode\n</string>
         
@@ -309,6 +330,12 @@
     <string name="gps_second">second</string>
     <string name="gps_update_lon">Location information of equipment\nlongitude：</string>
     <string name="gps_update_lat">\nlatitude：</string>
+
+    <!--GpsOutAct-->
+    <string name="gps_out_sInfo">Nothing！</string>
+
+    <!--OutGpsS510Act-->
+    <string name="out_gps_s510_msg">Test to fail！</string>
 
 
     <!-- nfc -->
@@ -550,6 +577,12 @@
     <string name="eeprom_error">Magic Number Error!\n</string>
     <string name="eeprom_Retry">\nRetry:\n </string>
 
+
+    <!--SerialportAct-->
+    <string name="serialport_info1">Please insert the serial port from the loop line into the unlabeled port on the left side of the headphone jack,</string>
+    <string name="serialport_info2">Click the Send button\n\nSend content“This is Seriaport!”Received the sent content successfully</string>
+    <string name="serialport_info3">Receiving content:\n\n</string>
+    <string name="serialport_info4">Please insert headphone serial self-loop</string>
 
 </resources>
 

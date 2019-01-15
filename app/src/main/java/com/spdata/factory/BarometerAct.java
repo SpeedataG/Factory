@@ -33,7 +33,7 @@ public class BarometerAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "气压计", null);
+        }, getResources().getString(R.string.menu_barometer), null);
     }
 
     private void initSensor() {

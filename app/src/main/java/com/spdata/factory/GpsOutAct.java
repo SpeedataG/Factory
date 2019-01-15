@@ -57,7 +57,7 @@ public class GpsOutAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("外置GPS");
+        titlebar.setAttrs(getResources().getString(R.string.menu_expan_gps));
     }
 
 
@@ -226,7 +226,7 @@ public class GpsOutAct extends FragActBase implements View.OnClickListener {
 
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {
-            String sInfo = "什么也没选！";
+            String sInfo = getResources().getString(R.string.gps_out_sInfo);
 
 
         }

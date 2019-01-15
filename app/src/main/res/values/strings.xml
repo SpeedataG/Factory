@@ -78,6 +78,21 @@
     <!--LightAct-->
     <string name="LightAct_msg">请进行屏幕亮度测试</string>
 
+    <!--LndicatorLightKT4OAct-->
+    <string name="LndicatorLight_redtrue">红灯点亮</string>
+    <string name="LndicatorLight_red_return">点亮红灯失败，返回</string>
+    <string name="LndicatorLight_red_false">红灯点亮失败</string>
+    <string name="LndicatorLight_blue_sure">已点亮蓝灯，请确认</string>
+    <string name="LndicatorLight_green_sure">已点亮绿灯，请确认</string>
+    <string name="LndicatorLight_red_sure">已点亮红灯，请确认</string>
+    <string name="LndicatorLight_tips">提示</string>
+    <string name="LndicatorLight_green_true">绿灯点亮</string>
+    <string name="LndicatorLight_green_false">绿灯点亮失败</string>
+    <string name="LndicatorLight_blue_true">蓝灯点亮</string>
+    <string name="LndicatorLight_blue_false">蓝灯点亮失败</string>
+    <string name="LndicatorLight_blue_close_false">蓝灯关闭失败</string>
+
+
     <!--SmallScreenAct-->
     <string name="SmallScreenAct_server">启动服务失败</string>
     <string name="SmallScreenAct_write_faild">写入失败</string>
@@ -148,6 +163,12 @@
     <string name="usb_state_no_connect">USB 断开状态</string>
     <string name="usb_state_msg">请插入USB</string>
     <string name="usb_state_msg2">请接入USB进行测试</string>
+
+    <!--UsbPlateAct-->
+    <string name="usb_plate_msg1">U盘已挂载,请拔出</string>
+    <string name="usb_plate_msg2">扫描U盘</string>
+    <string name="usb_plate_msg3">U盘已移除</string>
+
     <!--otg-->
     <string name="otg_msg">OTG模式\n</string>
     <string name="otg_msg2">读取中……</string>
@@ -192,6 +213,12 @@
     <string name="gps_second">秒</string>
     <string name="gps_update_lon">设备位置信息\n经度：</string>
     <string name="gps_update_lat">\n纬度：</string>
+
+    <!--GpsOutAct-->
+    <string name="gps_out_sInfo">什么也没选！</string>
+
+    <!--OutGpsS510Act-->
+    <string name="out_gps_s510_msg">测试失败！</string>
 
 
     <!-- nfc -->
@@ -280,9 +307,9 @@
 
     <!--ZhongLiGanYing 重力感应-->
     <string name="ZhongLiGanYing_title">观察xyz数值变化与小球轨迹</string>
-    <string name="ZhongLiGanYing_x">X轴重力值:</string>
-    <string name="ZhongLiGanYing_y">Y轴重力值:</string>
-    <string name="ZhongLiGanYing_z">Z轴重力值:</string>
+    <string name="ZhongLiGanYing_x">X轴重力值：</string>
+    <string name="ZhongLiGanYing_y">Y轴重力值：</string>
+    <string name="ZhongLiGanYing_z">Z轴重力值：</string>
     <!--清除测试记录-->
     <string name="reste_msg">清除测试记录成功</string>
 
@@ -340,6 +367,13 @@
     <string name="eeprom_ok">魔法数字正确!\n</string>
     <string name="eeprom_error">魔法数字错误!\n</string>
     <string name="eeprom_Retry">\n重试:\n </string>
+
+    <!--SerialportAct-->
+    <string name="serialport_info1">请将耳机串口自环线插入耳机接口左侧无标示接口，</string>
+    <string name="serialport_info2">点击发送按钮\n\n发送内容“This is Seriaport!”接收到发送内容成功</string>
+    <string name="serialport_info3">接收内容：\n\n</string>
+    <string name="serialport_info4">请插入耳机串口自环线</string>
+
 
 </resources>
 

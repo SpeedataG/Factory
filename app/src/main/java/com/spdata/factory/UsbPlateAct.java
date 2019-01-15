@@ -51,7 +51,7 @@ public class UsbPlateAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
-        titlebar.setAttrs("U盘");
+        titlebar.setAttrs(getResources().getString(R.string.menu_usbplate));
     }
 
     Handler handler = new Handler() {
@@ -79,11 +79,11 @@ public class UsbPlateAct extends FragActBase implements View.OnClickListener {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(Intent.ACTION_MEDIA_SCANNER_STARTED)) {
-                handler.sendMessage(handler.obtainMessage(0, "U盘已挂载,请拔出"));
+                handler.sendMessage(handler.obtainMessage(0, getResources().getString(R.string.usb_plate_msg1)));
             } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
-                handler.sendMessage(handler.obtainMessage(1, "扫描U盘"));
+                handler.sendMessage(handler.obtainMessage(1, getResources().getString(R.string.usb_plate_msg2)));
             } else if (action.equals(Intent.ACTION_MEDIA_REMOVED) || action.equals(Intent.ACTION_MEDIA_EJECT)) {
-                handler.sendMessage(handler.obtainMessage(2, "U盘已移除"));
+                handler.sendMessage(handler.obtainMessage(2, getResources().getString(R.string.usb_plate_msg3)));
             }
         }
     };
