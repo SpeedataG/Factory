@@ -129,9 +129,9 @@
     <string name="LndicatorLight_redtrue">Red light light up</string>
     <string name="LndicatorLight_red_return">Failed to light the red light, return</string>
     <string name="LndicatorLight_red_false">Failure to light a red light</string>
-    <string name="LndicatorLight_blue_sure">Blue light is on, please confirm</string>
-    <string name="LndicatorLight_green_sure">Green light is on, please confirm</string>
-    <string name="LndicatorLight_red_sure">Red light is on, please confirm</string>
+    <string name="LndicatorLight_blue_sure">Blue light is on, please confirm.</string>
+    <string name="LndicatorLight_green_sure">Green light is on, please confirm.</string>
+    <string name="LndicatorLight_red_sure">Red light is on, please confirm.</string>
     <string name="LndicatorLight_tips">tips</string>
     <string name="LndicatorLight_green_true">Green light light up</string>
     <string name="LndicatorLight_green_false">Failure to light the green light</string>
