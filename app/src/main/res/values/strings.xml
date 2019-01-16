@@ -110,7 +110,7 @@
 
 
 
-    <!--SDCardAct-->
+    <!--SDCardAct \ SDCardkt80Act-->
     <string name="SDCardAct_neizhi">内置SD卡总大小</string>
     <string name="SDCardAct_wai">外置SD卡总大小</string>
     <string name="SDCardAct_keyong">\n可用大小</string>
@@ -118,6 +118,16 @@
     <string name="SDCardAct_copy_fa">\nSD卡Copy文件失败</string>
     <string name="SDCardAct_copy_neisuc">\n内置SDCopy文件成功</string>
     <string name="SDCardAct_copy_neifa">\n内置SD卡Copy文件失败</string>
+
+    <!--SDCardkt80Act-->
+    <string name="SDCardkt80Act_sd1_off">\nSD卡1不存在</string>
+    <string name="SDCardkt80Act_sd1_on">\nSD卡1存在</string>
+    <string name="SDCardkt80Act_sd1_wai">\n外置SD1卡总大小</string>
+    <string name="SDCardkt80Act_sd2_normal">\nSD2正常挂载可使用</string>
+    <string name="SDCardkt80Act_sd2_damage">\nSD2损坏或者没正常格式化</string>
+    <string name="SDCardkt80Act_sd2_none">\n无SD2卡</string>
+    <string name="SDCardkt80Act_sd2_notsupport">\n不支持SD2卡</string>
+
 
     <!-- SimAct -->
     <string name="SimAct_on">SIM卡存在</string>

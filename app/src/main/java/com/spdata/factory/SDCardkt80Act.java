@@ -40,7 +40,7 @@ public class SDCardkt80Act extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, "SD卡测试", null);
+        }, R.string.menu_sdcard, null);
     }
 
 
@@ -63,16 +63,16 @@ public class SDCardkt80Act extends FragActBase implements View.OnClickListener {
         if (volumePaths.length > 1) {
             StringBuffer stringBuffer = new StringBuffer();
             String size = sdUtils.getSDTotalSize(volumePaths[1]);
-            stringBuffer.append("\n内置SD卡总大小" + sdUtils.getSDTotalSize(volumePaths[0])
-                    + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[0]));
+            stringBuffer.append("\n" + getResources().getString(R.string.SDCardAct_neizhi) + sdUtils.getSDTotalSize(volumePaths[0])
+                    + getResources().getString(R.string.SDCardAct_keyong) + sdUtils.getSDAvailableSize(volumePaths[0]));
             tvInfor.setText(stringBuffer);
             if (size.equals("0.00 B")) {
-                tvInfor.append("\nSD卡1不存在");
+                tvInfor.append(getResources().getString(R.string.SDCardkt80Act_sd1_off));
             } else {
-                stringBuffer.append("\n外置SD1卡总大小" + size
-                        + "\n可用大小:" + sdUtils.getSDAvailableSize(volumePaths[1]));
+                stringBuffer.append(getResources().getString(R.string.SDCardkt80Act_sd1_wai) + size
+                        + getResources().getString(R.string.SDCardAct_keyong) + sdUtils.getSDAvailableSize(volumePaths[1]));
                 tvInfor.setText(stringBuffer);
-                tvInfor.append("\nSD卡1存在");
+                tvInfor.append(getResources().getString(R.string.SDCardkt80Act_sd1_on));
             }
             for (int i = 0; i < 1; i++) {
                 try {
@@ -91,15 +91,15 @@ public class SDCardkt80Act extends FragActBase implements View.OnClickListener {
             readSD2();
             switch (stada) {
                 case "0":
-                    tvInfor.append("\nSD2正常挂载可使用");
+                    tvInfor.append(getResources().getString(R.string.SDCardkt80Act_sd2_normal));
                     break;
                 case "1":
-                    tvInfor.append("\nSD2损坏或者没正常格式化");
+                    tvInfor.append(getResources().getString(R.string.SDCardkt80Act_sd2_damage));
                     break;
                 case "2":
-                    tvInfor.append("\n无SD2卡");
+                    tvInfor.append(getResources().getString(R.string.SDCardkt80Act_sd2_none));
                 case "":
-                    tvInfor.append("\n不支持SD2卡");
+                    tvInfor.append(getResources().getString(R.string.SDCardkt80Act_sd2_notsupport));
                     break;
             }
             //kt80-6.0注释
@@ -162,11 +162,11 @@ public class SDCardkt80Act extends FragActBase implements View.OnClickListener {
                             finish();
                         } else if (yes == 2 || stada.equals("1") || stada.equals("2")) {
                             setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
-                            showToast("失败");
+                            showToast(getResources().getString(R.string.btn_fail));
                             finish();
                         } else {
                             setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
-                            showToast("失败");
+                            showToast(getResources().getString(R.string.btn_fail));
                             finish();
                         }
                     } else {
@@ -175,11 +175,11 @@ public class SDCardkt80Act extends FragActBase implements View.OnClickListener {
                             finish();
                         } else if (yes == 2) {
                             setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
-                            showToast("失败");
+                            showToast(getResources().getString(R.string.btn_fail));
                             finish();
                         } else {
                             setXml(App.KEY_SDCARD, App.KEY_UNFINISH);
-                            showToast("失败");
+                            showToast(getResources().getString(R.string.btn_fail));
                             finish();
                         }
                     }

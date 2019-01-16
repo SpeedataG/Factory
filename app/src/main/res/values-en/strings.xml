@@ -165,7 +165,7 @@
     <string name="IndicatorLightAct_bule_faild">Blue light failed to light</string>
 
 
-    <!--SDCardAct-->
+    <!--SDCardAct \ SDCardkt80Act-->
     <string name="SDCardAct_neizhi">The total size of the built-in SD card</string>
         
     <string name="SDCardAct_wai">The total size of the external SD card</string>
@@ -179,6 +179,16 @@
     <string name="SDCardAct_copy_neisuc">\nBuilt-in SDCopy file success</string>
         
     <string name="SDCardAct_copy_neifa">\nBuilt-in SD card Copy file failed</string>
+
+    <!--SDCardkt80Act-->
+    <string name="SDCardkt80Act_sd1_off">\nSD card 1 does not exist</string>
+    <string name="SDCardkt80Act_sd1_on">\nSD card 1 exists</string>
+    <string name="SDCardkt80Act_sd1_wai">\nTotal size of external SD1 card</string>
+    <string name="SDCardkt80Act_sd2_normal">\nSD2 normal mount usable</string>
+    <string name="SDCardkt80Act_sd2_damage">\nSD2 is corrupt or not properly formatted</string>
+    <string name="SDCardkt80Act_sd2_none">\nNo SD2 card</string>
+    <string name="SDCardkt80Act_sd2_notsupport">\nSD2 card is not supported</string>
+
 
     <!-- SimAct -->
     <string name="SimAct_on">SIM card exists</string>
