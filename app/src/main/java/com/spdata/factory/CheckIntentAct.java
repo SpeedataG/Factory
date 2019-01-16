@@ -70,6 +70,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
             try {
                 deviceControl.MainPowerOn(63);
                 deviceControl.MainPowerOn(86);
+                deviceControl.MainPowerOn(8);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -82,7 +83,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
             }
         }
         tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor1));
-        handler.postDelayed(runnable, 500);
+        handler.postDelayed(runnable, 200);
 
     }
 
@@ -95,7 +96,6 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
                 int netSubtype = mNetworkInfo.getSubtype();
                 if (netType == ConnectivityManager.TYPE_ETHERNET) {
                     //以太网
-
 //                    if (mNetworkInfo.isConnected()) {
                     tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor2));
                     setXml(App.KEY_INTENET, App.KEY_FINISH);
@@ -108,9 +108,9 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
                     tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor1));
                 }
             } else {
-                tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor3));
+                tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor3)+"请重新拔插网线");
             }
-            handler.postDelayed(runnable, 500);
+            handler.postDelayed(runnable, 200);
         }
     };
 
@@ -128,6 +128,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
             try {
                 deviceControl.MainPowerOff(63);
                 deviceControl.MainPowerOff(86);
+                deviceControl.MainPowerOff(8);
             } catch (IOException e) {
                 e.printStackTrace();
             }

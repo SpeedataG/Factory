@@ -16,8 +16,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -25,21 +25,28 @@
             style="@style/base_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text="@string/Tc01485Act_send" />
+
+        <TextView
+            android:id="@+id/tv_accept"
+            style="@style/base_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Tc01485Act_2.4G" />
 
         <TextView
             android:id="@+id/tv_accept1"
             style="@style/base_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="串口2接收：" />
+            android:text="@string/Tc01485Act_accept1" />
 
         <TextView
             android:id="@+id/tv_accept2"
             style="@style/base_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="串口3接收：" />
+            android:text="@string/Tc01485Act_accept2" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +64,7 @@
 
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
 
@@ -69,7 +76,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>

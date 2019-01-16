@@ -22,8 +22,10 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
 
     private SerialPort serialPort;
     private SerialPort serialPort2;
+    private SerialPort serialPort3;
     private int fd;
     private int fd2;
+    private int fd3;
     private Handler handler = new Handler();
     private CustomTitlebar titlebar;
     /**  */
@@ -36,6 +38,7 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
      * 串口3接收：
      */
     private TextView tvAccept2;
+    private TextView tvAccept;
     /**
      * 成功
      */
@@ -49,21 +52,25 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tc01_485_layout);
-        initView(); onWindowFocusChanged(true);
+        initView();
+        onWindowFocusChanged(true);
         initTitlebar();
         setSwipeEnable(false);
         tvSend.setText(getResources().getString(R.string.Tc01485Act_send));
         try {
-            DeviceControl deviceControl = new DeviceControl(DeviceControl.PowerType.MAIN, 21);
+            DeviceControl deviceControl = new DeviceControl(DeviceControl.PowerType.MAIN, 86,65);
             deviceControl.PowerOnDevice();
             serialPort = new SerialPort();
             serialPort2 = new SerialPort();
+            serialPort3 = new SerialPort();
             serialPort.OpenSerial(SerialPort.SERIAL_TTYMT2, 9600);
             serialPort2.OpenSerial(SerialPort.SERIAL_TTYMT3, 9600);
+            serialPort3.OpenSerial(SerialPort.SERIAL_TTYMT1, 115200);
             fd = serialPort.getFd();
             fd2 = serialPort2.getFd();
-            handler.postDelayed(runnable, 100);
+            fd3 = serialPort3.getFd();
             handler.postDelayed(runnable2, 100);
+            handler.postDelayed(runnable, 100);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,14 +93,17 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
             try {
                 byte[] resultBytes = serialPort.ReadSerial(fd, 512);
                 byte[] resultBytes2 = serialPort2.ReadSerial(fd2, 512);
+                byte[] resultBytes3 = serialPort3.ReadSerial(fd3, 512);
                 if (resultBytes != null) {
-
                     tvAccept1.setText(getResources().getString(R.string.Tc01485Act_accept1) + DataConversionUtils.byteArrayToAscii(resultBytes));
                 }
                 if (resultBytes2 != null) {
                     tvAccept2.setText(getResources().getString(R.string.Tc01485Act_accept2) + DataConversionUtils.byteArrayToAscii(resultBytes2));
                 }
-                handler.postDelayed(runnable, 50);
+                if (resultBytes3 != null) {
+                    tvAccept2.setText(getResources().getString(R.string.Tc01485Act_2_4G) + DataConversionUtils.byteArrayToAscii(resultBytes3));
+                }
+                handler.postDelayed(runnable, 10);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -105,9 +115,11 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
         public void run() {
             serialPort.WriteSerialByte(fd, "This is 485 test".getBytes());
             serialPort2.WriteSerialByte(fd2, "This is 485 test".getBytes());
-            handler.postDelayed(runnable2, 500);
+            serialPort3.WriteSerialByte(fd3, "This is 2.4G test".getBytes());
+            handler.postDelayed(runnable2, 100);
         }
     };
+
 
     @Override
     protected void onDestroy() {
@@ -118,6 +130,9 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
         if (serialPort2 != null) {
             serialPort2.CloseSerial(fd2);
         }
+        if (serialPort3 != null) {
+            serialPort3.CloseSerial(fd3);
+        }
         handler.removeCallbacks(runnable);
         handler.removeCallbacks(runnable2);
     }
@@ -127,6 +142,7 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
         tvSend = (TextView) findViewById(R.id.tv_send);
         tvAccept1 = (TextView) findViewById(R.id.tv_accept1);
         tvAccept2 = (TextView) findViewById(R.id.tv_accept2);
+        tvAccept = (TextView) findViewById(R.id.tv_accept);
         btnPass = (Button) findViewById(R.id.btn_pass);
         btnPass.setOnClickListener(this);
         btnNotPass = (Button) findViewById(R.id.btn_not_pass);

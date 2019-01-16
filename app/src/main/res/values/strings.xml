@@ -56,7 +56,7 @@
     <string name="menu_id2">ID2</string>
     <string name="menu_reset">清除测试记录</string>
     <string name="menu_rs232">RS232串口</string>
-    <string name="menu_rj45">RJ45网线接口测试</string>
+    <string name="menu_rj45">RJ45网线接口测试/2.4G</string>
     <string name="menu_gpio">GPIO测试</string>
     <string name="menu_test485">485测试</string>
     <!--<string name="menu_camera">摄像头</string>-->
@@ -107,7 +107,6 @@
     <string name="IndicatorLightAct_red_faild">红灯点亮失败</string>
     <string name="IndicatorLightAct_green_faild">绿灯点亮失败</string>
     <string name="IndicatorLightAct_bule_faild">蓝灯点亮失败</string>
-
 
 
     <!--SDCardAct \ SDCardkt80Act-->
@@ -466,9 +465,10 @@
     <string name="btn_showToast">菜单键</string>
 
     <!--Tc01485Act-->
-    <string name="Tc01485Act_send">发送内容：This is 485 test</string>
-    <string name="Tc01485Act_accept1">串口2接收：</string>
-    <string name="Tc01485Act_accept2">串口3接收：This is 485 test</string>
+    <string name="Tc01485Act_send">485发送内容:This is 485 test\n2.4G发送内容:This is 2.4G test</string>
+    <string name="Tc01485Act_accept1">485-1接收:</string>
+    <string name="Tc01485Act_accept2">485-2接收:</string>
+    <string name="Tc01485Act_2.4G">2.4G接收:</string>
 
     <!--Tc01GpioAct-->
     <string name="Tc01GpioAct_info_pass">GPIO测试全部通过</string>
