@@ -26,7 +26,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="相机测试"
+            android:text="@string/camera_usb_test"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>
@@ -45,7 +45,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
 
@@ -57,7 +57,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>

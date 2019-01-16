@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             style="@style/base_text"
-            android:text="读GPS数据"
+            android:text="@string/out_gps_tv1"
             android:textAppearance="?android:attr/textAppearanceMedium" />
         <ScrollView
             android:layout_width="match_parent"
@@ -57,20 +57,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="切换测试" />
+                android:text="@string/out_gps_btnSwitch" />
             <Button
                 android:id="@+id/btn_x2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="X2测试" />
+                android:text="@string/out_gps_btnX2" />
 
             <Button
                 android:id="@+id/btn_x5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="X5测试" />
+                android:text="@string/out_gps_btnX5" />
         </LinearLayout>
     </LinearLayout>
 
@@ -88,7 +88,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
 
@@ -100,7 +100,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>

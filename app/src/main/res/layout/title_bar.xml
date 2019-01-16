@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="清除"
+                android:text="@string/title_bar_clean"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/commom_textsize"
                 android:visibility="gone" />

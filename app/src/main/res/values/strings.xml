@@ -56,9 +56,9 @@
     <string name="menu_id2">ID2</string>
     <string name="menu_reset">清除测试记录</string>
     <string name="menu_rs232">RS232串口</string>
-    <string name="menu_rj45">RJ45网线接口测试/2.4G</string>
+    <string name="menu_rj45">RJ45网线接口测试</string>
     <string name="menu_gpio">GPIO测试</string>
-    <string name="menu_test485">485测试</string>
+    <string name="menu_test485">485测试/2.4G</string>
     <!--<string name="menu_camera">摄像头</string>-->
     <!--VersionAct-->
     <string name="VersionAct_modle">型号:</string>
@@ -107,6 +107,7 @@
     <string name="IndicatorLightAct_red_faild">红灯点亮失败</string>
     <string name="IndicatorLightAct_green_faild">绿灯点亮失败</string>
     <string name="IndicatorLightAct_bule_faild">蓝灯点亮失败</string>
+
 
 
     <!--SDCardAct \ SDCardkt80Act-->
@@ -468,7 +469,7 @@
     <string name="Tc01485Act_send">485发送内容:This is 485 test\n2.4G发送内容:This is 2.4G test</string>
     <string name="Tc01485Act_accept1">485-1接收:</string>
     <string name="Tc01485Act_accept2">485-2接收:</string>
-    <string name="Tc01485Act_2.4G">2.4G接收:</string>
+    <string name="Tc01485Act_2_4G">2.4G接收:</string>
 
     <!--Tc01GpioAct-->
     <string name="Tc01GpioAct_info_pass">GPIO测试全部通过</string>
@@ -479,7 +480,95 @@
     <string name="CheckIntentAct_infor1">请插入RJ45网线</string>
     <string name="CheckIntentAct_infor2">RJ45网络已连接</string>
     <string name="CheckIntentAct_infor3">未连接网络</string>
+    <string name="CheckIntentAct_infor4">请重新拔插网线</string>
     <string name="CheckIntentAct_toast">切换RJ45接口失败</string>
+
+
+
+
+
+    <!--布局XML文件-->
+    <!--act_btnkt40q-->
+    <string name="left_up">左上</string>
+    <string name="right_up">右上</string>
+    <string name="left_down">左下</string>
+    <string name="right_down">右下</string>
+
+    <!--act_button_two-->
+    <string name="btn_two_tv1">X5只需要前两项，X2需要所有的测试</string>
+
+    <!--act_camera_usb-->
+    <string name="camera_usb_test">相机测试</string>
+
+    <!--act_dmp80_layout-->
+    <string name="dmp80_tv1">左边的两个按钮查看屏幕亮度是否发生变化</string>
+    <string name="dmp80_tv2">F5长按检测</string>
+
+    <!--act_expand-->
+    <string name="expand_btn1">串口1</string>
+    <string name="expand_btn2">串口2</string>
+    <string name="expand_btn3">USB指纹</string>
+    <string name="expand_btn4">连接转换</string>
+    <string name="expand_btn5">自动</string>
+
+    <!--act_gassensor-->
+    <string name="btn_test">测试</string>
+
+    <!--act_gps-->
+    <string name="gps_tv">无数据</string>
+
+    <!--act_id2 \ sct_r6-->
+    <string name="id2_tvOff">读卡</string>
+    <string name="id2_tvOn">停止</string>
+
+    <!--act_laser-->
+    <string name="laser_open">打开</string>
+    <string name="laser_close">关闭</string>
+
+    <!--act_n80_outgps_layout \ act_outgpsdb2 \ out_gps_s510-->
+    <string name="n80_outgps_tv1">GPS数据:</string>
+    <string name="outgps_btn">开始测试</string>
+
+    <!--act_out_gps \ act_outgpsdb2 \ out_gps-->
+    <string name="out_gps_tv1">读GPS数据</string>
+    <string name="out_gps_btnX5">X5测试</string>
+    <string name="out_gps_btnX2">X2测试</string>
+    <string name="out_gps_btnSwitch">切换测试</string>
+
+    <!--act_port232_layout-->
+    <string name="btn_send">发送</string>
+
+    <!--act_sk80_light-->
+    <string name="btn_left_green">左绿</string>
+    <string name="btn_right_green">右绿</string>
+    <string name="btn_right_red">右红</string>
+    <string name="btn_right_down_yellow">右下黄</string>
+    <string name="btn_right_down_blue">右下蓝</string>
+    <string name="btn_right_down_red">右下红</string>
+    <string name="btn_right_down_green">右下绿</string>
+
+    <!--act_speaker-->
+    <string name="speaker_btn1">切换</string>
+
+    <!--act_uhf-->
+    <string name="uhf_btn_test1">盘存测试</string>
+    <string name="uhf_btn_test2">读写测试</string>
+
+    <!--act_usbmlate-->
+    <string name="usbmlate_tv">请插入U盘</string>
+
+    <!--activity_change-->
+    <string name="btn_next">下一步</string>
+
+    <!--diloag_flipping_loading  加载中-->
+    <string name="diloag_Loading">加载中...</string>
+
+    <!--setreader-->
+    <string name="btn_start">开始</string>
+    <string name="btn_return">返回</string>
+
+    <!--title_bar-->
+    <string name="title_bar_clean">清除</string>
 
 
 </resources>

@@ -32,7 +32,7 @@
             style="@style/base_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Tc01485Act_2.4G" />
+            android:text="@string/Tc01485Act_2_4G" />
 
         <TextView
             android:id="@+id/tv_accept1"

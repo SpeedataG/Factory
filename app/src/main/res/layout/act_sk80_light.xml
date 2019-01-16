@@ -33,7 +33,7 @@
                 android:layout_marginTop="55dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="左绿" />
+                android:text="@string/btn_left_green" />
 
             <Button
                 android:id="@+id/btn_r_green"
@@ -44,7 +44,7 @@
                 android:layout_marginTop="55dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="右绿" />
+                android:text="@string/btn_right_green" />
 
             <Button
                 android:id="@+id/btn_r_red"
@@ -53,7 +53,7 @@
                 android:layout_marginTop="55dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="右红" />
+                android:text="@string/btn_right_red" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,7 +68,7 @@
                 android:layout_marginTop="55dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="右下黄" />
+                android:text="@string/btn_right_down_yellow" />
 
             <Button
                 android:id="@+id/btn_2"
@@ -79,7 +79,7 @@
                 android:layout_marginTop="55dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="右下蓝" />
+                android:text="@string/btn_right_down_blue" />
 
             <Button
                 android:id="@+id/btn_3"
@@ -88,7 +88,7 @@
                 android:layout_marginTop="55dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="右下红" />
+                android:text="@string/btn_right_down_red" />
 
             <Button
                 android:id="@+id/btn_4"
@@ -98,7 +98,7 @@
                 android:layout_marginTop="55dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="右下绿" />
+                android:text="@string/btn_right_down_green" />
         </LinearLayout>
 
     </LinearLayout>
@@ -118,7 +118,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
 
@@ -130,7 +130,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>

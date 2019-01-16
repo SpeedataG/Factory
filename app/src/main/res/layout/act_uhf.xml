@@ -48,13 +48,13 @@
             android:id="@+id/pandian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="盘点测试" />
+            android:text="@string/uhf_btn_test1" />
 
         <Button
             android:id="@+id/read"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="读写测试"
+            android:text="@string/uhf_btn_test2"
             android:visibility="gone" />
 
 
@@ -68,7 +68,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/selector_item_blue"
-        android:text="读卡"
+        android:text="@string/id2_tvOff"
         android:textColor="@color/text_white"
         android:textSize="@dimen/commom_textsize"
         android:visibility="gone" />
@@ -87,7 +87,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
 
@@ -99,7 +99,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>

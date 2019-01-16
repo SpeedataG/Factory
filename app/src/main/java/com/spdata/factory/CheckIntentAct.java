@@ -108,7 +108,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
                     tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor1));
                 }
             } else {
-                tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor3)+"请重新拔插网线");
+                tvVersionInfor.setText(getResources().getString(R.string.CheckIntentAct_infor3)+getResources().getString(R.string.CheckIntentAct_infor4));
             }
             handler.postDelayed(runnable, 200);
         }

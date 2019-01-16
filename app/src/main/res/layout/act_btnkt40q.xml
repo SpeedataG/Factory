@@ -32,7 +32,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="左上"
+                android:text="@string/left_up"
                 android:textSize="13sp" />
 
             <Button
@@ -71,7 +71,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="右上"
+                android:text="@string/right_up"
                 android:textSize="13sp" />
 
 
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="左下" />
+                android:text="@string/left_down" />
 
             <Button
                 android:id="@+id/btn_menu"
@@ -116,7 +116,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="右下" />
+                android:text="@string/right_down" />
 
         </LinearLayout>
 
@@ -315,7 +315,7 @@
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
 
@@ -328,7 +328,7 @@
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>

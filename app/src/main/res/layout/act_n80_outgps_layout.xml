@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="GPS数据:"
+            android:text="@string/n80_outgps_tv1"
             style="@style/base_text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -65,7 +65,7 @@
                 android:background="@drawable/selector_item_blue"
                 android:textColor="@color/white"
                 android:visibility="gone"
-                android:text="开始测试" />
+                android:text="@string/outgps_btn" />
         </LinearLayout>
     </LinearLayout>
 
@@ -84,7 +84,7 @@
             android:layout_weight="1"
             android:visibility="gone"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
 
@@ -97,7 +97,7 @@
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:visibility="gone"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />

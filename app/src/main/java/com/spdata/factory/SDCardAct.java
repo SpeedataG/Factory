@@ -117,8 +117,8 @@ public class SDCardAct extends FragActBase implements View.OnClickListener {
                 tvInfor.append(getResources().getString(R.string.SDCardAct_copy_neifa));
             }
         }
-//        task = new remindTask();
-//        remind(task);
+        task = new remindTask();
+        remind(task);
     }
 
     private void initView() {

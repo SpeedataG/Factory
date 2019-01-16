@@ -95,11 +95,11 @@
     <string name="menu_reset">Clear test record </string>
     <string name="menu_rs232">RS232 SerialPort</string>
         
-    <string name="menu_rj45">RJ45 Network Test / 2.4G</string>
+    <string name="menu_rj45">RJ45 Network Test</string>
         
     <string name="menu_gpio">GPIO Test</string>
         
-    <string name="menu_test485">485 Test</string>
+    <string name="menu_test485">485 Test / 2.4G</string>
     <!--<string name="menu_camera">camera</string>-->
 
     <!--VersionAct-->
@@ -675,9 +675,10 @@
     <string name="btn_showToast">menu</string>
 
     <!--Tc01485Act-->
-    <string name="Tc01485Act_send">Send content:This is 485 test</string>
-    <string name="Tc01485Act_accept1">Serial port 2 receives:</string>
-    <string name="Tc01485Act_accept2">Serial port 3 receives:This is 485 test</string>
+    <string name="Tc01485Act_send">485 Send content:This is 485 test\n2.4G Send content:This is 2.4G test</string>
+    <string name="Tc01485Act_accept1">485-1 receives:</string>
+    <string name="Tc01485Act_accept2">485-2 receives:</string>
+    <string name="Tc01485Act_2_4G">2.4G receives:</string>
 
     <!--Tc01GpioAct-->
     <string name="Tc01GpioAct_info_pass">GPIO tests are all passed</string>
@@ -687,8 +688,93 @@
     <!--CheckIntentAct-->
     <string name="CheckIntentAct_infor1">Please insert the RJ45 network cable</string>
     <string name="CheckIntentAct_infor2">The RJ45 network is connected</string>
-    <string name="CheckIntentAct_infor3">Unconnected network</string>
+    <string name="CheckIntentAct_infor3">Unconnected network. </string>
+    <string name="CheckIntentAct_infor4">Please unplug the network cable again</string>
     <string name="CheckIntentAct_toast">Failed to switch RJ45 interface</string>
+
+
+    <!--布局XML文件-->
+    <!--act_btnkt40q-->
+    <string name="left_up">LEFT_UP</string>
+    <string name="right_up">RIGHT_UP</string>
+    <string name="left_down">LEFT_DOWN</string>
+    <string name="right_down">RIGHT_DOWN</string>
+
+    <!--act_button_two-->
+    <string name="btn_two_tv1">X5 only needs the first two items, and X2 needs all the tests</string>
+
+    <!--act_camera_usb-->
+    <string name="camera_usb_test">Camera test</string>
+
+    <!--act_dmp80_layout-->
+    <string name="dmp80_tv1">Two buttons on the left to see if the screen brightness changes</string>
+    <string name="dmp80_tv2">F5 long press detection</string>
+
+    <!--act_expand-->
+    <string name="expand_btn1">Serial port 1</string>
+    <string name="expand_btn2">Serial port 2</string>
+    <string name="expand_btn3">USB fingerprint</string>
+    <string name="expand_btn4">Connection transition</string>
+    <string name="expand_btn5">Automatic</string>
+
+    <!--act_gassensor-->
+    <string name="btn_test">Test</string>
+
+    <!--act_gps-->
+    <string name="gps_tv">No data</string>
+
+    <!--act_id2-->
+    <string name="id2_tvOff">Card reading</string>
+    <string name="id2_tvOn">Stop</string>
+
+    <!--act_laser-->
+    <string name="laser_open">Open</string>
+    <string name="laser_close">Close</string>
+
+    <!--act_n80_outgps_layout \ act_outgpsdb2-->
+    <string name="n80_outgps_tv1">GPS data:</string>
+    <string name="outgps_btn">Start testing</string>
+
+    <!--act_out_gps \ act_outgpsdb2 \ out_gps-->
+    <string name="out_gps_tv1">Read the GPS data</string>
+    <string name="out_gps_btnX5">X5 test</string>
+    <string name="out_gps_btnX2">X2 test</string>
+    <string name="out_gps_btnSwitch">Switch test</string>
+
+    <!--act_port232_layout-->
+    <string name="btn_send">send</string>
+
+    <!--act_sk80_light-->
+    <string name="btn_left_green">Left_Green</string>
+    <string name="btn_right_green">Right_Green</string>
+    <string name="btn_right_red">Right_Red</string>
+    <string name="btn_right_down_yellow">Right_Down_Yellow</string>
+    <string name="btn_right_down_blue">Right_Down_Blue</string>
+    <string name="btn_right_down_red">Right_Down_Red</string>
+    <string name="btn_right_down_green">Right_Down_Green</string>
+
+    <!--act_speaker-->
+    <string name="speaker_btn1">switch</string>
+
+    <!--act_uhf-->
+    <string name="uhf_btn_test1">Inventory test</string>
+    <string name="uhf_btn_test2">Reading and writing tests</string>
+
+    <!--act_usbmlate-->
+    <string name="usbmlate_tv">Please insert the U disk</string>
+
+    <!--activity_change-->
+    <string name="btn_next">next</string>
+
+    <!--diloag_flipping_loading  加载中-->
+    <string name="diloag_Loading">Loading...</string>
+
+    <!--setreader-->
+    <string name="btn_start">start</string>
+    <string name="btn_return">return</string>
+
+    <!--title_bar-->
+    <string name="title_bar_clean">clean</string>
 
 
 </resources>

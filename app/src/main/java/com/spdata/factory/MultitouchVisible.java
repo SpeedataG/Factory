@@ -70,7 +70,7 @@ public class MultitouchVisible extends Activity {
 //                                        remind(task)
                                         is = true;
                                     }
-                                }).setNegativeButton(getResources().getString(R.string.btn_success), new DialogInterface.OnClickListener() {
+                                }).setNegativeButton(getResources().getString(R.string.btn_fail), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 SharedXmlUtil.getInstance(MultitouchVisible.this).write(App

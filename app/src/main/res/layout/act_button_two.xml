@@ -21,7 +21,7 @@
         <TextView
             android:id="@+id/tv_infor"
             android:layout_width="fill_parent"
-            android:text="X5只需要前两项，X2需要全部测试"
+            android:text="@string/btn_two_tv1"
             style="@style/base_text"
             android:layout_height="200dp"/>
 
@@ -110,7 +110,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="成功"
+            android:text="@string/btn_success"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
 
@@ -122,7 +122,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/selector_item_blue"
-            android:text="失败"
+            android:text="@string/btn_fail"
             android:textColor="@color/text_white"
             android:textSize="@dimen/commom_textsize" />
     </LinearLayout>
