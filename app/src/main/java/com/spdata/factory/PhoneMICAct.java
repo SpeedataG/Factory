@@ -92,6 +92,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
      */
     private Button btnNotPass;
 
+
     @Override
     protected void initTitlebar() {
 
@@ -314,7 +315,6 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
                     }
                     // 然后将数据写入到AudioTrack中
                     track.write(buffer, 0, buffer.length);
-
                 }
 
                 // 播放结束
@@ -339,4 +339,5 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
             btnSoundRecording.setEnabled(false);
         }
     }
+
 }

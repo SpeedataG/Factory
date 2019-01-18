@@ -47,21 +47,21 @@ public class DisplayTestAct extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(R.string.DisplayTestAct_display)
                 .setMessage(R.string.DisplayTestAct_lcdtesttip)
-                .setNegativeButton(R.string.btn_success, new OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DisplayTestAct.this.setResult(1);
-                        SharedXmlUtil.getInstance(DisplayTestAct.this).write(App.KEY_DISPLAY, App.KEY_FINISH);
-                        DisplayTestAct.this.finish();
-                    }
-                })
-                .setPositiveButton(R.string.btn_fail, new OnClickListener() {
+                .setNegativeButton(R.string.btn_fail, new OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         DisplayTestAct.this.setResult(-1);
                         SharedXmlUtil.getInstance(DisplayTestAct.this).write(App.KEY_DISPLAY, App.KEY_UNFINISH);
+                        DisplayTestAct.this.finish();
+                    }
+                })
+                .setPositiveButton(R.string.btn_success, new OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DisplayTestAct.this.setResult(1);
+                        SharedXmlUtil.getInstance(DisplayTestAct.this).write(App.KEY_DISPLAY, App.KEY_FINISH);
                         DisplayTestAct.this.finish();
                     }
                 });
