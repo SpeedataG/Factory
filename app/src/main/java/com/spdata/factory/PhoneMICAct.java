@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -92,6 +93,11 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
      */
     private Button btnNotPass;
 
+    //存储计时
+    private int numTime;
+    //存储倒计时
+    private int reTime;
+
 
     @Override
     protected void initTitlebar() {
@@ -157,6 +163,25 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
         }
     }
 
+    //添加计时
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            numTime++;
+            handler.postDelayed(this,1000);
+            tvInfor.setText(getResources().getString(R.string.sound_record_time)+numTime+"s");
+        }
+    };
+    //添加倒计时
+    Runnable runnable2 = new Runnable() {
+        @Override
+        public void run() {
+            reTime--;
+            handler.postDelayed(this,1000);
+            tvInfor.setText(getResources().getString(R.string.sound_remaining_time)+reTime+"s");
+        }
+    };
     @Override
     public void onClick(View v) {
         if (v == btnSoundRecording) {
@@ -166,6 +191,8 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
                 isStart = true;
                 btnSoundRecording.setText(getResources().getString(
                         R.string.sound_stop_record));
+                numTime = 0;
+                tvInfor.setText(getResources().getString(R.string.sound_record_time)+numTime+"s");
             } else {
                 this.isRecording = false;
                 btnSoundRecording.setText(getResources().getString(
@@ -182,10 +209,13 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
                         R.string.sound_play_stop));
                 player.execute();
                 isPlay = true;
+                reTime = numTime;
+                tvInfor.setText(getResources().getString(R.string.sound_remaining_time)+reTime+"s");
             } else {
                 isPlay = false;
                 btnPlay.setText(getResources().getString(R.string.sound_play));
                 this.isPlaying = false;
+                handler.removeCallbacks(runnable2);
             }
         } else if (v == btnNotPass) {
             setXml(App.KEY_PHONE_MIC, App.KEY_UNFINISH);
@@ -244,7 +274,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
 
                 // 开始录制
                 record.startRecording();
-
+                handler.postDelayed(runnable,1000);
                 int r = 0; // 存储录制进度
                 // 定义循环，根据isRecording的值来判断是否继续录制
                 while (isRecording) {
@@ -261,6 +291,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
                 }
                 // 录制结束
                 record.stop();
+                handler.removeCallbacks(runnable);
                 Log.v("The DOS available:", "::" + audioFile.length());
                 dos.close();
             } catch (Exception e) {
@@ -272,7 +303,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
         // 当在上面方法中调用publishProgress时，该方法触发,该方法在I线程中被执行
         @Override
         protected void onProgressUpdate(Integer... progress) {
-            tvInfor.setText(progress[0].toString());
+//            tvInfor.setText(progress[0].toString());
         }
 
         @Override
@@ -306,6 +337,8 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
                         AudioTrack.MODE_STREAM);
                 // 开始播放
                 track.play();
+                //循环写入似乎比循环播放时间稍长，为了计时器能减到0，所以将第一次提前开始计时
+                handler.postDelayed(runnable2,600);
                 // 由于AudioTrack播放的是流，所以，我们需要一边播放一边读取
                 while (isPlaying && dis.available() > 0) {
                     int i = 0;
@@ -319,6 +352,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
 
                 // 播放结束
                 track.stop();
+                handler.removeCallbacks(runnable2);
                 dis.close();
 
             } catch (Exception e) {

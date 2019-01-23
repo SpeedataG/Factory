@@ -273,6 +273,9 @@
         
     <string name="sound_phonemsg">Please click the Start Recording button to record</string>
 
+    <string name="sound_record_time">Recording time:</string>
+    <string name="sound_remaining_time">The remaining time:</string>
+
     <!-- usb -->
     <string name="usb_state_connect">USB is connected</string>
         

@@ -180,6 +180,8 @@
     <string name="sound_er_tosast2">耳机已插入,无麦克风</string>
     <string name="sound_er_tosast3">耳机已插入,有麦克风</string>
     <string name="sound_phonemsg">请点击开始录音按钮进行录音</string>
+    <string name="sound_record_time">录音时长：</string>
+    <string name="sound_remaining_time">剩余时长：</string>
 
     <!-- usb -->
     <string name="usb_state_connect">USB 已接入</string>
