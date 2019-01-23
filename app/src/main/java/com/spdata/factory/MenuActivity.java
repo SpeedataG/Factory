@@ -233,7 +233,7 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "44", "50", "48"};
-        } else if (model.equals("SK80H") || model.equals("SK80")) {
+        } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "13", "14", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "31", "39", "51", "52", "50", "48"};
@@ -536,7 +536,7 @@ public class MenuActivity extends FragActBase {
             case ACTION_INDICATOR_LIGHT:
                 if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")) {
                     openAct(IndicatorLightAct_sd55.class);
-                } else if (model.equals("SK80H") || model.equals("SK80")) {
+                } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
                     openAct(IndicatorSk80LightAct.class);
                 } else {
                     openAct(IndicatorLightAct.class);
@@ -662,7 +662,7 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonKt40Act.class);
                 } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
                     openAct(ButtonSd55.class);
-                } else if (model.equals("SK80H") || model.equals("SK80")) {
+                } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
                     openAct(ButtonSk80Act.class);
                 } else if (model.equals("SD35")) {
                     openAct(ButtonSd35Act.class);

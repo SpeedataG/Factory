@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -79,6 +80,18 @@ public class ButtonSk80Act extends FragActBase implements View.OnClickListener {
         btn_pass.setOnClickListener(this);
         btn_not_pass = (Button) findViewById(R.id.btn_not_pass);
         btn_not_pass.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        showToast(keyCode+"");
+        return super.onKeyDown(keyCode, event);
+
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override
