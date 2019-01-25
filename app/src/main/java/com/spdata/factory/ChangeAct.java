@@ -177,7 +177,7 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
                             break;
                         case 2:
                             first();
-                            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60")) {
+                            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD55UHF") || Build.MODEL.equals("SD60")) {
                                 tvInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000000.0 + "V");
                             } else {
                                 tvInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000.0 + "V");
@@ -290,7 +290,7 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
     public String bufferRead() {
         try {
             BufferedReader bfr;
-            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60")) {
+            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD55UHF") || Build.MODEL.equals("SD60")) {
                 bfr = new BufferedReader(new FileReader("/sys/class/power_supply/battery/current_now"));
             } else {
                 bfr = new BufferedReader(new FileReader(CHARGER_CURRENT_NOW));

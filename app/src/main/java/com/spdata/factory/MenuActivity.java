@@ -229,7 +229,11 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "10", "11",
                     "13", "14", "15", "16", "17", "19", "20", "18", "21", "22", "23",
                     "24", "26", "30", "32", "37", "39", "41", "50", "48"};
-        } else if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
+        } else if (model.equals("k63v2_64_bsp") || model.equals("SD55")|| model.equals("SD60")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
+                    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "44", "50", "48"};
+        }else if ( model.equals("SD55L") || model.equals("SD55UHF")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "44", "50", "48"};
@@ -660,7 +664,7 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonKt40qAct.class);
                 } else if (model.equals("KT40")) {
                     openAct(ButtonKt40Act.class);
-                } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD60")) {
+                } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD55UHF") || model.equals("SD60")) {
                     openAct(ButtonSd55.class);
                 } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
                     openAct(ButtonSk80Act.class);

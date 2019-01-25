@@ -75,6 +75,7 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
 //            psamIntance.resetDev();//复位
             switch (Build.MODEL) {
                 case "SD55":
+                case "SD55UHF":
                     psamIntance.initDev("ttyMT1", 115200, this);
                     deviceControl1 = new DeviceControl(DeviceControl.PowerType.NEW_MAIN, 16, 46);
                     deviceControl1.PowerOnDevice();
