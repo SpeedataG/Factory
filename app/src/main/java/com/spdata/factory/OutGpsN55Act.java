@@ -3,7 +3,7 @@ package com.spdata.factory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,7 +51,7 @@ public class OutGpsN55Act extends FragActBase implements View.OnClickListener {
     }
 
 
-    private SerialPort mSerialPort;
+    private SerialPortSpd mSerialPort;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class OutGpsN55Act extends FragActBase implements View.OnClickListener {
         setContentView(R.layout.act_outgpsn55);
         initView();
         initTitlebar();
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortSpd();
         try {
             gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
             gpio.PowerOnDevice("120");

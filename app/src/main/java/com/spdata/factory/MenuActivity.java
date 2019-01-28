@@ -867,7 +867,7 @@ public class MenuActivity extends FragActBase {
                 permissUtilses.add(permissUtils);
             }
         }
-        openWifi(this);
+        //openWifi(this);
     }
 
     public void initView() {

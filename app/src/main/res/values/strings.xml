@@ -109,7 +109,6 @@
     <string name="IndicatorLightAct_bule_faild">蓝灯点亮失败</string>
 
 
-
     <!--SDCardAct \ SDCardkt80Act-->
     <string name="SDCardAct_neizhi">内置SD卡总大小</string>
     <string name="SDCardAct_wai">外置SD卡总大小</string>
@@ -486,9 +485,6 @@
     <string name="CheckIntentAct_toast">切换RJ45接口失败</string>
 
 
-
-
-
     <!--布局XML文件-->
     <!--act_btnkt40q-->
     <string name="left_up">左上</string>
@@ -553,7 +549,7 @@
     <string name="speaker_btn1">切换</string>
 
     <!--act_uhf-->
-    <string name="uhf_btn_test1">盘存测试</string>
+    <string name="uhf_btn_test1">盘点测试</string>
     <string name="uhf_btn_test2">读写测试</string>
 
     <!--act_usbmlate-->

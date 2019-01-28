@@ -3,7 +3,7 @@ package com.spdata.factory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +24,7 @@ import common.utils.DeviceControl;
 public class OutGpsDB2Act extends FragActBase implements View.OnClickListener {
 
     private DeviceControl gpio;
-    private SerialPort mSerialPort;
+    private SerialPortSpd mSerialPort;
     private ReadTask readTask;
     private CustomTitlebar titlebar;
     /**
@@ -59,7 +59,7 @@ public class OutGpsDB2Act extends FragActBase implements View.OnClickListener {
         initView();
         initTitlebar();
         try {
-            mSerialPort = new SerialPort();
+            mSerialPort = new SerialPortSpd();
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
             gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
         } catch (IOException e) {

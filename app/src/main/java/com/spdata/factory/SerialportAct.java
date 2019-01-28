@@ -3,7 +3,7 @@ package com.spdata.factory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -52,7 +52,7 @@ public class SerialportAct extends FragActBase implements View.OnClickListener {
         titlebar.setAttrs(getResources().getString(R.string.menu_serialport));
     }
 
-    private SerialPort mSerialPort;
+    private SerialPortSpd mSerialPort;
     private int sendcount = 1;
     private int fd;
     public String sendstring = "This is Serialport!";
@@ -73,7 +73,7 @@ public class SerialportAct extends FragActBase implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         try {
-            mSerialPort = new SerialPort();
+            mSerialPort = new SerialPortSpd();
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
             fd = mSerialPort.getFd();
             readThread = new ReadThread();

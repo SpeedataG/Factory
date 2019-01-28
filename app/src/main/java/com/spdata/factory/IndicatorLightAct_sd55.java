@@ -3,7 +3,7 @@ package com.spdata.factory;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.serialport.DeviceControl;
+import android.serialport.DeviceControlSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,7 +22,7 @@ import common.base.act.FragActBase;
  * Created by 42040 on 2018/7/23.
  */
 public class IndicatorLightAct_sd55 extends FragActBase implements View.OnClickListener {
-    private DeviceControl deviceControl;
+    private DeviceControlSpd deviceControl;
     private CustomTitlebar titlebar;
     /**
      * xxx
@@ -61,7 +61,7 @@ public class IndicatorLightAct_sd55 extends FragActBase implements View.OnClickL
         setContentView(R.layout.act_indicator_light);
         initView();
         try {
-            deviceControl = new DeviceControl(DeviceControl.POWER_NEWMAIN);
+            deviceControl = new DeviceControlSpd(DeviceControlSpd.POWER_NEWMAIN);
         } catch (IOException e) {
             e.printStackTrace();
         }

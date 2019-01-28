@@ -4,7 +4,7 @@ import android.hardware.SerialManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,7 +63,7 @@ public class OutGpsS510Act extends FragActBase implements View.OnClickListener {
 
     private SerialManager mSerialManager = null;
     private static final String SERIAL_SERVICE = "serial";
-    private SerialPort mSerialPort;
+    private SerialPortSpd mSerialPort;
     private byte[] tmpbuf = new byte[1024];
     private static final int count = 0;
 
@@ -78,7 +78,7 @@ public class OutGpsS510Act extends FragActBase implements View.OnClickListener {
         gpio.PowerOnDevice72();
         gpio.PowerOnDevice73();
         gpio.PowerOnDevice87();
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortSpd();
 //        timer = new Timer();
 //        readTimerTask = new ReadTimerTask();
     }

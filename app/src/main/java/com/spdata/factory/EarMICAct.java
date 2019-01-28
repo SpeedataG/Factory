@@ -1,5 +1,6 @@
 package com.spdata.factory;
 
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -113,6 +114,11 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         setSwipeEnable(false);
         tvInfor.setText(getResources().getString(R.string.sound_ermsg));
         context = this;
+        AudioManager audioManager = (AudioManager) this.getSystemService(Service.AUDIO_SERVICE);
+        int max = audioManager
+                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                max, 0);
 
     }
 
@@ -334,7 +340,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
                 // 开始播放
                 track.play();
                 //循环写入似乎比循环播放时间稍长，为了计时器能减到0，所以将第一次提前开始计时
-                handler.postDelayed(runnable2,600);
+                handler.postDelayed(runnable2,900);
                 // 由于AudioTrack播放的是流，所以，我们需要一边播放一边读取
                 while (isPlaying && dis.available() > 0) {
                     int i = 0;

@@ -3,7 +3,7 @@ package com.spdata.factory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,7 +50,7 @@ public class X300Serport extends FragActBase implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_x300serport);
         initView(); initTitlebar();
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortSpd();
         deviceControl = new DeviceControl("/sys/class/misc/mtgpio/pin");
 
     }
@@ -70,7 +70,7 @@ public class X300Serport extends FragActBase implements View.OnClickListener {
     }
 
 
-    private SerialPort mSerialPort;
+    private SerialPortSpd mSerialPort;
     DeviceControl deviceControl;
     int fd;
 

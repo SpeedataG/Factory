@@ -3,8 +3,8 @@ package com.spdata.factory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.serialport.DeviceControl;
-import android.serialport.SerialPort;
+import android.serialport.DeviceControlSpd;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -88,8 +88,8 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
     }
 
 
-    private SerialPort mSerialPort;
-    private DeviceControl deviceControl;
+    private SerialPortSpd mSerialPort;
+    private DeviceControlSpd deviceControl;
     private int sendcount = 1;
     private int fd;
     public String sendstring = "This is Seriaport!";
@@ -103,11 +103,11 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
         initTitlebar();
         tvVersionInfor.setText(getResources().getString(R.string.Rs232Serport_equals1) + getResources().getString(R.string.Rs232Serport_equals2));
         try {
-            deviceControl = new DeviceControl(DeviceControl.POWER_MAIN);
+            deviceControl = new DeviceControlSpd(DeviceControlSpd.POWER_MAIN);
             deviceControl.MainPowerOn(90);
             writeFile("1");
             SystemClock.sleep(200);
-            mSerialPort = new SerialPort();
+            mSerialPort = new SerialPortSpd();
             mSerialPort.OpenSerial("/dev/ttyUSB0", 9600);
             fd = mSerialPort.getFd();
             showToast("fdfd:" + fd);

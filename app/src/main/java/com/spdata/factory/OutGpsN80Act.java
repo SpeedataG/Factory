@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +20,7 @@ import common.base.act.FragActBase;
 import common.utils.DataConversionUtils;
 import common.utils.DeviceControl;
 
-import static android.serialport.SerialPort.SERIAL_TTYMT1;
+import static android.serialport.SerialPortSpd.SERIAL_TTYMT1;
 
 /**
  * Created by lenovo-pc on 2017/6/14.
@@ -54,7 +54,7 @@ public class OutGpsN80Act extends FragActBase implements View.OnClickListener {
     }
 
 
-    private SerialPort mSerialPort;
+    private SerialPortSpd mSerialPort;
     DeviceControl deviceControl;
     private static final byte senCmd[] = {(byte) 0xB5, 0x62, 0x06, 0x17, 0x0C, 0x00, 0x00
             , 0x41, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x6C, 0x3E};
@@ -71,7 +71,7 @@ public class OutGpsN80Act extends FragActBase implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         try {
-            mSerialPort = new SerialPort();
+            mSerialPort = new SerialPortSpd();
             deviceControl = new DeviceControl("/sys/class/misc/mtgpio/pin");
             deviceControl.PowerOnDevice("63");
             deviceControl.PowerOnDevice("99");

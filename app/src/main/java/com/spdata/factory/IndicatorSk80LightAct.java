@@ -2,7 +2,7 @@ package com.spdata.factory;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.serialport.DeviceControl;
+import android.serialport.DeviceControlSpd;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,7 +18,7 @@ import common.base.act.FragActBase;
  */
 public class IndicatorSk80LightAct extends FragActBase implements View.OnClickListener {
 
-    private DeviceControl deviceControl;
+    private DeviceControlSpd deviceControl;
     private CustomTitlebar titlebar;
     /**
      * 左绿
@@ -65,7 +65,7 @@ public class IndicatorSk80LightAct extends FragActBase implements View.OnClickLi
         initTitlebar();
         setSwipeEnable(false);
         try {
-            deviceControl = new DeviceControl(DeviceControl.POWER_EXTERNAL);
+            deviceControl = new DeviceControlSpd(DeviceControlSpd.POWER_EXTERNAL);
         } catch (IOException e) {
             e.printStackTrace();
         }

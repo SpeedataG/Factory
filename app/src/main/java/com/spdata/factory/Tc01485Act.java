@@ -2,8 +2,8 @@ package com.spdata.factory;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.serialport.DeviceControl;
-import android.serialport.SerialPort;
+import android.serialport.DeviceControlSpd;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,9 +20,9 @@ import common.utils.DataConversionUtils;
 public class Tc01485Act extends FragActBase implements View.OnClickListener {
 
 
-    private SerialPort serialPort;
-    private SerialPort serialPort2;
-    private SerialPort serialPort3;
+    private SerialPortSpd serialPort;
+    private SerialPortSpd serialPort2;
+    private SerialPortSpd serialPort3;
     private int fd;
     private int fd2;
     private int fd3;
@@ -58,14 +58,14 @@ public class Tc01485Act extends FragActBase implements View.OnClickListener {
         setSwipeEnable(false);
         tvSend.setText(getResources().getString(R.string.Tc01485Act_send));
         try {
-            DeviceControl deviceControl = new DeviceControl(DeviceControl.PowerType.MAIN, 86,65);
+            DeviceControlSpd deviceControl = new DeviceControlSpd(DeviceControlSpd.PowerType.MAIN, 86,65);
             deviceControl.PowerOnDevice();
-            serialPort = new SerialPort();
-            serialPort2 = new SerialPort();
-            serialPort3 = new SerialPort();
-            serialPort.OpenSerial(SerialPort.SERIAL_TTYMT2, 9600);
-            serialPort2.OpenSerial(SerialPort.SERIAL_TTYMT3, 9600);
-            serialPort3.OpenSerial(SerialPort.SERIAL_TTYMT1, 115200);
+            serialPort = new SerialPortSpd();
+            serialPort2 = new SerialPortSpd();
+            serialPort3 = new SerialPortSpd();
+            serialPort.OpenSerial(SerialPortSpd.SERIAL_TTYMT2, 9600);
+            serialPort2.OpenSerial(SerialPortSpd.SERIAL_TTYMT3, 9600);
+            serialPort3.OpenSerial(SerialPortSpd.SERIAL_TTYMT1, 115200);
             fd = serialPort.getFd();
             fd2 = serialPort2.getFd();
             fd3 = serialPort3.getFd();

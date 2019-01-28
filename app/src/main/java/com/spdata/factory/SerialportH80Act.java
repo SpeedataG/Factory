@@ -3,7 +3,7 @@ package com.spdata.factory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -51,7 +51,7 @@ public class SerialportH80Act extends FragActBase implements View.OnClickListene
         titlebar.setAttrs(getResources().getString(R.string.menu_serialport));
     }
 
-    private SerialPort mSerialPort;
+    private SerialPortSpd mSerialPort;
     DeviceControl deviceControl;
     private int sendcount = 1;
     private int fd;
@@ -75,7 +75,7 @@ public class SerialportH80Act extends FragActBase implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         try {
-            mSerialPort = new SerialPort();
+            mSerialPort = new SerialPortSpd();
             deviceControl = new DeviceControl("/sys/class/misc/mtgpio/pin");
             mSerialPort.OpenSerial("/dev/ttyMT3", 9600);
             deviceControl.PowerOnDevice121();

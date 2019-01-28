@@ -3,7 +3,7 @@ package com.spdata.factory;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.serialport.DeviceControl;
+import android.serialport.DeviceControlSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,7 +20,7 @@ public class FingerPrint extends FragActBase implements View.OnClickListener {
     TextView text_show;
     private Intent intent;
     private PackageManager packageManager;
-    private DeviceControl mdeviceControl;
+    private DeviceControlSpd mdeviceControl;
     private CustomTitlebar titlebar;
     private TextView textShow;
     /**
@@ -94,7 +94,7 @@ public class FingerPrint extends FragActBase implements View.OnClickListener {
         setSwipeEnable(false);
         try {
             //sd80 金色指纹上电
-            mdeviceControl = new DeviceControl(DeviceControl.PowerType.MAIN);
+            mdeviceControl = new DeviceControlSpd(DeviceControlSpd.PowerType.MAIN);
             mdeviceControl.MainPowerOn(126);
             mdeviceControl.MainPowerOn(93);
             mdeviceControl.MainPowerOn(99);

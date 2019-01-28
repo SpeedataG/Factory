@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.serialport.DeviceControl;
+import android.serialport.DeviceControlSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -60,7 +60,7 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
 
     //获取psam实例
     IPsam psamIntance = PsamManager.getPsamIntance();
-    DeviceControl deviceControl1;
+    DeviceControlSpd deviceControl1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,11 +75,11 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
 //            psamIntance.resetDev();//复位
             switch (Build.MODEL) {
                 case "SD55":
-                case "SD55UHF":
+//                case "SD55UHF":
                     psamIntance.initDev("ttyMT1", 115200, this);
-                    deviceControl1 = new DeviceControl(DeviceControl.PowerType.NEW_MAIN, 16, 46);
+                    deviceControl1 = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN, 16, 46);
                     deviceControl1.PowerOnDevice();
-                    psamIntance.resetDev(DeviceControl.PowerType.NEW_MAIN, 23);
+                    psamIntance.resetDev(DeviceControlSpd.PowerType.NEW_MAIN, 23);
                     break;
 
                 default:

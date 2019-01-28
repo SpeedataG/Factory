@@ -3,7 +3,7 @@ package common.utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.SystemClock;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -74,7 +74,7 @@ public class CardOperation {
 	private byte typePowerPsam = 0x11;
 
 	private byte[] cmd_ic_get9d_data = {0x00, (byte) 0xB0, (byte) 0x9D, 0x00, 0x1E};
-	private SerialPort mSerialPort;//串口读写关闭功能
+	private SerialPortSpd mSerialPort;//串口读写关闭功能
 	private int fd;//文件句柄
 	private int baurate = 115200;
 	private String serialport = "ttyMT3";
@@ -146,7 +146,7 @@ public class CardOperation {
 	 * 初始化串口 gpio
 	 */
 	private boolean initDevice() {//改加
-		mSerialPort = new SerialPort();
+		mSerialPort = new SerialPortSpd();
 		try {
 //            logger.d("====serialport" + serialport + "==baurate" + baurate + "==gpio" + gpio);
 			mSerialPort.OpenSerial("/dev/" + serialport, baurate);

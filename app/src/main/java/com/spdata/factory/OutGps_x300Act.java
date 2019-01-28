@@ -4,7 +4,7 @@ import android.hardware.SerialManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -76,7 +76,7 @@ public class OutGps_x300Act extends FragActBase implements View.OnClickListener 
 
     private SerialManager mSerialManager = null;
     private static final String SERIAL_SERVICE = "serial";
-    private SerialPort mSerialPort;
+    private SerialPortSpd mSerialPort;
     private byte[] tmpbuf = new byte[1024];
     private static final int count = 0;
 
@@ -89,7 +89,7 @@ public class OutGps_x300Act extends FragActBase implements View.OnClickListener 
         gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
         gpio.PowerOnDevice63();
         gpio.PowerOnDevice98();
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortSpd();
 //        mSerialManager = (SerialManager) getSystemService(SERIAL_SERVICE);
         btn_x5.setEnabled(false);
 //        Timer timer = new Timer();

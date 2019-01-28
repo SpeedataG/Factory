@@ -3,7 +3,7 @@ package com.spdata.factory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.SerialPort;
+import android.serialport.SerialPortSpd;
 import android.south.SDKMethod;
 import android.util.Log;
 import android.view.View;
@@ -82,7 +82,7 @@ public class OutGpsAct extends FragActBase implements View.OnClickListener {
     }
 
 
-    private SerialPort mSerialPort;
+    private SerialPortSpd mSerialPort;
     private SDKMethod gpsnet_device;
 
     @Override
@@ -102,7 +102,7 @@ public class OutGpsAct extends FragActBase implements View.OnClickListener {
         gpio = new DeviceControl("/sys/class/misc/mtgpio/pin");
         gpio.PowerOnDevice63();
         gpio.PowerOnDevice98();
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortSpd();
     }
 
     Handler handler = new Handler() {

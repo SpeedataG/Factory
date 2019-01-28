@@ -6,8 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.DeviceControl;
-import android.serialport.SerialPort;
+import android.serialport.DeviceControlSpd;
+import android.serialport.SerialPortSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -131,7 +131,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
                                 message.obj = infor;
                                 handler.sendMessage(message);
                             }
-                        }, SerialPort.SERIAL_TTYMT2, 115200, DeviceControl.PowerType.MAIN, 94);
+                        }, SerialPortSpd.SERIAL_TTYMT2, 115200, DeviceControlSpd.PowerType.MAIN, 94);
                     } else {
                         result = iid2Service.initDev(Id2TestAct.this, new
                                 IDReadCallBack() {

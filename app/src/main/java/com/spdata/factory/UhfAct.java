@@ -153,6 +153,8 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
             tvRed.setVisibility(View.VISIBLE);
+            pandian.setEnabled(false);
+            btnPass.setVisibility(View.GONE);
             tvRed.setText(getResources().getString(R.string.uhf_msg_error));
         }
     }

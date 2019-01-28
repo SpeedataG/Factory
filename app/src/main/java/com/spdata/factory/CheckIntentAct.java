@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.serialport.DeviceControl;
+import android.serialport.DeviceControlSpd;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,7 +50,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
     }
 
 
-    DeviceControl deviceControl = null;
+    DeviceControlSpd deviceControl = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
         setSwipeEnable(false);
         btnPass.setVisibility(View.GONE);
         try {
-            deviceControl = new DeviceControl();
+            deviceControl = new DeviceControlSpd();
         } catch (IOException e) {
             e.printStackTrace();
         }

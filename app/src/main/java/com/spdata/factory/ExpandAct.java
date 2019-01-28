@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.serialport.DeviceControl;
-import android.serialport.SerialPort;
+import android.serialport.DeviceControlSpd;
+import android.serialport.SerialPortSpd;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,9 +40,9 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
     private static String SERIAPORT1 = "/dev/ttyMT1";
     private static String SERIAPORT2 = "/dev/ttyMT2";
     private static final String TAG = "ExpandAct";   //记录标识
-    private SerialPort mSerialPort;
-    private DeviceControl mdeviceControl2;
-    private DeviceControl mdeviceControl;
+    private SerialPortSpd mSerialPort;
+    private DeviceControlSpd mdeviceControl2;
+    private DeviceControlSpd mdeviceControl;
     private boolean isstate;
     private Timer timer = null;
     private CustomTitlebar titlebar;
@@ -98,10 +98,10 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.hall.success");
         registerReceiver(receiver, intentFilter);
-        mSerialPort = new SerialPort();
+        mSerialPort = new SerialPortSpd();
         try {
-            mdeviceControl = new DeviceControl(DeviceControl.PowerType.MAIN);
-            mdeviceControl2 = new DeviceControl(DeviceControl.PowerType.EXPAND);
+            mdeviceControl = new DeviceControlSpd(DeviceControlSpd.PowerType.MAIN);
+            mdeviceControl2 = new DeviceControlSpd(DeviceControlSpd.PowerType.EXPAND);
             mdeviceControl.MainPowerOn(63);
             mdeviceControl2.ExpandPowerOn(6);
             mdeviceControl2.ExpandPowerOn(5);
@@ -120,7 +120,7 @@ public class ExpandAct extends FragActBase implements View.OnClickListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("com.hall.success")) {
-                mSerialPort = new SerialPort();
+                mSerialPort = new SerialPortSpd();
                 try {
                     mdeviceControl.MainPowerOn(63);
                     mdeviceControl2.ExpandPowerOn(6);

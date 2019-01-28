@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
@@ -119,7 +120,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(4000);
+                        Thread.sleep(7000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -153,7 +154,6 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
     NetworkInfo mWifi;
 
     private void init() {
-
         context = this;
         linkWifi = new LinkWifi(context);
         wifiManager = (WifiManager) context
@@ -171,6 +171,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
             scanAndGetResult();
         } else {
             openWifi();
+            //showToast("正在打开WiFi");
             if (wifi_list == null) {
                 scanAndGetResult();
             }
