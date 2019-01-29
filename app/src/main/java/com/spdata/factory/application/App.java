@@ -18,7 +18,7 @@ package com.spdata.factory.application;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.multidex.MultiDex;
+//import android.support.multidex.MultiDex;
 
 import common.base.BaseApplication;
 import common.base.dialog.ToastUtils;
@@ -92,7 +92,7 @@ public class App extends BaseApplication implements AppConst {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        MultiDex.install(this);
+//        MultiDex.install(this);
     }
 
     @Override

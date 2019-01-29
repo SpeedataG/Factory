@@ -12,6 +12,7 @@ package common.base;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Process;
+//import android.support.multidex.MultiDexApplication;
 
 import java.util.ArrayList;
 import java.util.List;
