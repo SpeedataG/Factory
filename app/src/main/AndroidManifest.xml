@@ -169,11 +169,11 @@
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
-             <!--nfc 扫描有nfc 打开该actvity-->
+            <!--nfc 扫描有nfc 打开该actvity-->
             <intent-filter>
-            <action android:name="android.nfc.action.TAG_DISCOVERED" />
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
 
-            <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -330,8 +330,8 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".UhfAct"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".M08CameraBacckAct"
             android:launchMode="singleTop" />

@@ -56,7 +56,7 @@ public class SearchTagDialog extends Dialog implements
     private CheckBox cbb;
     private IUHFService iuhfService;
     private String model;
-//    private Button export;
+    //    private Button export;
     private KProgressHUD kProgressHUD;
 
     public SearchTagDialog(Context context, IUHFService iuhfService, String model) {
@@ -182,7 +182,7 @@ public class SearchTagDialog extends Dialog implements
                 iuhfService.inventoryStop();
 //                iuhfService.inventoryStart();
 
-                Action.setText("开始");
+                Action.setText(R.string.btn_start);
                 Cancle.setEnabled(true);
 //                export.setEnabled(true);
             } else {
@@ -193,7 +193,7 @@ public class SearchTagDialog extends Dialog implements
                 iuhfService.selectCard(1, "", false);
                 EventBus.getDefault().post(new MsgEvent("CancelSelectCard", ""));
                 iuhfService.inventoryStart();
-                Action.setText("停止");
+                Action.setText(R.string.id2_tvOn);
                 Cancle.setEnabled(false);
 //                export.setEnabled(false);
             }

@@ -24,7 +24,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
-        versionName "V1.6.2" + "." + getDate()
+        versionName "V1.6.3" + "." + getDate()
     }
     buildTypes {
         release {

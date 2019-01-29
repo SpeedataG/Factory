@@ -111,12 +111,13 @@
 
     <!--SDCardAct \ SDCardkt80Act-->
     <string name="SDCardAct_neizhi">内置SD卡总大小</string>
-    <string name="SDCardAct_wai">外置SD卡总大小</string>
+    <string name="SDCardAct_wai">\n外置SD卡总大小</string>
     <string name="SDCardAct_keyong">\n可用大小</string>
-    <string name="SDCardAct_copy_suc">\nSDCopy文件成功</string>
-    <string name="SDCardAct_copy_fa">\nSD卡Copy文件失败</string>
+    <string name="SDCardAct_copy_suc">\n外置SDCopy文件成功</string>
+    <string name="SDCardAct_copy_fa">\n外置SD卡Copy文件失败</string>
     <string name="SDCardAct_copy_neisuc">\n内置SDCopy文件成功</string>
     <string name="SDCardAct_copy_neifa">\n内置SD卡Copy文件失败</string>
+    <string name="SDCardAct_copy_no_wSD">\n请插入外置SD卡</string>
 
     <!--SDCardkt80Act-->
     <string name="SDCardkt80Act_sd1_off">\nSD卡1不存在</string>

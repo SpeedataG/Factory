@@ -166,19 +166,21 @@
 
 
     <!--SDCardAct \ SDCardkt80Act-->
-    <string name="SDCardAct_neizhi">The total size of the built-in SD card</string>
+    <string name="SDCardAct_neizhi">The total size of the built-in SD card </string>
         
-    <string name="SDCardAct_wai">The total size of the external SD card</string>
+    <string name="SDCardAct_wai">\n total size of external SD card </string>
         
-    <string name="SDCardAct_keyong">\nAvailable size</string>
+    <string name="SDCardAct_keyong">\n available size </string>
         
-    <string name="SDCardAct_copy_suc">\nSDCopy file succeeded</string>
+    <string name="SDCardAct_copy_suc">\n external SDCopy file success </string>
         
-    <string name="SDCardAct_copy_fa">\nSD card Copy file failed</string>
+    <string name="SDCardAct_copy_fa">\n external SD card Copy file failed </string>
         
-    <string name="SDCardAct_copy_neisuc">\nBuilt-in SDCopy file success</string>
+    <string name="SDCardAct_copy_neisuc">\n built-in SDCopy file success </string>
         
-    <string name="SDCardAct_copy_neifa">\nBuilt-in SD card Copy file failed</string>
+    <string name="SDCardAct_copy_neifa">\n built-in SD card Copy file failed </string>
+        
+    <string name="SDCardAct_copy_no_wSD">\nPlease insert an external SD card</string>
 
     <!--SDCardkt80Act-->
     <string name="SDCardkt80Act_sd1_off">\nSD card 1 does not exist</string>

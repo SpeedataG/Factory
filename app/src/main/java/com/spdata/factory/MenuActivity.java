@@ -173,7 +173,7 @@ public class MenuActivity extends FragActBase {
                 || model.equals("R40") || model.equals("T50") || model.equals("KT50_YQ")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "12", "13", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
-                    "26", "30", "31", "32", "34", "37", "39", "44","50", "48"};
+                    "26", "30", "31", "32", "34", "37", "39", "50", "48"};
         } else if (model.equals("X300Q") || model.equals("X300Q_X1") || model.equals("X300Q_P1") ||
                 model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")) {
             strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10", "11",
@@ -229,11 +229,11 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "10", "11",
                     "13", "14", "15", "16", "17", "19", "20", "18", "21", "22", "23",
                     "24", "26", "30", "32", "37", "39", "41", "50", "48"};
-        } else if (model.equals("k63v2_64_bsp") || model.equals("SD55")|| model.equals("SD60")) {
+        } else if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "44", "50", "48"};
-        }else if ( model.equals("SD55L") || model.equals("SD55UHF")) {
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "50", "48"};
+        } else if (model.equals("SD55L") || model.equals("SD55UHF")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "44", "50", "48"};

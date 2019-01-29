@@ -98,24 +98,34 @@ public class SDCardAct extends FragActBase implements View.OnClickListener {
             for (int i = 0; i < volumePaths.length; i++) {
                 try {
                     sdUtils.copyBigDataToSD(volumePaths[i]);
-                    tvInfor.append(getResources().getString(R.string.SDCardAct_copy_suc));
+                    if (i == 0) {
+                        tvInfor.append(getResources().getString(R.string.SDCardAct_copy_neisuc));
+                    } else {
+                        tvInfor.append(getResources().getString(R.string.SDCardAct_copy_suc));
+                    }
                     yes = 1;
                 } catch (IOException e) {
                     e.printStackTrace();
                     yes = 2;
-                    tvInfor.append(getResources().getString(R.string.SDCardAct_copy_fa));
+                    if (i == 0) {
+                        tvInfor.append(getResources().getString(R.string.SDCardAct_copy_neifa));
+                    } else {
+                        tvInfor.append(getResources().getString(R.string.SDCardAct_copy_fa));
+                    }
                 }
             }
         } else {
+
             try {
                 sdUtils.copyBigDataToSD(volumePaths[0]);
                 tvInfor.append(getResources().getString(R.string.SDCardAct_copy_neisuc));
-                yes = 1;
+                yes = 2;
             } catch (IOException e) {
                 e.printStackTrace();
                 yes = 2;
                 tvInfor.append(getResources().getString(R.string.SDCardAct_copy_neifa));
             }
+            tvInfor.append(getResources().getString(R.string.SDCardAct_copy_no_wSD));
         }
         task = new remindTask();
         remind(task);
