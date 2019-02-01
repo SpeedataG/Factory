@@ -255,7 +255,7 @@ public class SearchTagDialog extends Dialog implements
             EventBus.getDefault().post(new MsgEvent("set_current_tag_epc", epcStr));
             dismiss();
         } else {
-            Status.setText("选卡失败");
+            Status.setText(R.string.select_fail);
         }
     }
 }

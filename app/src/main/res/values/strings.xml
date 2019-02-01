@@ -569,6 +569,8 @@
     <!--title_bar-->
     <string name="title_bar_clean">清除</string>
 
+    <!--SearchTagDialog-->
+    <string name="select_fail">选卡失败</string>
 
 </resources>
 

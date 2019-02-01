@@ -781,6 +781,8 @@
     <!--title_bar-->
     <string name="title_bar_clean">clean</string>
 
+    <!--SearchTagDialog-->
+    <string name="select_fail">Selected card failure</string>
 
 </resources>
 
