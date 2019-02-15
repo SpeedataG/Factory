@@ -123,7 +123,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
             public void run() {
                 try {
                     boolean result = false;
-                    if (Build.MODEL.equals("DM-P80")) {
+                    if (App.getModel().equals("DM-P80")) {
                         result = iid2Service.initDev(Id2TestAct.this, new IDReadCallBack() {
                             @Override
                             public void callBack(IDInfor infor) {

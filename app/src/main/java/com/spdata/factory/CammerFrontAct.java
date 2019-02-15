@@ -127,7 +127,7 @@ public class CammerFrontAct extends FragActBase implements SurfaceHolder.Callbac
         holder.addCallback(this);
         //设置类型
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        String model = Build.MODEL;
+        String model = App.getModel();
         if (model.equals("KT80") || model.equals("W6") || model.equals("RT801")
                 || model.equals("T80") || model.equals("T800") || model.equals("FC-K80")
                 || model.equals("Biowolf LE") || model.equals("N800") || model.equals("FC-PK80")

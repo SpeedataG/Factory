@@ -73,7 +73,7 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
         try {
 //            psamIntance.initDev(this);//初始化设备
 //            psamIntance.resetDev();//复位
-            switch (Build.MODEL) {
+            switch (App.getModel()) {
                 case "SD55":
 //                case "SD55UHF":
                     psamIntance.initDev("ttyMT1", 115200, this);
@@ -82,7 +82,15 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                     psamIntance.resetDev(DeviceControlSpd.PowerType.NEW_MAIN, 23);
                     break;
 
+//                case "SD35":
+//                    psamIntance.initDev("ttyMT1", 115200, this);
+//                    deviceControl1 = new DeviceControlSpd(DeviceControlSpd.PowerType.MAIN, 93);
+//                    deviceControl1.PowerOnDevice();
+//                    psamIntance.resetDev(DeviceControlSpd.PowerType.MAIN, 94);
+//                    break;
+
                 default:
+                    psamIntance.initDev(this);//初始化设备
 //                    psamIntance.resetDev();//复位
                     break;
 
@@ -122,8 +130,8 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
         for (Integer s : gpio1) {
             gpio += s + ",";
         }
-        tv.append(getResources().getString(R.string.psam_append1) + getResources().getString(R.string.psam_append2) + pasm.getBraut() + getResources().getString(R.string.psam_append3) +
-                getResources().getString(R.string.psam_append4) + getResources().getString(R.string.psam_append5));
+        tv.append(getResources().getString(R.string.psam_append1) + pasm.getSerialPort() + getResources().getString(R.string.psam_append2) + pasm.getBraut() + getResources().getString(R.string.psam_append3) +
+               pasm.getPowerType() + getResources().getString(R.string.psam_append4) + pasm.getGpio() + getResources().getString(R.string.psam_append5)+ pasm.getResetGpio());
     }
 
     @Override

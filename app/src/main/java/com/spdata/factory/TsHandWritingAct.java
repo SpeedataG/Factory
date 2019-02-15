@@ -84,7 +84,7 @@ public class TsHandWritingAct extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (Build.MODEL.equals("CT")) {
+        if (App.getModel().equals("CT")) {
             //设置横屏
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }

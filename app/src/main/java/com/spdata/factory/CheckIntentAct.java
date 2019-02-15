@@ -66,7 +66,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (Build.MODEL.equals("TC01")) {
+        if (App.getModel().equals("TC01")) {
             try {
                 deviceControl.MainPowerOn(63);
                 deviceControl.MainPowerOn(86);
@@ -124,7 +124,7 @@ public class CheckIntentAct extends FragActBase implements View.OnClickListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (Build.MODEL.equals("TC01")) {
+        if (App.getModel().equals("TC01")) {
             try {
                 deviceControl.MainPowerOff(63);
                 deviceControl.MainPowerOff(86);

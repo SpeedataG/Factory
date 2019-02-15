@@ -17,6 +17,7 @@
 package com.spdata.factory.application;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 //import android.support.multidex.MultiDex;
 
@@ -89,6 +90,15 @@ public class App extends BaseApplication implements AppConst {
         return instance;
     }
 
+    public static String model;
+    //    获取设备型号
+    public static String getModel(){
+        model = android.os.SystemProperties.get("ro.build.developer");
+        if (model == null || "".equals(model)){
+            model = Build.MODEL;
+        }
+        return model;
+    }
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

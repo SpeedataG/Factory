@@ -74,7 +74,7 @@ public class DisplayTestAct extends Activity {
         this.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (Build.MODEL.equals("CT")) {
+        if (App.getModel().equals("CT")) {
             //设置横屏
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }

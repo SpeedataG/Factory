@@ -146,9 +146,17 @@ public class MenuActivity extends FragActBase {
         }
     }
 
+    ////    获取设备型号
+//    public String getModel(){
+//        model = android.os.SystemProperties.get("ro.build.developer");
+//        if (model == null || "".equals(model)){
+//            model = Build.MODEL;
+//        }
+//        return model;
+//    }
     private void initUI() {
         listItemList.clear();
-        model = Build.MODEL;
+        model = App.getModel();
         if (model.equals("T450") || model.equals("KT55") || model.equals("T550")
                 || model.equals("M55") || model.equals("T55") || model.equals("KT55L")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
@@ -210,11 +218,11 @@ public class MenuActivity extends FragActBase {
                     "23", "24", "26", "30", "31", "32", "34", "37",
                     "39", "43", "44", "50", "48"};
 
-        } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53") || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")) {
+        } else if (model.equals("S1_35") || model.equals("H5_53") || model.equals("H5") || model.equals("S1") || model.equals("H5_35")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
                     "13", "16", "17", "18", "20", "21", "22", "23",
                     "24", "25", "26", "30", "31", "37", "39", "50", "48"};
-        } else if (Build.MODEL.equals("CT")) {
+        } else if (model.equals("CT")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9",
                     "13", "16", "17", "18", "19", "21", "22", "24", "26", "39", "50", "48"};
         } else if (model.equals("DM-P80")) {
@@ -527,7 +535,7 @@ public class MenuActivity extends FragActBase {
                 openAct(WifiAct.class);
                 break;
             case ACTION_TOUCH_SCREEN:
-//                if (model.equals("N80") || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("S1")) {
+//                if (model.equals("N80") || model.equals("M08") || model.equals("S1_35") || model.equals("S1")) {
                 openAct(TsHandWritingAct.class);
 //                } else {
 //                    openAct(TouchTest.class);
@@ -646,7 +654,7 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonH500Act.class);
                 } else if (model.equals("spda6735") || model.equals("DCD3")) {
                     openAct(ButtonDCD3Act.class);
-                } else if (model.equals("N80") || Build.MODEL.equals("S550")) {
+                } else if (model.equals("N80") || model.equals("S550")) {
                     openAct(ButtonN80Act.class);
                 } else if (model.equals("M08")) {
                     openAct(ButtonM08Act.class);
@@ -654,11 +662,11 @@ public class MenuActivity extends FragActBase {
                         || model.equals("KT45Q_B2") || model.equals("JM45Q") || model.equals("FT43")
                         || model.equals("PT145") || model.equals("TT43")) {
                     openAct(ButtonKT45qAct.class);
-                } else if (Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53") || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")) {
+                } else if (model.equals("S1_35") || model.equals("H5_53") || model.equals("H5") || model.equals("S1") || model.equals("H5_35")) {
                     openAct(ButtonS1Act.class);
-                } else if (Build.MODEL.equals("CT")) {
+                } else if (model.equals("CT")) {
                     openAct(ButtonCtAct.class);
-                } else if (Build.MODEL.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208")) {
+                } else if (model.equals("SD80") || model.equals("AQUARIUS Cmp NS208")) {
                     openAct(ButtonSd80Act.class);
                 } else if (model.equals("KT40Q") || model.equals("KT40Q_O")) {
                     openAct(ButtonKt40qAct.class);

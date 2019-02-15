@@ -385,10 +385,10 @@
     <string name="psam_custom_config">定制配置：\n</string>
     <string name="psam_standard_config">标准配置：\n</string>
     <string name="psam_append1">串口:ttyMT1</string>
-    <string name="psam_append2">  波特率：</string>
-    <string name="psam_append3"> 上电类型:NEW_MAIN</string>
-    <string name="psam_append4"> GPIO:16,46</string>
-    <string name="psam_append5"> resetGpio:23</string>
+    <string name="psam_append2">  波特率:</string>
+    <string name="psam_append3"> 上电类型:</string>
+    <string name="psam_append4"> GPIO:</string>
+    <string name="psam_append5"> resetGpio:</string>
     <string name="psam1_no">无 Psam1\n</string>
     <string name="psam1_succeed">Psam1 成功 \n</string>
     <string name="psam2_no">无 Psam2\n</string>
