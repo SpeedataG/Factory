@@ -38,6 +38,10 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
      */
     private Button btnPsam2;
     /**
+     * sk80串口切换开关
+     */
+    private Button btnSK80Switch;
+    /**
      * 成功
      */
     private Button btnPass;
@@ -45,6 +49,8 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
      * 失败
      */
     private Button btnNotPass;
+
+    private boolean isSwitch = false;
 
 
     @Override
@@ -82,12 +88,14 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                     psamIntance.resetDev(DeviceControlSpd.PowerType.NEW_MAIN, 23);
                     break;
 
-//                case "SD35":
-//                    psamIntance.initDev("ttyMT1", 115200, this);
-//                    deviceControl1 = new DeviceControlSpd(DeviceControlSpd.PowerType.MAIN, 93);
-//                    deviceControl1.PowerOnDevice();
-//                    psamIntance.resetDev(DeviceControlSpd.PowerType.MAIN, 94);
-//                    break;
+                case "SK80":
+                case "SK80H":
+                    psamIntance.initDev("ttyMT1", 115200, this);
+                    deviceControl1 = new DeviceControlSpd(DeviceControlSpd.PowerType.MAIN_AND_EXPAND2, 85,5);
+                    deviceControl1.PowerOnDevice();
+                    psamIntance.resetDev(DeviceControlSpd.PowerType.MAIN_AND_EXPAND2, 6);
+                    btnSK80Switch.setVisibility(View.VISIBLE);
+                    break;
 
                 default:
                     psamIntance.initDev(this);//初始化设备
@@ -156,6 +164,8 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
         btnPass.setOnClickListener(this);
         btnNotPass = (Button) findViewById(R.id.btn_not_pass);
         btnNotPass.setOnClickListener(this);
+        btnSK80Switch = (Button) findViewById(R.id.btn_sk80_switch);
+        btnSK80Switch.setOnClickListener(this);
     }
 
     @Override
@@ -199,6 +209,24 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                         });
                     }
                 }).start();
+                break;
+            case R.id.btn_sk80_switch:
+                if (isSwitch){
+                    isSwitch = false;
+                    try {
+                        deviceControl1.Expand2PowerOff(7);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    isSwitch = true;
+                    try {
+                        deviceControl1.Expand2PowerOn(7);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 break;
             case R.id.btn_pass:
                 setXml(App.KEY_PSAM, App.KEY_FINISH);

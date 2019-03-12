@@ -784,6 +784,8 @@
     <!--SearchTagDialog-->
     <string name="select_fail">Selected card failure</string>
 
+    <string name="sk80_switch">serial port switch</string>
+
 </resources>
 
 

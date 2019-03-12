@@ -245,10 +245,15 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "44", "50", "48"};
-        } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
+        } else if (model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "13", "14", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "31", "39", "51", "52", "50", "48"};
+
+        } else if (model.equals("SK80H") || model.equals("SK80")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
+                    "13", "14", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "31", "34", "39", "51", "52", "50", "48"};
 
         } else if (model.equals("TC01")) {
             strings = new String[]{"0", "3", "4", "5", "7", "8", "9", "10",
@@ -583,6 +588,8 @@ public class MenuActivity extends FragActBase {
                     openAct(DCD3CammerBackgroundAct.class);
                 } else if (model.equals("M08")) {
                     openAct(M08CameraBacckAct.class);
+                } else if (model.equals("SK80H") || model.equals("SK80")) {
+                    openAct(CammerSystemSk80Act.class);
                 } else {
                     openAct(CammerBackgroundAct.class);
                 }

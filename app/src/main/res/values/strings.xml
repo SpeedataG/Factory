@@ -572,6 +572,8 @@
     <!--SearchTagDialog-->
     <string name="select_fail">选卡失败</string>
 
+    <string name="sk80_switch">串口切换</string>
+
 </resources>
 
 

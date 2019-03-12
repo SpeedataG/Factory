@@ -90,6 +90,7 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
 
     private SerialPortSpd mSerialPort;
     private DeviceControlSpd deviceControl;
+    private DeviceControlSpd deviceControl2;
     private int sendcount = 1;
     private int fd;
     public String sendstring = "This is Seriaport!";
@@ -105,6 +106,8 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
         try {
             deviceControl = new DeviceControlSpd(DeviceControlSpd.POWER_MAIN);
             deviceControl.MainPowerOn(90);
+            deviceControl2 = new DeviceControlSpd(DeviceControlSpd.POWER_EXTERNAL);
+            deviceControl2.ExpandPowerOn(2);
             writeFile("1");
             SystemClock.sleep(200);
             mSerialPort = new SerialPortSpd();
@@ -194,6 +197,7 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
             handler.removeCallbacks(runnable);
             mSerialPort.CloseSerial(fd);
             deviceControl.MainPowerOff(90);
+            deviceControl2.ExpandPowerOff(2);
         } catch (IOException e) {
             e.printStackTrace();
         }

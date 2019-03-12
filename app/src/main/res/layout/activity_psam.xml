@@ -15,8 +15,8 @@
         android:layout_width="fill_parent"
         android:layout_height="300dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -64,6 +64,18 @@
                 android:text="psam2"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/commom_textsize" />
+
+            <Button
+                android:id="@+id/btn_sk80_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_blue"
+                android:text="@string/sk80_switch"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/commom_textsize"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

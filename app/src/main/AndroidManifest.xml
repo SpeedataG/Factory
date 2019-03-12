@@ -107,6 +107,11 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!--添加data 是为了让图标不显示在launch上-->
+                <!--<data
+                    android:host="factory"
+                    android:scheme="com.spdata.factory" />-->
             </intent-filter>
         </activity>
         <!--友盟添加-->
@@ -432,6 +437,9 @@
         <activity
             android:name=".ButtonSd35Act"
             android:launchMode="singleTop" />
+
+        <activity android:name=".CammerSystemSk80Act"
+            android:launchMode="singleTop"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
