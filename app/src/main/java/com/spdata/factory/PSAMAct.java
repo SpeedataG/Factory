@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.serialport.DeviceControlSpd;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 import com.speedata.libutils.ConfigUtils;
+import com.speedata.libutils.DataConversionUtils;
 import com.speedata.libutils.ReadBean;
+import com.speedata.utils.DataCleanUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -50,7 +53,7 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
      */
     private Button btnNotPass;
 
-    private boolean isSwitch = false;
+    private boolean isSwitch = true;
 
 
     @Override
@@ -77,8 +80,6 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
         setSwipeEnable(false);
         showConfig();
         try {
-//            psamIntance.initDev(this);//初始化设备
-//            psamIntance.resetDev();//复位
             switch (App.getModel()) {
                 case "SD55":
 //                case "SD55UHF":
@@ -89,17 +90,31 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                     break;
 
                 case "SK80":
-                case "SK80H":
                     psamIntance.initDev("ttyMT1", 115200, this);
-                    deviceControl1 = new DeviceControlSpd(DeviceControlSpd.PowerType.MAIN_AND_EXPAND2, 85,5);
-                    deviceControl1.PowerOnDevice();
-                    psamIntance.resetDev(DeviceControlSpd.PowerType.MAIN_AND_EXPAND2, 6);
+                    deviceControl1 = new DeviceControlSpd();
+                    deviceControl1.Expand2PowerOff(7);
+                    btnSK80Switch.setText("大卡");
                     btnSK80Switch.setVisibility(View.VISIBLE);
+                    break;
+
+                case "SK80H":
+                    deviceControl1 = new DeviceControlSpd();
+                    deviceControl1.MainPowerOn(85);
+                    psamIntance.initDev("ttyMT1", 115200, this);
+                    //小卡
+                    deviceControl1.Expand2PowerOn(7);
+                    deviceControl1.Expand2PowerOn(5);
+                    deviceControl1.Expand2PowerOn(6);
+                    deviceControl1.Expand2PowerOff(6);
+                    deviceControl1.Expand2PowerOn(6);
+                    btnSK80Switch.setText("切换到大卡");
+                    btnSK80Switch.setVisibility(View.VISIBLE);
+                    btnPsam2.setVisibility(View.GONE);
                     break;
 
                 default:
                     psamIntance.initDev(this);//初始化设备
-//                    psamIntance.resetDev();//复位
+                    psamIntance.resetDev();//复位
                     break;
 
             }
@@ -139,13 +154,23 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
             gpio += s + ",";
         }
         tv.append(getResources().getString(R.string.psam_append1) + pasm.getSerialPort() + getResources().getString(R.string.psam_append2) + pasm.getBraut() + getResources().getString(R.string.psam_append3) +
-               pasm.getPowerType() + getResources().getString(R.string.psam_append4) + pasm.getGpio() + getResources().getString(R.string.psam_append5)+ pasm.getResetGpio());
+                pasm.getPowerType() + getResources().getString(R.string.psam_append4) + pasm.getGpio() + getResources().getString(R.string.psam_append5) + pasm.getResetGpio());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         try {
+            if (App.getModel().equals("SK80H") && App.getModel().equals("SK80")) {
+
+                deviceControl1.ExpandPowerOff(4);
+                deviceControl1.MainPowerOff(85);
+                deviceControl1.Expand2PowerOff(5);
+                deviceControl1.ExpandPowerOff(12);
+                deviceControl1.Expand2PowerOff(6);
+                deviceControl1.MainPowerOff(12);
+            }
             psamIntance.releaseDev();
         } catch (IOException e) {
             e.printStackTrace();
@@ -178,13 +203,14 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                     @Override
                     public void run() {
                         final byte[] data = psamIntance.PsamPower(IPsam.PowerType.Psam1);
+                        Log.i("psam1", "run: " + DataConversionUtils.byteArrayToString(data));
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (data == null) {
-                                    tvInfor.append(getResources().getString(R.string.psam1_no));
-                                } else {
+                                if (data != null && DataConversionUtils.byteArrayToString(data).contains("3b")) {
                                     tvInfor.append(getResources().getString(R.string.psam1_succeed));
+                                } else {
+                                    tvInfor.append(getResources().getString(R.string.psam1_no));
                                 }
                             }
                         });
@@ -197,13 +223,14 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                     @Override
                     public void run() {
                         final byte[] data = psamIntance.PsamPower(IPsam.PowerType.Psam2);
+                        Log.i("psam2", "run: " + DataConversionUtils.byteArrayToString(data));
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (data == null) {
-                                    tvInfor.append(getResources().getString(R.string.psam2_no));
-                                } else {
+                                if (data != null && DataConversionUtils.byteArrayToString(data).contains("3b")) {
                                     tvInfor.append(getResources().getString(R.string.psam2_succeed));
+                                } else {
+                                    tvInfor.append(getResources().getString(R.string.psam2_no));
                                 }
                             }
                         });
@@ -211,17 +238,42 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                 }).start();
                 break;
             case R.id.btn_sk80_switch:
-                if (isSwitch){
+                if (isSwitch) {
                     isSwitch = false;
+                    btnSK80Switch.setText("切换到小卡");
                     try {
+                        deviceControl1.Expand2PowerOff(5);
+                        deviceControl1.Expand2PowerOff(6);
+                        deviceControl1.MainPowerOff(85);
+                        psamIntance.releaseDev();
                         deviceControl1.Expand2PowerOff(7);
+                        deviceControl1.MainPowerOn(85);
+                        psamIntance.initDev("ttyMT1", 115200, this);
+
+                        deviceControl1.ExpandPowerOn(4);
+                        deviceControl1.ExpandPowerOn(12);
+                        deviceControl1.ExpandPowerOff(12);
+                        deviceControl1.ExpandPowerOn(12);
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
                     isSwitch = true;
+                    btnSK80Switch.setText("切换到大卡");
                     try {
+                        deviceControl1.MainPowerOff(85);
+                        deviceControl1.ExpandPowerOff(4);
+                        deviceControl1.ExpandPowerOff(12);
+                        psamIntance.releaseDev();
                         deviceControl1.Expand2PowerOn(7);
+                        deviceControl1.MainPowerOn(85);
+                        psamIntance.initDev("ttyMT1", 115200, this);
+
+                        deviceControl1.Expand2PowerOn(5);
+                        deviceControl1.Expand2PowerOn(6);
+                        deviceControl1.Expand2PowerOff(6);
+                        deviceControl1.Expand2PowerOn(6);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

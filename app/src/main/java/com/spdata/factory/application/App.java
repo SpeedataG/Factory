@@ -85,6 +85,8 @@ public class App extends BaseApplication implements AppConst {
     public static final String KEY_INTENET = "intenet";//RJ45网线接口测试
     public static final String KEY_GPIOS = "gpios";// tc01 主板gpio测试
     public static final String KEY_485 = "485";//tc01  485测试
+    public static final String KEY_PRINT = "print";//打印机
+    public static final String KEY_WIFI_PROBE = "wifiprobe";//WiFi探针
 
     public static App getInstance() {
         return instance;

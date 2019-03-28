@@ -100,6 +100,8 @@ public class MenuActivity extends FragActBase {
     private final static int ACTION_INTENET = 52;//RJ45网线接口测试
     private final static int ACTION_GPIOS = 53;//tc01 主板gpio测试
     private final static int ACTION_485 = 54;//tc01 485测试
+    private final static int ACTION_PRINT = 55;//打印机
+    private final static int ACTION_WIFI_PROBE = 56;//WiFi探针
     private String[] meneList = null;
     private String nulls[] = new String[0];
     private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
@@ -146,14 +148,6 @@ public class MenuActivity extends FragActBase {
         }
     }
 
-    ////    获取设备型号
-//    public String getModel(){
-//        model = android.os.SystemProperties.get("ro.build.developer");
-//        if (model == null || "".equals(model)){
-//            model = Build.MODEL;
-//        }
-//        return model;
-//    }
     private void initUI() {
         listItemList.clear();
         model = App.getModel();
@@ -220,7 +214,7 @@ public class MenuActivity extends FragActBase {
 
         } else if (model.equals("S1_35") || model.equals("H5_53") || model.equals("H5") || model.equals("S1") || model.equals("H5_35")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11",
-                    "13", "16", "17", "18", "20", "21", "22", "23",
+                    "13", "16", "17", "18", "19", "20", "21", "22", "23",
                     "24", "25", "26", "30", "31", "37", "39", "50", "48"};
         } else if (model.equals("CT")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9",
@@ -252,8 +246,8 @@ public class MenuActivity extends FragActBase {
 
         } else if (model.equals("SK80H") || model.equals("SK80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
-                    "13", "14", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "31", "34", "39", "51", "52", "50", "48"};
+                    "13", "14", "16", "17", "18", "19", "20", "21",
+                    "23", "24", "31", "34", "35", "39", "51", "52", "49", "55", "56", "50", "48"};
 
         } else if (model.equals("TC01")) {
             strings = new String[]{"0", "3", "4", "5", "7", "8", "9", "10",
@@ -267,7 +261,7 @@ public class MenuActivity extends FragActBase {
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
                     "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46",
-                    "47", "49", "50", "51", "52", "53", "54", "48"};
+                    "47", "49", "51", "52", "53", "54", "55", "56", "50", "48"};
         }
 
         for (int i = 0; i < strings.length; i++) {
@@ -495,6 +489,12 @@ public class MenuActivity extends FragActBase {
                 break;
             case ACTION_485:
                 result = getXml(App.KEY_485, "");
+                break;
+            case ACTION_PRINT:
+                result = getXml(App.KEY_PRINT, "");
+                break;
+            case ACTION_WIFI_PROBE:
+                result = getXml(App.KEY_WIFI_PROBE, "");
                 break;
             default:
                 break;
@@ -799,6 +799,12 @@ public class MenuActivity extends FragActBase {
             case ACTION_485:
                 openAct(Tc01485Act.class);
                 break;
+            case ACTION_PRINT:
+                openAct(PrintTestAct.class);
+                break;
+            case ACTION_WIFI_PROBE:
+                openAct(WifiProbeTestAct.class);
+                break;
             default:
                 break;
         }
@@ -850,7 +856,8 @@ public class MenuActivity extends FragActBase {
                 getResources().getString(R.string.menu_finger), getResources().getString(R.string.menu_notline_charge), getResources().getString(R.string.menu_touch_mor), getResources().getString(R.string.menu_barometer), getResources().getString(R.string.menu_zhongli)
                 , getResources().getString(R.string.menu_usbplate), getResources().getString(R.string.menu_maglev), getResources().getString(R.string.menu_serialport), getResources().getString(R.string.menu_rfid), getResources().getString(R.string.menu_uhf),
                 getResources().getString(R.string.menu_gas_sensor), getResources().getString(R.string.menu_camera_usb), getResources().getString(R.string.menu_expand), getResources().getString(R.string.menu_export), getResources().getString(R.string.menu_id2),
-                getResources().getString(R.string.menu_reset), getResources().getString(R.string.menu_rs232), getResources().getString(R.string.menu_rj45), getResources().getString(R.string.menu_gpio), getResources().getString(R.string.menu_test485)};
+                getResources().getString(R.string.menu_reset), getResources().getString(R.string.menu_rs232), getResources().getString(R.string.menu_rj45), getResources().getString(R.string.menu_gpio), getResources().getString(R.string.menu_test485)
+                , getResources().getString(R.string.menu_print), getResources().getString(R.string.menu_wifi_tanzhen)};
         //强制在线更新
 //        UpdateVersion updateVersion = new UpdateVersion(mContext);
 //        updateVersion.startUpdate();

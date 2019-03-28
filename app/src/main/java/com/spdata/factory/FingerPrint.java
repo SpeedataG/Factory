@@ -12,12 +12,14 @@ import com.spdata.factory.FingerUtil.FingerTypes;
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import common.base.act.FragActBase;
 
 public class FingerPrint extends FragActBase implements View.OnClickListener {
-    TextView text_show;
     private Intent intent;
     private PackageManager packageManager;
     private DeviceControlSpd mdeviceControl;
@@ -76,10 +78,16 @@ public class FingerPrint extends FragActBase implements View.OnClickListener {
     protected void onStop() {
         super.onStop();
         try {
-            mdeviceControl.MainPowerOff(93);
-            mdeviceControl.MainPowerOff(126);
-            mdeviceControl.MainPowerOff(94);
-            mdeviceControl.MainPowerOff(99);
+            if (App.getModel().equals("SK80") || App.getModel().equals("SK80H")) {
+                writeFile("0");
+                mdeviceControl.ExpandPowerOff(1);
+                mdeviceControl.ExpandPowerOff(3);
+            } else {
+                mdeviceControl.MainPowerOff(93);
+                mdeviceControl.MainPowerOff(126);
+                mdeviceControl.MainPowerOff(94);
+                mdeviceControl.MainPowerOff(99);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,12 +101,19 @@ public class FingerPrint extends FragActBase implements View.OnClickListener {
         initTitlebar();
         setSwipeEnable(false);
         try {
-            //sd80 金色指纹上电
             mdeviceControl = new DeviceControlSpd(DeviceControlSpd.PowerType.MAIN);
-            mdeviceControl.MainPowerOn(126);
-            mdeviceControl.MainPowerOn(93);
-            mdeviceControl.MainPowerOn(99);
-            mdeviceControl.MainPowerOn(94);
+            if (App.getModel().equals("SK80") || App.getModel().equals("SK80H")) {
+                writeFile("1");
+                mdeviceControl.ExpandPowerOn(1);
+                mdeviceControl.ExpandPowerOn(3);
+            } else {
+                //sd80 金色指纹上电
+                mdeviceControl.MainPowerOn(126);
+                mdeviceControl.MainPowerOn(93);
+                mdeviceControl.MainPowerOn(99);
+                mdeviceControl.MainPowerOn(94);
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,22 +133,22 @@ public class FingerPrint extends FragActBase implements View.OnClickListener {
                             case 0:
                                 showToast(getResources().getString(R.string.Expand_msg_obj1));
                                 hideLoading();
-                                text_show.setText(getResources().getString(R.string.Expand_msg_obj1));
+                                textShow.setText(getResources().getString(R.string.Expand_msg_obj1));
                                 break;
                             case 1:
                                 hideLoading();
                                 showToast(getResources().getString(R.string.FingerPrint_toast1));
-                                text_show.setText(getResources().getString(R.string.FingerPrint_toast1));
+                                textShow.setText(getResources().getString(R.string.FingerPrint_toast1));
                                 break;
                             case 2:
                                 hideLoading();
                                 showToast(getResources().getString(R.string.FingerPrint_toast2));
-                                text_show.setText(getResources().getString(R.string.FingerPrint_toast2));
+                                textShow.setText(getResources().getString(R.string.FingerPrint_toast2));
                                 break;
                             case 3:
                                 hideLoading();
                                 showToast(getResources().getString(R.string.FingerPrint_toast3));
-                                text_show.setText(getResources().getString(R.string.FingerPrint_toast3));
+                                textShow.setText(getResources().getString(R.string.FingerPrint_toast3));
                                 break;
                             default:
                                 break;
@@ -167,6 +182,24 @@ public class FingerPrint extends FragActBase implements View.OnClickListener {
                 setXml(App.KEY_FINGER_PRINT, App.KEY_UNFINISH);
                 finish();
                 break;
+        }
+    }
+
+    private void writeFile(String type) {
+        try {
+            File file = new File("/sys/class/misc/hwoper/usb_route/");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(type);
+            bw.flush();
+            bw.close();
+            System.out.println("Done");
+        } catch (IOException e) {
+            e.printStackTrace();
+            showToast("xiewenjianerr");
         }
     }
 }

@@ -59,6 +59,8 @@
     <string name="menu_rj45">RJ45网线接口测试</string>
     <string name="menu_gpio">GPIO测试</string>
     <string name="menu_test485">485测试/2.4G</string>
+    <string name="menu_print">打印机</string>
+    <string name="menu_wifi_tanzhen">WIFI探针</string>
     <!--<string name="menu_camera">摄像头</string>-->
     <!--VersionAct-->
     <string name="VersionAct_modle">型号:</string>
@@ -573,6 +575,10 @@
     <string name="select_fail">选卡失败</string>
 
     <string name="sk80_switch">串口切换</string>
+    <string name="print_start">开始打印</string>
+    <string name="mes_consuccess">打印机连接成功</string>
+    <string name="mes_confail">打印机连接失败</string>
+    <string name="scan_msg">如果未启动扫描请去设置扫描选项使能扫描头</string>
 
 </resources>
 

@@ -22,9 +22,9 @@ android {
         }
         applicationId "com.spdata.factory"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 22
         versionCode 1
-        versionName "V1.6.3" + "." + getDate()
+        versionName "V1.6.4" + "." + getDate()
     }
     buildTypes {
         release {
@@ -59,6 +59,9 @@ dependencies {
     //6.0获取权限
     implementation 'com.yanzhenjie:permission:1.1.2'
     implementation 'com.alibaba:fastjson:1.2.54'
+
+    implementation "com.android.support:recyclerview-v7:28.0.0"
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.41'
 }
 
 

@@ -23,6 +23,8 @@ import com.speedata.libid2.IID2Service;
 
 import java.io.IOException;
 
+import javax.mail.UIDFolder;
+
 import common.base.act.FragActBase;
 
 /**
@@ -41,6 +43,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
      * 失败
      */
     private Button btnNotPass;
+    private DeviceControlSpd deviceControlSpd;
 
 
     @Override
@@ -132,6 +135,17 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
                                 handler.sendMessage(message);
                             }
                         }, SerialPortSpd.SERIAL_TTYMT2, 115200, DeviceControlSpd.PowerType.MAIN, 94);
+                    } else if (App.getModel().equals("SK80") || App.getModel().equals("SK80H")) {
+                        result = iid2Service.initDev(Id2TestAct.this, new IDReadCallBack() {
+                            @Override
+                            public void callBack(IDInfor infor) {
+                                Message message = new Message();
+                                message.obj = infor;
+                                handler.sendMessage(message);
+                            }
+                        }, SerialPortSpd.SERIAL_TTYMT0, 115200, DeviceControlSpd.PowerType.MAIN_AND_EXPAND, 85, 3);
+
+
                     } else {
                         result = iid2Service.initDev(Id2TestAct.this, new
                                 IDReadCallBack() {

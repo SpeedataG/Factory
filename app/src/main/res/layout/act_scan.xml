@@ -25,6 +25,7 @@
                 android:id="@+id/tv_infor"
                 android:layout_width="fill_parent"
                 style="@style/base_text"
+                android:text="@string/scan_msg"
                 android:layout_height="200dp"/>
         </LinearLayout>
 

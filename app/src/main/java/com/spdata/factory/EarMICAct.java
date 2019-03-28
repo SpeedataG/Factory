@@ -185,8 +185,8 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         @Override
         public void run() {
             numTime++;
-            handler.postDelayed(this,1000);
             tvInfor.setText(getResources().getString(R.string.sound_record_time)+numTime+"s");
+            handler.postDelayed(this,1000);
         }
     };
     //添加倒计时
@@ -194,8 +194,8 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
         @Override
         public void run() {
             reTime--;
-            handler.postDelayed(this,1000);
             tvInfor.setText(getResources().getString(R.string.sound_remaining_time)+reTime+"s");
+            handler.postDelayed(this,1000);
         }
     };
 
@@ -281,7 +281,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
                 short[] buffer = new short[bufferSize];
                 // 开始录制
                 record.startRecording();
-                handler.postDelayed(runnable,1000);
+                handler.postDelayed(runnable,0);
 //                r = 0;
                 // 定义循环，根据isRecording的值来判断是否继续录制
                 while (isRecording) {
@@ -340,7 +340,7 @@ public class EarMICAct extends FragActBase implements View.OnClickListener {
                 // 开始播放
                 track.play();
                 //循环写入似乎比循环播放时间稍长，为了计时器能减到0，所以将第一次提前开始计时
-                handler.postDelayed(runnable2,900);
+                handler.postDelayed(runnable2,0);
                 // 由于AudioTrack播放的是流，所以，我们需要一边播放一边读取
                 while (isPlaying && dis.available() > 0) {
                     int i = 0;

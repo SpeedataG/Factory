@@ -1,5 +1,6 @@
 package com.spdata.factory;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -89,7 +90,6 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
 
 
     private SerialPortSpd mSerialPort;
-    private DeviceControlSpd deviceControl;
     private DeviceControlSpd deviceControl2;
     private int sendcount = 1;
     private int fd;
@@ -104,15 +104,29 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
         initTitlebar();
         tvVersionInfor.setText(getResources().getString(R.string.Rs232Serport_equals1) + getResources().getString(R.string.Rs232Serport_equals2));
         try {
-            deviceControl = new DeviceControlSpd(DeviceControlSpd.POWER_MAIN);
-            deviceControl.MainPowerOn(90);
-            deviceControl2 = new DeviceControlSpd(DeviceControlSpd.POWER_EXTERNAL);
-            deviceControl2.ExpandPowerOn(2);
             writeFile("1");
-            SystemClock.sleep(200);
-            mSerialPort = new SerialPortSpd();
-            mSerialPort.OpenSerial("/dev/ttyUSB0", 9600);
-            fd = mSerialPort.getFd();
+            deviceControl2 = new DeviceControlSpd();
+            deviceControl2.ExpandPowerOn(2);
+            final ProgressDialog progressDialog = new ProgressDialog(mContext);
+            progressDialog.setTitle("Reset ");
+            progressDialog.setMessage("Reset……");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SystemClock.sleep(3000);
+                    progressDialog.cancel();
+                    try {
+                        mSerialPort = new SerialPortSpd();
+                        mSerialPort.OpenSerial(SerialPortSpd.SERIAL_TTYUSB0, 115200);
+                        fd = mSerialPort.getFd();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
             showToast("fdfd:" + fd);
 
         } catch (IOException e) {
@@ -164,7 +178,7 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            showToast("dddddd");
+
             try {
                 byte[] temp1 = mSerialPort.ReadSerial(fd, 256);
                 if (temp1 == null) {
@@ -196,7 +210,6 @@ public class Rs232Serport extends FragActBase implements View.OnClickListener {
             writeFile("0");
             handler.removeCallbacks(runnable);
             mSerialPort.CloseSerial(fd);
-            deviceControl.MainPowerOff(90);
             deviceControl2.ExpandPowerOff(2);
         } catch (IOException e) {
             e.printStackTrace();

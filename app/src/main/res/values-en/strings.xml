@@ -100,6 +100,9 @@
     <string name="menu_gpio">GPIO Test</string>
         
     <string name="menu_test485">485 Test / 2.4G</string>
+
+    <string name="menu_print">Printer</string>
+    <string name="menu_wifi_tanzhen">WIFI Probe</string>
     <!--<string name="menu_camera">camera</string>-->
 
     <!--VersionAct-->
@@ -785,7 +788,10 @@
     <string name="select_fail">Selected card failure</string>
 
     <string name="sk80_switch">serial port switch</string>
-
+    <string name="print_start">start print</string>
+    <string name="mes_consuccess">Print Connect Success</string>
+    <string name="mes_confail">Print Connect Fail</string>
+    <string name="scan_msg">If the scan is not started, please set the scan option to enable the scan header</string>
 </resources>
 
 
