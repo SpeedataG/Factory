@@ -110,8 +110,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <!--添加data 是为了让图标不显示在launch上-->
                 <!--<data-->
-                    <!--android:host="factory"-->
-                    <!--android:scheme="com.spdata.factory" />-->
+                <!--android:host="factory"-->
+                <!--android:scheme="com.spdata.factory" />-->
             </intent-filter>
         </activity>
         <!--友盟添加-->
@@ -457,6 +457,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
+        <activity
+            android:name=".ButtonSd100tAct"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".IndicatorLightAct_sd100t"
+            android:launchMode="singleTop" />
 
     </application>
 

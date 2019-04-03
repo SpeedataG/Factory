@@ -290,7 +290,7 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
     public String bufferRead() {
         try {
             BufferedReader bfr;
-            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60")) {
+            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60") || Build.MODEL.equals("SD100T")) {
                 bfr = new BufferedReader(new FileReader("/sys/class/power_supply/battery/current_now"));
             } else {
                 bfr = new BufferedReader(new FileReader(CHARGER_CURRENT_NOW));

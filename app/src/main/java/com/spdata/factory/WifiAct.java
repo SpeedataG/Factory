@@ -1,5 +1,6 @@
 package com.spdata.factory;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -19,6 +20,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -42,16 +44,16 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
     ListView listItem;
     private final int LATE = 0;
 
-    Handler handler = new Handler() {
+    private Thread thread;
+
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case LATE:
-                    openWifi();
-                    showWifiList();
-                    break;
-            }
+        public void run() {
+            openWifi();
+            showWifiList();
+            handler.postDelayed(this, 1000);
+            Log.e("zzc:", "==runnable()==run()==");
         }
     };
     private CustomTitlebar titlebar;
@@ -116,11 +118,11 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
             wifiManager.setWifiEnabled(true);
             titlebar.setAttrs(getResources().getString(R.string.wifi_opening));
             regWifiReceiver();
-            new Thread(new Runnable() {
+            thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(7000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -132,11 +134,13 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                                 scanAndGetResult();
                             }
                             wifiListAdapter.notifyDataSetChanged();
+                            Log.e("zzc:", "==wifiListAdapter.notifyDataSetChanged();==");
 
                         }
                     });
                 }
-            }).start();
+            });
+            thread.start();
         }
         scanAndGetResult();
     }
@@ -171,6 +175,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
             scanAndGetResult();
         } else {
             openWifi();
+            Log.e("zzc:", "==openWifi();==");
             //showToast("正在打开WiFi");
             if (wifi_list == null) {
                 scanAndGetResult();
@@ -252,7 +257,8 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                 setXml(App.KEY_WIFI, App.KEY_FINISH);
                 finish();
                 break;
-            case R.id.btn_not_pass: setXml(App.KEY_WIFI, App.KEY_UNFINISH);
+            case R.id.btn_not_pass:
+                setXml(App.KEY_WIFI, App.KEY_UNFINISH);
                 finish();
                 break;
         }
@@ -277,14 +283,14 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        openGPS();
+//        openGPS();
         showWifiList();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        closeGPS();
+//        closeGPS();
     }
 
     private void configWifiRelay(final ScanResult wifiinfo) {
@@ -460,6 +466,13 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
+        if (thread != null) {
+            thread.interrupt();
+        }
+
 //        wifiManager.setWifiEnabled(false);//关闭WiFi
     }
 
@@ -474,9 +487,11 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
                     System.out.println("系统开启wifi");
 //                    regWifiReceiver();
 //                    wifiManager.startScan();
-                    Message message = new Message();
-                    message.what = LATE;
-                    handler.sendMessage(message);
+//                    Message message = new Message();
+//                    message.what = LATE;
+//                    handler.sendMessage(message);
+                    handler.postDelayed(runnable, 1000);
+                    Log.d("zzc:", "系统开启wifi");
                 }
             } else if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {//wifi连接上与否
                 System.out.println("网络状态改变");

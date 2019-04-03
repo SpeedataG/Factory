@@ -1,6 +1,7 @@
 package com.spdata.factory;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -557,9 +558,11 @@ public class MenuActivity extends FragActBase {
                 openAct(LightAct.class);
                 break;
             case ACTION_INDICATOR_LIGHT:
-                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")|| model.equals("SD100T")) {
+                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")) {
                     openAct(IndicatorLightAct_sd55.class);
-                } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
+                } else if ( model.equals("SD100T")){
+                    openAct(IndicatorLightAct_sd100t.class);
+                }else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
                     openAct(IndicatorSk80LightAct.class);
                 } else {
                     openAct(IndicatorLightAct.class);
@@ -691,6 +694,8 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonSk80Act.class);
                 } else if (model.equals("SD35")) {
                     openAct(ButtonSd35Act.class);
+                } else if (model.equals("SD100T")) {
+                    openAct(ButtonSd100tAct.class);
                 } else {
                     openAct(ButtonAll.class);
                 }

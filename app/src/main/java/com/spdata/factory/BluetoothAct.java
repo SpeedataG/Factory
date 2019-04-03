@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -72,6 +73,17 @@ public class BluetoothAct extends FragActBase implements View.OnClickListener {
         }
         handler.removeCallbacks(runnable);
         handler.postDelayed(runnable, 1000);
+        Log.i("Bluetoothtest000", "while=" + num);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     Handler handler = new Handler();
@@ -82,6 +94,8 @@ public class BluetoothAct extends FragActBase implements View.OnClickListener {
             if (!myBluetoothAdapter.isDiscovering()) {
                 myBluetoothAdapter.startDiscovery();
             }
+            handler.postDelayed(this, 1000);
+            Log.i("Bluetoothtest000", "handle run=" + num);
         }
     };
     int num = 0;
@@ -100,7 +114,9 @@ public class BluetoothAct extends FragActBase implements View.OnClickListener {
                 //执行更新列表的代码
                 if (device != null) {
                     sb = sb.append("【" + device.getName() + "】 " + "\n").append(device.getAddress() + "\n");
+                    Log.i("Bluetoothtest000", "sb=" + sb);
                 }
+                Log.i("Bluetoothtest000", "sb2=" + sb);
                 tvInfor.setText(getResources().getString(R.string.bluetooth_state) + "\n" + sb.toString());
             }
             //搜索完成
@@ -121,6 +137,9 @@ public class BluetoothAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void onStop() {
         super.onStop();
+        if (runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
         myBluetoothAdapter.disable();
         unregisterReceiver(mReceiver);
     }

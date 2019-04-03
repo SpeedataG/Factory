@@ -19,9 +19,9 @@ import java.io.IOException;
 import common.base.act.FragActBase;
 
 /**
- * Created by 42040 on 2018/7/23.
+ * Created by 42040 on 2019/4/3.
  */
-public class IndicatorLightAct_sd55 extends FragActBase implements View.OnClickListener {
+public class IndicatorLightAct_sd100t extends FragActBase implements View.OnClickListener {
     private DeviceControlSpd deviceControl;
     private CustomTitlebar titlebar;
     /**
@@ -65,15 +65,6 @@ public class IndicatorLightAct_sd55 extends FragActBase implements View.OnClickL
         } catch (IOException e) {
             e.printStackTrace();
         }
-//mt6370_pmu_led2 $ echo 255 > brightness
-//        File DeviceName = new File("/sys/class/leds/mt6370_pmu_led3/brightness/");
-//        try {
-//            BufferedWriter CtrlFile = new BufferedWriter(new FileWriter(DeviceName, false));
-//            CtrlFile.write("255");
-//            CtrlFile.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         initTitlebar();
         setSwipeEnable(false);
         try {
@@ -157,14 +148,6 @@ public class IndicatorLightAct_sd55 extends FragActBase implements View.OnClickL
 
                                 } catch (IOException e) {
                                     e.printStackTrace();
-//                                    if (model.equals("M08")) {
-//                                        tvInfor.setText("红灯点亮失败");
-//                                        setXml(App.KEY_INDICATOR_LIGHT, App.KEY_UNFINISH);
-//                                        finish();
-//                                        showToast("红灯点亮失败");
-//                                    } else {
-//                                        showToast("蓝灯关闭失败");
-//                                    }
                                 }
                                 break;
                             default:
@@ -216,7 +199,7 @@ public class IndicatorLightAct_sd55 extends FragActBase implements View.OnClickL
     public void PowerOnRed() throws IOException {
         try {
             BufferedWriter CtrlFile = new BufferedWriter(new FileWriter(new File(Red), false));
-            CtrlFile.write("255");
+            CtrlFile.write("1");
             CtrlFile.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -237,7 +220,7 @@ public class IndicatorLightAct_sd55 extends FragActBase implements View.OnClickL
     public void PowerOnGreen() throws IOException {
         try {
             BufferedWriter CtrlFile = new BufferedWriter(new FileWriter(new File(Green), false));
-            CtrlFile.write("255");
+            CtrlFile.write("1");
             CtrlFile.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -258,7 +241,7 @@ public class IndicatorLightAct_sd55 extends FragActBase implements View.OnClickL
     public void PowerOnBlue() throws IOException {
         try {
             BufferedWriter CtrlFile = new BufferedWriter(new FileWriter(new File(Blue), false));
-            CtrlFile.write("255");
+            CtrlFile.write("1");
             CtrlFile.flush();
         } catch (IOException e) {
             e.printStackTrace();
