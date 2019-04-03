@@ -256,7 +256,13 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "34", "37", "38", "39", "50", "48"};
-        } else {
+        }else if (model.equals("SD100T")) {
+            strings = new String[]{"0", "1","2", "3", "4", "5", "7", "8", "9", "10",
+                    "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "25", "26", "30", "31", "32", "34", "37", "38", "39", "44","50", "48"};
+        }
+
+        else {
             strings = new String[]{"0", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
@@ -551,7 +557,7 @@ public class MenuActivity extends FragActBase {
                 openAct(LightAct.class);
                 break;
             case ACTION_INDICATOR_LIGHT:
-                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")) {
+                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")|| model.equals("SD100T")) {
                     openAct(IndicatorLightAct_sd55.class);
                 } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
                     openAct(IndicatorSk80LightAct.class);

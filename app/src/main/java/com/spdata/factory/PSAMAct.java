@@ -79,6 +79,7 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
         initTitlebar();
         setSwipeEnable(false);
         showConfig();
+        btnSK80Switch.setVisibility(View.GONE);
         try {
             switch (App.getModel()) {
                 case "SD55":
@@ -90,11 +91,18 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                     break;
 
                 case "SK80":
-                    psamIntance.initDev("ttyMT1", 115200, this);
                     deviceControl1 = new DeviceControlSpd();
-                    deviceControl1.Expand2PowerOff(7);
-                    btnSK80Switch.setText("大卡");
+                    deviceControl1.MainPowerOn(85);
+                    psamIntance.initDev("ttyMT1", 115200, this);
+                    //小卡
+                    deviceControl1.Expand2PowerOn(7);
+                    deviceControl1.Expand2PowerOn(5);
+                    deviceControl1.Expand2PowerOn(6);
+                    deviceControl1.Expand2PowerOff(6);
+                    deviceControl1.Expand2PowerOn(6);
+                    btnSK80Switch.setText("切换到大卡");
                     btnSK80Switch.setVisibility(View.VISIBLE);
+                    btnPsam2.setVisibility(View.GONE);
                     break;
 
                 case "SK80H":
@@ -112,6 +120,12 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                     btnPsam2.setVisibility(View.GONE);
                     break;
 
+//                case "SD100T":
+//                    psamIntance.initDev("ttyMT1", 115200, this);
+//                    deviceControl1 = new DeviceControlSpd();
+//                    deviceControl1.newSetGpioOn(75);
+//                    psamIntance.resetDev(DeviceControlSpd.PowerType.NEW_MAIN, 74);
+//                    break;
                 default:
                     psamIntance.initDev(this);//初始化设备
                     psamIntance.resetDev();//复位
