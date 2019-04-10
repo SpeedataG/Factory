@@ -20,8 +20,9 @@ public class CammerSystemSk80Act extends FragActBase implements View.OnClickList
 
     private CustomTitlebar titlebar;
     private Intent intent;
-    private Button successBtn,failBtn;
+    private Button successBtn, failBtn;
     private ImageView mIvCameraImg;
+
     @Override
     protected void initTitlebar() {
         titlebar.setTitlebarStyle(CustomTitlebar.TITLEBAR_STYLE_NORMAL);
@@ -37,12 +38,12 @@ public class CammerSystemSk80Act extends FragActBase implements View.OnClickList
         // 指定开启系统相机的Action
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
-        startActivityForResult(intent,1);
+        startActivityForResult(intent, 1);
         initView();
 
     }
 
-    private void initView(){
+    private void initView() {
         titlebar = (CustomTitlebar) findViewById(R.id.titlebar);
         successBtn = findViewById(R.id.btn_success);
         failBtn = findViewById(R.id.btn_fail);
@@ -53,8 +54,9 @@ public class CammerSystemSk80Act extends FragActBase implements View.OnClickList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1){
+        if (data != null && requestCode == 1) {
             Bundle b = data.getExtras();
+            assert b != null;
             Bitmap thumbBitmap = (Bitmap) b.get("data");
             mIvCameraImg.setImageBitmap(thumbBitmap);
         }
