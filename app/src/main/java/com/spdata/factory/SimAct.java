@@ -57,7 +57,7 @@ public class SimAct extends FragActBase implements View.OnClickListener {
         if (model.equals("X300Q_X1") || model.equals("X300Q_P1")
                 || model.equals("S510") || model.equals("H500A")
                 || model.equals("X300Q_OLED") || model.equals("X300Q_OLED_GPS")
-                || model.equals("spda6735") || model.equals("DCD3") || model.equals("mt6753")
+                || model.equals("spda6735") || model.equals("DCD3")|| model.equals("SC30") || model.equals("mt6753")
                 || model.equals("M08") || Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")
                 || Build.MODEL.equals("H5") || Build.MODEL.equals("S1") || Build.MODEL.equals("H5_35")
                 || Build.MODEL.equals("CT") || model.equals("TC01") || model.equals("X300Q")) {
@@ -98,7 +98,7 @@ public class SimAct extends FragActBase implements View.OnClickListener {
                         if (model.equals("X300Q_X1") || model.equals("X300Q_P1") || model.equals("S510")
                                 || model.equals("H500A") || model.equals("X300Q_OLED") || model.equals("CT")
                                 || model.equals("X300Q_OLED_GPS") || model.equals("spda6735")
-                                || model.equals("DCD3") || model.equals("mt6753") || model.equals("M08")
+                                || model.equals("DCD3")|| model.equals("SC30") || model.equals("mt6753") || model.equals("M08")
                                 || Build.MODEL.equals("S1_35") || Build.MODEL.equals("H5_53")
                                 || Build.MODEL.equals("H5") || Build.MODEL.equals("S1")
                                 || Build.MODEL.equals("H5_35") || model.equals("TC01")

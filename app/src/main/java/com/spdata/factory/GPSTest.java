@@ -124,8 +124,9 @@ public class GPSTest extends Activity {
     }
 
     private void initAllControl() {
-        for (int i = 0; i < mGpsInfo.length; i++)
+        for (int i = 0; i < mGpsInfo.length; i++) {
             mGpsInfo[i] = new GpsInfo();
+        }
 
         tvSatelite = new TextView[MAX_SATELITE_COUNT + 2];
         tvSatelite[0] = (TextView) findViewById(R.id.tv_st_1);
@@ -201,8 +202,9 @@ public class GPSTest extends Activity {
         }
         int j = i;
         int k;
-        if (j > MAX_SATELITE_COUNT)
+        if (j > MAX_SATELITE_COUNT) {
             j = MAX_SATELITE_COUNT;
+        }
         for (k = 0; k < j; k++) {
             tvSatelite[k].setText("ID:" + (k + 1) + ", " + mStrSnr
                     + mGpsinfo_sort[k].snr + ", " + mStrPrn
@@ -214,8 +216,9 @@ public class GPSTest extends Activity {
             sateliteSignalNum++;
         }
         if (k < MAX_SATELITE_COUNT) {
-            for (; k < MAX_SATELITE_COUNT; k++)
+            for (; k < MAX_SATELITE_COUNT; k++) {
                 tvSatelite[k].setText("");
+            }
         }
         String averageSignalIntensity = getString(R.string.gps_info_averageSignalIntensity)
                 + averageSignal;
@@ -256,8 +259,9 @@ public class GPSTest extends Activity {
 
     private void setStateliteinfo(int i) {
         int j = i;
-        if (j > 10)
+        if (j > 10) {
             j = 10;
+        }
         for (int k = 0; k < j; k++) {
             TextView textview = tvSatelite[k];
             StringBuilder stringbuilder = (new StringBuilder()).append("ID:");
@@ -308,6 +312,7 @@ public class GPSTest extends Activity {
 
     }
 
+    @Override
     public void onCreate(Bundle bundle) {
         Log.v(TAG, "onCreate ");
 
@@ -362,14 +367,16 @@ public class GPSTest extends Activity {
         super.onStart();
     }
 
+    @Override
     public boolean onKeyDown(int i, KeyEvent keyevent) {
         boolean flag;
         if (i == KeyEvent.KEYCODE_BACK) {
             m_mgr.removeGpsStatusListener(statusListener);
             m_mgr.removeNmeaListener(nmeaListener);
             mtimer.cancel();
-            if (m_isGpsOpen)
+            if (m_isGpsOpen) {
                 closeGPS();
+            }
             flag = true;
             this.finish();
         } else {
@@ -378,6 +385,7 @@ public class GPSTest extends Activity {
         return flag;
     }
 
+    @Override
     protected void onPause() {
         super.onPause();
         m_mgr.removeUpdates(locationListener);
@@ -393,6 +401,7 @@ public class GPSTest extends Activity {
         }
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
         //去掉Activity上面的状态栏
@@ -464,11 +473,13 @@ public class GPSTest extends Activity {
             mtimer.cancel();
 
         }
-        if (m_isGpsOpen)
+        if (m_isGpsOpen) {
             closeGPS();
+        }
     }
 
     private class GHandler extends Handler {
+        @Override
         public void handleMessage(Message message) {
             TextView textview = mtv_Testtime;
             StringBuilder stringbuilder = (new StringBuilder()).append("");
@@ -580,17 +591,21 @@ public class GPSTest extends Activity {
 
     private class LocaltionLis implements LocationListener {
 
+        @Override
         public void onLocationChanged(Location location) {
             updateWithNewLocation(location);
         }
 
+        @Override
         public void onProviderDisabled(String s) {
             updateWithNewLocation(null);
         }
 
+        @Override
         public void onProviderEnabled(String s) {
         }
 
+        @Override
         public void onStatusChanged(String s, int i, Bundle bundle) {
         }
 
@@ -598,6 +613,7 @@ public class GPSTest extends Activity {
 
     private class NmeaLis implements GpsStatus.NmeaListener {
 
+        @Override
         public void onNmeaReceived(long timestamp, String nmea) {
             StringBuilder stringbuilder = (new StringBuilder())
                     .append("the timestamp is");
@@ -625,6 +641,7 @@ public class GPSTest extends Activity {
     private class DialogListener implements
             android.content.DialogInterface.OnClickListener {
 
+        @Override
         public void onClick(DialogInterface dialoginterface, int i) {
             setResult(-1);
             if (i == 1) {

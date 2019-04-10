@@ -177,8 +177,11 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
                             break;
                         case 2:
                             first();
-                            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60")) {
+                            if ("SD55".equals(App.getModel()) || "SD60".equals(App.getModel()) || "SC30".equals(App.getModel())) {
                                 tvInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000000.0 + "V");
+                            } else if ("SK80".equals(App.getModel()) || "SK80H".equals(App.getModel())) {
+                                tvInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000.0 * 2 + "V");
+
                             } else {
                                 tvInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000.0 + "V");
 
@@ -194,7 +197,7 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
                             break;
                         case 3:
                             tvInfor.setText(getResources().getString(R.string.ChangeAct_state6));
-                            titlebar.setAttrs(getResources().getString(R.string.ChangeAct_state5));
+                            titlebar.setAttrs(getResources().getString(R.string.ChangeAct_state10));
                             break;
                         case 0:
 
@@ -290,7 +293,7 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
     public String bufferRead() {
         try {
             BufferedReader bfr;
-            if (Build.MODEL.equals("SD55") || Build.MODEL.equals("SD60") || Build.MODEL.equals("SD100T")) {
+            if ("SD55".equals(App.getModel()) || "SD60".equals(App.getModel()) || "SD100T".equals(App.getModel()) || "SC30".equals(App.getModel())) {
                 bfr = new BufferedReader(new FileReader("/sys/class/power_supply/battery/current_now"));
             } else {
                 bfr = new BufferedReader(new FileReader(CHARGER_CURRENT_NOW));

@@ -194,6 +194,10 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "20", "21", "22",
                     "23", "24", "25", "26", "28", "30", "31", "32", "37", "39", "50", "48"};
+        } else if (model.equals("SC30")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "12",
+                    "13", "15", "16", "17", "18", "19", "21", "22", "24", "25",
+                    "23", "26", "30", "32", "37", "39", "45", "46", "50", "48"};
         } else if (model.equals("spda6735") || model.equals("DCD3")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9",
                     "13", "16", "17", "18", "21", "24",
@@ -257,13 +261,11 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "34", "37", "38", "39", "50", "48"};
-        }else if (model.equals("SD100T")) {
-            strings = new String[]{"0", "1","2", "3", "4", "5", "7", "8", "9", "10",
-                    "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "32", "34", "37", "38", "39", "44","50", "48"};
-        }
-
-        else {
+        } else if (model.equals("SD100T")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
+                    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "25", "26", "30", "31", "34", "37", "38", "39", "50", "48"};
+        } else {
             strings = new String[]{"0", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
@@ -558,11 +560,11 @@ public class MenuActivity extends FragActBase {
                 openAct(LightAct.class);
                 break;
             case ACTION_INDICATOR_LIGHT:
-                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")) {
+                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60") || model.equals("SC30")) {
                     openAct(IndicatorLightAct_sd55.class);
-                } else if ( model.equals("SD100T")){
+                } else if (model.equals("SD100T")) {
                     openAct(IndicatorLightAct_sd100t.class);
-                }else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
+                } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
                     openAct(IndicatorSk80LightAct.class);
                 } else {
                     openAct(IndicatorLightAct.class);
@@ -593,7 +595,7 @@ public class MenuActivity extends FragActBase {
                 }
                 break;
             case ACTION_CAMMAR_BACKGROUND:
-                if (model.equals("spda6735") || model.equals("DCD3")) {
+                if (model.equals("spda6735") || model.equals("DCD3") || model.equals("SC30")) {
                     openAct(DCD3CammerBackgroundAct.class);
                 } else if (model.equals("M08")) {
                     openAct(M08CameraBacckAct.class);
@@ -670,6 +672,8 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonH500Act.class);
                 } else if (model.equals("spda6735") || model.equals("DCD3")) {
                     openAct(ButtonDCD3Act.class);
+                } else if (model.equals("SC30")) {
+                    openAct(ButtonSC30Act.class);
                 } else if (model.equals("N80") || model.equals("S550")) {
                     openAct(ButtonN80Act.class);
                 } else if (model.equals("M08")) {

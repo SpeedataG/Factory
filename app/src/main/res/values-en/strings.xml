@@ -481,6 +481,7 @@
     <string name="ChangeAct_state4">\nNon-DC power charging</string>
         
     <string name="ChangeAct_state5">Charging</string>
+    <string name="ChangeAct_state10">Not charging</string>
         
     <string name="ChangeAct_state6">The battery is not charging, please connect the charger</string>
         

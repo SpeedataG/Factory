@@ -275,7 +275,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
                 int bufferSize = AudioRecord.getMinBufferSize(frequence,
                         channelConfig, audioEncoding);
                 AudioRecord record = null;
-                if (Build.MODEL.equals("spda6735") || Build.MODEL.equals("DCD3")) {
+                if (App.getModel().equals("spda6735") || App.getModel().equals("DCD3")|| App.getModel().equals("SC30")) {
                     // 实例化AudioRecord
                     record = new AudioRecord(
                             5, frequence,

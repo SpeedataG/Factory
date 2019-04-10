@@ -307,6 +307,7 @@
     <string name="ChangeAct_state3">\n直流电源充电</string>
     <string name="ChangeAct_state4">\n非直流电源充电</string>
     <string name="ChangeAct_state5">正在充电</string>
+    <string name="ChangeAct_state10">未充电</string>
     <string name="ChangeAct_state6">电池未充电,请连接充电器</string>
     <string name="ChangeAct_state7">电池未充电,请连接磁吸附充电线</string>
     <string name="ChangeAct_state8">磁吸附充电</string>

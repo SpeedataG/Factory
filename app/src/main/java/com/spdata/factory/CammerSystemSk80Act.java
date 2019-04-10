@@ -1,8 +1,13 @@
 package com.spdata.factory;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +15,11 @@ import android.widget.ImageView;
 
 import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import common.base.act.FragActBase;
 
@@ -19,9 +29,10 @@ import common.base.act.FragActBase;
 public class CammerSystemSk80Act extends FragActBase implements View.OnClickListener {
 
     private CustomTitlebar titlebar;
-    private Intent intent;
     private Button successBtn, failBtn;
     private ImageView mIvCameraImg;
+    private String mFilePath;
+    private FileInputStream is;
 
     @Override
     protected void initTitlebar() {
@@ -33,14 +44,24 @@ public class CammerSystemSk80Act extends FragActBase implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_camera_sk80);
-
-        intent = new Intent();
-        // 指定开启系统相机的Action
-        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        startActivityForResult(intent, 1);
+        initData();
         initView();
+    }
 
+    private void initData() {
+        mFilePath = Environment.getExternalStorageDirectory().getPath();
+        mFilePath = mFilePath + "/" + "mytest.png";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            takePhotoBiggerThan7((new File(mFilePath)).getAbsolutePath());
+        } else {
+            Intent intent = new Intent();
+            // 指定开启系统相机的Action
+            intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+            Uri mUri = Uri.fromFile(new File(mFilePath));
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
+            startActivityForResult(intent, 1);
+        }
     }
 
     private void initView() {
@@ -54,11 +75,46 @@ public class CammerSystemSk80Act extends FragActBase implements View.OnClickList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null && requestCode == 1) {
-            Bundle b = data.getExtras();
-            assert b != null;
-            Bitmap thumbBitmap = (Bitmap) b.get("data");
-            mIvCameraImg.setImageBitmap(thumbBitmap);
+        if (requestCode == 1) {
+            if (resultCode == 0){
+                mIvCameraImg.setVisibility(View.INVISIBLE);
+            }else {
+                mIvCameraImg.setVisibility(View.VISIBLE);
+                try {
+                    is = new FileInputStream(mFilePath);
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    mIvCameraImg.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } finally {
+                    // 关闭流
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    private void takePhotoBiggerThan7(String absolutePath) {
+        Uri mCameraTempUri;
+        try {
+            ContentValues values = new ContentValues(1);
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+            values.put(MediaStore.Images.Media.DATA, absolutePath);
+            mCameraTempUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            if (mCameraTempUri != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraTempUri);
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+            }
+            startActivityForResult(intent, 1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
