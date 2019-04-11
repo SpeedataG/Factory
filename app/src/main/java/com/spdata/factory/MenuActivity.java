@@ -103,6 +103,11 @@ public class MenuActivity extends FragActBase {
     private final static int ACTION_485 = 54;//tc01 485测试
     private final static int ACTION_PRINT = 55;//打印机
     private final static int ACTION_WIFI_PROBE = 56;//WiFi探针
+    private final static int ACTION_LAMP_MIC = 57;//矿灯MIC
+    private final static int ACTION_LAMP_LIGHT = 58;//矿灯
+    private final static int ACTION_POSITION_KEY = 59;//定位卡按键
+    private final static int ACTION_POSITION_LIGHT = 60;//定位卡指示灯
+    private final static int ACTION_POSITION_BUZZER = 61;//定位卡蜂鸣器
     private String[] meneList = null;
     private String nulls[] = new String[0];
     private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
@@ -197,7 +202,7 @@ public class MenuActivity extends FragActBase {
         } else if (model.equals("SC30")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "12",
                     "13", "15", "16", "17", "18", "19", "21", "22", "24", "25",
-                    "23", "26", "30", "32", "37", "39", "45", "46", "50", "48"};
+                    "23", "26", "30", "32", "37", "39", "45", "46", "57", "58", "59", "60", "61", "50", "48"};
         } else if (model.equals("spda6735") || model.equals("DCD3")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9",
                     "13", "16", "17", "18", "21", "24",
@@ -505,6 +510,21 @@ public class MenuActivity extends FragActBase {
             case ACTION_WIFI_PROBE:
                 result = getXml(App.KEY_WIFI_PROBE, "");
                 break;
+            case ACTION_LAMP_MIC:
+                result = getXml(App.KEY_LAMP_MIC, "");
+                break;
+            case ACTION_LAMP_LIGHT:
+                result = getXml(App.KEY_LAMP_LIGHT, "");
+                break;
+            case ACTION_POSITION_KEY:
+                result = getXml(App.KEY_POSITION_KEY, "");
+                break;
+            case ACTION_POSITION_LIGHT:
+                result = getXml(App.KEY_POSITION_LIGHT, "");
+                break;
+            case ACTION_POSITION_BUZZER:
+                result = getXml(App.KEY_POSITION_BUZZER, "");
+                break;
             default:
                 break;
 
@@ -595,7 +615,7 @@ public class MenuActivity extends FragActBase {
                 }
                 break;
             case ACTION_CAMMAR_BACKGROUND:
-                if (model.equals("spda6735") || model.equals("DCD3") || model.equals("SC30")) {
+                if (model.equals("spda6735") || model.equals("DCD3")) {
                     openAct(DCD3CammerBackgroundAct.class);
                 } else if (model.equals("M08")) {
                     openAct(M08CameraBacckAct.class);
@@ -613,7 +633,11 @@ public class MenuActivity extends FragActBase {
                 break;
             case ACTION_CAMMAR_FRONT:
                 // TODO 跳转到前置相机测试界面
-                openAct(CammerFrontAct.class);
+                if ("SC30".equals(model)) {
+                    openAct(CammerFrontSC30Act.class);
+                } else {
+                    openAct(CammerFrontAct.class);
+                }
                 break;
             case ACTION_BELL:
                 // TODO 跳转到喇叭测试界面
@@ -820,6 +844,21 @@ public class MenuActivity extends FragActBase {
             case ACTION_WIFI_PROBE:
                 openAct(WifiProbeTestAct.class);
                 break;
+            case ACTION_LAMP_MIC:
+                openAct(LampMICAct.class);
+                break;
+            case ACTION_LAMP_LIGHT:
+                openAct(MinerLampSC30Act.class);
+                break;
+            case ACTION_POSITION_KEY:
+                openAct(PositionButtonSC30Act.class);
+                break;
+            case ACTION_POSITION_LIGHT:
+                openAct(PositionLightSC30Act.class);
+                break;
+            case ACTION_POSITION_BUZZER:
+                openAct(PositionBuzzerSC30Act.class);
+                break;
             default:
                 break;
         }
@@ -872,7 +911,8 @@ public class MenuActivity extends FragActBase {
                 , getResources().getString(R.string.menu_usbplate), getResources().getString(R.string.menu_maglev), getResources().getString(R.string.menu_serialport), getResources().getString(R.string.menu_rfid), getResources().getString(R.string.menu_uhf),
                 getResources().getString(R.string.menu_gas_sensor), getResources().getString(R.string.menu_camera_usb), getResources().getString(R.string.menu_expand), getResources().getString(R.string.menu_export), getResources().getString(R.string.menu_id2),
                 getResources().getString(R.string.menu_reset), getResources().getString(R.string.menu_rs232), getResources().getString(R.string.menu_rj45), getResources().getString(R.string.menu_gpio), getResources().getString(R.string.menu_test485)
-                , getResources().getString(R.string.menu_print), getResources().getString(R.string.menu_wifi_tanzhen)};
+                , getResources().getString(R.string.menu_print), getResources().getString(R.string.menu_wifi_tanzhen), getResources().getString(R.string.menu_lamp_mic),getResources().getString(R.string.menu_lamp_light),getResources().getString(R.string.menu_position_button),
+                getResources().getString(R.string.menu_position_indicator),getResources().getString(R.string.menu_position_buzzer)};
         //强制在线更新
 //        UpdateVersion updateVersion = new UpdateVersion(mContext);
 //        updateVersion.startUpdate();

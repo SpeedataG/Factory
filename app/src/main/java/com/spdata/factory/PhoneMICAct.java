@@ -157,6 +157,7 @@ public class PhoneMICAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        isPlaying = false;
         fpath = null;
         audioFile = null;
         if (recorder != null) {

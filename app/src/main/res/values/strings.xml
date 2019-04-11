@@ -61,6 +61,11 @@
     <string name="menu_test485">485测试/2.4G</string>
     <string name="menu_print">打印机</string>
     <string name="menu_wifi_tanzhen">WIFI探针</string>
+    <string name="menu_lamp_mic">矿灯MIC</string>
+    <string name="menu_lamp_light">矿灯</string>
+    <string name="menu_position_button">定位卡按键</string>
+    <string name="menu_position_indicator">定位卡指示灯</string>
+    <string name="menu_position_buzzer">定位卡蜂鸣器</string>
     <!--<string name="menu_camera">摄像头</string>-->
     <!--VersionAct-->
     <string name="VersionAct_modle">型号:</string>
@@ -580,6 +585,8 @@
     <string name="mes_consuccess">打印机连接成功</string>
     <string name="mes_confail">打印机连接失败</string>
     <string name="scan_msg">如果未启动扫描请去设置扫描选项使能扫描头</string>
+
+    <string name="test_info">请测试</string>
 
 </resources>
 

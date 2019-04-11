@@ -200,10 +200,10 @@ public abstract class FragActBase extends Activity {
         int ori = mConfiguration.orientation; //获取屏幕方向
 //        if (ori ==Configuration.ORIENTATION_LANDSCAPE) {
 ////            //横屏
-         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
+//         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
 //        } else if (ori == Configuration.ORIENTATION_PORTRAIT) {
         //竖屏
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//强制为竖屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//强制为竖屏
 //        }
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         if (powerManager != null) {

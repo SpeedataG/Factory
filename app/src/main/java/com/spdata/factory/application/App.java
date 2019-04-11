@@ -19,6 +19,7 @@ package com.spdata.factory.application;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 //import android.support.multidex.MultiDex;
 
 import common.base.BaseApplication;
@@ -87,6 +88,11 @@ public class App extends BaseApplication implements AppConst {
     public static final String KEY_485 = "485";//tc01  485测试
     public static final String KEY_PRINT = "print";//打印机
     public static final String KEY_WIFI_PROBE = "wifiprobe";//WiFi探针
+    public static final String KEY_LAMP_MIC = "lampmic";//矿灯MIC
+    public static final String KEY_LAMP_LIGHT = "lamplight";//矿灯
+    public static final String KEY_POSITION_KEY = "positionkey";//定位卡按键
+    public static final String KEY_POSITION_LIGHT = "positionlight";//定位卡指示灯
+    public static final String KEY_POSITION_BUZZER = "positionbuzzer";//定位卡蜂鸣器
 
     public static App getInstance() {
         return instance;
@@ -114,6 +120,8 @@ public class App extends BaseApplication implements AppConst {
         NetUtil.init(this);
 //        HttpModel.getInstance().init(this);
         ToastUtils.init(this, new Handler());
+
+        MultiDex.install(this);
     }
 
 

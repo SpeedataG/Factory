@@ -467,6 +467,24 @@
         <activity
             android:name=".ButtonSC30Act"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".CammerFrontSC30Act"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".LampMICAct"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".MinerLampSC30Act"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".PositionButtonSC30Act"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".PositionBuzzerSC30Act"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".PositionLightSC30Act"
+            android:launchMode="singleTop" />
 
     </application>
 

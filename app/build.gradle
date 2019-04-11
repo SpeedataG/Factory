@@ -25,6 +25,8 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "V1.6.4" + "." + getDate()
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -62,6 +64,7 @@ dependencies {
 
     implementation "com.android.support:recyclerview-v7:28.0.0"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.41'
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 

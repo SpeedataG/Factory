@@ -2,7 +2,6 @@ package com.spdata.factory;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +11,9 @@ import com.spdata.factory.application.App;
 import com.spdata.factory.view.CustomTitlebar;
 
 import common.base.act.FragActBase;
-import common.crash.utils.SysInfoUtil;
 
 
-public class VersionAct extends FragActBase implements View.OnClickListener {
+public class PositionBuzzerSC30Act extends FragActBase implements View.OnClickListener {
 
 
     private CustomTitlebar titlebar;
@@ -42,13 +40,7 @@ public class VersionAct extends FragActBase implements View.OnClickListener {
         onWindowFocusChanged(true);
         initTitlebar();
         setSwipeEnable(false);
-        tvVersionInfor.setText(getResources().getString(R.string.VersionAct_modle) + Build.MODEL
-                + "\n"
-                + getResources().getString(R.string.VersionAct_system_num) + Build.DISPLAY
-                + "\n"
-                + getResources().getString(R.string.VersionAct_apk_num)
-                + SysInfoUtil.getVersionName(this)
-                + "\n");
+        tvVersionInfor.setText(getResources().getString(R.string.test_info) + getResources().getString(R.string.menu_position_buzzer) + "\n");
     }
 
     @Override
@@ -59,7 +51,7 @@ public class VersionAct extends FragActBase implements View.OnClickListener {
             public void onClick(View v) {
                 finish();
             }
-        }, getResources().getString(R.string.menu_version), null);
+        }, getResources().getString(R.string.menu_position_buzzer), null);
     }
 
     @Override
@@ -84,11 +76,11 @@ public class VersionAct extends FragActBase implements View.OnClickListener {
             default:
                 break;
             case R.id.btn_pass:
-                setXml(App.KEY_VERSION, App.KEY_FINISH);
+                setXml(App.KEY_POSITION_BUZZER, App.KEY_FINISH);
                 finish();
                 break;
             case R.id.btn_not_pass:
-                setXml(App.KEY_VERSION, App.KEY_UNFINISH);
+                setXml(App.KEY_POSITION_BUZZER, App.KEY_UNFINISH);
                 finish();
                 break;
         }

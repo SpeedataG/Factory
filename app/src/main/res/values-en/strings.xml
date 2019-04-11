@@ -103,6 +103,11 @@
 
     <string name="menu_print">Printer</string>
     <string name="menu_wifi_tanzhen">WIFI Probe</string>
+    <string name="menu_lamp_mic">Mineral Lamp MIC</string>
+    <string name="menu_lamp_light">Mineral Lamp</string>
+    <string name="menu_position_button">Positioning card key</string>
+    <string name="menu_position_indicator">Position card indicator light</string>
+    <string name="menu_position_buzzer">Position card buzzer</string>
     <!--<string name="menu_camera">camera</string>-->
 
     <!--VersionAct-->
@@ -793,6 +798,8 @@
     <string name="mes_consuccess">Print Connect Success</string>
     <string name="mes_confail">Print Connect Fail</string>
     <string name="scan_msg">If the scan is not started, please set the scan option to enable the scan header</string>
+
+    <string name="test_info">Please test </string>
 </resources>
 
 

@@ -75,9 +75,9 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
      */
     private Button btn_minus;
     /**
-     * del
+     * BS
      */
-    private Button btn_del;
+    private Button btn_bs;
     /**
      * BACK
      */
@@ -243,14 +243,14 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
                 btn_minus.setPressed(true);
                 return true;
             }
-        } else if (keyCode == KeyEvent.KEYCODE_DEL) {
-            if (btn_del.isPressed()) {
-                btn_del.setBackgroundColor(Color.parseColor("#CEC7C7"));
-                btn_del.setPressed(false);
+        } else if (keyCode == KeyEvent.KEYCODE_UNKNOWN) {
+            if (btn_bs.isPressed()) {
+                btn_bs.setBackgroundColor(Color.parseColor("#CEC7C7"));
+                btn_bs.setPressed(false);
                 return true;
             } else {
-                btn_del.setBackgroundColor(Color.parseColor("#0AF229"));
-                btn_del.setPressed(true);
+                btn_bs.setBackgroundColor(Color.parseColor("#0AF229"));
+                btn_bs.setPressed(true);
                 return true;
             }
         } else if (keyCode == KeyEvent.KEYCODE_MENU) {
@@ -294,7 +294,7 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
         btn_key0 = (Button) findViewById(R.id.btn_key0);
         btn_period = (Button) findViewById(R.id.btn_period);
         btn_minus = (Button) findViewById(R.id.btn_minus);
-        btn_del = (Button) findViewById(R.id.btn_del);
+        btn_bs = (Button) findViewById(R.id.btn_bs);
         btn_back = (Button) findViewById(R.id.btn_back);
         btn_pass = (Button) findViewById(R.id.btn_pass);
         btn_pass.setOnClickListener(this);
