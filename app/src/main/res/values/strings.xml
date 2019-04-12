@@ -307,6 +307,7 @@
     <string name="ChangeAct_dian_v">\n电池电压:</string>
     <string name="ChangeAct_dian_c">\n电池温度:</string>
     <string name="ChangeAct_dian_i">\n电池电流:</string>
+    <string name="ChangeAct_charger_v">\n充电电压:</string>
     <string name="ChangeAct_state">\nUSB充电</string>
     <string name="ChangeAct_state2">\n非USB充电</string>
     <string name="ChangeAct_state3">\n直流电源充电</string>

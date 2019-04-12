@@ -56,7 +56,6 @@ public class SearchTagDialog extends Dialog implements
     private CheckBox cbb;
     private IUHFService iuhfService;
     private String model;
-    //    private Button export;
     private KProgressHUD kProgressHUD;
 
     public SearchTagDialog(Context context, IUHFService iuhfService, String model) {
@@ -89,6 +88,8 @@ public class SearchTagDialog extends Dialog implements
         Log.w("as3992_6C", "id is " + soundId);
 
 
+        int antenna = iuhfService.setAntennaPower(30);
+        Log.d("zzc:","antenna:"+antenna);
         //新的Listener回调参考代码
 
         adapter = new ArrayAdapter<EpcDataBase>(

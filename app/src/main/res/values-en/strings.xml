@@ -476,6 +476,7 @@
     <string name="ChangeAct_dian_c">\nBattery temperature:</string>
         
     <string name="ChangeAct_dian_i">\nBattery current:</string>
+    <string name="ChangeAct_charger_v">\nCharging voltage:</string>
         
     <string name="ChangeAct_state">\nUSB charging</string>
         

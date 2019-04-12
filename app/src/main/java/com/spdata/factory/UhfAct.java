@@ -70,8 +70,8 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
             }
             return;
         }
-        String modle = SharedXmlUtil.getInstance(UhfAct.this).read("modle", "");
-        tvGreen.setText(getResources().getString(R.string.uhf_model) + modle);
+        String model = SharedXmlUtil.getInstance(UhfAct.this).read("model", "");
+        tvGreen.setText(getResources().getString(R.string.uhf_model) + model);
     }
 
     @Override
@@ -149,7 +149,9 @@ public class UhfAct extends FragActBase implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         try {
-            if (openDev()) return;
+            if (openDev()) {
+                return;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             tvRed.setVisibility(View.VISIBLE);

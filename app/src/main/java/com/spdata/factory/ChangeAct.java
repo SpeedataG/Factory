@@ -29,6 +29,7 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
     private String streamToString;
     private String battVoltFile = "";
     private String battTempFile;
+    private String chargerVoltFile;
     private CustomTitlebar titlebar;
     private TextView tvInfor;
     /**
@@ -105,6 +106,11 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
             InputStream batt_temp_file = new FileInputStream("sys/class/power_supply/battery/batt_temp");
             battTempFile = convertStreamToString(batt_temp_file);
             battTempFile = battTempFile.replace("\n", "");
+            if ("SD55UHF".equals(App.getModel())) {
+                InputStream charger_volt_file = new FileInputStream("/sys/devices/platform/battery/ADC_Charger_Voltage");
+                chargerVoltFile = convertStreamToString(charger_volt_file);
+                chargerVoltFile = chargerVoltFile.replace("\n", "");
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -193,6 +199,9 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
 //                                e.printStackTrace();
 //                            }
                             tvInfor.append(getResources().getString(R.string.ChangeAct_dian_i) + bufferRead() + " mA");
+                            if ("SD55UHF".equals(App.getModel())) {
+                                tvInfor.append(getResources().getString(R.string.ChangeAct_charger_v) + Integer.parseInt(chargerVoltFile) / 1000.0 + "V");
+                            }
                             titlebar.setAttrs(getResources().getString(R.string.ChangeAct_state5));
                             break;
                         case 3:
