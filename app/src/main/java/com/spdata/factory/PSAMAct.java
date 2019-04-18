@@ -120,12 +120,12 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                     btnPsam2.setVisibility(View.GONE);
                     break;
 
-//                case "SD100T":
-//                    psamIntance.initDev("ttyMT1", 115200, this);
-//                    deviceControl1 = new DeviceControlSpd();
-//                    deviceControl1.newSetGpioOn(75);
-//                    psamIntance.resetDev(DeviceControlSpd.PowerType.NEW_MAIN, 74);
-//                    break;
+                case "SD100T":
+                    psamIntance.initDev("ttyMT1", 115200, this);
+                    deviceControl1 = new DeviceControlSpd();
+                    deviceControl1.newSetGpioOn(75);
+                    psamIntance.resetDev(DeviceControlSpd.PowerType.NEW_MAIN, 74);
+                    break;
                 default:
                     psamIntance.initDev(this);//初始化设备
                     psamIntance.resetDev();//复位
@@ -161,14 +161,20 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
         } else {
             tv.setText(getResources().getString(R.string.psam_standard_config));
         }
-        ReadBean.PasmBean pasm = ConfigUtils.readConfig(this).getPasm();
-        String gpio = "";
-        List<Integer> gpio1 = pasm.getGpio();
-        for (Integer s : gpio1) {
-            gpio += s + ",";
+        if ("SD100T".equals(App.getModel())) {
+            tv.append(getResources().getString(R.string.psam_append1) + "dev/ttyMT1 " + getResources().getString(R.string.psam_append2) + 115200 + getResources().getString(R.string.psam_append3) +
+                    "NEW_MAIN " + getResources().getString(R.string.psam_append4) + "[75] " + getResources().getString(R.string.psam_append5) + 74);
+
+        } else {
+            ReadBean.PasmBean pasm = ConfigUtils.readConfig(this).getPasm();
+            String gpio = "";
+            List<Integer> gpio1 = pasm.getGpio();
+            for (Integer s : gpio1) {
+                gpio += s + ",";
+            }
+            tv.append(getResources().getString(R.string.psam_append1) + pasm.getSerialPort() + getResources().getString(R.string.psam_append2) + pasm.getBraut() + getResources().getString(R.string.psam_append3) +
+                    pasm.getPowerType() + getResources().getString(R.string.psam_append4) + pasm.getGpio() + getResources().getString(R.string.psam_append5) + pasm.getResetGpio());
         }
-        tv.append(getResources().getString(R.string.psam_append1) + pasm.getSerialPort() + getResources().getString(R.string.psam_append2) + pasm.getBraut() + getResources().getString(R.string.psam_append3) +
-                pasm.getPowerType() + getResources().getString(R.string.psam_append4) + pasm.getGpio() + getResources().getString(R.string.psam_append5) + pasm.getResetGpio());
     }
 
     @Override

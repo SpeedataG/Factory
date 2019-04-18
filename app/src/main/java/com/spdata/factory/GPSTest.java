@@ -317,7 +317,7 @@ public class GPSTest extends Activity {
         Log.v(TAG, "onCreate ");
 
         super.onCreate(bundle);
-        if ("SK80".equals(App.getModel())|| "SK80H".equals(App.getModel()) || "SD100T".equals(App.getModel())) {
+        if ("SK80".equals(App.getModel())|| "SK80H".equals(App.getModel())) {
             //横屏
             super.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {

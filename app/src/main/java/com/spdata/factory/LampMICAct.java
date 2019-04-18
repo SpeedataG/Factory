@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.SystemProperties;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -118,6 +119,10 @@ public class LampMICAct extends FragActBase implements View.OnClickListener {
         setContentView(R.layout.act_earmic);
         initView();
         initTitlebar();
+        if ("SC30".equals(App.getModel())){
+            SystemProperties.set("single.main.mic","0");
+            SystemProperties.set("single.sub.mic","1");
+        }
         setSwipeEnable(false);
         AudioManager audioManager = (AudioManager) this.getSystemService(Service.AUDIO_SERVICE);
         int max = audioManager
@@ -166,6 +171,10 @@ public class LampMICAct extends FragActBase implements View.OnClickListener {
         if (player != null) {
             player.cancel(true);
             player = null;
+        }
+        if ("SC30".equals(App.getModel())){
+            SystemProperties.set("single.main.mic","0");
+            SystemProperties.set("single.sub.mic","0");
         }
     }
 

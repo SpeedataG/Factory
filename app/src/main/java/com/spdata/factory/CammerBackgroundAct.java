@@ -262,6 +262,9 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                     e.printStackTrace();
                     showToast(getResources().getString(R.string.camera_faild));
                 }
+                if("SD100T".equals(App.getModel())){
+                    myCamera.setDisplayOrientation(90);//设置预览方向,
+                }
 //                if (Build.MODEL.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208") || Build.MODEL.equals("N80")
 //                        || Build.MODEL.equals("S550")) {
 //                    myCamera.setDisplayOrientation(270);//设置预览方向,
