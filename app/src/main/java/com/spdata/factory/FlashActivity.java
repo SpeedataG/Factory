@@ -1,11 +1,13 @@
 package com.spdata.factory;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
@@ -43,6 +46,9 @@ public class FlashActivity extends AppCompatActivity {
     private boolean isFlashAvailbale = true;
     private FrameLayout mContentPanel = null;
     private static final String SCAN_KEY_REPORT = "persist.sys.keyreport";
+    private boolean isScan = false;
+    private static final String SCAN_PACKAGE = "com.geomobile.oemscanservice";
+    private static final String SCAN_SERVICE = "com.geomobile.oemscanservice.MainService";
 
 
     //闪光灯状态变化的回调
@@ -78,7 +84,19 @@ public class FlashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_button);
-
+        //关闭扫描服务
+        if (("true".equals(SystemProperties.get(SCAN_KEY_REPORT, "false")))) {
+            isScan = true;
+            try {
+                Intent barcodeIntent = new Intent();
+                barcodeIntent.setPackage(SCAN_PACKAGE);
+                this.stopService(barcodeIntent);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            SystemProperties.set(SCAN_KEY_REPORT, "false");
+        }
+        SystemClock.sleep(1000);
         //闪光灯开关按钮
         btFlash = (Button) findViewById(R.id.bt_flash);
         btnFalse = (Button) findViewById(R.id.btn_not_pass);
@@ -122,9 +140,6 @@ public class FlashActivity extends AppCompatActivity {
         if (!isFlashAvailbale) {
             //显示当前闪光灯被占用的提示
             Toast.makeText(this, getResources().getString(R.string.FlashActivity_toast), Toast.LENGTH_SHORT).show();
-            if (("true".equals(SystemProperties.get(SCAN_KEY_REPORT, "false")))) {
-                showDialog();
-            }
             return;
         }
         changeFlashState(mIsFlashOn);//开->关  关->开
@@ -158,6 +173,21 @@ public class FlashActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (isScan) {
+            //开启扫描服务
+            isScan = false;
+            try {
+                Intent intent = new Intent();
+                ComponentName cn = new ComponentName(SCAN_PACKAGE, SCAN_SERVICE);
+                intent.setComponent(cn);
+                this.startService(intent);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            SystemProperties.set(SCAN_KEY_REPORT, "true");
+        }
+        //关闭手电筒
+        changeFlashState(true);
         cameraManager.unregisterTorchCallback(torchCallback);//ondestory的时候解除回调
     }
 
@@ -264,11 +294,12 @@ public class FlashActivity extends AppCompatActivity {
             }
         }
     }
-    private void showDialog(){
+
+    private void showDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.FlashActivity_toast));
         builder.setMessage(getResources().getString(R.string.alert_dialog_info));
-        builder.setPositiveButton(getResources().getString(R.string.alert_dialog_ok),new DialogInterface.OnClickListener(){
+        builder.setPositiveButton(getResources().getString(R.string.alert_dialog_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 startActivity(new Intent(Settings.ACTION_SETTINGS));
