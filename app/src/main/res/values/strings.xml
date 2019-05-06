@@ -385,6 +385,7 @@
     <string name="FlashActivity_toast">手电筒被占用</string>
     <string name="FlashActivity_title">手电筒已开启</string>
     <string name="FlashActivity_click_close">点击可关闭手电筒</string>
+    <string name="alert_dialog_info">是否前往设置页面，在扫描设置中关闭扫描使能，解除占用？</string>
 
     <!--FlashLightAct-->
     <string name="flash_light_close">请关闭手电筒</string>

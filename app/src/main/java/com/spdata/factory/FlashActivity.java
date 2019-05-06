@@ -1,11 +1,13 @@
 package com.spdata.factory;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -14,6 +16,8 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemProperties;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -38,6 +42,7 @@ public class FlashActivity extends AppCompatActivity {
     private NotificationManager notificationManager = null;
     private boolean isFlashAvailbale = true;
     private FrameLayout mContentPanel = null;
+    private static final String SCAN_KEY_REPORT = "persist.sys.keyreport";
 
 
     //闪光灯状态变化的回调
@@ -117,6 +122,9 @@ public class FlashActivity extends AppCompatActivity {
         if (!isFlashAvailbale) {
             //显示当前闪光灯被占用的提示
             Toast.makeText(this, getResources().getString(R.string.FlashActivity_toast), Toast.LENGTH_SHORT).show();
+            if (("true".equals(SystemProperties.get(SCAN_KEY_REPORT, "false")))) {
+                showDialog();
+            }
             return;
         }
         changeFlashState(mIsFlashOn);//开->关  关->开
@@ -141,7 +149,8 @@ public class FlashActivity extends AppCompatActivity {
         super.onResume();
         cameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        cameraManager.registerTorchCallback(torchCallback, null);//注册回调
+        //注册回调
+        cameraManager.registerTorchCallback(torchCallback, null);
         getCameraList();//获取当前手机的摄像头个数
 //        generateNotify();//生成需要显示的提示，方便后面显示
     }
@@ -194,7 +203,9 @@ public class FlashActivity extends AppCompatActivity {
 
     //生成notification
     private void generateNotify() {
-        if (mFlashOnNotification != null) return;
+        if (mFlashOnNotification != null) {
+            return;
+        }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setLargeIcon(createNotificationLargeIcon(this))
                 .setContentTitle(getResources().getString(R.string.FlashActivity_title))
@@ -252,5 +263,23 @@ public class FlashActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+    private void showDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.FlashActivity_toast));
+        builder.setMessage(getResources().getString(R.string.alert_dialog_info));
+        builder.setPositiveButton(getResources().getString(R.string.alert_dialog_ok),new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                startActivity(new Intent(Settings.ACTION_SETTINGS));
+
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.alert_dialog_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+            }
+        });
+        builder.create().show();
     }
 }

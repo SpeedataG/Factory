@@ -597,6 +597,7 @@
     <string name="FlashActivity_toast">Flashlight occupied</string>
     <string name="FlashActivity_title">Flashlight on</string>
     <string name="FlashActivity_click_close">Click to turn off the flashlight</string>
+    <string name="alert_dialog_info">Do you want to go to the Settings page, turn off the scan enable in the scan Settings, and unsubscribe?</string>
 
     <!--FlashLightAct-->
     <string name="flash_light_close">Please turn off the flashlight</string>

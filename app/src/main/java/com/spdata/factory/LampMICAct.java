@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemProperties;
+import android.serialport.DeviceControlSpd;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -98,6 +99,7 @@ public class LampMICAct extends FragActBase implements View.OnClickListener {
     private int numTime;
     //存储倒计时
     private int reTime;
+    private DeviceControlSpd deviceControlSpd;
 
 
     @Override
@@ -122,6 +124,12 @@ public class LampMICAct extends FragActBase implements View.OnClickListener {
         if ("SC30".equals(App.getModel())){
             SystemProperties.set("single.main.mic","0");
             SystemProperties.set("single.sub.mic","1");
+            try {
+                deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN,87);
+                deviceControlSpd.PowerOffDevice();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         setSwipeEnable(false);
         AudioManager audioManager = (AudioManager) this.getSystemService(Service.AUDIO_SERVICE);
@@ -160,7 +168,6 @@ public class LampMICAct extends FragActBase implements View.OnClickListener {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         isPlaying = false;
         fpath = null;
         audioFile = null;
@@ -175,7 +182,13 @@ public class LampMICAct extends FragActBase implements View.OnClickListener {
         if ("SC30".equals(App.getModel())){
             SystemProperties.set("single.main.mic","0");
             SystemProperties.set("single.sub.mic","0");
+            try {
+                deviceControlSpd.PowerOnDevice();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        super.onDestroy();
     }
 
     @Override
