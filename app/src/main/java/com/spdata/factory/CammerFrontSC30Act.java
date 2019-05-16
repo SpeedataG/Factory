@@ -139,33 +139,43 @@ public class CammerFrontSC30Act extends FragActBase implements SurfaceHolder.Cal
                 @Override
                 public void run() {
                     Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-                    // 首先保存图片
-                    File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
-                    if (!appDir.exists()) {
-                        appDir.mkdir();
-                    }
-                    String fileName = System.currentTimeMillis() + ".jpg";
-                    File file = new File(appDir, fileName);
-                    try {
-                        FileOutputStream fos = new FileOutputStream(file);
-                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                        fos.flush();
-                        fos.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    // 其次把文件插入到系统图库
-                    try {
-                        MediaStore.Images.Media.insertImage(CammerFrontSC30Act.this.getContentResolver(),
-                                file.getAbsolutePath(), fileName, null);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    MediaStore.Images.Media.insertImage(getContentResolver(), bmp, "title", "Pictures");
+//                    // 首先保存图片
+//                    File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
+//                    if (!appDir.exists()) {
+//                        appDir.mkdir();
+//                    }
+//                    String fileName = System.currentTimeMillis() + ".jpg";
+//                    File file = new File(appDir, fileName);
+//                    try {
+//                        FileOutputStream fos = new FileOutputStream(file);
+//                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                        fos.flush();
+//                        fos.close();
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    // 其次把文件插入到系统图库
+//                    try {
+//                        MediaStore.Images.Media.insertImage(CammerFrontSC30Act.this.getContentResolver(),
+//                                file.getAbsolutePath(), fileName, null);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
                     // 最后通知图库更新
                     CammerFrontSC30Act.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+                    if (myCamera != null) {
+                        myCamera.stopPreview();
+                        myCamera.startPreview();  //开启预览
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            btnPass.setEnabled(true);
+                        }
+                    });
                 }
             }).start();
 
@@ -304,6 +314,7 @@ public class CammerFrontSC30Act extends FragActBase implements SurfaceHolder.Cal
                     titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title4));
                     btnPass.setText(getResources().getString(R.string.camera_btn3));
                     count++;
+                    btnPass.setEnabled(false);
                 } else if (count == 1) {
                     setXml(App.KEY_CAMMAR_FRONT, App.KEY_FINISH);
                     finish();

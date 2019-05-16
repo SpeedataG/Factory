@@ -339,14 +339,23 @@ public class ZhongLiGanYing extends FragActBase implements View.OnClickListener 
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (i) {
-                if (Build.MODEL.equals("CT")) {
+                if (App.getModel().equals("CT")) {
                     mGX = event.values[SensorManager.DATA_X];
                     mGY = event.values[SensorManager.DATA_Y];
                     mGZ = event.values[SensorManager.DATA_Z];
 
                     mPosX += mGX * 2;
                     mPosY += mGY * 2;
-                } else {
+                }
+//                else if (App.getModel().equals("SD100T")||App.getModel().equals("X80")||App.getModel().equals("X47")) {
+//                    mGX = event.values[SensorManager.DATA_Y];
+//                    mGY = event.values[SensorManager.DATA_X];
+//                    mGZ = event.values[SensorManager.DATA_Z];
+//
+//                    mPosX -= mGX * 2;
+//                    mPosY -= mGY * 2;
+//                }
+                else {
                     mGX = event.values[SensorManager.DATA_X];
                     mGY = event.values[SensorManager.DATA_Y];
                     mGZ = event.values[SensorManager.DATA_Z];

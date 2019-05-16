@@ -53,7 +53,7 @@ public class SpeakerAct extends FragActBase implements SeekBar.OnSeekBarChangeLi
 //        audioManager.setRingerMode(AudioManager.MODE_IN_COMMUNICATION);
 //        //这里的资源文件要求要小点的文件，要注意
         try {
-            mMediaPlayer = MediaPlayer.create(SpeakerAct.this, R.raw.yiyuel);
+            mMediaPlayer = MediaPlayer.create(SpeakerAct.this, R.raw.spectre);
             mMediaPlayer.setLooping(true);
             mMediaPlayer.start();
         } catch (IllegalArgumentException e1) {

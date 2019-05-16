@@ -69,9 +69,10 @@ public class SDCardkt80Act extends FragActBase implements View.OnClickListener {
             if (size.equals("0.00 B")) {
                 tvInfor.append(getResources().getString(R.string.SDCardkt80Act_sd1_off));
             } else {
-                stringBuffer.append(getResources().getString(R.string.SDCardkt80Act_sd1_wai) + size
+                StringBuffer stringBuffer1 = new StringBuffer();
+                stringBuffer1.append(getResources().getString(R.string.SDCardkt80Act_sd1_wai) + size
                         + getResources().getString(R.string.SDCardAct_keyong) + sdUtils.getSDAvailableSize(volumePaths[1]));
-                tvInfor.setText(stringBuffer);
+                tvInfor.setText(stringBuffer1);
                 tvInfor.append(getResources().getString(R.string.SDCardkt80Act_sd1_on));
             }
             for (int i = 0; i < 1; i++) {

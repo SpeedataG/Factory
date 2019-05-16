@@ -126,6 +126,18 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
                     deviceControl1.newSetGpioOn(75);
                     psamIntance.resetDev(DeviceControlSpd.PowerType.NEW_MAIN, 74);
                     break;
+                case "X80":
+                    psamIntance.initDev("ttyMT1", 115200, this);
+                    deviceControl1 = new DeviceControlSpd();
+                    deviceControl1.newSetGpioOn(75);
+                    psamIntance.resetDev(DeviceControlSpd.PowerType.NEW_MAIN, 74);
+                    break;
+                case "X47":
+                    psamIntance.initDev("ttyMT1", 115200, this);
+                    deviceControl1 = new DeviceControlSpd();
+                    deviceControl1.newSetGpioOn(75);
+                    psamIntance.resetDev(DeviceControlSpd.PowerType.NEW_MAIN, 74);
+                    break;
                 default:
                     psamIntance.initDev(this);//初始化设备
                     psamIntance.resetDev();//复位
@@ -161,7 +173,7 @@ public class PSAMAct extends FragActBase implements View.OnClickListener {
         } else {
             tv.setText(getResources().getString(R.string.psam_standard_config));
         }
-        if ("SD100T".equals(App.getModel())) {
+        if ("SD100T".equals(App.getModel())||App.getModel().equals("X80")||App.getModel().equals("X47")) {
             tv.append(getResources().getString(R.string.psam_append1) + "dev/ttyMT1 " + getResources().getString(R.string.psam_append2) + 115200 + getResources().getString(R.string.psam_append3) +
                     "NEW_MAIN " + getResources().getString(R.string.psam_append4) + "[75] " + getResources().getString(R.string.psam_append5) + 74);
 

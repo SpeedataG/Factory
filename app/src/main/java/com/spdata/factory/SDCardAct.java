@@ -92,9 +92,10 @@ public class SDCardAct extends FragActBase implements View.OnClickListener {
                 + getResources().getString(R.string.SDCardAct_keyong) + sdUtils.getSDAvailableSize(volumePaths[0]));
         tvInfor.append(stringBuffer);
         if (volumePaths.length > 1) {
-            stringBuffer.append(getResources().getString(R.string.SDCardAct_wai) + sdUtils.getSDTotalSize(volumePaths[1])
+            StringBuffer stringBuffer1 = new StringBuffer();
+            stringBuffer1.append(getResources().getString(R.string.SDCardAct_wai) + sdUtils.getSDTotalSize(volumePaths[1])
                     + getResources().getString(R.string.SDCardAct_keyong) + sdUtils.getSDAvailableSize(volumePaths[1]));
-            tvInfor.append(stringBuffer);
+            tvInfor.append(stringBuffer1);
             for (int i = 0; i < volumePaths.length; i++) {
                 try {
                     sdUtils.copyBigDataToSD(volumePaths[i]);
@@ -115,7 +116,6 @@ public class SDCardAct extends FragActBase implements View.OnClickListener {
                 }
             }
         } else {
-
             try {
                 sdUtils.copyBigDataToSD(volumePaths[0]);
                 tvInfor.append(getResources().getString(R.string.SDCardAct_copy_neisuc));

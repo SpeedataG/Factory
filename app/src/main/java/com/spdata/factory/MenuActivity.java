@@ -241,7 +241,7 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "10", "11",
                     "13", "14", "15", "16", "17", "19", "20", "18", "21", "22", "23",
                     "24", "26", "30", "32", "37", "39", "41", "50", "48"};
-        } else if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60")) {
+        } else if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60") || model.equals("X2") || model.equals("X37")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "50", "48"};
@@ -257,7 +257,7 @@ public class MenuActivity extends FragActBase {
         } else if (model.equals("SK80H") || model.equals("SK80")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "13", "14", "16", "17", "18", "19", "20", "21",
-                    "23", "24", "31", "34", "35", "39", "51", "52", "49", "55", "56", "50", "48"};
+                    "23", "24", "31", "34", "35", "37", "39", "51", "52", "49", "55", "56", "50", "48"};
 
         } else if (model.equals("TC01")) {
             strings = new String[]{"0", "3", "4", "5", "7", "8", "9", "10",
@@ -266,10 +266,10 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "34", "37", "38", "39", "50", "48"};
-        } else if (model.equals("SD100T")) {
+        } else if (model.equals("SD100T") || model.equals("X80") || model.equals("X47")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "34", "37", "38", "39", "50", "48"};
+                    "23", "24", "25", "26", "30", "31", "34", "37", "38", "39","49", "50", "48"};
         } else {
             strings = new String[]{"0", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -580,9 +580,9 @@ public class MenuActivity extends FragActBase {
                 openAct(LightAct.class);
                 break;
             case ACTION_INDICATOR_LIGHT:
-                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60") || model.equals("SC30")) {
+                if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60") || model.equals("SC30") || model.equals("X2") || model.equals("X37")) {
                     openAct(IndicatorLightAct_sd55.class);
-                } else if (model.equals("SD100T")) {
+                } else if (model.equals("SD100T") || model.equals("X80") || model.equals("X47")) {
                     openAct(IndicatorLightAct_sd100t.class);
                 } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
                     openAct(IndicatorSk80LightAct.class);
@@ -716,13 +716,13 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonKt40qAct.class);
                 } else if (model.equals("KT40")) {
                     openAct(ButtonKt40Act.class);
-                } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD55UHF") || model.equals("SD60")) {
+                } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD55UHF") || model.equals("SD60")||model.equals("X2") || model.equals("X37")) {
                     openAct(ButtonSd55.class);
                 } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
                     openAct(ButtonSk80Act.class);
                 } else if (model.equals("SD35")) {
                     openAct(ButtonSd35Act.class);
-                } else if (model.equals("SD100T")) {
+                } else if (model.equals("SD100T") || model.equals("X80") || model.equals("X47")) {
                     openAct(ButtonSd100tAct.class);
                 } else {
                     openAct(ButtonAll.class);
@@ -911,8 +911,8 @@ public class MenuActivity extends FragActBase {
                 , getResources().getString(R.string.menu_usbplate), getResources().getString(R.string.menu_maglev), getResources().getString(R.string.menu_serialport), getResources().getString(R.string.menu_rfid), getResources().getString(R.string.menu_uhf),
                 getResources().getString(R.string.menu_gas_sensor), getResources().getString(R.string.menu_camera_usb), getResources().getString(R.string.menu_expand), getResources().getString(R.string.menu_export), getResources().getString(R.string.menu_id2),
                 getResources().getString(R.string.menu_reset), getResources().getString(R.string.menu_rs232), getResources().getString(R.string.menu_rj45), getResources().getString(R.string.menu_gpio), getResources().getString(R.string.menu_test485)
-                , getResources().getString(R.string.menu_print), getResources().getString(R.string.menu_wifi_tanzhen), getResources().getString(R.string.menu_lamp_mic),getResources().getString(R.string.menu_lamp_light),getResources().getString(R.string.menu_position_button),
-                getResources().getString(R.string.menu_position_indicator),getResources().getString(R.string.menu_position_buzzer)};
+                , getResources().getString(R.string.menu_print), getResources().getString(R.string.menu_wifi_tanzhen), getResources().getString(R.string.menu_lamp_mic), getResources().getString(R.string.menu_lamp_light), getResources().getString(R.string.menu_position_button),
+                getResources().getString(R.string.menu_position_indicator), getResources().getString(R.string.menu_position_buzzer)};
         //强制在线更新
 //        UpdateVersion updateVersion = new UpdateVersion(mContext);
 //        updateVersion.startUpdate();

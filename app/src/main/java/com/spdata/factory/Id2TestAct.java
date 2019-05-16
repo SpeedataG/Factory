@@ -115,7 +115,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
      * 初始化二代证模块   失败退出
      */
     public void initIDService() {
-        iid2Service = IDManager.getInstance();
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getString(R.string.ID2_init_ing));
         progressDialog.setCancelable(false);
@@ -125,6 +125,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
             @Override
             public void run() {
                 try {
+                    iid2Service = IDManager.getInstance();
                     boolean result = false;
                     if (App.getModel().equals("DM-P80")) {
                         result = iid2Service.initDev(Id2TestAct.this, new IDReadCallBack() {
@@ -146,6 +147,17 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
                         }, SerialPortSpd.SERIAL_TTYMT0, 115200, DeviceControlSpd.PowerType.MAIN_AND_EXPAND, 85, 3);
 
 
+                    } else if (App.getModel().equals("SD100T") || App.getModel().equals("X80") || App.getModel().equals("X47")) {
+                        result = iid2Service.initDev(Id2TestAct.this, new IDReadCallBack() {
+                            @Override
+                            public void callBack(IDInfor infor) {
+                                Message message = new Message();
+                                message.obj = infor;
+                                handler.sendMessage(message);
+                            }
+                        }, "/dev/ttyMT6", 115200, DeviceControlSpd.PowerType.NEW_MAIN, 28);
+
+
                     } else {
                         result = iid2Service.initDev(Id2TestAct.this, new
                                 IDReadCallBack() {
@@ -157,6 +169,7 @@ public class Id2TestAct extends FragActBase implements View.OnClickListener {
                                     }
                                 });
                     }
+
 
                     final boolean finalResult = result;
                     runOnUiThread(new Runnable() {

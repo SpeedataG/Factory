@@ -3,6 +3,7 @@ package com.spdata.factory;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -83,34 +84,46 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                 @Override
                 public void run() {
                     Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-                    // 首先保存图片
-                    File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
-                    if (!appDir.exists()) {
-                        appDir.mkdir();
-                    }
-                    String fileName = System.currentTimeMillis() + ".jpg";
-                    File file = new File(appDir, fileName);
-                    try {
-                        FileOutputStream fos = new FileOutputStream(file);
-                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                        fos.flush();
-                        fos.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    // 其次把文件插入到系统图库
-                    try {
-                        MediaStore.Images.Media.insertImage(CammerBackgroundAct.this.getContentResolver(),
-                                file.getAbsolutePath(), fileName, null);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+//                    bmp=  rotateMyBitmap(bmp);
+                    MediaStore.Images.Media.insertImage(getContentResolver(), bmp, "title", "Pictures");
+//                    // 首先保存图片
+//                    File appDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
+//                    if (!appDir.exists()) {
+//                        appDir.mkdir();
+//                    }
+//                    String fileName = System.currentTimeMillis() + ".jpg";
+//                    File file = new File(appDir, fileName);
+//                    try {
+//                        FileOutputStream fos = new FileOutputStream(file);
+//                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                        fos.flush();
+//                        fos.close();
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    // 其次把文件插入到系统图库
+//                    try {
+//                        MediaStore.Images.Media.insertImage(CammerBackgroundAct.this.getContentResolver(),
+//                                file.getAbsolutePath(), fileName, null);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
                     // 最后通知图库更新
                     CammerBackgroundAct.this.sendBroadcast(new Intent(Intent.
                             ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+
+                    if (myCamera != null) {
+                        myCamera.stopPreview();
+                        myCamera.startPreview();  //开启预览
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            btn_pass.setEnabled(true);
+                        }
+                    });
                 }
             }).start();
 //            mcamera2.cancelAutoFocus(); //这一句很关键
@@ -118,6 +131,13 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
 
         }
     };
+
+    public Bitmap rotateMyBitmap(Bitmap bmp) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        Bitmap rotatedBitMap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+        return rotatedBitMap;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -262,7 +282,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                     e.printStackTrace();
                     showToast(getResources().getString(R.string.camera_faild));
                 }
-                if("SD100T".equals(App.getModel())){
+                if ("SD100T".equals(App.getModel())||App.getModel().equals("X80")||App.getModel().equals("X47")) {
                     myCamera.setDisplayOrientation(90);//设置预览方向,
                 }
 //                if (Build.MODEL.equals("SD80") || Build.MODEL.equals("AQUARIUS Cmp NS208") || Build.MODEL.equals("N80")
@@ -308,8 +328,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                 titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title4));
                 btn_pass.setEnabled(false);
                 btn_pass.setText(getResources().getString(R.string.camera_btn2));
-                myCamera.stopPreview();
-                myCamera.startPreview();  //开启预览
+
                 titlebar.setAttrs(getResources().getString(R.string.camera_title5));
             } else if (count == 1) {//闪光拍照
                 parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
@@ -317,8 +336,7 @@ public class CammerBackgroundAct extends FragActBase implements SurfaceHolder.Ca
                 myCamera.takePicture(shutterCallback, null, jpeg);
                 titlebar.setTitlebarNameText(getResources().getString(R.string.camera_title6));
                 btn_pass.setText(getResources().getString(R.string.camera_btn3));
-                myCamera.stopPreview();
-                myCamera.startPreview();
+                btn_pass.setEnabled(false);
                 count++;
             } else if (count == 2) {
 //            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);

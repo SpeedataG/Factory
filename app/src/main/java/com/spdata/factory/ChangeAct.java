@@ -183,7 +183,7 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
                             break;
                         case 2:
                             first();
-                            if ("SD55".equals(App.getModel()) || "SD60".equals(App.getModel()) || "SC30".equals(App.getModel())) {
+                            if ("SD55".equals(App.getModel()) || "SD60".equals(App.getModel()) || "SC30".equals(App.getModel()) || App.getModel().equals("X2") || App.getModel().equals("X37")) {
                                 tvInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000000.0 + "V");
                             } else if ("SK80".equals(App.getModel()) || "SK80H".equals(App.getModel())) {
                                 tvInfor.append(getResources().getString(R.string.ChangeAct_dian_v) + Integer.parseInt(battVoltFile) / 1000.0 * 2 + "V");
@@ -302,9 +302,10 @@ public class ChangeAct extends FragActBase implements View.OnClickListener {
     public String bufferRead() {
         try {
             BufferedReader bfr;
-            if ("SD55".equals(App.getModel()) || "SD60".equals(App.getModel()) || "SD100T".equals(App.getModel()) || "SC30".equals(App.getModel())) {
+            if ("SD55".equals(App.getModel()) || "SD60".equals(App.getModel()) || "SD100T".equals(App.getModel()) || "SC30".equals(App.getModel()) || App.getModel().equals("X80") || App.getModel().equals("X47")||
+            App.getModel().equals("X2") || App.getModel().equals("X37")){
                 bfr = new BufferedReader(new FileReader("/sys/class/power_supply/battery/current_now"));
-            } else {
+            } else{
                 bfr = new BufferedReader(new FileReader(CHARGER_CURRENT_NOW));
             }
             String line = bfr.readLine();

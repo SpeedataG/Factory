@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.spdata.factory"
     android:sharedUserId="android.uid.system">
+    <!--android:sharedUserId="android.uid.system"-->
     <!--coreApp="true"-->
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
