@@ -108,6 +108,7 @@ public class MenuActivity extends FragActBase {
     private final static int ACTION_POSITION_KEY = 59;//定位卡按键
     private final static int ACTION_POSITION_LIGHT = 60;//定位卡指示灯
     private final static int ACTION_POSITION_BUZZER = 61;//定位卡蜂鸣器
+    private final static int ACTION_FLASH_LIGHT_CUSTOM = 62;//定位卡蜂鸣器
     private String[] meneList = null;
     private String nulls[] = new String[0];
     private String WRITE_SETTINGS[] = {"android.permission.WRITE_SETTINGS", "android.permission.WRITE_EXTERNAL_STORAGE"};
@@ -241,14 +242,22 @@ public class MenuActivity extends FragActBase {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "10", "11",
                     "13", "14", "15", "16", "17", "19", "20", "18", "21", "22", "23",
                     "24", "26", "30", "32", "37", "39", "41", "50", "48"};
-        } else if (model.equals("k63v2_64_bsp") || model.equals("SD55") || model.equals("SD60") || model.equals("X2") || model.equals("X37")) {
+        } else if (model.equals("k63v2_64_bsp") || model.equals("SD60")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "50", "48"};
-        } else if (model.equals("SD55L") || model.equals("SD55UHF")) {
+        } else if (model.equals("SD55") || model.equals("X2") || model.equals("X37")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "62",
+                    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "50", "48"};
+        } else if (model.equals("SD55UHF")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
                     "23", "24", "25", "26", "30", "31", "32", "37", "39", "44", "50", "48"};
+        } else if (model.equals("SD55L")) {
+            strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10", "62",
+                    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
+                    "23", "24", "25", "26", "30", "31", "32", "37", "39", "50", "48"};
         } else if (model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "13", "14", "16", "17", "18", "19", "20", "21", "22",
@@ -269,7 +278,7 @@ public class MenuActivity extends FragActBase {
         } else if (model.equals("SD100T") || model.equals("X80") || model.equals("X47")) {
             strings = new String[]{"0", "1", "2", "3", "4", "5", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
-                    "23", "24", "25", "26", "30", "31", "34", "37", "38", "39","49", "50", "48"};
+                    "23", "24", "25", "26", "30", "31", "34", "37", "38", "39", "50", "48"};
         } else {
             strings = new String[]{"0", "3", "4", "5", "6", "7", "8", "9", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
@@ -525,6 +534,9 @@ public class MenuActivity extends FragActBase {
             case ACTION_POSITION_BUZZER:
                 result = getXml(App.KEY_POSITION_BUZZER, "");
                 break;
+            case ACTION_FLASH_LIGHT_CUSTOM:
+                result = getXml(App.KEY_FLASH_CUSTOM, "");
+                break;
             default:
                 break;
 
@@ -716,7 +728,7 @@ public class MenuActivity extends FragActBase {
                     openAct(ButtonKt40qAct.class);
                 } else if (model.equals("KT40")) {
                     openAct(ButtonKt40Act.class);
-                } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD55UHF") || model.equals("SD60")||model.equals("X2") || model.equals("X37")) {
+                } else if (model.equals("SD55") || model.equals("SD55L") || model.equals("SD55UHF") || model.equals("SD60") || model.equals("X2") || model.equals("X37")) {
                     openAct(ButtonSd55.class);
                 } else if (model.equals("SK80H") || model.equals("SK80") || model.equals("SC80H") || model.equals("SC80") || model.equals("SC37") || model.equals("SC53")) {
                     openAct(ButtonSk80Act.class);
@@ -740,6 +752,11 @@ public class MenuActivity extends FragActBase {
                 }
                 break;
             case ACTION_CHARGE_NOLINE:      //无线充电
+                break;
+            case ACTION_FLASH_LIGHT_CUSTOM:
+                if (model.endsWith("SD55") || model.endsWith("SD55L")) {
+                    openAct(FlashCustomActivity.class);
+                }
                 break;
             case ACTION_CALL_PHONE:
                 openAct(CallPhoneActi.class);
@@ -912,7 +929,7 @@ public class MenuActivity extends FragActBase {
                 getResources().getString(R.string.menu_gas_sensor), getResources().getString(R.string.menu_camera_usb), getResources().getString(R.string.menu_expand), getResources().getString(R.string.menu_export), getResources().getString(R.string.menu_id2),
                 getResources().getString(R.string.menu_reset), getResources().getString(R.string.menu_rs232), getResources().getString(R.string.menu_rj45), getResources().getString(R.string.menu_gpio), getResources().getString(R.string.menu_test485)
                 , getResources().getString(R.string.menu_print), getResources().getString(R.string.menu_wifi_tanzhen), getResources().getString(R.string.menu_lamp_mic), getResources().getString(R.string.menu_lamp_light), getResources().getString(R.string.menu_position_button),
-                getResources().getString(R.string.menu_position_indicator), getResources().getString(R.string.menu_position_buzzer)};
+                getResources().getString(R.string.menu_position_indicator), getResources().getString(R.string.menu_position_buzzer), getResources().getString(R.string.menu_custom_light)};
         //强制在线更新
 //        UpdateVersion updateVersion = new UpdateVersion(mContext);
 //        updateVersion.startUpdate();

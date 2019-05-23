@@ -108,6 +108,7 @@
     <string name="menu_position_button">Positioning card key</string>
     <string name="menu_position_indicator">Position card indicator light</string>
     <string name="menu_position_buzzer">Position card buzzer</string>
+    <string name="menu_custom_light">Custom flashlight</string>
     <!--<string name="menu_camera">camera</string>-->
 
     <!--VersionAct-->
@@ -265,9 +266,9 @@
         
     <string name="sound_play">Play recording </string>
         
-    <string name="sound_play_stop"> Stop playing </string>
+    <string name="sound_play_stop">Stop playing </string>
         
-    <string name="sound_start_record"> tart recording</string>
+    <string name="sound_start_record">Start recording</string>
         
     <string name="sound_stop_record">Stop recording</string>
         

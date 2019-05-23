@@ -29,5 +29,7 @@
 
     <color name="white">#ffffff</color>
     <color name="gray">#ffC9CACB</color>
-
+    <color name="darkRed">#702216</color>
+    <color name="lightGray">#009688</color>
+    <color name="deepGray">#8B8B8B</color>
 </resources>

@@ -93,6 +93,7 @@ public class App extends BaseApplication implements AppConst {
     public static final String KEY_POSITION_KEY = "positionkey";//定位卡按键
     public static final String KEY_POSITION_LIGHT = "positionlight";//定位卡指示灯
     public static final String KEY_POSITION_BUZZER = "positionbuzzer";//定位卡蜂鸣器
+    public static final String KEY_FLASH_CUSTOM = "positionbuzzer";//自定义手电筒
 
     public static App getInstance() {
         return instance;

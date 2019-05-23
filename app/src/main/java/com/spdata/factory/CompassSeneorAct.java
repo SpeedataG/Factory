@@ -59,25 +59,12 @@ public class CompassSeneorAct extends FragActBase implements SensorEventListener
         initTitlebar();
         setSwipeEnable(false);
         initSensor();
-//        Timer timer=new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                count++;
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        showToast("rotate");
-//                        rotate(-1*count);
-//                    }
-//                });
-//            }
-//        },0,1000);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        sm.unregisterListener(this);
     }
 
     private void initSensor() {
@@ -88,7 +75,7 @@ public class CompassSeneorAct extends FragActBase implements SensorEventListener
 
         sm.registerListener(this,
                 sm.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-                SensorManager.SENSOR_DELAY_FASTEST);
+                SensorManager.SENSOR_DELAY_GAME);
 
     }
 
@@ -106,21 +93,24 @@ public class CompassSeneorAct extends FragActBase implements SensorEventListener
             pivotYType：Y轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
             pivotYValue：Y坐标的伸缩值
             */
-            float degree = event.values[0];
-            rotate(degree);
+            float x = Math.abs(event.values[2]);
+            float y = Math.abs(event.values[1]);
+            float z = Math.abs(event.values[0]);
+            rotate(z);
         }
     }
 
     private void rotate(float degree) {
 //        showToast("onSensorChanged11"+-degree);
-        RotateAnimation ra = new RotateAnimation(currentDegree, -degree,
+        RotateAnimation ra = new RotateAnimation(currentDegree, degree,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
+        ra.setFillAfter(true);
         //旋转过程持续时间
         ra.setDuration(60);
         //罗盘图片使用旋转动画
         image.startAnimation(ra);
-        currentDegree = -degree;
+        currentDegree = degree;
     }
 
     //传感器精度的改变

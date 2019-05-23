@@ -66,6 +66,7 @@
     <string name="menu_position_button">定位卡按键</string>
     <string name="menu_position_indicator">定位卡指示灯</string>
     <string name="menu_position_buzzer">定位卡蜂鸣器</string>
+    <string name="menu_custom_light">自定义手电筒</string>
     <!--<string name="menu_camera">摄像头</string>-->
     <!--VersionAct-->
     <string name="VersionAct_modle">型号:</string>

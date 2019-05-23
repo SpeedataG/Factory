@@ -43,7 +43,7 @@
             <Button
                 android:id="@+id/btn_sound_recording"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="20dp"
@@ -51,13 +51,12 @@
                 android:background="@drawable/selector_item_blue"
                 android:text="@string/sound_start_record"
                 android:textColor="@color/text_white"
-
                 android:textSize="@dimen/commom_textsize" />
 
             <Button
                 android:id="@+id/btn_play"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="20dp"
