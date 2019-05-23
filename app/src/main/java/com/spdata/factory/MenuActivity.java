@@ -615,7 +615,11 @@ public class MenuActivity extends FragActBase {
                 openAct(NFCAct.class);
                 break;
             case ACTION_GPS:
-                openAct(GPSTest.class);
+                if (model.equals("CT")){
+                    openAct(GPSTestCT.class);
+                }else {
+                    openAct(GPSTest.class);
+                }
                 break;
             case ACTION_SCAN:
                 if (model.equals("X300Q_X1") || model.equals("X300Q_P1") ||

@@ -618,6 +618,13 @@
     <string name="psam2_no">No Psam2\n</string>
     <string name="psam2_succeed">Psam2 Succeed \n</string>
 
+    <string name="gps_ct_append1">Serial port:</string>
+    <string name="gps_ct_append2">  Baud rate:</string>
+    <string name="gps_ct_append3"> Power on type:</string>
+    <string name="gps_ct_append4"> GPIO:</string>
+    <string name="gps_ct_open_success">Open serial port successfully</string>
+    <string name="gps_ct_open_failed">Failed to open serial port</string>
+
     <!--EepromAct-->
     <string name="eeprom_read">Read Magic Number:\n</string>
     <string name="eeprom_ok">Magic Number OK!\n</string>

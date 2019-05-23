@@ -405,6 +405,12 @@
     <string name="psam2_no">无 Psam2\n</string>
     <string name="psam2_succeed">Psam2 成功 \n</string>
 
+    <string name="gps_ct_append1">串口:</string>
+    <string name="gps_ct_append2">  波特率:</string>
+    <string name="gps_ct_append3"> 上电类型:</string>
+    <string name="gps_ct_append4"> GPIO:</string>
+    <string name="gps_ct_open_success">打开串口成功</string>
+    <string name="gps_ct_open_failed">打开串口失败</string>
     <!--EepromAct-->
     <string name="eeprom_read">读取魔法数字:\n</string>
     <string name="eeprom_ok">魔法数字正确!\n</string>

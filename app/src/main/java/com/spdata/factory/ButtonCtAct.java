@@ -47,10 +47,6 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
      */
     private Button btn_key6;
     /**
-     * MENU
-     */
-    private Button btn_menu;
-    /**
      * 7
      */
     private Button btn_key7;
@@ -75,13 +71,9 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
      */
     private Button btn_minus;
     /**
-     * BS
+     * BS  BACK
      */
     private Button btn_bs;
-    /**
-     * BACK
-     */
-    private Button btn_back;
     /**
      * 成功
      */
@@ -111,18 +103,7 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showToast(keyCode + "");
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (btn_back.isPressed()) {
-                btn_back.setBackgroundColor(Color.parseColor("#CEC7C7"));
-                btn_back.setPressed(false);
-                return true;
-            } else {
-                btn_back.setBackgroundColor(Color.parseColor("#0AF229"));
-                btn_back.setPressed(true);
-                return true;
-            }
-
-        } else if (keyCode == KeyEvent.KEYCODE_1) {
+        if (keyCode == KeyEvent.KEYCODE_1) {
             if (btn_key1.isPressed()) {
                 btn_key1.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_key1.setPressed(false);
@@ -243,7 +224,7 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
                 btn_minus.setPressed(true);
                 return true;
             }
-        } else if (keyCode == KeyEvent.KEYCODE_UNKNOWN) {
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (btn_bs.isPressed()) {
                 btn_bs.setBackgroundColor(Color.parseColor("#CEC7C7"));
                 btn_bs.setPressed(false);
@@ -251,16 +232,6 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
             } else {
                 btn_bs.setBackgroundColor(Color.parseColor("#0AF229"));
                 btn_bs.setPressed(true);
-                return true;
-            }
-        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            if (btn_menu.isPressed()) {
-                btn_menu.setBackgroundColor(Color.parseColor("#CEC7C7"));
-                btn_menu.setPressed(false);
-                return true;
-            } else {
-                btn_menu.setBackgroundColor(Color.parseColor("#0AF229"));
-                btn_menu.setPressed(true);
                 return true;
             }
         } else if (keyCode == KeyEvent.KEYCODE_F2) {
@@ -287,7 +258,6 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
         btn_key4 = (Button) findViewById(R.id.btn_key4);
         btn_key5 = (Button) findViewById(R.id.btn_key5);
         btn_key6 = (Button) findViewById(R.id.btn_key6);
-        btn_menu = (Button) findViewById(R.id.btn_menu);
         btn_key7 = (Button) findViewById(R.id.btn_key7);
         btn_key8 = (Button) findViewById(R.id.btn_key8);
         btn_key9 = (Button) findViewById(R.id.btn_key9);
@@ -295,7 +265,6 @@ public class ButtonCtAct extends FragActBase implements View.OnClickListener {
         btn_period = (Button) findViewById(R.id.btn_period);
         btn_minus = (Button) findViewById(R.id.btn_minus);
         btn_bs = (Button) findViewById(R.id.btn_bs);
-        btn_back = (Button) findViewById(R.id.btn_back);
         btn_pass = (Button) findViewById(R.id.btn_pass);
         btn_pass.setOnClickListener(this);
         btn_not_pass = (Button) findViewById(R.id.btn_not_pass);

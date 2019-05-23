@@ -15,16 +15,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp">
 
             <Button
                 android:id="@+id/btn_f2"
@@ -95,23 +95,15 @@
                 android:background="#cec7c7"
                 android:text="6" />
 
-            <Button
-                android:id="@+id/btn_menu"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:background="#cec7c7"
-                android:text="MENU" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp">
 
 
             <Button
@@ -182,17 +174,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
                 android:background="#cec7c7"
-                android:text="bs" />
-
-            <Button
-                android:id="@+id/btn_back"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:background="#cec7c7"
                 android:text="BACK" />
+
         </LinearLayout>
     </LinearLayout>
 
