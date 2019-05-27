@@ -274,7 +274,7 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
             switch (msg.what) {
                 case 0:// 请求操作某一无线网络
                     ScanResult wifiinfo = (ScanResult) msg.obj;
-                    configWifiRelay(wifiinfo);
+//                    configWifiRelay(wifiinfo);
                     break;
             }
         }

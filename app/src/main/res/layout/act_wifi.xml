@@ -55,8 +55,7 @@
                 android:background="@drawable/selector_item_blue"
                 android:text="@string/btn_success"
                 android:textColor="@color/text_white"
-                android:textSize="@dimen/commom_textsize"
-                android:visibility="gone" />
+                android:textSize="@dimen/commom_textsize" />
 
             <Button
                 android:id="@+id/btn_not_pass"
