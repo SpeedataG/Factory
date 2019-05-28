@@ -283,14 +283,14 @@ public class WifiAct extends FragActBase implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-//        openGPS();
+        openGPS();
         showWifiList();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        closeGPS();
+        closeGPS();
     }
 
     private void configWifiRelay(final ScanResult wifiinfo) {
